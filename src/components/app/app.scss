@@ -1,0 +1,7 @@
+.app {
+  background-color: blanchedalmond;
+  min-width: 100%;
+  min-height: 100vh;
+  display:grid;
+  grid-template-rows: 3rem 1fr 3rem;
+}
