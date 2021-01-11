@@ -11,8 +11,6 @@ import Header from '../header';
 import Footer from '../footer';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-// eslint-disable-next-line
-const isLogin = false;
 
 function App() {
   return (
