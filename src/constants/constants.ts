@@ -1,3 +1,4 @@
+import {userSettings, userStatistics, userWordReq} from '../constants/interfaces'
 const MB_STORAGE_KEY = 'magicButtonLocal';
 
 const MB_ROUTES = {
@@ -28,6 +29,72 @@ const WORD_PARAM = {
   difficult: 'difficult',
 };
 
+const DEFAULT_USER_SETTINGS: userSettings = {
+  wordsPerDay: 10,
+  optional: {
+    newWordsPerDay: 5,
+    repeatWordsPerDay: 10,
+    userLanguageLevel: 0,
+    cardsPerDay: 15,  //calculated from  new + repeat. 
+    mixedCards: 0,
+    isSoundOn: true,
+    cardTranslation: true,
+    cardExplanation: true,
+    cardExample: true,
+    cardTranscription: true,
+    cardImage: true,
+    cardTranslationAfterSuccess: false,
+    cardExplanationTranslation: true,
+    cardExampleTranslation: true,
+    autoSound: true,
+    answerButton: true,
+    deleteButton: true,
+    difficultWordsButton: true,
+    feedbackButtons: true,
+    vocabularyExplanation: true,
+    vocabularyExample: true,
+    vocabularyTranscription: true,
+    vocabularyImage: true,
+    mainGameShort: "null",
+    mainGameLong: "null",
+    commonProgress: 0,
+    savannaSettings: "null",
+    magicButtonSettings: "null",
+  },
+}
+
+
+const DEFAULT_USER_STATISTIC: userStatistics =  {
+  learnedWords: 0,
+  optional: {
+    mainGameShort: 'null',
+    mainGameLong: 'null',
+    savannahLong: 'null',
+    savannahMain: 'null',
+    sprintLong: 'null',
+    sprintMain: 'null',
+    magicButtonLong: 'null',
+    magicButtonMain: 'null',
+  }
+}
+
+const DEFAULT_USER_WORD: userWordReq = {
+  difficulty: 'new',
+  optional: {
+    firstAppearance: 0,
+    lastRepeat: 0,
+    nextRepeat: 0,
+    counter: 0,
+    success: 0,
+    progress: 0,
+    status: 'active',   //'active', 'deleted', 'difficult'
+    level: 0,
+    userWord: true,
+  },
+}
+const newWordsFilter = '{"userWord":null}';
+const userWordsFilter = '{"userWord":{"$ne":null}}';
+
 export { 
   MB_STORAGE_KEY,
   MB_ROUTES,
@@ -42,4 +109,9 @@ export {
   MULTIPLIER_EASY,
   ALL_WORDS,
   WORD_PARAM,
+  DEFAULT_USER_SETTINGS,
+  DEFAULT_USER_STATISTIC,
+  DEFAULT_USER_WORD,
+  newWordsFilter,
+  userWordsFilter,
 };

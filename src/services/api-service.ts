@@ -362,6 +362,7 @@ export default class ApiService {
   // '{ "userWord": null }'
   // '{ "$or": [{ "userWord.optional.gameError": false }, { "userWord.optional.gameError": true }] }'
   // '{ "userWord.optional.gameError": { "$in": [true, false] } }'
+  // '{ "userWord.optional.userWord": true }'
   async getAllUserAggregatedWords(group: number | null, page: number | null,
     wordsPerPage: number | null, filter: string | null) {
     let url: string = `${BASE_URL}/users/${this.userId}/aggregatedWords?`;
@@ -388,8 +389,8 @@ export default class ApiService {
       throw new Error(`${rawResponse.status}`);
     }
 
-    const content: aggregatedWordsResult = await rawResponse.json();
-    return content;
+    const content: aggregatedWordsResult[] = await rawResponse.json();
+    return content[0];
   }
 
   async getUserAggregatedWordById(wordId: string) {
@@ -500,7 +501,7 @@ export default class ApiService {
 
   getAllAggregatedUserWords = async () => {
     return await this.getAllUserAggregatedWords(null, null, 3600,
-      '{ "userWord.optional.gameError": { "$in": [true, false] } }');
+      '{ "userWord.optional.userWord": true }');
   };
   
   getAllAggregatedWords = async () => {

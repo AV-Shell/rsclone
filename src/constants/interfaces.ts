@@ -10,7 +10,6 @@ export interface loginResponseData extends tokenResponce {
 }
 
 export interface signInRequestBody {
-  name: string,
   email: string,
   password: string,
 }
@@ -40,10 +39,8 @@ export interface wordsCount {
   count: number,
 }
 
-export interface userData {
+export interface userData extends signInRequestBody{
   name: string,
-  email: string,
-  password: string,
 }
 
 export interface userResponce {
@@ -55,18 +52,15 @@ export interface userResponce {
 export interface userWordReq {
   difficulty: string,
   optional: {
-    timeAgain: number,
-    timeHard: number,
-    timeGood: number,
-    timeEasy: number,
+    firstAppearance: number,
     lastRepeat: number,
     nextRepeat: number,
     counter: number,
     success: number,
     progress: number,
-    status: string,
-    gameError: boolean,
+    status: string,   //'active', 'deleted', 'difficult'
     level: number,
+    userWord: true,
   },
 }
 
@@ -93,14 +87,14 @@ export interface userStatistics {
     id?:  string,
     learnedWords: number,
     optional: {
-      mainGameShort?: string,
-      mainGameLong?: string,
-      savannahLong?: string,
-      savannahMain?:  string,
-      sprintLong?: string,
-      sprintMain?: string,
-      magicButtonLong?: string,
-      magicButtonMain?:  string,
+      mainGameShort: string,
+      mainGameLong: string,
+      savannahLong: string,
+      savannahMain:  string,
+      sprintLong: string,
+      sprintMain: string,
+      magicButtonLong: string,
+      magicButtonMain:  string,
     }
 }
 
@@ -108,29 +102,33 @@ export interface userSettings{
   id?:  string,
   wordsPerDay: number,
   optional: {
-    userLanguageLevel?:number,
-    cardsPerDay?: number,
-    mixedCards?: number,
-    cardTranslation?: boolean,
-    cardExplanation?: boolean,
-    cardExample?: boolean,
-    cardTranscription?: boolean,
-    cardImage?: boolean,
-    cardTranslationAfterSuccess?: boolean,
-    cardExplanationTranslation?: boolean,
-    cardExampleTranslation?: boolean,
-    autoSound?: boolean,
-    answerButton?: boolean,
-    deleteButton?: boolean,
-    difficultWordsButton?: boolean,
-    feedbackButtons?: boolean,
-    vocabularyExplanation?: boolean,
-    vocabularyExample?: boolean,
-    vocabularyTranscription?: boolean,
-    vocabularyImage?: boolean,
-    mainGameShort?: string,
-    mainGameLong?: string,
-    commonProgress?: number,
-    savannaSettings?: string,
+    newWordsPerDay: number,
+    repeatWordsPerDay: number,
+    userLanguageLevel:number,
+    cardsPerDay: number,
+    mixedCards: number,
+    isSoundOn:boolean,
+    cardTranslation: boolean,
+    cardExplanation: boolean,
+    cardExample: boolean,
+    cardTranscription: boolean,
+    cardImage: boolean,
+    cardTranslationAfterSuccess: boolean,
+    cardExplanationTranslation: boolean,
+    cardExampleTranslation: boolean,
+    autoSound: boolean,
+    answerButton: boolean,
+    deleteButton: boolean,
+    difficultWordsButton: boolean,
+    feedbackButtons: boolean,
+    vocabularyExplanation: boolean,
+    vocabularyExample: boolean,
+    vocabularyTranscription: boolean,
+    vocabularyImage: boolean,
+    mainGameShort: string,
+    mainGameLong: string,
+    commonProgress: number,
+    savannaSettings: string,
+    magicButtonSettings: string,
   },
 }
