@@ -108,6 +108,7 @@ export interface userSettings{
   id?:  string,
   wordsPerDay: number,
   optional: {
+    userLanguageLevel?:number,
     cardsPerDay?: number,
     mixedCards?: number,
     cardTranslation?: boolean,
