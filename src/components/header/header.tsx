@@ -1,5 +1,6 @@
 import React from 'react';
 import './header.scss';
+<<<<<<< HEAD
 import { Link } from "react-router-dom"; 
 
 const burgerMeny =  <div className="burger-menu" id ='burgerMenuID'> <a  className="burger-menu__button" onClick = {handleClick}>
@@ -44,6 +45,17 @@ function Header() {
   );
  
 
+=======
+
+function Header() {
+
+  // Component code start
+  return (
+    <header className="header">
+      <h2>Header component</h2>
+    </header>
+  );
+>>>>>>> develop
 }
 
 export default Header;
