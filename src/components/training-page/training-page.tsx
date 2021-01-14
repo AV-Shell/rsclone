@@ -1,8 +1,8 @@
 import React from 'react';
 import './training-page.scss';
-
-function TrainingPage() {
-
+import {  trainingProps} from '../../constants/interfaces';
+function TrainingPage(props:trainingProps) {
+  console.log(props);
   // Component code start
   return (
     <div className="training-page">

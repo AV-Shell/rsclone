@@ -1,7 +1,7 @@
 import React from 'react';
 import './daily-goal-page.scss';
-
-function DailyGoalPage() {
+import {  dailyGoalProps } from '../../constants/interfaces';
+function DailyGoalPage(props:dailyGoalProps) {
 
   // Component code start
   return (

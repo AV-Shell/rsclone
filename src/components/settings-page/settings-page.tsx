@@ -1,7 +1,7 @@
 import React from 'react';
 import './settings-page.scss';
-
-function SettingsPage() {
+import {  settingsPageProps} from '../../constants/interfaces';
+function SettingsPage(props:settingsPageProps) {
 
   // Component code start
   return (
