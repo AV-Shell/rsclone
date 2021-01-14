@@ -1,7 +1,7 @@
 import React from 'react';
 import './vocabulary-page.scss';
-
-function VocabularyPage() {
+import {  vocabularyProps} from '../../constants/interfaces';
+function VocabularyPage(props:vocabularyProps) {
 
   // Component code start
   return (
