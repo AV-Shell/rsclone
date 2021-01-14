@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import './app.scss';
 import LoginPage from '../login-page';
+import LogoutPage from '../logout-page'
 import DailyGoalPage from '../daily-goal-page';
 import DashboardPage from '../dashboard-page';
 import SettingsPage from '../settings-page';
@@ -32,6 +33,7 @@ import {
   aggregatedWordsResult,
   userStatistics,
   userSettings,
+  trainingProps,
 } from '../../constants/interfaces';
 import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC, DEFAULT_USER_WORD } from '../../constants/constants'
 const api = new ApiService();
@@ -43,9 +45,11 @@ const App: React.FC = () => {
 
   // const routeComponent = useRef<any>(null);
   const [isUserLogin, setIsUserLogin] = useState<boolean>(false);
-  const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord>>([]);
-  const [userSettings, setUserSettings] = useState<userStatistics | null>(null);
+  const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
+  const [userSettings, setUserSettings] = useState<userSettings | null>(null);
   const [userStatistic, setUserStatistic] = useState<userStatistics | null>(null);
+
+  const [readyToJoin, setReadyToJoin] = useState<boolean>(false);
 
   useEffect(() => {
     console.log('use effect');
@@ -109,6 +113,7 @@ const App: React.FC = () => {
               console.log(userSettings);
               if (userSettings.optional) {
                 isHaveSettings = true;
+                setUserSettings(() => userSettings);
               }
               else {
                 console.log('throw error settongs');
@@ -127,6 +132,7 @@ const App: React.FC = () => {
                     console.log(userSettings);
                     isHaveSettings = true;
                     console.log('Settings:', userSettings);
+                    setUserSettings(() => userSettings);
                   })
                   .catch((err) => {
                     console.log('update settings error:', err.message);
@@ -139,6 +145,7 @@ const App: React.FC = () => {
               console.log(userStatistics);
               if (userStatistics.optional) {
                 isHaveStatistics = true;
+                setUserStatistic(() => userStatistics);
               }
               else {
                 console.log('throw error statistics');
@@ -158,6 +165,7 @@ const App: React.FC = () => {
                     isHaveStatistics = true;
                     console.log(isHaveStatistics, userStatistics);
                     console.log('userStatistics:', userStatistics);
+                    setUserStatistic(() => userStatistics);
                   })
                   .catch((err) => {
                     console.log('update userStatistics error:', err.message);
@@ -170,6 +178,7 @@ const App: React.FC = () => {
               console.log('user words data', data);
               if (data.paginatedResults.length > 0) {
                 isHaveUserWords = true;
+                setUserWordsArray(() => data.paginatedResults);
               } else {
                 console.log('promice all');
                 const promiceArray = testWordsIdArray.map((obj) => {
@@ -184,6 +193,7 @@ const App: React.FC = () => {
                         console.log('user words data after ADD', data);
                         if (data.paginatedResults.length > 0) {
                           isHaveUserWords = true;
+                          setUserWordsArray(() => data.paginatedResults);
                         }
                       })
                       .catch((err) => {
@@ -206,22 +216,72 @@ const App: React.FC = () => {
 
 
   useEffect(() => {
-
-  }, [isUserLogin])
+    if (isUserLogin && userWordsArray !== null && userSettings !== null && userStatistic !== null) {
+      setReadyToJoin(() => true);
+    }
+  }, [isUserLogin, userWordsArray, userSettings, userStatistic])
   let routeComponent: ReactNode = null;
-  if (isUserLogin) {
+
+  const trainingPageProps: trainingProps = {
+    settings: userSettings,
+    updateSettings: setUserSettings,
+    statistic: userStatistic,
+    updateStatistic: setUserStatistic,
+    userWords: userWordsArray,
+    updateUserWords: setUserWordsArray,
+    apiService: api,
+  }
+
+  if (readyToJoin) {
     routeComponent = <div className="app">
       <Header></Header>
       <Switch >
-        <Route path='/dashboard' component={DashboardPage} />
-        <Route path='/dailygoal' component={DailyGoalPage} />
-        <Route path='/training' component={TrainingPage}/>
-        <Route path='/vocabulary' component={VocabularyPage} />
-        <Route path='/settings' component={SettingsPage} />
-        <Route path='/magicButton' component={(routerProps:any) => <MagicButton 
-                                  routerProps = {routerProps}
-                                  myProps = {{a:6}}
-         />} />
+        {/* <Route path='/dashboard' component={DashboardPage} /> */}
+        <Route path='/dashboard' component={() => {
+          return (
+            <DashboardPage {...trainingPageProps}></DashboardPage>
+          )
+        }} />
+        {/* <Route path='/dailygoal' component={DailyGoalPage} /> */}
+        <Route path='/dailygoal' component={() => {
+          return (
+            <DailyGoalPage {...trainingPageProps}></DailyGoalPage>
+          )
+        }} />
+        <Route path='/training' component={() => {
+          return (
+            <TrainingPage {...trainingPageProps}></TrainingPage>
+          )
+        }} />
+        {/* <Route path='/vocabulary' component={VocabularyPage} /> */}
+        <Route path='/vocabulary' component={() => {
+          return (
+            <VocabularyPage {...trainingPageProps}></VocabularyPage>
+          )
+        }} />
+        {/* <Route path='/settings' component={SettingsPage} /> */}
+        <Route path='/settings' component={() => {
+          return (
+            <SettingsPage {...trainingPageProps}></SettingsPage>
+          )
+        }} />
+        <Route path='/logout' component={() => {
+          return (
+            <LogoutPage {...trainingPageProps}></LogoutPage>
+          )
+        }} />
+
+
+        {/* <Route path='/magicButton' component={(routerProps: any) => <MagicButton
+          routerProps={routerProps}
+          myProps={{ a: 6 }}
+        />} /> */}
+        <Route path='/magicButton' component={() => {
+          return (
+            <MagicButton {...trainingPageProps}></MagicButton>
+          )
+        }} />
+
         <Redirect to='dashboard' />
       </Switch>
       <Footer></Footer>
@@ -231,7 +291,12 @@ const App: React.FC = () => {
     routeComponent = <div className="app">
       <Header></Header>
       <Switch >
-        <Route path='/' component={MagicButton} exact />
+        {/* <Route path='/' component={MagicButton} exact /> */}
+        <Route path='/' component={() => {
+          return (
+            <MagicButton isNotlogin={true}></MagicButton>
+          )
+        }} exact />
         <Route path='/login' component={LoginPage} />
         <Redirect to='/' />
       </Switch>

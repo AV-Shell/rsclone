@@ -1,3 +1,5 @@
+import React from 'react';
+import ApiService from '../services/api-service';
 export interface tokenResponce {
   token: string,
   refreshToken: string,
@@ -131,4 +133,74 @@ export interface userSettings{
     savannaSettings: string,
     magicButtonSettings: string,
   },
+}
+
+export interface dailyGoalProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
+}
+
+export interface dashboardProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
+}
+
+export interface magicButtonProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
+}
+
+export interface settingsPageProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
+}
+
+export interface logOutProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
+}
+
+export interface trainingProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
+}
+
+export interface vocabularyProps {
+  settings: userSettings | null,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  statistic: userStatistics | null,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  userWords: paginatedWord[] | null,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+  apiService: ApiService,
 }
