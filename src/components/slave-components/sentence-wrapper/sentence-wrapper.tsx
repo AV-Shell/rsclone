@@ -4,8 +4,8 @@ import './sentence-wrapper.scss';
 interface sentenceWrapperProps{
   sentence:string, 
   classCss:string, 
-  openTag:string, 
-  closeTag:string,
+  openTag:'<b>'|'<i>', 
+  closeTag:'</b>'|'</i>',
 }
 
 function SentenceWrapper(props:sentenceWrapperProps) {
