@@ -2,6 +2,7 @@ import React from 'react';
 import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
+import { FILE_URL } from '../../constants/constants';
 
 interface upperButtonProps {
   isTrue:boolean,
@@ -14,7 +15,7 @@ type IntervalTime = {
 };
 
 interface cardBodyProps {
-  words: object[],
+  words: paginatedWord[],
   settings: userSettings | null,
   levelsOfRepeat: IntervalTime,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
@@ -73,8 +74,8 @@ function TrainingPage(props:trainingProps) {
           <div className="training-card-header">
             <button className="training-card-header-btn-sound">Звук</button>
             <button className="training-card-header-btn-keyboard">Клава</button>
-            <TrainingCardHeaderBtn {...objForDifficultyBtn}/>
-            <TrainingCardHeaderBtn {...objForDeleteBtn}/>
+            <TrainingCardUpperBtn {...objForDifficultyBtn}/>
+            <TrainingCardUpperBtn {...objForDeleteBtn}/>
           </div>
           <TrainingCardBody {...objForCardBody}/>
           <div className="training-card-footer">
@@ -86,7 +87,7 @@ function TrainingPage(props:trainingProps) {
   );
 }
 // training-card-header-btn-difficult
-function TrainingCardHeaderBtn(props:upperButtonProps) {
+function TrainingCardUpperBtn(props:upperButtonProps) {
   const {isTrue, line, classCss} = props;
   if (isTrue) {
     return (<button className={classCss}>{line}</button>);
@@ -94,6 +95,23 @@ function TrainingCardHeaderBtn(props:upperButtonProps) {
   return null;
 }
 
+function TrainingCardLineCode(props:upperButtonProps) {
+  const {isTrue, line, classCss} = props;
+  if (isTrue) {
+    return (<p className={classCss}>{line}</p>);
+  };
+  return null;
+}
+
+function TrainingCardImage(props:upperButtonProps) {
+  const {isTrue, line, classCss} = props;
+  if (isTrue) {
+    return (<div className={classCss}>
+    <img src={line} alt="word" />
+    </div>);
+  };
+  return null;
+}
 
 // const objForCardBody: cardBodyProps = {
 //   words: trainingDayWords, // нужен  юз стейт
@@ -105,10 +123,65 @@ function TrainingCardHeaderBtn(props:upperButtonProps) {
 
 function TrainingCardBody(props:cardBodyProps) {
   const {words, settings, levelsOfRepeat, updateSettings, updateUserWords} = props;
-  
-  const thisWord: object = words[1];
-  const {userWord} = thisWord;
+  if (settings === null) {
+    return <div className="training-page"></div>
+  };
+  const {optional} = settings;
+  const {
+    answerButton, autoSound, cardExample, cardExampleTranslation,
+    cardExplanation, cardExplanationTranslation, cardImage, cardTranscription,
+    cardTranslation, cardTranslationAfterSuccess, cardsPerDay, commonProgress,
+    feedbackButtons, isSoundOn, newWordsPerDay, repeatWordsPerDay,
+  } = optional;
 
+   
+  const thisWord = words[3];
+  const imgURL: string = FILE_URL + '/' + thisWord.image;
+  const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
+  const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
+  const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
+
+  const objForTranslation: upperButtonProps = {
+    isTrue: cardTranslation,
+    line: thisWord.wordTranslate,
+    classCss: "training-card-body-word-details-translation"
+  };
+
+  const objForTranscription: upperButtonProps = {
+    isTrue: cardTranscription,
+    line: thisWord.transcription,
+    classCss: "training-card-body-word-details-transcription"
+  };
+
+  const objForImage: upperButtonProps = {
+    isTrue: cardImage,
+    line: imgURL,
+    classCss: "training-card-body-word-img"
+  };
+
+  const objForExample: upperButtonProps = {
+    isTrue: cardExample,
+    line: thisWord.textExample,
+    classCss: "training-card-body-sentence-eng"
+  };
+
+  const objForExampleTranslation: upperButtonProps = {
+    isTrue: cardExampleTranslation,
+    line: thisWord.textExampleTranslate,
+    classCss: "training-card-body-sentence-ru"
+  };
+
+  const objForMeaning: upperButtonProps = {
+    isTrue: cardExplanation,
+    line: thisWord.textMeaning,
+    classCss: "training-card-body-explanation-eng"
+  };
+
+  const objForMeaningTranslation: upperButtonProps = {
+    isTrue: cardExplanationTranslation,
+    line: thisWord.textMeaningTranslate,
+    classCss: "training-card-body-explanation-ru"
+  };
 
   return (<div className="training-card-body">
   <div className="training-card-body-upper">
@@ -120,19 +193,22 @@ function TrainingCardBody(props:cardBodyProps) {
   <div className="training-card-body-word">
     <div className="training-card-body-word-details">
       <p>Введите английское слово</p>
-      <input className="training-card-body-word-details-input" type="text" size={userWord.word.length} />
-      <p className="training-card-body-word-details-translation">перевод</p>
-      <p className="training-card-body-word-details-transcription">транскрипция</p>
+      <input 
+        className="training-card-body-word-details-input" 
+        type="text" 
+        size={thisWord.word.length}
+        autoFocus={true} 
+        spellCheck={false} />
+      <TrainingCardLineCode {...objForTranslation}/>
+      <TrainingCardLineCode {...objForTranscription}/>
     </div>
-    <div className="training-card-body-word-img">
-      <img src="" alt="word" />
-    </div>
+    <TrainingCardImage {...objForImage}/>
   </div>
   <div className="training-card-body-examples">
-    <p className="training-card-body-sentence-eng">Some English text.</p>
-    <p className="training-card-body-sentence-ru">Перевод предложения.</p>
-    <p className="training-card-body-explanation-eng">What it means.</p>
-    <p className="training-card-body-explanation-ru">Перевод определения.</p>
+    <TrainingCardLineCode {...objForExample}/>
+    <TrainingCardLineCode {...objForExampleTranslation}/>
+    <TrainingCardLineCode {...objForMeaning}/>
+    <TrainingCardLineCode {...objForMeaningTranslation}/>
   </div>
 </div>)
 }

@@ -20,7 +20,7 @@
     margin-top: 0;
     margin-bottom: 0.5em;
   }
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1000px) {
     width: 90%;
     padding: 10px;
   }
@@ -105,9 +105,13 @@
       &-img {
         box-sizing: border-box;
         height: 200px;
-        min-width: 300px;
         border-radius: 0.5em;
         background-color: #d663cdaf;
+
+        >img {
+          max-width: 300px;
+          border-radius: 0.5em;
+        }
       }
     }
 
