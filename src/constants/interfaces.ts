@@ -148,7 +148,7 @@ export interface headerProps extends darkThemeProps, loginStatusProps {
 }
 
 
-export interface dailyGoalProps {
+export interface dailyGoalProps extends darkThemeProps {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -158,7 +158,7 @@ export interface dailyGoalProps {
   apiService: ApiService,
 }
 
-export interface dashboardProps {
+export interface dashboardProps extends darkThemeProps  {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -168,7 +168,7 @@ export interface dashboardProps {
   apiService: ApiService,
 }
 
-export interface magicButtonProps {
+export interface magicButtonProps extends darkThemeProps, loginStatusProps {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -178,7 +178,7 @@ export interface magicButtonProps {
   apiService: ApiService,
 }
 
-export interface settingsPageProps {
+export interface settingsPageProps extends darkThemeProps  {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -188,7 +188,7 @@ export interface settingsPageProps {
   apiService: ApiService,
 }
 
-export interface logOutProps {
+export interface logOutProps extends darkThemeProps  {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -198,7 +198,7 @@ export interface logOutProps {
   apiService: ApiService,
 }
 
-export interface trainingProps {
+export interface trainingProps extends darkThemeProps  {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -208,7 +208,7 @@ export interface trainingProps {
   apiService: ApiService,
 }
 
-export interface vocabularyProps {
+export interface vocabularyProps extends darkThemeProps  {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,

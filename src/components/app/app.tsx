@@ -46,7 +46,7 @@ const App: React.FC = () => {
 
   // const routeComponent = useRef<any>(null);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  const [isUserLogin, setIsUserLogin] = useState<boolean>(false);
+  const [isAuthorizated, setIsAuthorizated] = useState<boolean>(false);
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings | null>(null);
   const [userStatistic, setUserStatistic] = useState<userStatistics | null>(null);
@@ -112,7 +112,7 @@ const App: React.FC = () => {
         console.log('finaly data');
         console.log('isTestUserLoggin', isTestUserLoggin);
 
-        setIsUserLogin(() => isTestUserLoggin);
+        setIsAuthorizated(() => isTestUserLoggin);
         if (isTestUserLoggin) {
           let isHaveSettings = false;
           let isHaveStatistics = false;
@@ -225,13 +225,14 @@ const App: React.FC = () => {
 
 
   useEffect(() => {
-    if (isUserLogin && userWordsArray !== null && userSettings !== null && userStatistic !== null) {
+    if (isAuthorizated && userWordsArray !== null && userSettings !== null && userStatistic !== null) {
       setReadyToJoin(() => true);
     }
-  }, [isUserLogin, userWordsArray, userSettings, userStatistic])
+  }, [isAuthorizated, userWordsArray, userSettings, userStatistic])
   let routeComponent: ReactNode = null;
 
   const trainingPageProps: trainingProps = {
+    isDarkTheme: isDarkTheme,
     settings: userSettings,
     updateSettings: setUserSettings,
     statistic: userStatistic,
@@ -246,7 +247,7 @@ const App: React.FC = () => {
       <Header
         isDarkTheme={isDarkTheme}
         toggleTheme={toggleCurrentTheme}
-        isAuthorizated={isUserLogin}
+        isAuthorizated={isAuthorizated}
       ></Header>
       <Switch >
         {/* <Route path='/dashboard' component={DashboardPage} /> */}
@@ -291,7 +292,7 @@ const App: React.FC = () => {
         />} /> */}
         <Route path='/magicButton' component={() => {
           return (
-            <MagicButton {...trainingPageProps}></MagicButton>
+            <MagicButton {...trainingPageProps} isAuthorizated={isAuthorizated}></MagicButton>
           )
         }} />
 
@@ -305,13 +306,13 @@ const App: React.FC = () => {
       <Header
         isDarkTheme={isDarkTheme}
         toggleTheme={toggleCurrentTheme}
-        isAuthorizated={isUserLogin}
+        isAuthorizated={isAuthorizated}
       ></Header>
       <Switch >
         {/* <Route path='/' component={MagicButton} exact /> */}
         <Route path='/' component={() => {
           return (
-            <MagicButton isNotlogin={true}></MagicButton>
+            <MagicButton isAuthorizated={false}></MagicButton>
           )
         }} exact />
         <Route path='/login' component={LoginPage} />
