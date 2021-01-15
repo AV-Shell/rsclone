@@ -1,3 +1,3 @@
-import VocabularyPage from './training-page';
+import TrainingPage from './training-page';
 
-export default VocabularyPage;
+export default TrainingPage;

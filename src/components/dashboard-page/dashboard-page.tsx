@@ -1,7 +1,7 @@
 import React from 'react';
 import './dashboard-page.scss';
-
-function DashboardPage() {
+import {  dashboardProps} from '../../constants/interfaces';
+function DashboardPage(props:dashboardProps) {
 
   // Component code start
   return (

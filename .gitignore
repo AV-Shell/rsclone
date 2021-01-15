@@ -25,3 +25,5 @@ yarn-error.log*
 .eslintcache
 .vscode
 .editorconfig
+.testUserConfig.js
+/src/gitignoreConf/
