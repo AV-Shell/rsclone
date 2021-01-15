@@ -135,6 +135,19 @@ export interface userSettings{
   },
 }
 
+export interface darkThemeProps {
+  isDarkTheme: boolean,
+}
+
+export interface loginStatusProps {
+  isAuthorizated: boolean,
+}
+
+export interface headerProps extends darkThemeProps, loginStatusProps {
+  setIsDarkTheme: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+
 export interface dailyGoalProps {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
