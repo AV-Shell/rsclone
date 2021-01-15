@@ -28,7 +28,9 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
   return (
     <div className="training-page">
       <div className="wrapper">
-        <h2>Training</h2>
+        <h2>Training
+          <i className="bi bi-stoplights-fill"></i>
+        </h2>
         <div className="training-progress">
           progress-bar
         </div>
