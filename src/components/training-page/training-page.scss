@@ -62,8 +62,9 @@
     &-upper {
       padding: 0 0.5em 0.5em;
 
-      >p {
-        margin: 0;
+      &-progress {
+        display: flex;
+        justify-content: space-between;
       }
 
       >hr {
@@ -91,6 +92,8 @@
 
         &-input {
           outline: none;
+          font-size: 24px;
+          font-family:'Courier New', Courier, monospace;
         }
 
         >p {

@@ -15,3 +15,5 @@ const levelsOfRepeat: IntervalTime = {
   7: DAY_IN_SECONDS * 180,
   8: DAY_IN_SECONDS * 365,
 };
+
+export default levelsOfRepeat;
