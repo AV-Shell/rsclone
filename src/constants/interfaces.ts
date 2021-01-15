@@ -144,7 +144,7 @@ export interface loginStatusProps {
 }
 
 export interface headerProps extends darkThemeProps, loginStatusProps {
-  setIsDarkTheme: React.Dispatch<React.SetStateAction<boolean>>,
+  toggleTheme: () => void,
 }
 
 

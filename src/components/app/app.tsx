@@ -34,8 +34,9 @@ import {
   userStatistics,
   userSettings,
   trainingProps,
+  headerProps,
 } from '../../constants/interfaces';
-import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC, DEFAULT_USER_WORD } from '../../constants/constants'
+import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC, DEFAULT_USER_WORD, DARK_THEME_CLASSNAME  } from '../../constants/constants'
 const api = new ApiService();
 const App: React.FC = () => {
   console.log('\r\n Render App \r\n');
@@ -44,12 +45,20 @@ const App: React.FC = () => {
   });
 
   // const routeComponent = useRef<any>(null);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
   const [isUserLogin, setIsUserLogin] = useState<boolean>(false);
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings | null>(null);
   const [userStatistic, setUserStatistic] = useState<userStatistics | null>(null);
 
   const [readyToJoin, setReadyToJoin] = useState<boolean>(false);
+
+  const appClassNames:string  = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}`;
+
+  const toggleCurrentTheme = () => {
+    setIsDarkTheme((value) => !value);
+  }
+
 
   useEffect(() => {
     console.log('use effect');
@@ -233,8 +242,12 @@ const App: React.FC = () => {
   }
 
   if (readyToJoin) {
-    routeComponent = <div className="app">
-      <Header></Header>
+    routeComponent = <div className={appClassNames}>
+      <Header
+        isDarkTheme={isDarkTheme}
+        toggleTheme={toggleCurrentTheme}
+        isAuthorizated={isUserLogin}
+      ></Header>
       <Switch >
         {/* <Route path='/dashboard' component={DashboardPage} /> */}
         <Route path='/dashboard' component={() => {
@@ -288,8 +301,12 @@ const App: React.FC = () => {
     </div>
     console.log('user login');
   } else {
-    routeComponent = <div className="app">
-      <Header></Header>
+    routeComponent = <div className={appClassNames}>
+      <Header
+        isDarkTheme={isDarkTheme}
+        toggleTheme={toggleCurrentTheme}
+        isAuthorizated={isUserLogin}
+      ></Header>
       <Switch >
         {/* <Route path='/' component={MagicButton} exact /> */}
         <Route path='/' component={() => {
