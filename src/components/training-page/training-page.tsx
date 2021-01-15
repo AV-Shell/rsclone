@@ -198,7 +198,8 @@ function TrainingCardBody(props:cardBodyProps) {
         type="text" 
         size={thisWord.word.length}
         autoFocus={true} 
-        spellCheck={false} />
+        spellCheck={false}
+        onKeyPress={KeyPressHandler} />
       <TrainingCardLineCode {...objForTranslation}/>
       <TrainingCardLineCode {...objForTranscription}/>
     </div>
@@ -211,6 +212,12 @@ function TrainingCardBody(props:cardBodyProps) {
     <TrainingCardLineCode {...objForMeaningTranslation}/>
   </div>
 </div>)
+}
+
+function KeyPressHandler(event: React.KeyboardEvent) {
+  if (event.key === 'Enter') {
+    console.log('enter pressed in input');
+  }
 }
 
 export default TrainingPage;
