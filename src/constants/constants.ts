@@ -95,6 +95,8 @@ const DEFAULT_USER_WORD: userWordReq = {
 const newWordsFilter = '{"userWord":null}';
 const userWordsFilter = '{"userWord":{"$ne":null}}';
 
+const DARK_THEME_CLASSNAME = 'dark-theme';
+
 export { 
   MB_STORAGE_KEY,
   MB_ROUTES,
@@ -114,4 +116,5 @@ export {
   DEFAULT_USER_WORD,
   newWordsFilter,
   userWordsFilter,
+  DARK_THEME_CLASSNAME,
 };
