@@ -10,6 +10,7 @@ import DailyGoalPage from '../daily-goal-page';
 import DashboardPage from '../dashboard-page';
 import SettingsPage from '../settings-page';
 import TrainingPage from '../training-page';
+import ShadowTrainingPage from '../shadow-training-page';
 import VocabularyPage from '../vocabulary-page';
 import MagicButton from '../magic-button'
 import Header from '../header';
@@ -35,8 +36,22 @@ import {
   userSettings,
   trainingProps,
   headerProps,
+  currentTraining,
+  saveTraining,
 } from '../../constants/interfaces';
-import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC, DEFAULT_USER_WORD, DARK_THEME_CLASSNAME  } from '../../constants/constants'
+import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC, DEFAULT_USER_WORD, DARK_THEME_CLASSNAME } from '../../constants/constants'
+
+const currentTrainingDefault: currentTraining = {
+  wordsForTraining: [],
+  startTrainingTimestamp: 0,
+  totalWordsCount: 0,
+  trainingCountPerDay: 0,
+  trueAnswerCount: 0,
+}
+
+
+
+
 const api = new ApiService();
 const App: React.FC = () => {
   console.log('\r\n Render App \r\n');
@@ -50,15 +65,25 @@ const App: React.FC = () => {
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings | null>(null);
   const [userStatistic, setUserStatistic] = useState<userStatistics | null>(null);
-
+  const [currentTrainingState, setCurrentTrainingState] = useState<currentTraining>(currentTrainingDefault);
   const [readyToJoin, setReadyToJoin] = useState<boolean>(false);
 
-  const appClassNames:string  = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}`;
+  const appClassNames: string = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}`;
 
   const toggleCurrentTheme = () => {
     setIsDarkTheme((value) => !value);
   }
 
+
+
+
+  const abs = {
+    words_for_training: [],
+    startTrainingTimestamp: 0,
+    totalWordaCount: 0,
+    trainingCountPerDay: 0,
+    trueAnswerCount: 0,
+  }
 
   useEffect(() => {
     console.log('use effect');
@@ -284,15 +309,18 @@ const App: React.FC = () => {
             <LogoutPage {...trainingPageProps}></LogoutPage>
           )
         }} />
-
-
-        {/* <Route path='/magicButton' component={(routerProps: any) => <MagicButton
-          routerProps={routerProps}
-          myProps={{ a: 6 }}
-        />} /> */}
-        <Route path='/magicButton' component={() => {
+        {/* <Route path='/magicButton' component={() => {
           return (
             <MagicButton {...trainingPageProps} isAuthorizated={isAuthorizated}></MagicButton>
+          )
+        }} /> */}
+        <Route path='/magicButton' component={() => {
+          return (
+            <ShadowTrainingPage
+              {...trainingPageProps}
+              currentTrainingState={currentTrainingState}
+              setCurrentTrainingState={setCurrentTrainingState}
+            ></ShadowTrainingPage>
           )
         }} />
 
