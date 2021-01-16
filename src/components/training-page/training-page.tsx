@@ -24,6 +24,7 @@ interface cardBodyProps {
   words: paginatedWord[],
   settings: userSettings | null,
   levelsOfRepeat: IntervalTime,
+  updateWords: React.Dispatch<React.SetStateAction<paginatedWord[]>>,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
 }
@@ -38,6 +39,8 @@ function TrainingPage(props:trainingProps) {
   };
   const { optional } = props.settings;
   const trainingDayWords = userWords ? userWords : [];
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [dayWords, setDayWords] = useState(trainingDayWords);
   // const wordsLen : number = userWords ? userWords.length : 0; // это чисто длина слов на повтор
   const {getSomethingAggregatedNewWords: newWords} = apiService;
   // getSomethingAggregatedNewWords in apiServise -взять какие-то новые слова
@@ -63,9 +66,10 @@ function TrainingPage(props:trainingProps) {
   };
 
   const objForCardBody: cardBodyProps = {
-    words: trainingDayWords, // нужен  юз стейт
+    words: dayWords, // нужен  юз стейт
     settings: settings,
     levelsOfRepeat: levelsOfRepeat,
+    updateWords: setDayWords,
     updateSettings: updateSettings,
     updateUserWords: updateUserWords
   };
@@ -129,7 +133,7 @@ function TrainingCardImage(props:upperButtonProps) {
 
 function TrainingCardBody(props:cardBodyProps) {
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
-  const {words, settings, levelsOfRepeat, updateSettings, updateUserWords} = props;
+  const {words, settings, updateWords, levelsOfRepeat, updateSettings, updateUserWords} = props;
   if (settings === null) {
     return <div className="training-page"></div>
   };
@@ -141,8 +145,12 @@ function TrainingCardBody(props:cardBodyProps) {
     feedbackButtons, isSoundOn, newWordsPerDay, repeatWordsPerDay,
   } = optional;
 
-   
-  const thisWord = words[3];
+  console.log('words before unshift', words); 
+  let thisWord: paginatedWord;
+  thisWord = words[0];
+  words.shift();
+  updateWords(words);
+  console.log('words after update', words);
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
   const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
@@ -233,6 +241,7 @@ function TrainingCardBody(props:cardBodyProps) {
 </div>)
 }
 
+// при смене страницы остается тру для инпута и старое валью его
 function InputControl(props: forInput) {
   const {theWord, isTrue, updateAnswer} = props;
   const [inputValue, setInputValue] = useState<string>('');
@@ -242,12 +251,19 @@ function InputControl(props: forInput) {
     setInputValue(event.target.value);
   };
 
+  const ClickHandler = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setInputValue('');
+  };
+
   const KeyPressHandler = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       console.log('enter pressed in input');
       if (inputValue.toLocaleLowerCase() === theWord) {
         console.log('that is right');
         updateAnswer(true);
+        } else {
+          updateAnswer(false);
         }
       }
   };
@@ -263,7 +279,8 @@ function InputControl(props: forInput) {
     spellCheck={false}
     onKeyPress={KeyPressHandler}
     value={inputValue} 
-    onChange={InputChangeHandler}/>)
+    onChange={InputChangeHandler}
+    onClick={ClickHandler}/>)
 }
 
 
