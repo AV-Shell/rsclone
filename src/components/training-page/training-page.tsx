@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
@@ -8,6 +8,12 @@ interface upperButtonProps {
   isTrue:boolean,
   line:string,
   classCss: string
+}
+
+interface forInput {
+  theWord: string,
+  isTrue: boolean,
+  updateAnswer: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type IntervalTime = {
@@ -122,6 +128,7 @@ function TrainingCardImage(props:upperButtonProps) {
 // };
 
 function TrainingCardBody(props:cardBodyProps) {
+  const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const {words, settings, levelsOfRepeat, updateSettings, updateUserWords} = props;
   if (settings === null) {
     return <div className="training-page"></div>
@@ -183,23 +190,35 @@ function TrainingCardBody(props:cardBodyProps) {
     classCss: "training-card-body-explanation-ru"
   };
 
+  const objForInput: forInput = {
+    theWord: thisWord.word,
+    isTrue: isAnswerTrue,
+    updateAnswer: setIsAnswerTrue
+
+  };
+
+  // это если ответил правильно
+  // if (autoSound) {
+        //   const audioWord = new Audio(audioWordURL);
+        //   const audioWordExample = new Audio(audioExampleURL);
+        //   const audioWordMeaning = new Audio(audioMeaningURL);
+        //   audioWord.play();
+          // audioWordExample.play();
+          // audioWordMeaning.play();
+
+          //сделать константу тру/фолс и менять компоненты в зависимости от?
+
   return (<div className="training-card-body">
   <div className="training-card-body-upper">
     <hr />
     <div className="training-card-body-upper-progress">
-      <span>word-progress</span><span>звездочки</span>
+      <span>word-progress<small>тут чо-то написано</small></span><span>звездочки</span>
       </div>
   </div>
   <div className="training-card-body-word">
     <div className="training-card-body-word-details">
       <p>Введите английское слово</p>
-      <input 
-        className="training-card-body-word-details-input" 
-        type="text" 
-        size={thisWord.word.length}
-        autoFocus={true} 
-        spellCheck={false}
-        onKeyPress={KeyPressHandler} />
+      <InputControl {...objForInput} />
       <TrainingCardLineCode {...objForTranslation}/>
       <TrainingCardLineCode {...objForTranscription}/>
     </div>
@@ -214,10 +233,38 @@ function TrainingCardBody(props:cardBodyProps) {
 </div>)
 }
 
-function KeyPressHandler(event: React.KeyboardEvent) {
-  if (event.key === 'Enter') {
-    console.log('enter pressed in input');
-  }
+function InputControl(props: forInput) {
+  const {theWord, isTrue, updateAnswer} = props;
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setInputValue(event.target.value);
+  };
+
+  const KeyPressHandler = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      console.log('enter pressed in input');
+      if (inputValue.toLocaleLowerCase() === theWord) {
+        console.log('that is right');
+        updateAnswer(true);
+        }
+      }
+  };
+
+  const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
+  : "training-card-body-word-details-input";
+
+  return (<input 
+    className={cssStyle} 
+    type="text" 
+    size={theWord.length}
+    autoFocus={true} 
+    spellCheck={false}
+    onKeyPress={KeyPressHandler}
+    value={inputValue} 
+    onChange={InputChangeHandler}/>)
 }
+
 
 export default TrainingPage;
