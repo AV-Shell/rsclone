@@ -2,7 +2,7 @@ import React from 'react';
 import './magic-button.scss';
 import logo from './assets/magicButton.png';
 import {  magicButtonProps} from '../../constants/interfaces';
-function MagicButton(props:magicButtonProps | {isNotlogin:true}) {
+function MagicButton(props:magicButtonProps | {isAuthorizated:false}) {
   console.log('magic button props', props);
   // Component code start
   return (

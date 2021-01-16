@@ -135,7 +135,35 @@ export interface userSettings{
   },
 }
 
-export interface dailyGoalProps {
+
+interface saveTrainingPart {
+  startTrainingTimestamp: number,
+  totalWordsCount: number,
+  trainingCountPerDay: number,
+  trueAnswerCount: number,
+}
+
+export interface currentTraining extends saveTrainingPart {
+  wordsForTraining: paginatedWord[]
+}
+
+export interface saveTraining extends saveTrainingPart {
+  wordsForTraining: string[]
+}
+
+export interface darkThemeProps {
+  isDarkTheme: boolean,
+}
+
+export interface loginStatusProps {
+  isAuthorizated: boolean,
+}
+
+export interface headerProps extends darkThemeProps, loginStatusProps {
+  toggleTheme: () => void,
+}
+
+interface defaultLoginedProps extends darkThemeProps {
   settings: userSettings | null,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   statistic: userStatistics | null,
@@ -145,62 +173,21 @@ export interface dailyGoalProps {
   apiService: ApiService,
 }
 
-export interface dashboardProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
-  userWords: paginatedWord[] | null,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-  apiService: ApiService,
+export interface dailyGoalProps extends defaultLoginedProps { }
+
+export interface dashboardProps extends defaultLoginedProps { }
+
+export interface magicButtonProps extends defaultLoginedProps, loginStatusProps { }
+
+export interface settingsPageProps extends defaultLoginedProps  { } 
+
+export interface logOutProps extends defaultLoginedProps  { }
+
+export interface trainingProps extends defaultLoginedProps  { }
+
+export interface shadowTrainingProps extends defaultLoginedProps  {
+  currentTrainingState: currentTraining,
+  setCurrentTrainingState: React.Dispatch<React.SetStateAction<currentTraining>>,
 }
 
-export interface magicButtonProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
-  userWords: paginatedWord[] | null,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-  apiService: ApiService,
-}
-
-export interface settingsPageProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
-  userWords: paginatedWord[] | null,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-  apiService: ApiService,
-}
-
-export interface logOutProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
-  userWords: paginatedWord[] | null,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-  apiService: ApiService,
-}
-
-export interface trainingProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
-  userWords: paginatedWord[] | null,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-  apiService: ApiService,
-}
-
-export interface vocabularyProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
-  userWords: paginatedWord[] | null,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-  apiService: ApiService,
-}
+export interface vocabularyProps extends defaultLoginedProps  { }
