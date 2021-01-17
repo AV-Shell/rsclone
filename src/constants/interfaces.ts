@@ -100,39 +100,48 @@ export interface userStatistics {
     }
 }
 
+export interface areThereStillWordsOnGroups {
+  [group: number]: boolean,
+}
+
+export interface userSettingsOptional {
+  newWordsPerDay: number,  
+  repeatWordsPerDay: number,
+  userLanguageLevel:number, 
+  cardsPerDay: number,   //deprecated.  use newWordsPerDay  + repeatWordsPerDay
+  mixedCards: number,    //depricated. 
+  isSoundOn:boolean,     
+  cardWordPronunciation: boolean, //new
+  cardTranslation: boolean,       
+  cardExplanation: boolean,
+  cardExample: boolean,
+  cardTranscription: boolean,
+  cardImage: boolean,
+  cardTranslationAfterSuccess: boolean,
+  cardExplanationTranslation: boolean,
+  cardExampleTranslation: boolean,
+  autoSound: boolean,
+  answerButton: boolean, 
+  deleteButton: boolean,  //deprecated.  use statusButtons
+  difficultWordsButton: boolean, //deprecated.  use statusButtons
+  statusButtons: boolean, // new
+  feedbackButtons: boolean,
+  vocabularyExplanation: boolean,
+  vocabularyExample: boolean,
+  vocabularyTranscription: boolean,
+  vocabularyImage: boolean,
+  mainGameShort: string,
+  mainGameLong: string,
+  commonProgress: number,
+  savannaSettings: string,
+  magicButtonSettings: string,
+  stillWordsOnGroup: string,  //new/ for prepare training
+}
+
 export interface userSettings{
   id?:  string,
   wordsPerDay: number,
-  optional: {
-    newWordsPerDay: number,
-    repeatWordsPerDay: number,
-    userLanguageLevel:number,
-    cardsPerDay: number,
-    mixedCards: number,
-    isSoundOn:boolean,
-    cardTranslation: boolean,
-    cardExplanation: boolean,
-    cardExample: boolean,
-    cardTranscription: boolean,
-    cardImage: boolean,
-    cardTranslationAfterSuccess: boolean,
-    cardExplanationTranslation: boolean,
-    cardExampleTranslation: boolean,
-    autoSound: boolean,
-    answerButton: boolean,
-    deleteButton: boolean,
-    difficultWordsButton: boolean,
-    feedbackButtons: boolean,
-    vocabularyExplanation: boolean,
-    vocabularyExample: boolean,
-    vocabularyTranscription: boolean,
-    vocabularyImage: boolean,
-    mainGameShort: string,
-    mainGameLong: string,
-    commonProgress: number,
-    savannaSettings: string,
-    magicButtonSettings: string,
-  },
+  optional: userSettingsOptional,
 }
 
 
@@ -141,6 +150,7 @@ interface saveTrainingPart {
   totalWordsCount: number,
   trainingCountPerDay: number,
   trueAnswerCount: number,
+  // isTrainingFinish: boolean,
 }
 
 export interface currentTraining extends saveTrainingPart {

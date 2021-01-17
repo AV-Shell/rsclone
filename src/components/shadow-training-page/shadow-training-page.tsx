@@ -7,28 +7,22 @@ import {
   aggregatedWordsResult,
   paginatedWord,
   saveTraining,
+  areThereStillWordsOnGroups,
 } from '../../constants/interfaces';
+
 import SentenceWrapper from '../slave-components/sentence-wrapper'
 import Spinner from '../slave-components/spinner'
+import TrainingConfigure from './components/training-configure'
+import { loadNewWords } from '../../helpers/utils'
 
-
-interface lvls {
-  [group: number]: boolean,
-}
-
-const levelsWord: lvls = {
-  0: true,
-  1: true,
-  2: true,
-  3: true,
-  4: true,
-  5: true,
-}
 const maxWordsGroup = 5;
 let userLevel = 3;
 let newWordsCount = 15;
 
-
+interface wordsSetting {
+  new: number,
+  repeat: number,
+}
 
 
 function ShadowTrainingPage(props: shadowTrainingProps) {
@@ -37,11 +31,37 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isServerError, setisServerError] = useState<boolean>(false);
+  const [wordsSetting, setWordsSetting] = useState<wordsSetting>({ new: 15, repeat: 25 });
+
+  const changeTrainingWordsSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
+  
+    const name = event.target.name;
+    let value = +event.target.value;
+    if (name === 'new') {
+      value = value > 15 ? 15 : value < 3 ? 3 : value;
+    } else     if (name === 'repeat') {
+      value = value > 35 ? 35 : value < 10 ? 10 : value;
+    }
+
+    setWordsSetting((old) => {
+      return {
+        ...old,
+        [name]: value
+      }
+    })
+  }
+
   if (isLoading) {
     return <Spinner></Spinner>
   }
 
-  const loadData = async () => {
+  if ((settings === null) || (statistic === null) || (userWords === null)) {
+    return <div className="No props Shadow Traning Page"></div>
+  }
+  const levelsWord: areThereStillWordsOnGroups = JSON.parse(settings.optional.stillWordsOnGroup)
+  
+
+  const loadData2 = async () => {
     //TODO: get UserLvl from Settings
     let startLvl = userLevel;
     const constWordArray: paginatedWord[] = [];
@@ -112,7 +132,13 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
   const getNewWords = () => {
     console.log('getNewWords start');
     setIsLoading(true);
-    loadData()
+    loadNewWords({
+      maxWordsGroup: 5,
+      userLevel: 3,
+      newWordsCount: 15,
+      levelsWord: levelsWord,
+      apiService: apiService,
+    })
       .then((data) => {
         console.log('getNewWords data');
         console.log(data);
@@ -131,9 +157,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
     //
   }
 
-  if ((settings === null) || (statistic === null) || (userWords === null)) {
-    return <div className="No props Shadow Traning Page"></div>
-  }
 
   if (currentTrainingState.wordsForTraining.length === 0) {
     let isNeedNewWords: boolean = false;
@@ -157,6 +180,7 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
         settings.optional.mainGameShort = JSON.stringify('null');
       }
     }
+    return <TrainingConfigure {...props}/>
     return (
       <div className="shadow-training-page">
         <div className="wrapper">
@@ -175,12 +199,17 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
                 Only repeat
               </button>
               <label >Number of new words(3-15):
-                <input type="number" id="newWordsSelector" name="tentacles"
-                  min="3" max="15" value="15"></input>
+                <input
+                  onChange={changeTrainingWordsSettings}
+                  type="number" id="newWordsSelector" name="new"
+                  min="3" max="15" value={wordsSetting.new}> 
+                </input>
               </label>
               <label >Number words for repeat(10-35):
-                <input type="number" id="newWordsSelector" name="tentacles"
-                  min="10" max="35" value={20}></input>
+                <input
+                  onChange={changeTrainingWordsSettings}
+                  type="number" id="repeatWordsSelector" name="repeat"
+                  min="10" max="35" value={wordsSetting.repeat}></input>
               </label>
 
 
