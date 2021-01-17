@@ -47,6 +47,8 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     cardTranslationAfterSuccess: false,
     cardExplanationTranslation: true,
     cardExampleTranslation: true,
+    cardExplanationTranslationAfter: false, //after answer 
+    cardExampleTranslationAfter: false,   //after answer
     autoSound: true,
     answerButton: true,
     deleteButton: true,

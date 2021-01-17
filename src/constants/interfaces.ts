@@ -118,8 +118,10 @@ export interface userSettingsOptional {
   cardTranscription: boolean,
   cardImage: boolean,
   cardTranslationAfterSuccess: boolean,
-  cardExplanationTranslation: boolean,
-  cardExampleTranslation: boolean,
+  cardExplanationTranslation: boolean, //before answer 
+  cardExampleTranslation: boolean,  //before answer
+  cardExplanationTranslationAfter: boolean, //after answer new
+  cardExampleTranslationAfter: boolean,   //after answer new
   autoSound: boolean,
   answerButton: boolean, 
   deleteButton: boolean,  //deprecated.  use statusButtons
