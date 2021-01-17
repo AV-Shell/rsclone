@@ -515,5 +515,10 @@ export default class ApiService {
   getSomethingAggregatedNewWords = async (count:number) => {
     return await this.getAllUserAggregatedWords(null, null, count, '{ "userWord": null }');
   };
+  getAggregatedNewWordsFromGroup = async (count:number, group:number) => {
+    return await this.getAllUserAggregatedWords(group, null, count, '{ "userWord": null }');
+  };
+
+
 
 }
