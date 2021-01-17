@@ -66,7 +66,7 @@ function TrainingPage(props:trainingProps) {
   };
 
   const objForCardBody: cardBodyProps = {
-    words: dayWords, // нужен  юз стейт
+    words: dayWords,
     settings: settings,
     levelsOfRepeat: levelsOfRepeat,
     updateWords: setDayWords,
@@ -89,7 +89,7 @@ function TrainingPage(props:trainingProps) {
           </div>
           <TrainingCardBody {...objForCardBody}/>
           <div className="training-card-footer">
-            <button>Показать ответ</button>
+            <button className="training-card-footer-btn-answer">Показать ответ</button>
           </div>
         </div>
       </div>
