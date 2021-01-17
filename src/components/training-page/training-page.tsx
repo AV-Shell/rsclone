@@ -19,7 +19,8 @@ function TrainingPage(props:trainingProps) {
   const trainingDayWords = userWords ? userWords : [];
   let thisWord: paginatedWord;
   thisWord = trainingDayWords[0];
-  
+  const {group} = thisWord;
+ 
   const {
     answerButton, autoSound, cardExample, cardExampleTranslation,
     cardExplanation, cardExplanationTranslation, cardImage, cardTranscription,
@@ -27,6 +28,14 @@ function TrainingPage(props:trainingProps) {
     deleteButton, difficultWordsButton, feedbackButtons, isSoundOn,
     newWordsPerDay, repeatWordsPerDay,
   } = optional;
+
+  let isNew: boolean = true;
+  let wordStatus: string|undefined;
+  if ('userWord' in thisWord) {
+    isNew = false;
+    const {userWord} = thisWord;
+    wordStatus = userWord?.optional.status; // active, difficult, deleted
+  };
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
@@ -79,9 +88,8 @@ function TrainingPage(props:trainingProps) {
     theWord: thisWord.word,
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue
-
   };
- 
+
   return (
     <div className="training-page">
       <div className="wrapper">
@@ -91,17 +99,33 @@ function TrainingPage(props:trainingProps) {
         </div>
         <div className="training-card">
           <div className="training-card-header">
-            <button className="training-card-header-btn-sound">Звук</button>
             <button className="training-card-header-btn-keyboard">
               <i className="bi bi-keyboard"></i>
             </button>
             <TrainingCardUpperBtn 
+              id={'active'}
               isTrue={difficultWordsButton}
+              isAnswerRight={isAnswerTrue}
+              isWordNew={isNew}
+              status={wordStatus}
+              line={`Изучаемое`}
+              classCss={"training-card-header-btn-active"}
+              iClass={"bi bi-check-circle"}/>            
+            <TrainingCardUpperBtn 
+              id={'difficult'}
+              isTrue={difficultWordsButton}
+              isAnswerRight={isAnswerTrue}
+              isWordNew={isNew}
+              status={wordStatus}
               line={`Сложное`}
               classCss={"training-card-header-btn-difficult"}
               iClass={"bi bi-exclamation-diamond"}/>
             <TrainingCardUpperBtn
+              id={'deleted'}
               isTrue={deleteButton}
+              isAnswerRight={isAnswerTrue}
+              isWordNew={false}
+              status={wordStatus}
               line={`Удалить`}
               classCss={"training-card-header-btn-delete"}
               iClass={"bi bi-dash-square-dotted"}/>
@@ -111,7 +135,7 @@ function TrainingPage(props:trainingProps) {
               <hr />
               <div className="training-card-body-upper-progress">
                 <span>word-progress<small>тут чо-то написано</small></span>
-                <span><i className="bi bi-star"></i></span>
+                <StarsLevelField level={group} />
               </div>
             </div>
             <div className="training-card-body-word">
@@ -140,6 +164,41 @@ function TrainingPage(props:trainingProps) {
       </div>
     </div>
   );
+}
+interface forStars {
+  level: number
+}
+
+function StarsLevelField(props:forStars) {
+  const {level} = props;
+  const litStar = (<i className="bi bi-star-fill"></i>);
+  const simpleStar = (<i className="bi bi-star"></i>);
+
+  switch (level) {
+    case 5 : return (<span className="training-card-body-upper-progress-stars">
+      {litStar}{litStar}{litStar}{litStar}{litStar}{litStar}
+      </span>);
+      break;
+    case 4: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{litStar}{litStar}{litStar}{litStar}{litStar}
+      </span>);
+      break;
+    case 3: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{simpleStar}{litStar}{litStar}{litStar}{litStar}
+      </span>);
+      break;
+    case 2: return (<span className="training-card-body-upper-progress-stars">
+    {simpleStar}{simpleStar}{simpleStar}{litStar}{litStar}{litStar}
+    </span>);
+    break;
+    case 1: return (<span className="training-card-body-upper-progress-stars">
+    {simpleStar}{simpleStar}{simpleStar}{simpleStar}{litStar}{litStar}
+    </span>);
+    break;
+    default: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{simpleStar}{simpleStar}{simpleStar}{simpleStar}{litStar}
+      </span>);
+  }
 }
 // это если ответил правильно
   // if (autoSound) {

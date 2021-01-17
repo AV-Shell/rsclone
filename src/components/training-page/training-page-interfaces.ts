@@ -2,7 +2,11 @@ import React from 'react';
 import { userSettings, paginatedWord } from '../../constants/interfaces';
 
 export interface upperButtonProps {
+  id: string,
   isTrue:boolean,
+  isAnswerRight: boolean,
+  isWordNew: boolean,
+  status: string|undefined;
   line:string,
   classCss: string,
   iClass: string

@@ -57,10 +57,10 @@ $orange-hover: #d68f01;
     padding: 0.5em 0.5em;
     display: grid;
     grid-template-rows: minmax(40px, auto);
-    grid-template-columns: 100px 100px 1fr 100px 100px;
+    grid-template-columns: 120px 1fr 120px 120px 120px;
     gap: 5px; 
 
-    &-btn-sound, &-btn-keyboard, &-btn-difficult, &-btn-delete {
+    &-btn-active, &-btn-keyboard, &-btn-difficult, &-btn-delete {
       font-family: 'Montserrat', sans-serif;
       background-color: $color-primary;
       border-radius: 5px;
@@ -68,12 +68,20 @@ $orange-hover: #d68f01;
       outline: none;
       border: none;
     }
-    &-btn-sound > .bi, &-btn-keyboard > .bi {
+   &-btn-keyboard > .bi {
       font-size: 2em;
     }
 
-    &-btn-sound:hover, &-btn-keyboard:hover, &-btn-difficult:hover, &-btn-delete:hover {
+    &-btn-active:hover, &-btn-keyboard:hover, &-btn-difficult:hover, &-btn-delete:hover {
       background-color: $color-primary-hover;
+    }
+
+    &-btn-active.active, &-btn-difficult.active {
+      background-color: $color-hover;
+    }
+
+    &-btn-active {
+      grid-column: 3 / 4;
     }
 
     &-btn-difficult {
@@ -83,9 +91,9 @@ $orange-hover: #d68f01;
     &-btn-delete {
       grid-column: 5 / 6;
     }
-    @media screen and (max-width: 900px) {
-      grid-template-columns: 70px 70px 1fr 70px 70px;
-    }
+    // @media screen and (max-width: 900px) {
+    //   grid-template-columns: 70px 1fr 70px 70px 70px;
+    // }
   }
 
   &-body {
@@ -99,6 +107,10 @@ $orange-hover: #d68f01;
       &-progress {
         display: flex;
         justify-content: space-between;
+
+        &-stars > i {
+          color: $orange;
+        }
       }
 
       >hr {

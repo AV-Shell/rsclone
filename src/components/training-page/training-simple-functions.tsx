@@ -2,9 +2,16 @@ import React from 'react';
 import {upperButtonProps, lineProps } from './training-page-interfaces';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
-  const {isTrue, line, classCss, iClass} = props;
-  if (isTrue) {
-    return (<button className={classCss}><i className={iClass}></i> {line}</button>);
+  const {id, isTrue, isAnswerRight, isWordNew, line, status, classCss, iClass} = props;
+  let classWhole: string = '';
+  if (!isWordNew && (id === status)) {
+    classWhole = classCss + ' active';
+  } else {
+    classWhole = classCss;
+  }
+
+  if (isTrue && isAnswerRight) {
+    return (<button className={classWhole}><i className={iClass}></i> {line}</button>);
   };
   return null;
 }
