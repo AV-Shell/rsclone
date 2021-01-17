@@ -1,0 +1,33 @@
+import React from 'react';
+import { userSettings, paginatedWord } from '../../constants/interfaces';
+
+export interface upperButtonProps {
+  isTrue:boolean,
+  line:string,
+  classCss: string,
+  iClass: string
+}
+
+export interface lineProps {
+  isTrue:boolean,
+  line:string,
+  classCss: string,
+}
+export interface forInput {
+  theWord: string,
+  isTrue: boolean,
+  updateAnswer: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type IntervalTime = {
+  [days: number]: number 
+};
+
+export interface cardBodyProps {
+  words: paginatedWord[],
+  settings: userSettings | null,
+  levelsOfRepeat: IntervalTime,
+  updateWords: React.Dispatch<React.SetStateAction<paginatedWord[]>>,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+}
