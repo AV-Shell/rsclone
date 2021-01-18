@@ -11,7 +11,6 @@ export interface upperButtonProps {
   classCss: string,
   iClass: string
 }
-
 export interface lineProps {
   isTrue:boolean,
   line:string,
@@ -34,4 +33,13 @@ export interface cardBodyProps {
   updateWords: React.Dispatch<React.SetStateAction<paginatedWord[]>>,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
   updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
+}
+
+export interface forStars {
+  level: number
+}
+
+export interface dayProgress {
+  left: number,
+  right: number
 }

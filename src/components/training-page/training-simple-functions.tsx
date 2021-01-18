@@ -1,5 +1,5 @@
 import React from 'react';
-import {upperButtonProps, lineProps } from './training-page-interfaces';
+import { upperButtonProps, lineProps, forStars, dayProgress } from './training-page-interfaces';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
   const {id, isTrue, isAnswerRight, isWordNew, line, status, classCss, iClass} = props;
@@ -32,4 +32,44 @@ export function TrainingCardImage(props:lineProps) {
     </div>);
   };
   return null;
+}
+
+export function StarsLevelField(props:forStars) {
+  const {level} = props;
+  const litStar: JSX.Element = (<i className="bi bi-star-fill"></i>);
+  const simpleStar: JSX.Element = (<i className="bi bi-star"></i>);
+
+  switch (level) {
+    case 5 : return (<span className="training-card-body-upper-progress-stars">
+      {litStar}{litStar}{litStar}{litStar}{litStar}{litStar}
+      </span>);
+    case 4: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{litStar}{litStar}{litStar}{litStar}{litStar}
+      </span>);
+    case 3: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{simpleStar}{litStar}{litStar}{litStar}{litStar}
+      </span>);
+    case 2: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{simpleStar}{simpleStar}{litStar}{litStar}{litStar}
+      </span>);
+    case 1: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{simpleStar}{simpleStar}{simpleStar}{litStar}{litStar}
+      </span>);
+    default: return (<span className="training-card-body-upper-progress-stars">
+      {simpleStar}{simpleStar}{simpleStar}{simpleStar}{simpleStar}{litStar}
+      </span>);
+  }
+}
+
+export function TrainingProgressBar(props: dayProgress) {
+  const { left, right } = props;
+  const barWidth: number = Math.round((left / right) * 100);
+  const perCent: string = String(barWidth) + '%';
+
+  return (<div className="training-progress-center">
+    <div className="progress progress-striped active">
+      <div className="bar"
+        style={{width: perCent}}></div>
+    </div>
+    </div>)
 }

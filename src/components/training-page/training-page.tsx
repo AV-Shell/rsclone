@@ -4,10 +4,13 @@ import { trainingProps, userSettings, paginatedWord } from '../../constants/inte
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
 import { lineProps, forInput, cardBodyProps} from './training-page-interfaces';
-import {TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage} from './training-simple-functions';
+import {
+  TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
+  } from './training-simple-functions';
 
 function TrainingPage(props:trainingProps) {
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
+  const [isAnswered, setIsAnswered] = useState<boolean>(false);
   console.log(props);
   const {
     userWords, apiService, settings, statistic, updateSettings, updateStatistic, updateUserWords
@@ -17,8 +20,9 @@ function TrainingPage(props:trainingProps) {
   };
   const { optional } = props.settings;
   const trainingDayWords = userWords ? userWords : [];
+  const currentCard: number = 4;
   let thisWord: paginatedWord;
-  thisWord = trainingDayWords[0];
+  thisWord = trainingDayWords[currentCard];
   const {group} = thisWord;
  
   const {
@@ -28,6 +32,8 @@ function TrainingPage(props:trainingProps) {
     deleteButton, difficultWordsButton, feedbackButtons, isSoundOn,
     newWordsPerDay, repeatWordsPerDay,
   } = optional;
+
+  const allTrainingCards: number = cardsPerDay;
 
   let isNew: boolean = true;
   let wordStatus: string|undefined;
@@ -95,7 +101,9 @@ function TrainingPage(props:trainingProps) {
       <div className="wrapper">
         <h2><i className="bi bi-stack"></i> Training</h2>
         <div className="training-progress">
-          <span>1</span><span>progress-bar</span><span>{cardsPerDay}</span>
+          <span className="training-progress-left">1</span>
+          <TrainingProgressBar left={currentCard} right={allTrainingCards}/>
+          <span className="training-progress-right">{allTrainingCards}</span>
         </div>
         <div className="training-card">
           <div className="training-card-header">
@@ -165,41 +173,7 @@ function TrainingPage(props:trainingProps) {
     </div>
   );
 }
-interface forStars {
-  level: number
-}
 
-function StarsLevelField(props:forStars) {
-  const {level} = props;
-  const litStar = (<i className="bi bi-star-fill"></i>);
-  const simpleStar = (<i className="bi bi-star"></i>);
-
-  switch (level) {
-    case 5 : return (<span className="training-card-body-upper-progress-stars">
-      {litStar}{litStar}{litStar}{litStar}{litStar}{litStar}
-      </span>);
-      break;
-    case 4: return (<span className="training-card-body-upper-progress-stars">
-      {simpleStar}{litStar}{litStar}{litStar}{litStar}{litStar}
-      </span>);
-      break;
-    case 3: return (<span className="training-card-body-upper-progress-stars">
-      {simpleStar}{simpleStar}{litStar}{litStar}{litStar}{litStar}
-      </span>);
-      break;
-    case 2: return (<span className="training-card-body-upper-progress-stars">
-    {simpleStar}{simpleStar}{simpleStar}{litStar}{litStar}{litStar}
-    </span>);
-    break;
-    case 1: return (<span className="training-card-body-upper-progress-stars">
-    {simpleStar}{simpleStar}{simpleStar}{simpleStar}{litStar}{litStar}
-    </span>);
-    break;
-    default: return (<span className="training-card-body-upper-progress-stars">
-      {simpleStar}{simpleStar}{simpleStar}{simpleStar}{simpleStar}{litStar}
-      </span>);
-  }
-}
 // это если ответил правильно
   // if (autoSound) {
         //   const audioWord = new Audio(audioWordURL);
@@ -233,9 +207,9 @@ function InputControl(props: forInput) {
         console.log('that is right');
         updateAnswer(true);
         } else {
-          // какая-то хрень тут
-          setInputValue('');
-          // updateAnswer(false);
+          setInputValue(theWord);
+          updateAnswer(false);
+          // надо сделать слово красным, показать кнопки и заблокировать ввод?
         }
       }
   };

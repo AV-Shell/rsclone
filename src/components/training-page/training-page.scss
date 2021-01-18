@@ -44,6 +44,54 @@ $orange-hover: #d68f01;
   }
 }
 
+.training-progress {
+  display: grid;
+  grid-template-rows: minmax(25px, auto);
+  grid-template-columns: 30px 1fr 30px;
+  gap: 5px; 
+
+  &-left, &-right {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  &-center {
+    width: 100%;
+
+    .progress {
+      overflow: hidden;
+      height: 18px;
+      margin-bottom: 18px;
+      background-color: rgba(137, 148, 155, 0.2);
+      background-image: linear-gradient(top, #f5f5f5, #f9f9f9);
+      background-repeat: repeat-x;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+    .progress .bar {
+      width: 0%;
+      height: 18px;
+      color: $bg-primary;
+      font-size: 12px;
+      text-align: center;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+      background-color: $success;
+      background-image: linear-gradient(top, #149bdf, #0480be);
+      background-repeat: repeat-x;
+      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+      box-sizing: border-box;
+      transition: width 0.6s ease;
+    }
+
+    .progress.progress-striped .bar {
+      background-color: $success;
+      background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, 
+        transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, 
+        rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); 
+    }
+  }
+}
+
 .training-card {
   box-sizing: border-box;
   padding: 0.5em 0 0;
@@ -76,8 +124,9 @@ $orange-hover: #d68f01;
       background-color: $color-primary-hover;
     }
 
-    &-btn-active.active, &-btn-difficult.active {
+    &-btn-active.active, &-btn-difficult.active, &-btn-delete.active {
       background-color: $color-hover;
+      color: $bg-primary;
     }
 
     &-btn-active {
