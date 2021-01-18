@@ -140,9 +140,25 @@ $orange-hover: #d68f01;
     &-btn-delete {
       grid-column: 5 / 6;
     }
-    // @media screen and (max-width: 900px) {
-    //   grid-template-columns: 70px 1fr 70px 70px 70px;
-    // }
+    @media screen and (max-width: 500px) {
+       grid-template-columns: 1fr 1fr 1fr;
+
+       &-btn-active {
+        grid-column: 1;
+      }
+  
+      &-btn-difficult {
+        grid-column: 2;
+      }
+  
+      &-btn-delete {
+        grid-column: 3;
+      }
+
+       &-btn-keyboard {
+         display: none
+       }
+    }
   }
 
   &-body {
@@ -154,11 +170,26 @@ $orange-hover: #d68f01;
       padding: 0 0.5em 0.5em;
 
       &-progress {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-rows: minmax(25px, auto);
+        grid-template-columns: 7fr 3fr;
+        gap: 5px; 
 
-        &-stars > i {
+
+        &-stars {
+          justify-self: flex-end;
+          
+          > i {
           color: $orange;
+        }}
+
+        @media screen and (max-width: 500px) {
+          grid-template-rows: 1fr;
+          grid-template-columns: 1fr;
+
+          &-stars {
+            grid-row: 1;
+          }
         }
       }
 
@@ -182,6 +213,11 @@ $orange-hover: #d68f01;
       justify-content: space-between;
       background-color: $my-card-bg;
 
+      @media screen and (max-width: 500px) {
+        flex-direction: column-reverse;
+        align-items: center;
+        width: auto;
+      }
       &-details {
         width: 100%;
         display: flex;
@@ -217,6 +253,13 @@ $orange-hover: #d68f01;
         >img {
           max-width: 300px;
           border-radius: 5px;
+          @media screen and (max-width: 500px) {
+            max-width: 270px;
+          }
+        }
+        @media screen and (max-width: 500px) {
+          height: auto;
+          max-width: 270px;
         }
       }
     }

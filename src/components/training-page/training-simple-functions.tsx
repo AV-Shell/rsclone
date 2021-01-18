@@ -2,7 +2,7 @@ import React from 'react';
 import { upperButtonProps, lineProps, forStars, dayProgress } from './training-page-interfaces';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
-  const {id, isTrue, isAnswerRight, isWordNew, line, status, classCss, iClass} = props;
+  const {id, isShown, isAnswerRight, isWordNew, line, status, classCss, iClass} = props;
   let classWhole: string = '';
   if (!isWordNew && (id === status)) {
     classWhole = classCss + ' active';
@@ -10,7 +10,7 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
     classWhole = classCss;
   }
 
-  if (isTrue && isAnswerRight) {
+  if (isShown && isAnswerRight) {
     return (<button className={classWhole}><i className={iClass}></i> {line}</button>);
   };
   return null;

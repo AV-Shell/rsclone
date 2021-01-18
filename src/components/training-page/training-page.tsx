@@ -112,7 +112,7 @@ function TrainingPage(props:trainingProps) {
             </button>
             <TrainingCardUpperBtn 
               id={'active'}
-              isTrue={difficultWordsButton}
+              isShown={difficultWordsButton}
               isAnswerRight={isAnswerTrue}
               isWordNew={isNew}
               status={wordStatus}
@@ -121,7 +121,7 @@ function TrainingPage(props:trainingProps) {
               iClass={"bi bi-check-circle"}/>            
             <TrainingCardUpperBtn 
               id={'difficult'}
-              isTrue={difficultWordsButton}
+              isShown={difficultWordsButton}
               isAnswerRight={isAnswerTrue}
               isWordNew={isNew}
               status={wordStatus}
@@ -130,7 +130,7 @@ function TrainingPage(props:trainingProps) {
               iClass={"bi bi-exclamation-diamond"}/>
             <TrainingCardUpperBtn
               id={'deleted'}
-              isTrue={deleteButton}
+              isShown={deleteButton}
               isAnswerRight={isAnswerTrue}
               isWordNew={false}
               status={wordStatus}
@@ -142,7 +142,7 @@ function TrainingPage(props:trainingProps) {
             <div className="training-card-body-upper">
               <hr />
               <div className="training-card-body-upper-progress">
-                <span>word-progress<small>тут чо-то написано</small></span>
+                <span className="word-progress">word-progress<small>тут чо-то написано</small></span>
                 <StarsLevelField level={group} />
               </div>
             </div>

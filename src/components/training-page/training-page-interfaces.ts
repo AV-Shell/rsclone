@@ -3,7 +3,7 @@ import { userSettings, paginatedWord } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: string,
-  isTrue:boolean,
+  isShown:boolean,
   isAnswerRight: boolean,
   isWordNew: boolean,
   status: string|undefined;
