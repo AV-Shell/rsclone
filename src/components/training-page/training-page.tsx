@@ -3,14 +3,17 @@ import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, cardBodyProps} from './training-page-interfaces';
+import { lineProps, forInput, forFooter} from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
 
 function TrainingPage(props:trainingProps) {
+  const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
+
+  const trainingDay: number = Date.now();
   console.log(props);
   const {
     userWords, apiService, settings, statistic, updateSettings, updateStatistic, updateUserWords
@@ -91,7 +94,11 @@ function TrainingPage(props:trainingProps) {
   };
 
   const objForInput: forInput = {
+    value: inputValue,
+    updateValue: setInputValue,
     theWord: thisWord.word,
+    isAnswerSet: isAnswered,
+    updateAnswerSet: setIsAnswered,
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue
   };
@@ -99,7 +106,7 @@ function TrainingPage(props:trainingProps) {
   return (
     <div className="training-page">
       <div className="wrapper">
-        <h2><i className="bi bi-stack"></i> Training</h2>
+        <h1><i className="bi bi-stack"></i> Training</h1>
         <div className="training-progress">
           <span className="training-progress-left">1</span>
           <TrainingProgressBar left={currentCard} right={allTrainingCards}/>
@@ -113,7 +120,7 @@ function TrainingPage(props:trainingProps) {
             <TrainingCardUpperBtn 
               id={'active'}
               isShown={difficultWordsButton}
-              isAnswerRight={isAnswerTrue}
+              isAnswerRight={isAnswered}
               isWordNew={isNew}
               status={wordStatus}
               line={`Изучаемое`}
@@ -122,7 +129,7 @@ function TrainingPage(props:trainingProps) {
             <TrainingCardUpperBtn 
               id={'difficult'}
               isShown={difficultWordsButton}
-              isAnswerRight={isAnswerTrue}
+              isAnswerRight={isAnswered}
               isWordNew={isNew}
               status={wordStatus}
               line={`Сложное`}
@@ -131,7 +138,7 @@ function TrainingPage(props:trainingProps) {
             <TrainingCardUpperBtn
               id={'deleted'}
               isShown={deleteButton}
-              isAnswerRight={isAnswerTrue}
+              isAnswerRight={isAnswered}
               isWordNew={false}
               status={wordStatus}
               line={`Удалить`}
@@ -162,16 +169,35 @@ function TrainingPage(props:trainingProps) {
               <TrainingCardLineCode {...objForMeaningTranslation}/>
             </div>
           </div>
-          <div className="training-card-footer">
-            <button className="training-card-footer-btn-answer">
-              <i className="bi bi-eye-fill"></i> 
-              Показать ответ
-            </button>
-          </div>
+          <CardFooter currentWord={thisWord.word}
+            updateInput={setInputValue}
+            hasAnswer={isAnswered}
+            updateHasAnswer={setIsAnswered} />
         </div>
       </div>
     </div>
   );
+}
+
+function CardFooter(props: forFooter) {
+  const {currentWord, updateInput, hasAnswer, updateHasAnswer} = props;
+
+  const ShowAnswerHandler = () => {
+    updateHasAnswer(true);
+    updateInput(currentWord);
+  };
+
+  if (hasAnswer) {
+    return (<div className="training-card-footer"></div>);
+  } else {
+    return (<div className="training-card-footer">
+    <button className="training-card-footer-btn-answer"
+    onClick={ShowAnswerHandler}>
+      <i className="bi bi-eye-fill"></i> 
+      Показать ответ
+    </button>
+    </div>)
+  }
 }
 
 // это если ответил правильно
@@ -187,46 +213,64 @@ function TrainingPage(props:trainingProps) {
 
 // при смене страницы остается тру для инпута и старое валью его
 function InputControl(props: forInput) {
-  const {theWord, isTrue, updateAnswer} = props;
-  const [inputValue, setInputValue] = useState<string>('');
+  const {value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer} = props;
+  
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setInputValue(event.target.value);
+    updateValue(event.target.value);
   };
 
   const ClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setInputValue('');
+    updateValue('');
   };
 
   const KeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      updateAnswerSet(true);
       console.log('enter pressed in input');
-      if (inputValue.toLocaleLowerCase() === theWord) {
+      if (value.toLocaleLowerCase() === theWord) {
         console.log('that is right');
         updateAnswer(true);
+        updateAnswerSet(true);
         } else {
-          setInputValue(theWord);
+          updateValue(theWord);
           updateAnswer(false);
+          updateAnswerSet(true);
           // надо сделать слово красным, показать кнопки и заблокировать ввод?
         }
       }
   };
 
-  const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
-  : "training-card-body-word-details-input";
+  
 
-  return (<input 
-    className={cssStyle} 
-    type="text" 
-    size={theWord.length}
-    autoFocus={true} 
-    spellCheck={false}
-    onKeyPress={KeyPressHandler}
-    value={inputValue} 
-    onChange={InputChangeHandler}
-    onClick={ClickHandler}/>)
+  if (isAnswerSet) {
+    console.log('isAnswerSet true');
+    const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
+      : "training-card-body-word-details-input red";
+    return (<input 
+      className={cssStyle} 
+      type="text" 
+      size={theWord.length}
+      autoFocus={false} 
+      spellCheck={false}
+      value={value}
+      disabled={true}/>)
+  } else {
+    console.log('isAnswerSet false');
+    return (<input 
+      className="training-card-body-word-details-input" 
+      type="text" 
+      size={theWord.length}
+      autoFocus={true} 
+      spellCheck={false}
+      onKeyPress={KeyPressHandler}
+      value={value} 
+      onChange={InputChangeHandler}
+      onClick={ClickHandler}/>)
+  }
+  
 }
 
 

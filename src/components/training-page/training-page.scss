@@ -34,7 +34,7 @@ $orange-hover: #d68f01;
   font-family: 'Montserrat', sans-serif;
   color: $text-dark;
 
-  >h2 {
+  >h1 {
     margin-top: 0;
     margin-bottom: 0.5em;
   }
@@ -237,6 +237,9 @@ $orange-hover: #d68f01;
 
         &-input.green{
           color: $success;
+        }
+        &-input.red{
+          color: $red;
         }
 
         >p {

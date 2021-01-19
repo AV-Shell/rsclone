@@ -17,7 +17,11 @@ export interface lineProps {
   classCss: string,
 }
 export interface forInput {
+  value: string,
+  updateValue: React.Dispatch<React.SetStateAction<string>>,
   theWord: string,
+  isAnswerSet: boolean,
+  updateAnswerSet: React.Dispatch<React.SetStateAction<boolean>>,
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -42,4 +46,12 @@ export interface forStars {
 export interface dayProgress {
   left: number,
   right: number
+}
+
+
+export interface forFooter {
+  currentWord: string,
+  updateInput: React.Dispatch<React.SetStateAction<string>>,
+  hasAnswer: boolean,
+  updateHasAnswer: React.Dispatch<React.SetStateAction<boolean>>
 }
