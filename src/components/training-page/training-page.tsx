@@ -258,21 +258,18 @@ function InputControl(props: forInput) {
       spellCheck={false}
       value={value}
       disabled={true}/>)
-  } else {
-    console.log('isAnswerSet false');
-    return (<input 
-      className="training-card-body-word-details-input" 
-      type="text" 
-      size={theWord.length}
-      autoFocus={true} 
-      spellCheck={false}
-      onKeyPress={KeyPressHandler}
-      value={value} 
-      onChange={InputChangeHandler}
-      onClick={ClickHandler}/>)
-  }
-  
+  } 
+  console.log('isAnswerSet false');
+  return (<input 
+    className="training-card-body-word-details-input" 
+    type="text" 
+    size={theWord.length}
+    autoFocus={true} 
+    spellCheck={false}
+    onKeyPress={KeyPressHandler}
+    value={value} 
+    onChange={InputChangeHandler}
+    onClick={ClickHandler}/>)
 }
-
 
 export default TrainingPage;

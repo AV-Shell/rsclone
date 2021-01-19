@@ -12,8 +12,7 @@ export default function CardFooter(props: forFooter) {
     updateInput(currentWord);
   };
 
-  if (hasAnswer) {
-    if (hasIntervalButtons) {
+  if (hasAnswer && hasIntervalButtons) {
       return (<div className="training-card-footer">
         <FooterButton id={"again"}
           line={'Снова'}
@@ -40,11 +39,9 @@ export default function CardFooter(props: forFooter) {
           updateIntervalLvl={updateIntervalLevel}
           isAnswerTrue={isAnswerTrue}/>
       </div>);
-    } else {
-      return (<div className="training-card-footer"></div>)
-    }
-    
-  } else if (hasShowAnswerButton) {
+  };
+
+  if (!hasAnswer && hasShowAnswerButton) {
     return (<div className="training-card-footer">
     <button className="training-card-footer-btn-answer"
     onClick={ShowAnswerHandler}>
@@ -52,9 +49,10 @@ export default function CardFooter(props: forFooter) {
       Показать ответ
     </button>
     </div>)
-  } else {
-    return (<div className="training-card-footer"></div>)
-  }
+  } ;
+  
+  return (<div className="training-card-footer"></div>)
+  
 }
 
 function FooterButton(props: footerBtns) {
