@@ -340,6 +340,9 @@ $orange-hover: #d68f01;
     &-btn-easy:hover {
       background-color: $success-hover;
     }
+    &-btn-good[disabled], &-btn-easy[disabled] {
+      background-color: $color-secondary;
+    }
     @media screen and (max-width: 500px) {
       flex-wrap: wrap;
     }

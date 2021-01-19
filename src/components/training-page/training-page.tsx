@@ -3,17 +3,18 @@ import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, forFooter} from './training-page-interfaces';
+import { lineProps, forInput } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
+import CardFooter from './training-page-card-footer';
 
 function TrainingPage(props:trainingProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
   const [wordPosition, setWordPosition] = useState<string>(''); // для создания объекта
-  const [intervalStatus, setIntervalStatus] = useState<string>('');
+  const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
   const [isNew, setIsNew] = useState<boolean>(true);
 
   const trainingDay: number = Date.now();
@@ -176,58 +177,18 @@ function TrainingPage(props:trainingProps) {
             </div>
           </div>
           <CardFooter currentWord={thisWord.word}
+            hasShowAnswerButton={answerButton}
+            hasIntervalButtons={feedbackButtons}
             updateInput={setInputValue}
             hasAnswer={isAnswered}
             updateHasAnswer={setIsAnswered}
-            updateIntervalLevel={setIntervalStatus} />
+            intervalLevel={intervalStatus}
+            updateIntervalLevel={setIntervalStatus}
+            isAnswerTrue={isAnswerTrue} />
         </div>
       </div>
     </div>
   );
-}
-
-function CardFooter(props: forFooter) {
-  const {currentWord, updateInput, hasAnswer, updateHasAnswer, updateIntervalLevel} = props;
-  // еще добавить, показываются или нет по настройкам
-
-  const ShowAnswerHandler = () => {
-    updateHasAnswer(true);
-    updateInput(currentWord);
-  };
-
-  const IntervalButtonsHandler =(event: React.MouseEvent<HTMLButtonElement>) => {
-    updateIntervalLevel(event.currentTarget.id);
-    console.log(event.currentTarget.id);
-  }
-
-  if (hasAnswer) {
-    return (<div className="training-card-footer">
-      <button className="training-card-footer-btn-again" id="again"
-        onClick={IntervalButtonsHandler}>
-        Снова
-      </button>
-      <button className="training-card-footer-btn-hard" id="hard"
-        onClick={IntervalButtonsHandler}>
-        Сложно
-      </button>
-      <button className="training-card-footer-btn-good" id="good"
-        onClick={IntervalButtonsHandler}>
-        Хорошо
-      </button>
-      <button className="training-card-footer-btn-easy" id="easy"
-        onClick={IntervalButtonsHandler}>
-        Легко
-      </button>
-    </div>);
-  } else {
-    return (<div className="training-card-footer">
-    <button className="training-card-footer-btn-answer"
-    onClick={ShowAnswerHandler}>
-      <i className="bi bi-eye-fill"></i> 
-      Показать ответ
-    </button>
-    </div>)
-  }
 }
 
 // это если ответил правильно
@@ -272,8 +233,6 @@ function InputControl(props: forInput) {
         }
       }
   };
-
-  
 
   if (isAnswerSet) {
     console.log('isAnswerSet true');

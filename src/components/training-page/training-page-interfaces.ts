@@ -6,7 +6,7 @@ export interface upperButtonProps {
   isShown:boolean,
   isAnswerRight: boolean,
   isWordNew: boolean,
-  status: string|undefined;
+  status: string;
   line:string,
   classCss: string,
   iClass: string
@@ -51,9 +51,22 @@ export interface dayProgress {
 
 
 export interface forFooter {
+  hasShowAnswerButton: boolean,
+  hasIntervalButtons: boolean,
   currentWord: string,
   updateInput: React.Dispatch<React.SetStateAction<string>>,
   hasAnswer: boolean,
   updateHasAnswer: React.Dispatch<React.SetStateAction<boolean>>
-  updateIntervalLevel: React.Dispatch<React.SetStateAction<string>>
+  intervalLevel: string,
+  updateIntervalLevel: React.Dispatch<React.SetStateAction<string>>,
+  isAnswerTrue: boolean
+}
+
+export interface footerBtns {
+  id: string,
+  line:string,
+  classCss: string,
+  intervalLvl: string,
+  updateIntervalLvl: React.Dispatch<React.SetStateAction<string>>,
+  isAnswerTrue: boolean
 }
