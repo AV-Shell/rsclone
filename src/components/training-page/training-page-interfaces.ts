@@ -70,3 +70,7 @@ export interface footerBtns {
   updateIntervalLvl: React.Dispatch<React.SetStateAction<string>>,
   isAnswerTrue: boolean
 }
+
+export interface forNextBtn {
+  isShown: boolean
+}

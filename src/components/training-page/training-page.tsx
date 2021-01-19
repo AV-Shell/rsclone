@@ -3,7 +3,7 @@ import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput } from './training-page-interfaces';
+import { lineProps, forInput, forNextBtn } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
@@ -110,7 +110,10 @@ function TrainingPage(props:trainingProps) {
   return (
     <div className="training-page">
       <div className="wrapper">
-        <h1><i className="bi bi-stack"></i> Training</h1>
+        <div className="wrapper-upper">
+          <h1><i className="bi bi-stack"></i> Training</h1>
+          <ButtonNext isShown={isAnswered}/>
+        </div>
         <div className="training-progress">
           <span className="training-progress-left">1</span>
           <TrainingProgressBar left={currentCard} right={allTrainingCards}/>
@@ -189,6 +192,15 @@ function TrainingPage(props:trainingProps) {
       </div>
     </div>
   );
+}
+
+function ButtonNext(props: forNextBtn) {
+  const {isShown} = props;
+  if (isShown) {
+    return (<button className="training-page-next">Дальше</button>)
+  } else {
+    return null;
+  }  
 }
 
 // это если ответил правильно

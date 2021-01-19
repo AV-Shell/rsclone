@@ -20,332 +20,356 @@ $orange-hover: #d68f01;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+  margin: 0.5em 0;
 
-.wrapper {
-  box-sizing: border-box;
-  width: 900px;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 5px;
-  background-color: $color-info;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Montserrat', sans-serif;
-  color: $text-dark;
 
-  >h1 {
-    margin-top: 0;
-    margin-bottom: 0.5em;
-  }
-  @media screen and (max-width: 1000px) {
-    width: 90%;
-    padding: 10px;
-  }
-}
-
-.training-progress {
-  display: grid;
-  grid-template-rows: minmax(25px, auto);
-  grid-template-columns: 30px 1fr 30px;
-  gap: 5px; 
-
-  &-left, &-right {
-    text-align: center;
-    font-weight: bold;
-  }
-
-  &-center {
-    width: 100%;
-
-    .progress {
-      overflow: hidden;
-      height: 18px;
-      margin-bottom: 18px;
-      background-color: rgba(137, 148, 155, 0.2);
-      background-image: linear-gradient(top, #f5f5f5, #f9f9f9);
-      background-repeat: repeat-x;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-    }
-    .progress .bar {
-      width: 0%;
-      height: 18px;
-      color: $bg-primary;
-      font-size: 12px;
-      text-align: center;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-      background-color: $success;
-      background-image: linear-gradient(top, #149bdf, #0480be);
-      background-repeat: repeat-x;
-      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-      box-sizing: border-box;
-      transition: width 0.6s ease;
-    }
-
-    .progress.progress-striped .bar {
-      background-color: $success;
-      background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, 
-        transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, 
-        rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); 
-    }
-  }
-}
-
-.training-card {
-  box-sizing: border-box;
-  padding: 0.5em 0 0;
-  border-radius: 5px;
-  margin-top: 0.5em;
-  width: 100%;
-  height: 100%;
-  background-color: $my-card-bg;
-
-  &-header {
-    padding: 0.5em 0.5em;
-    display: grid;
-    grid-template-rows: minmax(40px, auto);
-    grid-template-columns: 120px 1fr 120px 120px 120px;
-    gap: 5px; 
-
-    &-btn-active, &-btn-keyboard, &-btn-difficult, &-btn-delete {
-      font-family: 'Montserrat', sans-serif;
-      background-color: $color-primary;
-      border-radius: 5px;
-      transition: 0.3s;
-      outline: none;
-      border: none;
-      cursor: pointer;
-    }
-   &-btn-keyboard > .bi {
-      font-size: 2em;
-      cursor: pointer;
-    }
-
-    &-btn-active:hover, &-btn-keyboard:hover, &-btn-difficult:hover, &-btn-delete:hover {
-      background-color: $color-primary-hover;
-    }
-
-    &-btn-active.active, &-btn-difficult.active, &-btn-delete.active {
-      background-color: $color-hover;
-      color: $bg-primary;
-    }
-
-    &-btn-active {
-      grid-column: 3 / 4;
-    }
-
-    &-btn-difficult {
-      grid-column: 4 / 5;
-    }
-
-    &-btn-delete {
-      grid-column: 5 / 6;
-    }
-    @media screen and (max-width: 500px) {
-       grid-template-columns: 1fr 1fr 1fr;
-
-       &-btn-active {
-        grid-column: 1;
-      }
-  
-      &-btn-difficult {
-        grid-column: 2;
-      }
-  
-      &-btn-delete {
-        grid-column: 3;
-      }
-
-       &-btn-keyboard {
-         display: none
-       }
-    }
-  }
-
-  &-body {
+  .wrapper {
+    box-sizing: border-box;
+    width: 900px;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: $color-info;
     display: flex;
     flex-direction: column;
-    background-color: $bg-primary;
+    font-family: 'Montserrat', sans-serif;
+    color: $text-dark;
 
     &-upper {
-      padding: 0 0.5em 0.5em;
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 5px; 
+      
+      >h1 {
+        margin-top: 0;
+        margin-bottom: 0.5em;
+      }
+      @media screen and (max-width: 1000px) {
+        width: 90%;
+        padding: 10px;
+      }
 
-      &-progress {
-        display: grid;
-        grid-template-rows: minmax(25px, auto);
-        grid-template-columns: 7fr 3fr;
-        gap: 5px; 
+      .training-page-next {
+        background-color: $success;
+        font-family: 'Montserrat', sans-serif;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: 0.3s;
+        outline: none;
+        border: none;
+        height: 40px;
+        margin-bottom: 0.7em;
+        align-self: flex-end;
+      }
+      .training-page-next:hover {
+        background-color: $success-hover;
+      }
+    }
+  }
 
+  .training-progress {
+    display: grid;
+    grid-template-rows: minmax(25px, auto);
+    grid-template-columns: 30px 1fr 30px;
+    gap: 5px; 
 
-        &-stars {
-          justify-self: flex-end;
-          
-          > i {
-          color: $orange;
-        }}
+    &-left, &-right {
+      text-align: center;
+      font-weight: bold;
+    }
 
-        @media screen and (max-width: 500px) {
-          grid-template-rows: 1fr;
-          grid-template-columns: 1fr;
+    &-center {
+      width: 100%;
+
+      .progress {
+        overflow: hidden;
+        height: 18px;
+        margin-bottom: 18px;
+        background-color: rgba(137, 148, 155, 0.2);
+        background-image: linear-gradient(top, #f5f5f5, #f9f9f9);
+        background-repeat: repeat-x;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+      }
+      .progress .bar {
+        width: 0%;
+        height: 18px;
+        color: $bg-primary;
+        font-size: 12px;
+        text-align: center;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        background-color: $success;
+        background-image: linear-gradient(top, #149bdf, #0480be);
+        background-repeat: repeat-x;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+        box-sizing: border-box;
+        transition: width 0.6s ease;
+      }
+
+      .progress.progress-striped .bar {
+        background-color: $success;
+        background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, 
+          transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, 
+          rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); 
+      }
+    }
+  }
+
+  .training-card {
+    box-sizing: border-box;
+    padding: 0.5em 0 0;
+    border-radius: 5px;
+    margin-top: 0.5em;
+    width: 100%;
+    height: 100%;
+    background-color: $my-card-bg;
+
+    &-header {
+      padding: 0.5em 0.5em;
+      display: grid;
+      grid-template-rows: minmax(40px, auto);
+      grid-template-columns: 120px 1fr 120px 120px 120px;
+      gap: 5px; 
+
+      &-btn-active, &-btn-keyboard, &-btn-difficult, &-btn-delete {
+        font-family: 'Montserrat', sans-serif;
+        background-color: $color-primary;
+        border-radius: 5px;
+        transition: 0.3s;
+        outline: none;
+        border: none;
+        cursor: pointer;
+      }
+    &-btn-keyboard > .bi {
+        font-size: 2em;
+        cursor: pointer;
+      }
+
+      &-btn-active:hover, &-btn-keyboard:hover, &-btn-difficult:hover, &-btn-delete:hover {
+        background-color: $color-primary-hover;
+      }
+
+      &-btn-active.active, &-btn-difficult.active, &-btn-delete.active {
+        background-color: $color-hover;
+        color: $bg-primary;
+      }
+
+      &-btn-active {
+        grid-column: 3 / 4;
+      }
+
+      &-btn-difficult {
+        grid-column: 4 / 5;
+      }
+
+      &-btn-delete {
+        grid-column: 5 / 6;
+      }
+      @media screen and (max-width: 500px) {
+        grid-template-columns: 1fr 1fr 1fr;
+
+        &-btn-active {
+          grid-column: 1;
+        }
+    
+        &-btn-difficult {
+          grid-column: 2;
+        }
+    
+        &-btn-delete {
+          grid-column: 3;
+        }
+
+        &-btn-keyboard {
+          display: none
+        }
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      background-color: $bg-primary;
+
+      &-upper {
+        padding: 0 0.5em 0.5em;
+
+        &-progress {
+          display: grid;
+          grid-template-rows: minmax(25px, auto);
+          grid-template-columns: 7fr 3fr;
+          gap: 5px; 
+
 
           &-stars {
-            grid-row: 1;
+            justify-self: flex-end;
+            
+            > i {
+            color: $orange;
+          }}
+
+          @media screen and (max-width: 500px) {
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+
+            &-stars {
+              grid-row: 1;
+            }
+          }
+        }
+
+        >hr {
+          margin-top: 0;
+          background-color: $color-info;
+          color: $color-info;
+          height: 1px;
+          border: none;
+
+        }
+      }
+
+      &-word {
+        box-sizing: border-box;
+        border-radius: 5px;
+        border: $color-info solid 1px;
+        width: 80%;
+        align-self: center;
+        display: flex;
+        justify-content: space-between;
+        background-color: $my-card-bg;
+
+        @media screen and (max-width: 500px) {
+          flex-direction: column-reverse;
+          align-items: center;
+          width: auto;
+        }
+        &-details {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          align-items: center;
+          padding: 5px;
+
+          &-input {
+            outline: none;
+            font-size: 24px;
+            font-family:'Courier New', Courier, monospace;
+            color: $color-info;
+            border-radius: 5px;
+            border: none;
+          }
+
+          &-input.green{
+            color: $success;
+          }
+          &-input.red{
+            color: $red;
+          }
+
+          >p {
+            margin: 0;
+            padding-bottom: 5px;
+          }
+        }
+
+        &-img {
+          box-sizing: border-box;
+          height: 200px;
+          border-radius: 5px;
+
+          >img {
+            max-width: 300px;
+            border-radius: 5px;
+            @media screen and (max-width: 500px) {
+              max-width: 270px;
+            }
+          }
+          @media screen and (max-width: 500px) {
+            height: auto;
+            max-width: 270px;
           }
         }
       }
 
-      >hr {
-        margin-top: 0;
-        background-color: $color-info;
-        color: $color-info;
-        height: 1px;
-        border: none;
-
-      }
-    }
-
-    &-word {
-      box-sizing: border-box;
-      border-radius: 5px;
-      border: $color-info solid 1px;
-      width: 80%;
-      align-self: center;
-      display: flex;
-      justify-content: space-between;
-      background-color: $my-card-bg;
-
-      @media screen and (max-width: 500px) {
-        flex-direction: column-reverse;
-        align-items: center;
-        width: auto;
-      }
-      &-details {
-        width: 100%;
+      &-examples {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
         padding: 5px;
-
-        &-input {
-          outline: none;
-          font-size: 24px;
-          font-family:'Courier New', Courier, monospace;
-          color: $color-info;
-          border-radius: 5px;
-          border: none;
-        }
-
-        &-input.green{
-          color: $success;
-        }
-        &-input.red{
-          color: $red;
-        }
 
         >p {
           margin: 0;
           padding-bottom: 5px;
         }
       }
-
-      &-img {
-        box-sizing: border-box;
-        height: 200px;
-        border-radius: 5px;
-
-        >img {
-          max-width: 300px;
-          border-radius: 5px;
-          @media screen and (max-width: 500px) {
-            max-width: 270px;
-          }
-        }
-        @media screen and (max-width: 500px) {
-          height: auto;
-          max-width: 270px;
-        }
-      }
     }
 
-    &-examples {
+    &-footer {
       display: flex;
-      flex-direction: column;
-      padding: 5px;
-
-      >p {
-        margin: 0;
-        padding-bottom: 5px;
-      }
-    }
-  }
-
-  &-footer {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: stretch;
-    min-height: 40px;
-    padding: 0.5em;
-
-    >button {
-      font-family: 'Montserrat', sans-serif;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-      transition: 0.3s;
-      cursor: pointer;
-      min-width: 130px;
+      justify-content: space-evenly;
+      align-items: stretch;
       min-height: 40px;
+      padding: 0.5em;
 
-      @media screen and (max-width: 500px) {
-        margin-top: 0.5em;
+      >button {
+        font-family: 'Montserrat', sans-serif;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: 0.3s;
+        cursor: pointer;
+        min-width: 130px;
+        min-height: 40px;
+
+        @media screen and (max-width: 500px) {
+          margin-top: 0.5em;
+        }
       }
-    }
-    >button.active {
-      background-color: $color-hover;
-      color: $bg-primary;
-    }
+      >button.active {
+        background-color: $color-hover;
+        color: $bg-primary;
+      }
 
-    &-btn-answer {
-      background-color: $color-primary;
-      align-self: center;
-    }
+      &-btn-answer {
+        background-color: $color-primary;
+        align-self: center;
+      }
 
-    &-btn-answer:hover {
-      background-color: $color-primary-hover;
-    }
+      &-btn-answer:hover {
+        background-color: $color-primary-hover;
+      }
 
-    &-btn-again {
-      background-color: $red;
+      &-btn-again {
+        background-color: $red;
+      }
+      &-btn-again:hover {
+        background-color: $red-hover;
+      }
+      &-btn-hard {
+        background-color: $orange;
+      }
+      &-btn-hard:hover {
+        background-color: $orange-hover;
+      }
+      &-btn-good {
+        background-color: $color-info;
+      }
+      &-btn-good:hover {
+        background-color: $color-info-hover;
+      }
+      &-btn-easy {
+        background-color: $success;
+      }
+      &-btn-easy:hover {
+        background-color: $success-hover;
+      }
+      &-btn-good[disabled], &-btn-easy[disabled] {
+        background-color: $color-secondary;
+      }
+      @media screen and (max-width: 500px) {
+        flex-wrap: wrap;
+      }
+      
     }
-    &-btn-again:hover {
-      background-color: $red-hover;
-    }
-    &-btn-hard {
-      background-color: $orange;
-    }
-    &-btn-hard:hover {
-      background-color: $orange-hover;
-    }
-    &-btn-good {
-      background-color: $color-info;
-    }
-    &-btn-good:hover {
-      background-color: $color-info-hover;
-    }
-    &-btn-easy {
-      background-color: $success;
-    }
-    &-btn-easy:hover {
-      background-color: $success-hover;
-    }
-    &-btn-good[disabled], &-btn-easy[disabled] {
-      background-color: $color-secondary;
-    }
-    @media screen and (max-width: 500px) {
-      flex-wrap: wrap;
-    }
-    
   }
 }
