@@ -10,6 +10,7 @@ export interface upperButtonProps {
   line:string,
   classCss: string,
   iClass: string
+  setStatusForObj: React.Dispatch<React.SetStateAction<string>>
 }
 export interface lineProps {
   isTrue:boolean,
@@ -54,4 +55,5 @@ export interface forFooter {
   updateInput: React.Dispatch<React.SetStateAction<string>>,
   hasAnswer: boolean,
   updateHasAnswer: React.Dispatch<React.SetStateAction<boolean>>
+  updateIntervalLevel: React.Dispatch<React.SetStateAction<string>>
 }

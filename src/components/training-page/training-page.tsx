@@ -12,6 +12,9 @@ function TrainingPage(props:trainingProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
+  const [wordPosition, setWordPosition] = useState<string>(''); // для создания объекта
+  const [intervalStatus, setIntervalStatus] = useState<string>('');
+  const [isNew, setIsNew] = useState<boolean>(true);
 
   const trainingDay: number = Date.now();
   console.log(props);
@@ -38,12 +41,12 @@ function TrainingPage(props:trainingProps) {
 
   const allTrainingCards: number = cardsPerDay;
 
-  let isNew: boolean = true;
-  let wordStatus: string|undefined;
-  if ('userWord' in thisWord) {
-    isNew = false;
+  
+  if (('userWord' in thisWord) && (isNew)) {
+    setIsNew(false);
     const {userWord} = thisWord;
-    wordStatus = userWord?.optional.status; // active, difficult, deleted
+    const wordStatus: string = userWord!.optional.status; // active, difficult, deleted
+    setWordPosition(wordStatus);
   };
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
@@ -122,28 +125,31 @@ function TrainingPage(props:trainingProps) {
               isShown={difficultWordsButton}
               isAnswerRight={isAnswered}
               isWordNew={isNew}
-              status={wordStatus}
+              status={wordPosition}
               line={`Изучаемое`}
               classCss={"training-card-header-btn-active"}
-              iClass={"bi bi-check-circle"}/>            
+              iClass={"bi bi-check-circle"}
+              setStatusForObj={setWordPosition}/>            
             <TrainingCardUpperBtn 
               id={'difficult'}
               isShown={difficultWordsButton}
               isAnswerRight={isAnswered}
               isWordNew={isNew}
-              status={wordStatus}
+              status={wordPosition}
               line={`Сложное`}
               classCss={"training-card-header-btn-difficult"}
-              iClass={"bi bi-exclamation-diamond"}/>
+              iClass={"bi bi-exclamation-diamond"}
+              setStatusForObj={setWordPosition}/>
             <TrainingCardUpperBtn
               id={'deleted'}
               isShown={deleteButton}
               isAnswerRight={isAnswered}
               isWordNew={false}
-              status={wordStatus}
+              status={wordPosition}
               line={`Удалить`}
               classCss={"training-card-header-btn-delete"}
-              iClass={"bi bi-dash-square-dotted"}/>
+              iClass={"bi bi-dash-square-dotted"}
+              setStatusForObj={setWordPosition}/>
           </div>
           <div className="training-card-body">
             <div className="training-card-body-upper">
@@ -172,7 +178,8 @@ function TrainingPage(props:trainingProps) {
           <CardFooter currentWord={thisWord.word}
             updateInput={setInputValue}
             hasAnswer={isAnswered}
-            updateHasAnswer={setIsAnswered} />
+            updateHasAnswer={setIsAnswered}
+            updateIntervalLevel={setIntervalStatus} />
         </div>
       </div>
     </div>
@@ -180,15 +187,38 @@ function TrainingPage(props:trainingProps) {
 }
 
 function CardFooter(props: forFooter) {
-  const {currentWord, updateInput, hasAnswer, updateHasAnswer} = props;
+  const {currentWord, updateInput, hasAnswer, updateHasAnswer, updateIntervalLevel} = props;
+  // еще добавить, показываются или нет по настройкам
 
   const ShowAnswerHandler = () => {
     updateHasAnswer(true);
     updateInput(currentWord);
   };
 
+  const IntervalButtonsHandler =(event: React.MouseEvent<HTMLButtonElement>) => {
+    updateIntervalLevel(event.currentTarget.id);
+    console.log(event.currentTarget.id);
+  }
+
   if (hasAnswer) {
-    return (<div className="training-card-footer"></div>);
+    return (<div className="training-card-footer">
+      <button className="training-card-footer-btn-again" id="again"
+        onClick={IntervalButtonsHandler}>
+        Снова
+      </button>
+      <button className="training-card-footer-btn-hard" id="hard"
+        onClick={IntervalButtonsHandler}>
+        Сложно
+      </button>
+      <button className="training-card-footer-btn-good" id="good"
+        onClick={IntervalButtonsHandler}>
+        Хорошо
+      </button>
+      <button className="training-card-footer-btn-easy" id="easy"
+        onClick={IntervalButtonsHandler}>
+        Легко
+      </button>
+    </div>);
   } else {
     return (<div className="training-card-footer">
     <button className="training-card-footer-btn-answer"

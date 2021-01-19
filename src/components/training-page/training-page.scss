@@ -115,9 +115,11 @@ $orange-hover: #d68f01;
       transition: 0.3s;
       outline: none;
       border: none;
+      cursor: pointer;
     }
    &-btn-keyboard > .bi {
       font-size: 2em;
+      cursor: pointer;
     }
 
     &-btn-active:hover, &-btn-keyboard:hover, &-btn-difficult:hover, &-btn-delete:hover {
@@ -281,7 +283,7 @@ $orange-hover: #d68f01;
 
   &-footer {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: stretch;
     min-height: 40px;
     padding: 0.5em;
@@ -292,14 +294,55 @@ $orange-hover: #d68f01;
       border: none;
       outline: none;
       transition: 0.3s;
+      cursor: pointer;
+      min-width: 130px;
+      min-height: 40px;
+
+      @media screen and (max-width: 500px) {
+        margin-top: 0.5em;
+      }
+    }
+    >button.active {
+      background-color: $color-hover;
+      color: $bg-primary;
     }
 
     &-btn-answer {
       background-color: $color-primary;
+      align-self: center;
     }
 
     &-btn-answer:hover {
       background-color: $color-primary-hover;
     }
+
+    &-btn-again {
+      background-color: $red;
+    }
+    &-btn-again:hover {
+      background-color: $red-hover;
+    }
+    &-btn-hard {
+      background-color: $orange;
+    }
+    &-btn-hard:hover {
+      background-color: $orange-hover;
+    }
+    &-btn-good {
+      background-color: $color-info;
+    }
+    &-btn-good:hover {
+      background-color: $color-info-hover;
+    }
+    &-btn-easy {
+      background-color: $success;
+    }
+    &-btn-easy:hover {
+      background-color: $success-hover;
+    }
+    @media screen and (max-width: 500px) {
+      flex-wrap: wrap;
+    }
+    
   }
 }
