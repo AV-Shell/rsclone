@@ -96,7 +96,7 @@ const newWordsFilter = '{"userWord":null}';
 const userWordsFilter = '{"userWord":{"$ne":null}}';
 
 const DARK_THEME_CLASSNAME = 'dark-theme';
-const TOTAL_DIFFICULTY_GROUPS = 5;
+const TOTAL_DIFFICULTY_GROUPS = 6;
 
 export { 
   MB_STORAGE_KEY,
