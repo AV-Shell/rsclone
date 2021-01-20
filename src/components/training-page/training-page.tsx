@@ -27,7 +27,7 @@ function TrainingPage(props:trainingProps) {
   };
   const { optional } = props.settings;
   const trainingDayWords = userWords ? userWords : [];
-  const currentCard: number = 11;
+  const currentCard: number = 9;
   let thisWord: paginatedWord;
   thisWord = trainingDayWords[currentCard];
   const {group} = thisWord;
