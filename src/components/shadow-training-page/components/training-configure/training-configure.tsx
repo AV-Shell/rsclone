@@ -1,17 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './training-configure.scss';
 
 import {
   shadowTrainingProps,
-  aggregatedWordsResult,
-  paginatedWord,
-  saveTraining,
-  areThereStillWordsOnGroups,
   startTrainingParams,
   trainingType,
 } from '../../../../constants/interfaces';
-
 
 interface wordsSetting {
   new: number,
@@ -20,19 +15,18 @@ interface wordsSetting {
 
 interface props extends shadowTrainingProps {
   dailyTrainingCount: number,
-  startTraining: (typeOfTraining:startTrainingParams) => void
+  startTraining: (typeOfTraining: startTrainingParams) => void
 }
 
 function TrainingConfigure(props: props) {
   console.log(props);
-  
+
   const { userWords, statistic, settings, startTraining, dailyTrainingCount } = props;
   const [wordsSetting, setWordsSetting] = useState<wordsSetting>({
-     new:  settings.optional.newWordsPerDay,
-     repeat:  settings.optional.repeatWordsPerDay });
+    new: settings.optional.newWordsPerDay,
+    repeat: settings.optional.repeatWordsPerDay
+  });
 
-  settings.optional.newWordsPerDay = 1;
-  // settings?.optional.newWordsPerDay,
   const changeTrainingWordsSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     const name = event.target.name;
@@ -50,8 +44,10 @@ function TrainingConfigure(props: props) {
       }
     })
   }
-  const startTrainingWithWords = (trainingType:trainingType) => {
-    const startTrainingParams:startTrainingParams = {
+  console.log('wordsSetting', wordsSetting);
+
+  const startTrainingWithWords = (trainingType: trainingType) => {
+    const startTrainingParams: startTrainingParams = {
       trainingType: trainingType,
       newWords: wordsSetting.new,
       repeatWords: wordsSetting.repeat,
@@ -62,6 +58,7 @@ function TrainingConfigure(props: props) {
   if ((settings === null) || (statistic === null) || (userWords === null)) {
     return <div className="No props Shadow Traning Page"></div>
   }
+  console.log('wordsSetting', wordsSetting);
   return (
     <div className="training-configure">
       <div className="wrapper">

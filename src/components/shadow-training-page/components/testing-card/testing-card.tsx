@@ -3,31 +3,17 @@ import { useState, useEffect } from 'react';
 import './testing-card.scss';
 import { FILE_URL, DEFAULT_USER_WORD } from '../../../../constants/constants';
 import {
-  shadowTrainingProps,
-  aggregatedWordsResult,
-  paginatedWord,
-  saveTraining,
-  areThereStillWordsOnGroups,
   cardAnswer,
+  trainingCardProps,
 } from '../../../../constants/interfaces';
 
 import SentenceWrapper from '../../../slave-components/sentence-wrapper'
-import Spinner from '../../../slave-components/spinner'
 
-interface props {
-  word: paginatedWord,
-  wordNumber: number,
-  totalWords: number,
-  getAnswer: (res:cardAnswer) => void,
-}
 
-function TestingCard(props: props) {
+
+
+function TestingCard(props: trainingCardProps) {
   const { word, wordNumber, totalWords, getAnswer } = props
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  if (isLoading) {
-    return <Spinner></Spinner>
-  }
 
   function answer(a: number) {
     let res: cardAnswer;

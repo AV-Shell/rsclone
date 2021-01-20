@@ -22,14 +22,12 @@ import TrainingConfigure from './components/training-configure';
 import TestingCard from './components/testing-card';
 import {
   loadNewWords,
-  nextUTCDayTimeStamp,
   currentUTCDayTimeStamp,
   shuffleArrayInPlace,
 } from '../../helpers/utils';
 import {
   TOTAL_DIFFICULTY_GROUPS,
 } from '../../constants/constants';
-import { formatDiagnosticsWithColorAndContext } from 'typescript';
 
 
 const serverErrorLog = (err: Error) => {
@@ -46,10 +44,11 @@ const userWordServerLog = (obj: any) => {
 function ShadowTrainingPage(props: shadowTrainingProps) {
   console.log(props);
   const { currentTrainingState, setCurrentTrainingState, updateSettings,
-    userWords, statistic, settings, apiService } = props;
+    userWords, statistic, settings, apiService, isDarkTheme } = props;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  //TODO: remove before end of development
   useEffect(() => {
     console.log('ShadowTrainingPage did mount');
     return () => {
@@ -129,29 +128,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
           ...trainingParams,
           wordsForTraining: idArray,
         }
-        /*
-        console.log('update setting before start training');
-        const newSettings: userSettings = {
-          wordsPerDay: settings.wordsPerDay,
-          optional: {
-            ...settings.optional,
-            newWordsPerDay: wordsSetting.new,
-            repeatWordsPerDay: wordsSetting.repeat,
-            stillWordsOnGroup: JSON.stringify(isWordsOnGroups),
-            mainGameShort: JSON.stringify(saveTraining),
-          }
-        }
-        apiService.updateSettings(newSettings)
-          .then(data => {
-            console.log(data);
-            //TODO: what i am doing? i need to save new settings.
-            updateSettings(data); //update settings state
-          })
-          .catch(serverErrorLog)
-          .finally(() => {
-            //TODO: так, на всякий.
-          });
-          */
         settings.optional.newWordsPerDay = newWordsCount;
         settings.optional.repeatWordsPerDay = repeatWordsCount;
         settings.optional.stillWordsOnGroup = JSON.stringify(isWordsOnGroups);
@@ -279,17 +255,21 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
         //TODO: CHECK
         userWords[index].userWord = userWordReq; // так и оставить
         console.log('start update user word on server', index, userWords[index]._id)
+        /*
+        comment for testing
         apiService.updateUserWord(word._id, userWordReq)
           .then((data) => { console.log('create'); userWordServerLog(data); })
           .catch((error) => { console.log('create'); userWordServerLog(error); })
+        */
       }
       let newWordsForTraining: paginatedWord[];
       if (res.isRepeat) {
         newWordsForTraining = [word, ...currentTrainingState.wordsForTraining.slice(0, -1)];
       } else {
         newWordsForTraining = currentTrainingState.wordsForTraining.slice(0, -1);
-        //TODO: обновить слово в словах юзера. 
       }
+
+      // for future statistic
       let newTrueAnswerCount: number;
       if (res.points > 0) {
         newTrueAnswerCount = currentTrainingState.trueAnswerCount + res.points;
@@ -298,9 +278,9 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
       if (newWordsForTraining.length === 0) {
         currentTrainingState.trainingCountPerDay +=1;
         const resultPoints = currentTrainingState.trueAnswerCount * 2 / currentTrainingState.trainingCountPerDay;
-        
+        //TODO: ADD end calculate
         //TODO: update statistic
-        statistic.optional.mainGameLong = 'null';
+        // statistic.optional.mainGameLong = 'null';
 
 
         if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0){
@@ -325,28 +305,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
         ...saveTrainingPart,
         wordsForTraining: idArray,
       }
-      /*
-      console.log('update setting after answered word start training');
-      const newSettings: userSettings = {
-        wordsPerDay: settings.wordsPerDay,
-        optional: {
-          ...settings.optional,
-          mainGameShort: JSON.stringify(saveTraining),
-        }
-      }
-      apiService.updateSettings(newSettings)
-        .then(data => {
-          console.log(data);
-          //TODO: what i am doing? i need to save new settings.
-
-          console.log('update settings state after get a respons from server after answer')
-          updateSettings(data); //update settings state
-        })
-        .catch(serverErrorLog)
-        .finally(() => {
-          //TODO: так, на всякий.
-        });
-        */
       settings.optional.mainGameShort = JSON.stringify(saveTraining);
       apiService.updateSettings(settings).catch(serverErrorLog);
       const newState: currentTraining = {
@@ -357,19 +315,10 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
       setCurrentTrainingState(newState);
 
     }
-
-
-    if (res.isRepeat) {
-    }
-    if (res.points) {
-
-    }
   }
 
 
   if (currentTrainingState.wordsForTraining.length === 0) {
-    let isNeedNewWords: boolean = false;
-    let isNeedOldWords: boolean = false;
     let dailyTrainingCount: number = 0;
 
     if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0){
@@ -377,8 +326,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
     } else {
       dailyTrainingCount = currentTrainingState.trainingCountPerDay;
     }
-
-
     console.log('settings.optional.mainGameShort', settings.optional.mainGameShort);
     const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
     if (a !== null) {
@@ -390,7 +337,7 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
           dailyTrainingCount = a.trainingCountPerDay;
         }
         else {
-          //TODO:  запрос на старые слова.
+          //запрос на старые слова.
           setIsLoading(true);
           Promise.all(a.wordsForTraining.map((wordId) => apiService.getUserAggregatedWordById(wordId)))
             .then((data) => {
@@ -408,11 +355,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
             .finally(() => {
               setIsLoading(false);
             })
-
-
-
-          //TODO: обновление массива слов.
-          // Обновление игры.
           return <Spinner></Spinner>
         }
       } else {
@@ -433,6 +375,8 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
   return (
     <TestingCard
       word={words[words.length - 1]}
+      isDarkTheme={isDarkTheme}
+      settings={settings}
       wordNumber={currentTrainingState.totalWordsCount - words.length + 1}
       totalWords={currentTrainingState.totalWordsCount}
       getAnswer={getAnswer}

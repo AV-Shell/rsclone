@@ -191,6 +191,15 @@ export interface cardAnswer {
   _id: string,
 }
 
+export interface trainingCardProps  extends darkThemeProps {
+  word: paginatedWord,
+  wordNumber: number,
+  totalWords: number,
+  settings: userSettings,
+  getAnswer: (res:cardAnswer) => void,
+}
+
+
 export interface headerProps extends darkThemeProps, loginStatusProps {
   toggleTheme: () => void,
 }
