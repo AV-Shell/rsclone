@@ -28,10 +28,17 @@ interface querySettings {
   levelsWord: areThereStillWordsOnGroups,
   apiService: ApiService,
 }
+const wordGroup:areThereStillWordsOnGroups = { 0: true, 1: true, 2: true, 3: true, 4: true, 5: true };
 
 
-const loadNewWords = async ({maxWordsGroup, userLevel, newWordsCount, levelsWord, apiService}:querySettings) => {
-  let isWordsOnGroups = {...levelsWord};
+
+const loadNewWords = async ({ maxWordsGroup, userLevel, newWordsCount, levelsWord, apiService }: querySettings) => {
+  let isWordsOnGroups;
+  if (levelsWord) {
+    isWordsOnGroups = { ...levelsWord };
+  } else {
+    isWordsOnGroups = { ...wordGroup }
+  }
   let startLvl = userLevel;
   const constWordArray: paginatedWord[] = [];
   let hiLvlWordsCount = Math.ceil(newWordsCount / 2);
@@ -91,11 +98,45 @@ const loadNewWords = async ({maxWordsGroup, userLevel, newWordsCount, levelsWord
       }
     }
   }
-  return {constWordArray, isWordsOnGroups} ;
+  return { constWordArray, isWordsOnGroups };
 }
 
+
+const nextUTCDayTimeStamp = () => {
+  const now = new Date();
+
+  const timestamp: number = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1,
+  )
+  return timestamp;
+}
+const currentUTCDayTimeStamp = () => {
+  const now = new Date();
+  const timestamp: number = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+  )
+  return timestamp;
+}
+
+function shuffleArrayInPlace(arr:any[]) {
+  let randomIndex:number;
+  let tmpVar;
+  for (let i = arr.length - 1; i > 0; i--) {
+    randomIndex = Math.floor(Math.random() * (i));
+    tmpVar = arr[randomIndex];
+    arr[randomIndex] = arr[i];
+    arr[i] = tmpVar;
+  }
+}
 
 export {
   storage,
   loadNewWords,
+  nextUTCDayTimeStamp,
+  shuffleArrayInPlace,
+  currentUTCDayTimeStamp,
 };

@@ -17,6 +17,7 @@ const RESET_HOUR = 4;
 const MULTIPLIER_GOOD = 2.5;
 const MULTIPLIER_EASY = 4;
 const ALL_WORDS = 3600;
+const TOTAL_DIFFICULTY_GROUPS = 6;
 
 const WORD_PARAM = {
   again: 'again',
@@ -65,6 +66,9 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     savannaSettings: 'null',
     magicButtonSettings: 'null',
     stillWordsOnGroup: '{"0":true,"1":true,"2":true,"3":true,"4":true,"5":true}',
+    avatarID: 1, // zero - take ava from link;
+    avatarLink: '', // link to avatar, if avatarID === 0
+    avatarSettings: 'null', // JSON.stingify(ava.settings.obj  null if we don't need it)
   },
 }
 
@@ -115,6 +119,7 @@ export {
   MULTIPLIER_GOOD,
   MULTIPLIER_EASY,
   ALL_WORDS,
+  TOTAL_DIFFICULTY_GROUPS,
   WORD_PARAM,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,

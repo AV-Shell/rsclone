@@ -8,31 +8,31 @@ import {
   paginatedWord,
   saveTraining,
   areThereStillWordsOnGroups,
+  startTrainingParams,
+  trainingType,
 } from '../../../../constants/interfaces';
 
-import SentenceWrapper from '../../../slave-components/sentence-wrapper'
-import Spinner from '../../../slave-components/spinner'
-
-import { loadNewWords } from '../../../../helpers/utils'
-
-const maxWordsGroup = 5;
-let userLevel = 3;
-let newWordsCount = 15;
 
 interface wordsSetting {
   new: number,
   repeat: number,
 }
 
+interface props extends shadowTrainingProps {
+  dailyTrainingCount: number,
+  startTraining: (typeOfTraining:startTrainingParams) => void
+}
 
-function TrainingConfigure(props: shadowTrainingProps) {
+function TrainingConfigure(props: props) {
   console.log(props);
-  const { currentTrainingState, setCurrentTrainingState, userWords, statistic, settings, apiService } = props;
+  
+  const { userWords, statistic, settings, startTraining, dailyTrainingCount } = props;
+  const [wordsSetting, setWordsSetting] = useState<wordsSetting>({
+     new:  settings.optional.newWordsPerDay,
+     repeat:  settings.optional.repeatWordsPerDay });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isServerError, setisServerError] = useState<boolean>(false);
-  const [wordsSetting, setWordsSetting] = useState<wordsSetting>({ new: 15, repeat: 25 });
-
+  settings.optional.newWordsPerDay = 1;
+  // settings?.optional.newWordsPerDay,
   const changeTrainingWordsSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
 
     const name = event.target.name;
@@ -50,19 +50,18 @@ function TrainingConfigure(props: shadowTrainingProps) {
       }
     })
   }
-
-  if (isLoading) {
-    return <Spinner></Spinner>
+  const startTrainingWithWords = (trainingType:trainingType) => {
+    const startTrainingParams:startTrainingParams = {
+      trainingType: trainingType,
+      newWords: wordsSetting.new,
+      repeatWords: wordsSetting.repeat,
+    }
+    startTraining(startTrainingParams);
   }
 
   if ((settings === null) || (statistic === null) || (userWords === null)) {
     return <div className="No props Shadow Traning Page"></div>
   }
-  const dailyTrainingCount = 10;
-  const getNewWords = () => {
-
-  }
-
   return (
     <div className="training-configure">
       <div className="wrapper">
@@ -74,10 +73,10 @@ function TrainingConfigure(props: shadowTrainingProps) {
           </div>
         <div className="training-card">
           <div className="training-card-header">
-            <button className="training-card-header-btn-sound" onClick={getNewWords}>
+            <button className="training-card-header-btn-sound" onClick={() => startTrainingWithWords('mixed')}>
               New Training
               </button>
-            <button className="training-card-header-btn-keyboard">
+            <button className="training-card-header-btn-keyboard" onClick={() => startTrainingWithWords('repeat')}>
               Only repeat
               </button>
             <label >Number of new words(3-15):
@@ -93,10 +92,10 @@ function TrainingConfigure(props: shadowTrainingProps) {
                 type="number" id="repeatWordsSelector" name="repeat"
                 min="10" max="35" value={wordsSetting.repeat}></input>
             </label>
-            <button className="training-card-header-btn-difficult">
+            <button className="training-card-header-btn-difficult" onClick={() => startTrainingWithWords('new')}>
               Only new words
               </button>
-            <button className="training-card-header-btn-delete">
+            <button className="training-card-header-btn-delete" onClick={() => startTrainingWithWords('difficult')}>
               difficult words
               </button>
           </div>

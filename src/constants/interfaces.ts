@@ -51,19 +51,21 @@ export interface userResponce {
   email: string,
 }
 
+export interface userWordOptional {
+  firstAppearance: number,
+  lastRepeat: number,
+  nextRepeat: number,
+  counter: number,
+  success: number,
+  progress: number,
+  status: 'active' | 'deleted' | 'difficult' ,//string,   //'active', 'deleted', 'difficult'
+  level: number,
+  userWord: true,
+}
+
 export interface userWordReq {
   difficulty: string,
-  optional: {
-    firstAppearance: number,
-    lastRepeat: number,
-    nextRepeat: number,
-    counter: number,
-    success: number,
-    progress: number,
-    status: string,   //'active', 'deleted', 'difficult'
-    level: number,
-    userWord: true,
-  },
+  optional: userWordOptional,
 }
 
 export interface userWordRes extends userWordReq {
@@ -123,7 +125,7 @@ export interface userSettingsOptional {
   cardExplanationTranslationAfter: boolean, //after answer new
   cardExampleTranslationAfter: boolean,   //after answer new
   autoSound: boolean,
-  answerButton: boolean, 
+  answerButton: boolean,
   deleteButton: boolean,  //deprecated.  use statusButtons
   difficultWordsButton: boolean, //deprecated.  use statusButtons
   statusButtons: boolean, // new
@@ -138,6 +140,9 @@ export interface userSettingsOptional {
   savannaSettings: string,
   magicButtonSettings: string,
   stillWordsOnGroup: string,  //new/ for prepare training
+  avatarID: number, // zero - take ava from link;
+  avatarLink: string, // link to avatar, if avatarID === 0
+  avatarSettings: string, // JSON.stingify(ava.settings.obj  null if we don't need it)
 }
 
 export interface userSettings{
@@ -147,13 +152,20 @@ export interface userSettings{
 }
 
 
-interface saveTrainingPart {
+export interface saveTrainingPart {
   startTrainingTimestamp: number,
   totalWordsCount: number,
   trainingCountPerDay: number,
   trueAnswerCount: number,
   // isTrainingFinish: boolean,
 }
+
+
+export interface userCardAnswer extends userWordReq{
+  isRepeat: boolean,
+  points: number,
+}
+
 
 export interface currentTraining extends saveTrainingPart {
   wordsForTraining: paginatedWord[]
@@ -171,13 +183,21 @@ export interface loginStatusProps {
   isAuthorizated: boolean,
 }
 
+export interface cardAnswer {
+  difficulty: string,
+  optional: userWordOptional,
+  isRepeat: boolean,
+  points: number,
+  _id: string,
+}
+
 export interface headerProps extends darkThemeProps, loginStatusProps {
   toggleTheme: () => void,
 }
 
 interface defaultLoginedProps extends darkThemeProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  settings: userSettings,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings>>,
   statistic: userStatistics | null,
   updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
   userWords: paginatedWord[] | null,
@@ -203,3 +223,10 @@ export interface shadowTrainingProps extends defaultLoginedProps  {
 }
 
 export interface vocabularyProps extends defaultLoginedProps  { }
+
+export type trainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
+export   interface startTrainingParams {
+  trainingType: trainingType ,
+  newWords: number,
+  repeatWords: number,
+}

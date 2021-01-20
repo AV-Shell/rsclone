@@ -9,7 +9,6 @@ interface sentenceWrapperProps{
 }
 
 function SentenceWrapper(props:sentenceWrapperProps) {
-  console.log('a');
   const {  sentence, classCss, openTag, closeTag, } = props;
   let pos1:number = sentence.indexOf(openTag);
   let pos2:number = sentence.indexOf(closeTag)
