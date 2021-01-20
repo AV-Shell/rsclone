@@ -27,7 +27,7 @@ function TrainingPage(props:trainingProps) {
   };
   const { optional } = props.settings;
   const trainingDayWords = userWords ? userWords : [];
-  const currentCard: number = 4;
+  const currentCard: number = 11;
   let thisWord: paginatedWord;
   thisWord = trainingDayWords[currentCard];
   const {group} = thisWord;
@@ -197,7 +197,7 @@ function TrainingPage(props:trainingProps) {
 function ButtonNext(props: forNextBtn) {
   const {isShown} = props;
   if (isShown) {
-    return (<button className="training-page-next">Дальше</button>)
+    return (<button className="button-next">Дальше</button>)
   } else {
     return null;
   }  
@@ -212,9 +212,6 @@ function ButtonNext(props: forNextBtn) {
           // audioWordExample.play();
           // audioWordMeaning.play();
 
-          //сделать константу тру/фолс и менять компоненты в зависимости от?
-
-// при смене страницы остается тру для инпута и старое валью его
 function InputControl(props: forInput) {
   const {value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer} = props;
   
@@ -241,7 +238,6 @@ function InputControl(props: forInput) {
           updateValue(theWord);
           updateAnswer(false);
           updateAnswerSet(true);
-          // надо сделать слово красным, показать кнопки и заблокировать ввод?
         }
       }
   };
@@ -250,7 +246,8 @@ function InputControl(props: forInput) {
     console.log('isAnswerSet true');
     const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
       : "training-card-body-word-details-input red";
-    return (<input 
+    return (
+    <input 
       className={cssStyle} 
       type="text" 
       size={theWord.length}
@@ -260,7 +257,8 @@ function InputControl(props: forInput) {
       disabled={true}/>)
   } 
   console.log('isAnswerSet false');
-  return (<input 
+  return (
+  <input 
     className="training-card-body-word-details-input" 
     type="text" 
     size={theWord.length}

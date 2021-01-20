@@ -50,7 +50,7 @@ $orange-hover: #d68f01;
         margin-bottom: 0.5em;
       }      
 
-      .training-page-next {
+      > .button-next {
         background-color: $success;
         font-family: 'Montserrat', sans-serif;
         cursor: pointer;
@@ -61,9 +61,10 @@ $orange-hover: #d68f01;
         height: 40px;
         margin-bottom: 0.7em;
         align-self: flex-end;
-      }
-      .training-page-next:hover {
-        background-color: $success-hover;
+
+        &:hover {
+          background-color: $success-hover;
+        }
       }
     }
   }
@@ -91,27 +92,32 @@ $orange-hover: #d68f01;
         background-repeat: repeat-x;
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
-      }
-      .progress .bar {
-        width: 0%;
-        height: 18px;
-        color: $bg-primary;
-        font-size: 12px;
-        text-align: center;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-        background-color: $success;
-        background-image: linear-gradient(top, #149bdf, #0480be);
-        background-repeat: repeat-x;
-        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-        box-sizing: border-box;
-        transition: width 0.6s ease;
-      }
 
-      .progress.progress-striped .bar {
+        & .bar {
+          width: 0%;
+          height: 18px;
+          color: $bg-primary;
+          font-size: 12px;
+          text-align: center;
+          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+          background-color: $success;
+          background-image: linear-gradient(top, #149bdf, #0480be);
+          background-repeat: repeat-x;
+          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+          box-sizing: border-box;
+          transition: width 0.6s ease;
+        }
+
+        &.progress-striped .bar {
         background-color: $success;
-        background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, 
-          transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, 
-          rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); 
+        background-image: linear-gradient(-45deg,rgba(255, 255, 255, 0.15) 15%, 
+        transparent 15%, transparent 30%, rgba(255, 255, 255, 0.15) 30%, 
+        rgba(255, 255, 255, 0.15) 45%, transparent 45%, 
+        transparent 60%, rgba(255, 255, 255, 0.15) 60%,
+        rgba(255, 255, 255, 0.15) 75%, transparent 75%,
+        transparent 90%, rgba(255, 255, 255, 0.15) 90%,
+        rgba(255, 255, 255, 0.15)); 
+        }
       }
     }
   }
@@ -259,13 +265,13 @@ $orange-hover: #d68f01;
             color: $color-info;
             border-radius: 5px;
             border: none;
-          }
 
-          &-input.green{
-            color: $success;
-          }
-          &-input.red{
-            color: $red;
+            &.green{
+              color: $success;
+            }
+            &.red{
+              color: $red;
+            }
           }
 
           >p {
@@ -277,11 +283,11 @@ $orange-hover: #d68f01;
         &-img {
           box-sizing: border-box;
           height: 200px;
-          border-radius: 5px;
+          border-radius: 4px;
 
           >img {
             max-width: 300px;
-            border-radius: 5px;
+            border-radius: 4px;
             @media screen and (max-width: 500px) {
               max-width: 270px;
             }
@@ -312,9 +318,9 @@ $orange-hover: #d68f01;
       min-height: 40px;
       padding: 0.5em;
 
-      >button {
+      >.btn-footer {
         font-family: 'Montserrat', sans-serif;
-        border-radius: 5px;
+        border-radius: 4px;
         border: none;
         outline: none;
         transition: 0.3s;
@@ -322,55 +328,60 @@ $orange-hover: #d68f01;
         min-width: 130px;
         min-height: 40px;
 
+        &.active {
+          background-color: $color-hover;
+          color: $bg-primary;
+        }
+
         @media screen and (max-width: 500px) {
           margin-top: 0.5em;
         }
-      }
-      >button.active {
-        background-color: $color-hover;
-        color: $bg-primary;
       }
 
       &-btn-answer {
         background-color: $color-primary;
         align-self: center;
-      }
 
-      &-btn-answer:hover {
-        background-color: $color-primary-hover;
+        &:hover {
+          background-color: $color-primary-hover;
+        }
       }
 
       &-btn-again {
         background-color: $red;
-      }
-      &-btn-again:hover {
-        background-color: $red-hover;
+
+        &:hover {
+          background-color: $red-hover;
+        }
       }
       &-btn-hard {
         background-color: $orange;
-      }
-      &-btn-hard:hover {
-        background-color: $orange-hover;
+
+        &:hover {
+          background-color: $orange-hover;
+        }
       }
       &-btn-good {
         background-color: $color-info;
-      }
-      &-btn-good:hover {
-        background-color: $color-info-hover;
+
+        &:hover {
+          background-color: $color-info-hover;
+        }
       }
       &-btn-easy {
         background-color: $success;
-      }
-      &-btn-easy:hover {
-        background-color: $success-hover;
+
+        &:hover {
+          background-color: $success-hover;
+        }
       }
       &-btn-good[disabled], &-btn-easy[disabled] {
         background-color: $color-secondary;
+        cursor: auto;
       }
       @media screen and (max-width: 500px) {
         flex-wrap: wrap;
-      }
-      
+      } 
     }
   }
 }
