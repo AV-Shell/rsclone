@@ -3,33 +3,21 @@ import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-
-interface upperButtonProps {
-  isTrue:boolean,
-  line:string,
-  classCss: string
-}
-
-interface forInput {
-  theWord: string,
-  isTrue: boolean,
-  updateAnswer: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-type IntervalTime = {
-  [days: number]: number 
-};
-
-interface cardBodyProps {
-  words: paginatedWord[],
-  settings: userSettings | null,
-  levelsOfRepeat: IntervalTime,
-  updateWords: React.Dispatch<React.SetStateAction<paginatedWord[]>>,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-}
+import { lineProps, forInput, forNextBtn } from './training-page-interfaces';
+import {
+  TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
+  } from './training-simple-functions';
+import CardFooter from './training-page-card-footer';
 
 function TrainingPage(props:trainingProps) {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
+  const [isAnswered, setIsAnswered] = useState<boolean>(false);
+  const [wordPosition, setWordPosition] = useState<string>(''); // для создания объекта
+  const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
+  const [isNew, setIsNew] = useState<boolean>(true);
+
+  const trainingDay: number = Date.now();
   console.log(props);
   const {
     userWords, apiService, settings, statistic, updateSettings, updateStatistic, updateUserWords
@@ -39,12 +27,11 @@ function TrainingPage(props:trainingProps) {
   };
   const { optional } = props.settings;
   const trainingDayWords = userWords ? userWords : [];
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [dayWords, setDayWords] = useState(trainingDayWords);
-  // const wordsLen : number = userWords ? userWords.length : 0; // это чисто длина слов на повтор
-  const {getSomethingAggregatedNewWords: newWords} = apiService;
-  // getSomethingAggregatedNewWords in apiServise -взять какие-то новые слова
-  // const [dayWords, setDayWords] = useState(trainingDayWords);
+  const currentCard: number = 11;
+  let thisWord: paginatedWord;
+  thisWord = trainingDayWords[currentCard];
+  const {group} = thisWord;
+ 
   const {
     answerButton, autoSound, cardExample, cardExampleTranslation,
     cardExplanation, cardExplanationTranslation, cardImage, cardTranscription,
@@ -53,159 +40,170 @@ function TrainingPage(props:trainingProps) {
     newWordsPerDay, repeatWordsPerDay,
   } = optional;
 
-  const objForDifficultyBtn: upperButtonProps = {
-    isTrue: difficultWordsButton,
-    line: 'Сложное',
-    classCss: "training-card-header-btn-difficult",
+  const allTrainingCards: number = cardsPerDay;
+
+  
+  if (('userWord' in thisWord) && (isNew)) {
+    setIsNew(false);
+    const {userWord} = thisWord;
+    const wordStatus: string = userWord!.optional.status; // active, difficult, deleted
+    setWordPosition(wordStatus);
   };
 
-  const objForDeleteBtn: upperButtonProps = {
-    isTrue: deleteButton,
-    line: 'Удалить',
-    classCss: "training-card-header-btn-delete",
-  };
-
-  const objForCardBody: cardBodyProps = {
-    words: dayWords, // нужен  юз стейт
-    settings: settings,
-    levelsOfRepeat: levelsOfRepeat,
-    updateWords: setDayWords,
-    updateSettings: updateSettings,
-    updateUserWords: updateUserWords
-  };
-  return (
-    <div className="training-page">
-      <div className="wrapper">
-        <h2>Training</h2>
-        <div className="training-progress">
-          <span>1</span><span>progress-bar</span><span>{cardsPerDay}</span>
-        </div>
-        <div className="training-card">
-          <div className="training-card-header">
-            <button className="training-card-header-btn-sound">Звук</button>
-            <button className="training-card-header-btn-keyboard">Клава</button>
-            <TrainingCardUpperBtn {...objForDifficultyBtn}/>
-            <TrainingCardUpperBtn {...objForDeleteBtn}/>
-          </div>
-          <TrainingCardBody {...objForCardBody}/>
-          <div className="training-card-footer">
-            <button>Показать ответ</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-// training-card-header-btn-difficult
-function TrainingCardUpperBtn(props:upperButtonProps) {
-  const {isTrue, line, classCss} = props;
-  if (isTrue) {
-    return (<button className={classCss}>{line}</button>);
-  };
-  return null;
-}
-
-function TrainingCardLineCode(props:upperButtonProps) {
-  const {isTrue, line, classCss} = props;
-  if (isTrue) {
-    return (<p className={classCss}>{line}</p>);
-  };
-  return null;
-}
-
-function TrainingCardImage(props:upperButtonProps) {
-  const {isTrue, line, classCss} = props;
-  if (isTrue) {
-    return (<div className={classCss}>
-    <img src={line} alt="word" />
-    </div>);
-  };
-  return null;
-}
-
-// const objForCardBody: cardBodyProps = {
-//   words: trainingDayWords, // нужен  юз стейт
-//   settings: settings,
-//   levelsOfRepeat: levelsOfRepeat,
-//   updateSettings: updateSettings,
-//   updateUserWords: updateUserWords
-// };
-
-function TrainingCardBody(props:cardBodyProps) {
-  const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
-  const {words, settings, updateWords, levelsOfRepeat, updateSettings, updateUserWords} = props;
-  if (settings === null) {
-    return <div className="training-page"></div>
-  };
-  const {optional} = settings;
-  const {
-    answerButton, autoSound, cardExample, cardExampleTranslation,
-    cardExplanation, cardExplanationTranslation, cardImage, cardTranscription,
-    cardTranslation, cardTranslationAfterSuccess, cardsPerDay, commonProgress,
-    feedbackButtons, isSoundOn, newWordsPerDay, repeatWordsPerDay,
-  } = optional;
-
-  console.log('words before unshift', words); 
-  let thisWord: paginatedWord;
-  thisWord = words[0];
-  words.shift();
-  updateWords(words);
-  console.log('words after update', words);
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
   const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
   const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
 
-  const objForTranslation: upperButtonProps = {
+  const objForTranslation: lineProps = {
     isTrue: cardTranslation,
     line: thisWord.wordTranslate,
     classCss: "training-card-body-word-details-translation"
   };
 
-  const objForTranscription: upperButtonProps = {
+  const objForTranscription: lineProps = {
     isTrue: cardTranscription,
     line: thisWord.transcription,
     classCss: "training-card-body-word-details-transcription"
   };
 
-  const objForImage: upperButtonProps = {
+  const objForImage: lineProps = {
     isTrue: cardImage,
     line: imgURL,
     classCss: "training-card-body-word-img"
   };
 
-  const objForExample: upperButtonProps = {
+  const objForExample: lineProps = {
     isTrue: cardExample,
     line: thisWord.textExample,
     classCss: "training-card-body-sentence-eng"
   };
 
-  const objForExampleTranslation: upperButtonProps = {
+  const objForExampleTranslation: lineProps = {
     isTrue: cardExampleTranslation,
     line: thisWord.textExampleTranslate,
     classCss: "training-card-body-sentence-ru"
   };
 
-  const objForMeaning: upperButtonProps = {
+  const objForMeaning: lineProps = {
     isTrue: cardExplanation,
     line: thisWord.textMeaning,
     classCss: "training-card-body-explanation-eng"
   };
 
-  const objForMeaningTranslation: upperButtonProps = {
+  const objForMeaningTranslation: lineProps = {
     isTrue: cardExplanationTranslation,
     line: thisWord.textMeaningTranslate,
     classCss: "training-card-body-explanation-ru"
   };
 
   const objForInput: forInput = {
+    value: inputValue,
+    updateValue: setInputValue,
     theWord: thisWord.word,
+    isAnswerSet: isAnswered,
+    updateAnswerSet: setIsAnswered,
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue
-
   };
 
-  // это если ответил правильно
+  return (
+    <div className="training-page">
+      <div className="wrapper">
+        <div className="wrapper-upper">
+          <h1><i className="bi bi-stack"></i> Training</h1>
+          <ButtonNext isShown={isAnswered}/>
+        </div>
+        <div className="training-progress">
+          <span className="training-progress-left">1</span>
+          <TrainingProgressBar left={currentCard} right={allTrainingCards}/>
+          <span className="training-progress-right">{allTrainingCards}</span>
+        </div>
+        <div className="training-card">
+          <div className="training-card-header">
+            <button className="training-card-header-btn-keyboard">
+              <i className="bi bi-keyboard"></i>
+            </button>
+            <TrainingCardUpperBtn 
+              id={'active'}
+              isShown={difficultWordsButton}
+              isAnswerRight={isAnswered}
+              isWordNew={isNew}
+              status={wordPosition}
+              line={`Изучаемое`}
+              classCss={"training-card-header-btn-active"}
+              iClass={"bi bi-check-circle"}
+              setStatusForObj={setWordPosition}/>            
+            <TrainingCardUpperBtn 
+              id={'difficult'}
+              isShown={difficultWordsButton}
+              isAnswerRight={isAnswered}
+              isWordNew={isNew}
+              status={wordPosition}
+              line={`Сложное`}
+              classCss={"training-card-header-btn-difficult"}
+              iClass={"bi bi-exclamation-diamond"}
+              setStatusForObj={setWordPosition}/>
+            <TrainingCardUpperBtn
+              id={'deleted'}
+              isShown={deleteButton}
+              isAnswerRight={isAnswered}
+              isWordNew={false}
+              status={wordPosition}
+              line={`Удалить`}
+              classCss={"training-card-header-btn-delete"}
+              iClass={"bi bi-dash-square-dotted"}
+              setStatusForObj={setWordPosition}/>
+          </div>
+          <div className="training-card-body">
+            <div className="training-card-body-upper">
+              <hr />
+              <div className="training-card-body-upper-progress">
+                <span className="word-progress">word-progress<small>тут чо-то написано</small></span>
+                <StarsLevelField level={group} />
+              </div>
+            </div>
+            <div className="training-card-body-word">
+              <div className="training-card-body-word-details">
+                <p>Введите английское слово</p>
+                <InputControl {...objForInput} />
+                <TrainingCardLineCode {...objForTranslation}/>
+                <TrainingCardLineCode {...objForTranscription}/>
+              </div>
+              <TrainingCardImage {...objForImage}/>
+            </div>
+            <div className="training-card-body-examples">
+              <TrainingCardLineCode {...objForExample}/>
+              <TrainingCardLineCode {...objForExampleTranslation}/>
+              <TrainingCardLineCode {...objForMeaning}/>
+              <TrainingCardLineCode {...objForMeaningTranslation}/>
+            </div>
+          </div>
+          <CardFooter currentWord={thisWord.word}
+            hasShowAnswerButton={answerButton}
+            hasIntervalButtons={feedbackButtons}
+            updateInput={setInputValue}
+            hasAnswer={isAnswered}
+            updateHasAnswer={setIsAnswered}
+            intervalLevel={intervalStatus}
+            updateIntervalLevel={setIntervalStatus}
+            isAnswerTrue={isAnswerTrue} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ButtonNext(props: forNextBtn) {
+  const {isShown} = props;
+  if (isShown) {
+    return (<button className="button-next">Дальше</button>)
+  } else {
+    return null;
+  }  
+}
+
+// это если ответил правильно
   // if (autoSound) {
         //   const audioWord = new Audio(audioWordURL);
         //   const audioWordExample = new Audio(audioExampleURL);
@@ -214,74 +212,62 @@ function TrainingCardBody(props:cardBodyProps) {
           // audioWordExample.play();
           // audioWordMeaning.play();
 
-          //сделать константу тру/фолс и менять компоненты в зависимости от?
-
-  return (<div className="training-card-body">
-  <div className="training-card-body-upper">
-    <hr />
-    <div className="training-card-body-upper-progress">
-      <span>word-progress<small>тут чо-то написано</small></span><span>звездочки</span>
-      </div>
-  </div>
-  <div className="training-card-body-word">
-    <div className="training-card-body-word-details">
-      <p>Введите английское слово</p>
-      <InputControl {...objForInput} />
-      <TrainingCardLineCode {...objForTranslation}/>
-      <TrainingCardLineCode {...objForTranscription}/>
-    </div>
-    <TrainingCardImage {...objForImage}/>
-  </div>
-  <div className="training-card-body-examples">
-    <TrainingCardLineCode {...objForExample}/>
-    <TrainingCardLineCode {...objForExampleTranslation}/>
-    <TrainingCardLineCode {...objForMeaning}/>
-    <TrainingCardLineCode {...objForMeaningTranslation}/>
-  </div>
-</div>)
-}
-
-// при смене страницы остается тру для инпута и старое валью его
 function InputControl(props: forInput) {
-  const {theWord, isTrue, updateAnswer} = props;
-  const [inputValue, setInputValue] = useState<string>('');
+  const {value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer} = props;
+  
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setInputValue(event.target.value);
+    updateValue(event.target.value);
   };
 
-  const ClickHandler = (event: React.MouseEvent) => {
+  const ClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
-    setInputValue('');
+    updateValue('');
   };
 
-  const KeyPressHandler = (event: React.KeyboardEvent) => {
+  const KeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      updateAnswerSet(true);
       console.log('enter pressed in input');
-      if (inputValue.toLocaleLowerCase() === theWord) {
+      if (value.toLocaleLowerCase() === theWord) {
         console.log('that is right');
         updateAnswer(true);
+        updateAnswerSet(true);
         } else {
+          updateValue(theWord);
           updateAnswer(false);
+          updateAnswerSet(true);
         }
       }
   };
 
-  const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
-  : "training-card-body-word-details-input";
-
-  return (<input 
-    className={cssStyle} 
+  if (isAnswerSet) {
+    console.log('isAnswerSet true');
+    const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
+      : "training-card-body-word-details-input red";
+    return (
+    <input 
+      className={cssStyle} 
+      type="text" 
+      size={theWord.length}
+      autoFocus={false} 
+      spellCheck={false}
+      value={value}
+      disabled={true}/>)
+  } 
+  console.log('isAnswerSet false');
+  return (
+  <input 
+    className="training-card-body-word-details-input" 
     type="text" 
     size={theWord.length}
     autoFocus={true} 
     spellCheck={false}
     onKeyPress={KeyPressHandler}
-    value={inputValue} 
+    value={value} 
     onChange={InputChangeHandler}
     onClick={ClickHandler}/>)
 }
-
 
 export default TrainingPage;
