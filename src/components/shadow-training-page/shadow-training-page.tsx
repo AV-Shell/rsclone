@@ -7,115 +7,132 @@ import {
   aggregatedWordsResult,
   paginatedWord,
   saveTraining,
+  areThereStillWordsOnGroups,
+  userCardAnswer,
+  userSettings,
+  saveTrainingPart,
+  cardAnswer,
+  currentTraining,
+  userWordReq,
+  startTrainingParams,
 } from '../../constants/interfaces';
-import SentenceWrapper from '../slave-components/sentence-wrapper'
-import Spinner from '../slave-components/spinner'
+
+import Spinner from '../slave-components/spinner';
+import TrainingConfigure from './components/training-configure';
+import TestingCard from './components/testing-card';
+import {
+  loadNewWords,
+  currentUTCDayTimeStamp,
+  shuffleArrayInPlace,
+} from '../../helpers/utils';
+import {
+  TOTAL_DIFFICULTY_GROUPS,
+} from '../../constants/constants';
 
 
-interface lvls {
-  [group: number]: boolean,
+const serverErrorLog = (err: Error) => {
+  console.log(`Achtung! Achtung!
+  Der Backend-Server reagierte beim Speichern der Einstellungen mit einem Fehler,
+  ohne den Krieg zu erklären. Wir arbeiten weiterhin im Notfallmodus.`);
+  console.log(err);
 }
-
-const levelsWord: lvls = {
-  0: true,
-  1: true,
-  2: true,
-  3: true,
-  4: true,
-  5: true,
+const userWordServerLog = (obj: any) => {
+  console.log(`User Word Server Responce`);
+  console.log(obj);
 }
-const maxWordsGroup = 5;
-let userLevel = 3;
-let newWordsCount = 15;
-
-
-
 
 function ShadowTrainingPage(props: shadowTrainingProps) {
   console.log(props);
-  const { currentTrainingState, setCurrentTrainingState, userWords, statistic, settings, apiService } = props;
+  const { currentTrainingState, setCurrentTrainingState, updateSettings,
+    userWords, statistic, settings, apiService, isDarkTheme } = props;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isServerError, setisServerError] = useState<boolean>(false);
+
+  //TODO: remove before end of development
+  useEffect(() => {
+    console.log('ShadowTrainingPage did mount');
+    return () => {
+      console.log('ShadowTrainingPage did UNmount');
+    };
+  }, []);
+
   if (isLoading) {
     return <Spinner></Spinner>
   }
-
-  const loadData = async () => {
-    //TODO: get UserLvl from Settings
-    let startLvl = userLevel;
-    const constWordArray: paginatedWord[] = [];
-    let responce: aggregatedWordsResult;
-    //TODO: get from settings
-    let hiLvlWordsCount = Math.ceil(newWordsCount / 2);
-    let lowLvlWordsCount = newWordsCount - hiLvlWordsCount;
-    let hasLowLvlWords = false;
-    let hasHiLvlWords = false;
-    for (let i: number = 0; i < startLvl; i++) {
-      hasLowLvlWords = hasLowLvlWords || levelsWord[i];
-    }
-    for (let i: number = startLvl; i <= maxWordsGroup; i++) {
-      hasHiLvlWords = hasHiLvlWords || levelsWord[i];
-    }
-    if (hasLowLvlWords === false) {
-      hiLvlWordsCount = newWordsCount;
-    }
-    if (hasHiLvlWords === false) {
-      lowLvlWordsCount = newWordsCount;
-    }
-    console.log('lowLvlWordsCount', lowLvlWordsCount);
-    console.log('hiLvlWordsCount', hiLvlWordsCount);
-    console.log('hasLowLvlWords', hasLowLvlWords);
-    console.log('hasHiLvlWords', hasHiLvlWords);
-    if (hasLowLvlWords) {
-      let totalGotWords = 0;
-      for (let i = 0; i < startLvl; i += 1) {
-        if (levelsWord[i] !== false) {
-          const requestWordsCount = Math.ceil((lowLvlWordsCount - totalGotWords) / (startLvl - i));
-          console.log('ilow', i, 'requestWordsCount', requestWordsCount, 'totalGotWords', totalGotWords);
-          let responce = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
-          console.log('responce', responce);
-          if (responce.paginatedResults.length === 0) {
-            //TODO: где нить проверить, что изменилось, и записать в настройки.
-            levelsWord[i] = false;
-          } else {
-            responce.paginatedResults.forEach((word) => constWordArray.push(word));
-            totalGotWords += responce.paginatedResults.length;
-          }
-        }
-      }
-    }
-    if (hasHiLvlWords) {
-      let totalGotWords = 0;
-      for (let i = startLvl; i <= maxWordsGroup; i += 1) {
-        if (levelsWord[i] !== false) {
-          const requestWordsCount = hiLvlWordsCount - totalGotWords;
-          console.log('i hi', i, 'requestWordsCount', requestWordsCount, 'totalGotWords', totalGotWords);
-          let responce = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
-          console.log('responce', responce);
-          if (responce.paginatedResults.length === 0) {
-            //TODO: где нить проверить, что изменилось, и записать в настройки.
-            levelsWord[i] = false;
-          } else {
-            responce.paginatedResults.forEach((word) => constWordArray.push(word));
-            totalGotWords += responce.paginatedResults.length;
-            if (hiLvlWordsCount === totalGotWords) {
-              break;
-            }
-          }
-        }
-      }
-    }
-    return constWordArray;
+  if ((settings === null) || (statistic === null) || (userWords === null)) {
+    return <div className="No props Shadow Traning Page"></div>
   }
 
-  const getNewWords = () => {
-    console.log('getNewWords start');
+
+  const createMixedTraining = (newWordsCount: number, repeatWordsCount: number, hasRepeat: boolean) => {
     setIsLoading(true);
-    loadData()
+    let levelsWord: areThereStillWordsOnGroups = JSON.parse(settings.optional.stillWordsOnGroup)
+    loadNewWords({
+      maxWordsGroup: (TOTAL_DIFFICULTY_GROUPS - 1),
+      userLevel: settings.optional.userLanguageLevel,
+      newWordsCount: newWordsCount,
+      levelsWord: levelsWord,
+      apiService: apiService,
+    })
       .then((data) => {
-        console.log('getNewWords data');
-        console.log(data);
+        const { constWordArray, isWordsOnGroups } = data;
+        let userWordsForTraining: paginatedWord[];
+        if (hasRepeat) {
+          userWords.sort((word1, word2) => {
+            if (word1.userWord && word2.userWord) {
+              return word1.userWord.optional.nextRepeat - word2.userWord.optional.nextRepeat;
+            } else if (!word1.userWord && !word2.userWord) {
+              return 0;
+            } else if (!word1.userWord) {
+              return -1;
+            } else if (!word1.userWord) {
+              return 1;
+            }
+            return 0;
+          });
+          userWordsForTraining = userWords
+            .filter((word) => {
+              if (word.userWord) {
+                return word.userWord.optional.status !== 'deleted';
+              }
+              return false;
+            })
+            .slice(0, repeatWordsCount);
+        } else {
+          userWordsForTraining = [];
+        }
+        const trainingWords: paginatedWord[] = [...constWordArray, ...userWordsForTraining];
+        shuffleArrayInPlace(trainingWords);
+        let dailyTrainingCount: number = 0;
+        const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
+        if (a !== null) {
+          const dayNow: string = new Date(Date.now()).toISOString().split('T')[0];
+          const savedDay: string = new Date(a.startTrainingTimestamp).toISOString().split('T')[0];
+          if (dayNow === savedDay) {
+            dailyTrainingCount = a.trainingCountPerDay;
+          }
+        }
+        const trainingParams: saveTrainingPart = {
+          startTrainingTimestamp: Date.now(),
+          totalWordsCount: trainingWords.length,
+          trainingCountPerDay: dailyTrainingCount,
+          trueAnswerCount: 0,
+        }
+        console.log('setCurrentTrainingState');
+        setCurrentTrainingState({
+          ...trainingParams,
+          wordsForTraining: trainingWords,
+        });
+        const idArray: string[] = trainingWords.map((word) => word._id);
+        const saveTraining: saveTraining = {
+          ...trainingParams,
+          wordsForTraining: idArray,
+        }
+        settings.optional.newWordsPerDay = newWordsCount;
+        settings.optional.repeatWordsPerDay = repeatWordsCount;
+        settings.optional.stillWordsOnGroup = JSON.stringify(isWordsOnGroups);
+        settings.optional.mainGameShort = JSON.stringify(saveTraining);
+        apiService.updateSettings(settings).catch(serverErrorLog);
       })
       .catch((error) => {
         console.log('getNewWords error');
@@ -127,20 +144,192 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
       })
   }
 
-  const createNewTraining = () => {
-    //
-  }
+  const createRepeatTraining = (newWordsCount: number, repeatWordsCount: number, isRepeatAll: boolean) => {
+    let userWordsForTraining: paginatedWord[];
+    userWords.sort((word1, word2) => {
+      if (word1.userWord && word2.userWord) {
+        return word1.userWord.optional.nextRepeat - word2.userWord.optional.nextRepeat;
+      } else if (!word1.userWord && !word2.userWord) {
+        return 0;
+      } else if (!word1.userWord) {
+        return -1;
+      } else if (!word1.userWord) {
+        return 1;
+      }
+      return 0;
+    });
+    if (isRepeatAll) {
+      userWordsForTraining = userWords
+        .filter((word) => {
+          if (word.userWord) {
+            return word.userWord.optional.status !== 'deleted';
+          }
+          return false;
+        })
+        .slice(0, repeatWordsCount);
+    } else {
+      userWordsForTraining = userWords
+        .filter((word) => {
+          if (word.userWord) {
+            return word.userWord.optional.status === 'difficult';
+          }
 
-  if ((settings === null) || (statistic === null) || (userWords === null)) {
-    return <div className="No props Shadow Traning Page"></div>
-  }
-
-  if (currentTrainingState.wordsForTraining.length === 0) {
-    let isNeedNewWords: boolean = false;
-    let isNeedOldWords: boolean = false;
+          return false;
+        })
+        .slice(0, repeatWordsCount);
+    }
+    if (userWordsForTraining.length === 0) {
+      return;
+    }
+    const trainingWords: paginatedWord[] = userWordsForTraining;
+    shuffleArrayInPlace(trainingWords);
     let dailyTrainingCount: number = 0;
     const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
     if (a !== null) {
+      const dayNow: string = new Date(Date.now()).toISOString().split('T')[0];
+      const savedDay: string = new Date(a.startTrainingTimestamp).toISOString().split('T')[0];
+      if (dayNow === savedDay) {
+        dailyTrainingCount = a.trainingCountPerDay;
+      }
+    }
+    const trainingParams: saveTrainingPart = {
+      startTrainingTimestamp: Date.now(),
+      totalWordsCount: trainingWords.length,
+      trainingCountPerDay: dailyTrainingCount,
+      trueAnswerCount: 0,
+    }
+    console.log('setCurrentTrainingState');
+    setCurrentTrainingState({
+      ...trainingParams,
+      wordsForTraining: trainingWords,
+    });
+    const idArray: string[] = trainingWords.map((word) => word._id);
+    const saveTraining: saveTraining = {
+      ...trainingParams,
+      wordsForTraining: idArray,
+    }
+    settings.optional.newWordsPerDay = newWordsCount;
+    settings.optional.repeatWordsPerDay = repeatWordsCount;
+    settings.optional.mainGameShort = JSON.stringify(saveTraining);
+    apiService.updateSettings(settings).catch(serverErrorLog);
+  }
+
+
+  const startTraining = (params: startTrainingParams) => {
+    if ((params.trainingType === 'mixed') || (params.trainingType === 'new')) {
+      createMixedTraining(params.newWords, params.repeatWords, (params.trainingType === 'mixed'));
+    } else if ((params.trainingType === 'repeat') || (params.trainingType === 'difficult')) {
+      createRepeatTraining(params.newWords, params.repeatWords, (params.trainingType === 'repeat'));
+    }
+  }
+
+  const getAnswer = (res: cardAnswer) => {
+    console.log('res: ', res);
+
+    const len = currentTrainingState.wordsForTraining.length;
+    if (len > 0 && currentTrainingState.wordsForTraining[len - 1]._id === res._id) {
+      const word: paginatedWord = currentTrainingState.wordsForTraining[len - 1];
+      console.log('setCurrentTrainingState');
+      const index = userWords.findIndex((element) => element._id === word._id);
+      const userWordReq: userWordReq = {
+        difficulty: res.difficulty,
+        optional: {
+          ...res.optional,
+        },
+      }
+      console.log('index', index);
+      if (index === -1) {
+        word.userWord = userWordReq;
+        userWords.push(word);
+        //TODO: write to backend,
+        console.log('start create user word on server')
+
+        /*
+        comment for testing
+        apiService.createUserWord(word._id, userWordReq)
+          .then((data) => { console.log('create'); userWordServerLog(data); })
+          .catch((error) => { console.log('create'); userWordServerLog(error); })
+
+          */
+      } else {
+        //TODO: CHECK
+        userWords[index].userWord = userWordReq; // так и оставить
+        console.log('start update user word on server', index, userWords[index]._id)
+        /*
+        comment for testing
+        apiService.updateUserWord(word._id, userWordReq)
+          .then((data) => { console.log('create'); userWordServerLog(data); })
+          .catch((error) => { console.log('create'); userWordServerLog(error); })
+        */
+      }
+      let newWordsForTraining: paginatedWord[];
+      if (res.isRepeat) {
+        newWordsForTraining = [word, ...currentTrainingState.wordsForTraining.slice(0, -1)];
+      } else {
+        newWordsForTraining = currentTrainingState.wordsForTraining.slice(0, -1);
+      }
+
+      // for future statistic
+      let newTrueAnswerCount: number;
+      if (res.points > 0) {
+        newTrueAnswerCount = currentTrainingState.trueAnswerCount + res.points;
+      }
+
+      if (newWordsForTraining.length === 0) {
+        currentTrainingState.trainingCountPerDay +=1;
+        const resultPoints = currentTrainingState.trueAnswerCount * 2 / currentTrainingState.trainingCountPerDay;
+        //TODO: ADD end calculate
+        //TODO: update statistic
+        // statistic.optional.mainGameLong = 'null';
+
+
+        if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0){
+          currentTrainingState.startTrainingTimestamp = 0;
+          currentTrainingState.totalWordsCount = 0;
+          currentTrainingState.trainingCountPerDay = 0;
+          currentTrainingState.trueAnswerCount = 0;
+        }
+
+
+      }
+      const saveTrainingPart: saveTrainingPart = {
+        startTrainingTimestamp: currentTrainingState.startTrainingTimestamp,
+        totalWordsCount: currentTrainingState.totalWordsCount,
+        trainingCountPerDay: (newWordsForTraining.length > 0) ? currentTrainingState.trainingCountPerDay : currentTrainingState.trainingCountPerDay + 1,
+        trueAnswerCount: currentTrainingState.trueAnswerCount + res.points,
+      }
+
+
+      const idArray: string[] = newWordsForTraining.map((word) => word._id);
+      const saveTraining: saveTraining = {
+        ...saveTrainingPart,
+        wordsForTraining: idArray,
+      }
+      settings.optional.mainGameShort = JSON.stringify(saveTraining);
+      apiService.updateSettings(settings).catch(serverErrorLog);
+      const newState: currentTraining = {
+        ...saveTrainingPart,
+        wordsForTraining: newWordsForTraining,
+      }
+      setIsLoading(true);
+      setCurrentTrainingState(newState);
+
+    }
+  }
+
+
+  if (currentTrainingState.wordsForTraining.length === 0) {
+    let dailyTrainingCount: number = 0;
+
+    if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0){
+      dailyTrainingCount = 0;
+    } else {
+      dailyTrainingCount = currentTrainingState.trainingCountPerDay;
+    }
+    console.log('settings.optional.mainGameShort', settings.optional.mainGameShort);
+    const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
+    if (a !== null) {
+      console.log('a.startTrainingTimestamp', a.startTrainingTimestamp)
       const dayNow: string = new Date(Date.now()).toISOString().split('T')[0];
       const savedDay: string = new Date(a.startTrainingTimestamp).toISOString().split('T')[0];
       if (dayNow === savedDay) {
@@ -148,132 +337,50 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
           dailyTrainingCount = a.trainingCountPerDay;
         }
         else {
-          //TODO:  запрос на старые слова. 
-          //TODO: обновление массива слов.
-          // Обновление игры.
+          //запрос на старые слова.
+          setIsLoading(true);
+          Promise.all(a.wordsForTraining.map((wordId) => apiService.getUserAggregatedWordById(wordId)))
+            .then((data) => {
+              const transformedWordArray: paginatedWord[] = data.map((wordShell) => wordShell[0]);
+              console.log('saved words array after promice all', transformedWordArray);
+              console.log('setCurrentTrainingState');
+              setCurrentTrainingState({
+                ...a,
+                wordsForTraining: transformedWordArray,
+              });
+            })
+            .catch((error) => {
+              console.log('error array after promice all', error);
+            })
+            .finally(() => {
+              setIsLoading(false);
+            })
           return <Spinner></Spinner>
         }
       } else {
-        settings.optional.mainGameShort = JSON.stringify('null');
+        console.log('clear settings.optional.mainGameShort');
+        settings.optional.mainGameShort = JSON.stringify(null);
       }
     }
     return (
-      <div className="shadow-training-page">
-        <div className="wrapper">
-          <h2>Training count per day {dailyTrainingCount}
-            <i className="bi bi-stoplights-fill"></i>
-          </h2>
-          <div className="training-progress">
-            progress-bar
-          </div>
-          <div className="training-card">
-            <div className="training-card-header">
-              <button className="training-card-header-btn-sound" onClick={getNewWords}>
-                New Training
-              </button>
-              <button className="training-card-header-btn-keyboard">
-                Only repeat
-              </button>
-              <label >Number of new words(3-15):
-                <input type="number" id="newWordsSelector" name="tentacles"
-                  min="3" max="15" value="15"></input>
-              </label>
-              <label >Number words for repeat(10-35):
-                <input type="number" id="newWordsSelector" name="tentacles"
-                  min="10" max="35" value={20}></input>
-              </label>
-
-
-              <button className="training-card-header-btn-difficult">
-                Only new words
-              </button>
-              <button className="training-card-header-btn-delete">
-                difficult words
-              </button>
-            </div>
-            <div className="training-card-body">
-            </div>
-            <div className="training-card-footer">
-              <button>Я хз</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    console.log("currentTrainingState ", currentTrainingState)
-
-
-
-
+      <TrainingConfigure
+        dailyTrainingCount = {dailyTrainingCount}
+        startTraining={startTraining}
+        {...props}
+      />
+    )
   }
-  console.log('props', props);
-  console.log('userWords', userWords);
-
-  // Component code start
+  console.log("currentTrainingState ", currentTrainingState)
+  const words = currentTrainingState.wordsForTraining;
   return (
-    <div className="shadow-training-page">
-      <div className="wrapper">
-        <h2>Training
-          <i className="bi bi-stoplights-fill"></i>
-        </h2>
-        <div className="training-progress">
-          progress-bar
-        </div>
-        <div className="training-card">
-          <div className="training-card-header">
-            <button className="training-card-header-btn-sound">Звук</button>
-            <button className="training-card-header-btn-keyboard">Клава</button>
-            <button className="training-card-header-btn-difficult">Сложные</button>
-            <button className="training-card-header-btn-delete">Удалить</button>
-          </div>
-          <div className="training-card-body">
-            <div className="training-card-body-upper">
-              <hr />
-              <p>word-progress</p>
-            </div>
-            <div className="training-card-body-word">
-              <div className="training-card-body-word-details">
-                <p>Введите английское слово</p>
-                <input className="training-card-body-word-details-input" type="text" />
-                <p className="training-card-body-word-details-translation">перевод</p>
-                <p className="training-card-body-word-details-transcription">транскрипция</p>
-              </div>
-              <div className="training-card-body-word-img">
-                <img src="" alt="word" />
-              </div>
-            </div>
-            <div className="training-card-body-examples">
-              <SentenceWrapper sentence={userWords[0].textExample}
-                classCss={'training-card-body-sentence-eng'}
-                openTag={'<b>'}
-                closeTag={'</b>'}
-              />
-              <SentenceWrapper sentence={userWords[0].textExample}
-                classCss={'training-card-body-sentence-eng answered'}
-                openTag={'<b>'}
-                closeTag={'</b>'}
-              />
-              <p className="training-card-body-sentence-ru">{userWords[0].textExampleTranslate}</p>
-              <SentenceWrapper sentence={userWords[0].textMeaning}
-                classCss={'training-card-body-explanation-eng'}
-                openTag={'<i>'}
-                closeTag={'</i>'}
-              />
-              <SentenceWrapper sentence={userWords[0].textMeaning}
-                classCss={'training-card-body-explanation-eng answered'}
-                openTag={'<i>'}
-                closeTag={'</i>'}
-              />
-              <p className="training-card-body-explanation-ru">{userWords[0].textMeaningTranslate}</p>
-            </div>
-          </div>
-          <div className="training-card-footer">
-            <button>Показать ответ</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <TestingCard
+      word={words[words.length - 1]}
+      isDarkTheme={isDarkTheme}
+      settings={settings}
+      wordNumber={currentTrainingState.totalWordsCount - words.length + 1}
+      totalWords={currentTrainingState.totalWordsCount}
+      getAnswer={getAnswer}
+    ></TestingCard>
   );
 }
 
