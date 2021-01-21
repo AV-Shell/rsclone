@@ -26,7 +26,7 @@ function burgerMenu() {
           <li className="list__item" ><Link to='/magicButton' className="list__link list__link_active" onClick={handleClick}>Magic Button</Link>
           </li>
         </ul>
-        <Link to='/' className='burger_logout'>logout</Link>
+        <Link to='/logout' className='burger_logout'>logout</Link>
       </nav>
       <div className="burger-menu__overlay" onClick={handleClick}></div></div>
   )
