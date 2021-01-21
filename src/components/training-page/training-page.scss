@@ -317,6 +317,7 @@ $orange-hover: #d68f01;
       &-examples {
         display: grid;
         grid-template-columns: 25px 1fr;
+        grid-auto-rows: minmax(25px, auto);
         column-gap: 5px;
         padding: 10px 10px 5px;
         width: 100%;

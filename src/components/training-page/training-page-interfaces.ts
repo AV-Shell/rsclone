@@ -1,5 +1,4 @@
 import React from 'react';
-import { userSettings, paginatedWord } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: string,
@@ -26,21 +25,15 @@ export interface forInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  wordSound: ()=>Promise<void>
+  wordSound: ()=>Promise<void>,
+  isAutoPlayOn: boolean,
+  exampleSound: ()=>Promise<void>,
+  meaningSound: ()=>Promise<void>
 }
 
 type IntervalTime = {
   [days: number]: number 
 };
-
-export interface cardBodyProps {
-  words: paginatedWord[],
-  settings: userSettings | null,
-  levelsOfRepeat: IntervalTime,
-  updateWords: React.Dispatch<React.SetStateAction<paginatedWord[]>>,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
-  updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
-}
 
 export interface forStars {
   level: number
@@ -81,4 +74,37 @@ export interface IconForSound {
   isSoundOn: boolean;
   sound: ()=>Promise<void>,
   forCSS: string
+}
+
+export interface ForCardExamples {
+  isExampleShown: boolean,
+  isExampleTranslationShown: boolean,
+  isMeaningShown: boolean,
+  isMeaningTranslationShown: boolean,
+  showTranslationAfter: boolean,
+  isSoundOn: boolean,
+  isAnswered: boolean,
+  soundExample: ()=>Promise<void>,
+  soundMeaning: ()=>Promise<void>,
+  exampleString: string,
+  meaningString: string,
+  exampleTranslationString: string,
+  meaningTranslationString: string,
+}
+
+export interface LineWrapperProps{
+  isShown: boolean,
+  hasAnswer: boolean,
+  line:string, 
+  classCSS:string, 
+  openTag:'<b>'|'<i>', 
+  closingTag:'</b>'|'</i>',
+}
+
+export interface TranslationProps {
+  isShown: boolean,
+  isShownAfter: boolean,
+  hasAnswer: boolean,
+  line: string,
+  classCSS: string
 }

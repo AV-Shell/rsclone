@@ -3,19 +3,12 @@ import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, forNextBtn, IconForSound } from './training-page-interfaces';
+import { lineProps, forInput, forNextBtn, ForCardExamples } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
-import SentenceWrapper from '../slave-components/sentence-wrapper';
 import CardFooter from './training-page-card-footer';
-
-interface sentenceWrapperProps{
-  sentence:string, 
-  classCss:string, 
-  openTag:'<b>'|'<i>', 
-  closeTag:'</b>'|'</i>',
-}
+import TrainingCardExamples from './training-card-examples-field';
 
 function TrainingPage(props:trainingProps) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -41,15 +34,13 @@ function TrainingPage(props:trainingProps) {
   const {group} = thisWord;
  
   const {
-    answerButton, autoSound, cardExample, cardExampleTranslation,
+    answerButton, autoSound/*автовоспроизведение всех звуков*/, cardExample, cardExampleTranslation,
     cardExplanation, cardExplanationTranslation, cardImage, cardTranscription,
     cardTranslation, cardTranslationAfterSuccess, cardsPerDay, commonProgress,
     deleteButton, difficultWordsButton, feedbackButtons, isSoundOn,
-    newWordsPerDay, repeatWordsPerDay,
   } = optional;
 
   const allTrainingCards: number = cardsPerDay;
-
   
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
@@ -97,32 +88,6 @@ function TrainingPage(props:trainingProps) {
     classCss: "training-card-body-word-img"
   };
 
-  const objForExample: sentenceWrapperProps = {
-    sentence: thisWord.textExample,
-    classCss: "sentence-eng",
-    openTag:'<b>', 
-    closeTag:'</b>'
-  };
-
-  const objForExampleTranslation: lineProps = {
-    isTrue: cardExampleTranslation,
-    line: thisWord.textExampleTranslate,
-    classCss: "sentence-ru"
-  };
-
-  const objForMeaning: sentenceWrapperProps = {
-    sentence: thisWord.textMeaning,
-    classCss: "meaning-eng",
-    openTag:'<i>', 
-    closeTag:'</i>'
-  };
-
-  const objForMeaningTranslation: lineProps = {
-    isTrue: cardExplanationTranslation,
-    line: thisWord.textMeaningTranslate,
-    classCss: "meaning-ru"
-  };
-
   const objForInput: forInput = {
     value: inputValue,
     updateValue: setInputValue,
@@ -132,8 +97,27 @@ function TrainingPage(props:trainingProps) {
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue,
     isSoundOn: isSoundOn,
-    wordSound: playWord
+    wordSound: playWord,
+    isAutoPlayOn: autoSound,
+    exampleSound: playExample,
+    meaningSound: playMeaning
   };
+  
+  const objForExamplesPart: ForCardExamples = {
+    isExampleShown: cardExample,
+    isExampleTranslationShown: cardExampleTranslation,
+    isMeaningShown: cardExplanation,
+    isMeaningTranslationShown: cardExplanationTranslation,
+    showTranslationAfter: cardTranslationAfterSuccess,
+    isSoundOn: isSoundOn,
+    isAnswered: isAnswered,
+    soundExample: playExample,
+    soundMeaning: playMeaning,
+    exampleString: thisWord.textExample,
+    meaningString: thisWord.textMeaning,
+    exampleTranslationString: thisWord.textExampleTranslate,
+    meaningTranslationString: thisWord.textMeaningTranslate
+  }
 
   return (
     <div className="training-page">
@@ -200,18 +184,7 @@ function TrainingPage(props:trainingProps) {
               </div>
               <TrainingCardImage {...objForImage}/>
             </div>
-            <div className="training-card-body-examples">
-              <SoundOnSentences isSoundOn={isSoundOn}
-                sound={playExample}
-                forCSS="example-sound" />
-                <SoundOnSentences isSoundOn={isSoundOn}
-                sound={playMeaning}
-                forCSS="meaning-sound" />
-              <SentenceWrapper {...objForExample}/>
-              <TrainingCardLineCode {...objForExampleTranslation}/>
-              <SentenceWrapper {...objForMeaning}/>
-              <TrainingCardLineCode {...objForMeaningTranslation}/>
-            </div>
+            <TrainingCardExamples {...objForExamplesPart}/>
           </div>
           <CardFooter currentWord={thisWord.word}
             hasShowAnswerButton={answerButton}
@@ -228,21 +201,6 @@ function TrainingPage(props:trainingProps) {
   );
 }
 
-function SoundOnSentences(props: IconForSound) {
-  const {isSoundOn, sound, forCSS} = props;
-
-  const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
-
-  const SoundHandler = () => {
-    if (isSoundOn) {
-      sound().catch(() => true);  
-    }
-  }
-  return (
-    <i className={classCSS} onClick={SoundHandler}></i>
-  )
-}
-
 function ButtonNext(props: forNextBtn) {
   const {isShown} = props;
   if (isShown) {
@@ -254,7 +212,8 @@ function ButtonNext(props: forNextBtn) {
 
 function InputControl(props: forInput) {
   const {
-    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound
+    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
+    isAutoPlayOn, exampleSound, meaningSound
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
@@ -264,10 +223,10 @@ function InputControl(props: forInput) {
     updateValue(event.target.value);
   };
 
-  const ClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    updateValue('');
-  };
+  // const ClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
+  //   event.preventDefault();
+  //   updateValue('');
+  // };
 
   const KeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -282,6 +241,13 @@ function InputControl(props: forInput) {
           updateAnswer(false);
           updateAnswerSet(true);
         }
+        // if (isAutoPlayOn) {
+        //   wordSound()
+        //     .then(() => {exampleSound()})
+        //     .then(() => {meaningSound()})
+        //     .catch(() => true);
+        // }
+        // воспроизводится одновременно(
       }
   };
 
@@ -321,7 +287,7 @@ function InputControl(props: forInput) {
       onKeyPress={KeyPressHandler}
       value={value} 
       onChange={InputChangeHandler}
-      onClick={ClickHandler}/>
+      />
   </div>)
 }
 
