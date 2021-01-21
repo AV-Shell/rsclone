@@ -76,3 +76,9 @@ export interface footerBtns {
 export interface forNextBtn {
   isShown: boolean
 }
+
+export interface IconForSound {
+  isSoundOn: boolean;
+  sound: ()=>Promise<void>,
+  forCSS: string
+}

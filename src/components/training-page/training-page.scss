@@ -315,10 +315,45 @@ $orange-hover: #d68f01;
       }
 
       &-examples {
-        display: flex;
-        flex-direction: column;
-        padding: 5px;
+        display: grid;
+        grid-template-columns: 25px 1fr;
+        column-gap: 5px;
+        padding: 10px 10px 5px;
+        width: 100%;
+        box-sizing: border-box;
 
+        .sentence-eng {
+          grid-column: 2;
+          grid-row: 1;
+        }
+        .sentence-ru {
+          grid-column: 2;
+          grid-row: 2;
+        }
+        .meaning-eng {
+          grid-column: 2;
+          grid-row: 3;
+        }
+        .meaning-ru {
+          grid-column: 2;
+          grid-row: 4;
+        }
+        > .bi {
+          font-size: 1.2em;
+          color: $text-dark;
+          &:before {
+            vertical-align: text-top;
+          }
+        }
+
+        .example-sound {
+          grid-column: 1;
+          grid-row: 1/ 3;
+        }
+        .meaning-sound {
+          grid-column: 1;
+          grid-row: 3/ 5;
+        }
         >p {
           margin: 0;
           padding-bottom: 5px;

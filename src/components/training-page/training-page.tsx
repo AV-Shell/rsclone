@@ -3,11 +3,19 @@ import './training-page.scss';
 import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, forNextBtn } from './training-page-interfaces';
+import { lineProps, forInput, forNextBtn, IconForSound } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
+import SentenceWrapper from '../slave-components/sentence-wrapper';
 import CardFooter from './training-page-card-footer';
+
+interface sentenceWrapperProps{
+  sentence:string, 
+  classCss:string, 
+  openTag:'<b>'|'<i>', 
+  closeTag:'</b>'|'</i>',
+}
 
 function TrainingPage(props:trainingProps) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -60,6 +68,16 @@ function TrainingPage(props:trainingProps) {
     await soundObject.load();
     soundObject.play();
   }
+  const playExample = async () => {
+    const soundObject = new Audio(audioExampleURL);
+    await soundObject.load();
+    soundObject.play();
+  }
+  const playMeaning = async () => {
+    const soundObject = new Audio(audioMeaningURL);
+    await soundObject.load();
+    soundObject.play();
+  }
 
   const objForTranslation: lineProps = {
     isTrue: cardTranslation,
@@ -79,28 +97,30 @@ function TrainingPage(props:trainingProps) {
     classCss: "training-card-body-word-img"
   };
 
-  const objForExample: lineProps = {
-    isTrue: cardExample,
-    line: thisWord.textExample,
-    classCss: "training-card-body-sentence-eng"
+  const objForExample: sentenceWrapperProps = {
+    sentence: thisWord.textExample,
+    classCss: "sentence-eng",
+    openTag:'<b>', 
+    closeTag:'</b>'
   };
 
   const objForExampleTranslation: lineProps = {
     isTrue: cardExampleTranslation,
     line: thisWord.textExampleTranslate,
-    classCss: "training-card-body-sentence-ru"
+    classCss: "sentence-ru"
   };
 
-  const objForMeaning: lineProps = {
-    isTrue: cardExplanation,
-    line: thisWord.textMeaning,
-    classCss: "training-card-body-explanation-eng"
+  const objForMeaning: sentenceWrapperProps = {
+    sentence: thisWord.textMeaning,
+    classCss: "meaning-eng",
+    openTag:'<i>', 
+    closeTag:'</i>'
   };
 
   const objForMeaningTranslation: lineProps = {
     isTrue: cardExplanationTranslation,
     line: thisWord.textMeaningTranslate,
-    classCss: "training-card-body-explanation-ru"
+    classCss: "meaning-ru"
   };
 
   const objForInput: forInput = {
@@ -181,9 +201,15 @@ function TrainingPage(props:trainingProps) {
               <TrainingCardImage {...objForImage}/>
             </div>
             <div className="training-card-body-examples">
-              <TrainingCardLineCode {...objForExample}/>
+              <SoundOnSentences isSoundOn={isSoundOn}
+                sound={playExample}
+                forCSS="example-sound" />
+                <SoundOnSentences isSoundOn={isSoundOn}
+                sound={playMeaning}
+                forCSS="meaning-sound" />
+              <SentenceWrapper {...objForExample}/>
               <TrainingCardLineCode {...objForExampleTranslation}/>
-              <TrainingCardLineCode {...objForMeaning}/>
+              <SentenceWrapper {...objForMeaning}/>
               <TrainingCardLineCode {...objForMeaningTranslation}/>
             </div>
           </div>
@@ -200,6 +226,21 @@ function TrainingPage(props:trainingProps) {
       </div>
     </div>
   );
+}
+
+function SoundOnSentences(props: IconForSound) {
+  const {isSoundOn, sound, forCSS} = props;
+
+  const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
+
+  const SoundHandler = () => {
+    if (isSoundOn) {
+      sound().catch(() => true);  
+    }
+  }
+  return (
+    <i className={classCSS} onClick={SoundHandler}></i>
+  )
 }
 
 function ButtonNext(props: forNextBtn) {
