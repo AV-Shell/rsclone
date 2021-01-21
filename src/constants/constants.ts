@@ -8,6 +8,15 @@ const MB_ROUTES = {
 
 const BASE_URL = 'https://afternoon-falls-25894.herokuapp.com';
 const FILE_URL = 'https://raw.githubusercontent.com/av-shell/rslang-data/master';
+const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/'
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
+const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/'
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_usa.svg
+
+const MIN_AVATAR_NUM = 1;
+const MAX_AVATAR_NUM = 45;
 
 const ONE_MINUTE = (60 * 1000);
 const TEN_MINUTES = (10 * 60 * 1000);
@@ -17,6 +26,12 @@ const RESET_HOUR = 4;
 const MULTIPLIER_GOOD = 2.5;
 const MULTIPLIER_EASY = 4;
 const ALL_WORDS = 3600;
+const TOTAL_DIFFICULTY_GROUPS = 6;
+const MIN_NEW_WORDS_PER_DAY = 3;
+const MAX_NEW_WORDS_PER_DAY = 15;
+const MIN_REPEAT_WORDS_PER_DAY = 10;
+const MAX_REPEAT_WORDS_PER_DAY = 35;
+
 
 const WORD_PARAM = {
   again: 'again',
@@ -38,6 +53,7 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     cardsPerDay: 15,  //calculated from  new + repeat. 
     mixedCards: 0,
     isSoundOn: true,
+    cardWordPronunciation: true,
     cardTranslation: true,
     cardExplanation: true,
     cardExample: true,
@@ -46,20 +62,27 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     cardTranslationAfterSuccess: false,
     cardExplanationTranslation: true,
     cardExampleTranslation: true,
+    cardExplanationTranslationAfter: false, //after answer 
+    cardExampleTranslationAfter: false,   //after answer
     autoSound: true,
     answerButton: true,
     deleteButton: true,
     difficultWordsButton: true,
+    statusButtons: true,
     feedbackButtons: true,
     vocabularyExplanation: true,
     vocabularyExample: true,
     vocabularyTranscription: true,
     vocabularyImage: true,
-    mainGameShort: "null",
-    mainGameLong: "null",
+    mainGameShort: 'null',
+    mainGameLong: 'null',
     commonProgress: 0,
-    savannaSettings: "null",
-    magicButtonSettings: "null",
+    savannaSettings: 'null',
+    magicButtonSettings: 'null',
+    stillWordsOnGroup: '{"0":true,"1":true,"2":true,"3":true,"4":true,"5":true}',
+    avatarID: 1, // zero - take ava from link;
+    avatarLink: '', // link to avatar, if avatarID === 0
+    avatarSettings: 'null', // JSON.stingify(ava.settings.obj  null if we don't need it)
   },
 }
 
@@ -96,13 +119,15 @@ const newWordsFilter = '{"userWord":null}';
 const userWordsFilter = '{"userWord":{"$ne":null}}';
 
 const DARK_THEME_CLASSNAME = 'dark-theme';
-const TOTAL_DIFFICULTY_GROUPS = 6;
+
 
 export { 
   MB_STORAGE_KEY,
   MB_ROUTES,
   BASE_URL,
   FILE_URL,
+  AVA_URL,
+  FLAG_URL,
   ONE_MINUTE,
   TEN_MINUTES,
   ONE_DAY,
@@ -111,6 +136,7 @@ export {
   MULTIPLIER_GOOD,
   MULTIPLIER_EASY,
   ALL_WORDS,
+  TOTAL_DIFFICULTY_GROUPS,
   WORD_PARAM,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
@@ -118,5 +144,10 @@ export {
   newWordsFilter,
   userWordsFilter,
   DARK_THEME_CLASSNAME,
-  TOTAL_DIFFICULTY_GROUPS,
+  MIN_NEW_WORDS_PER_DAY,
+  MAX_NEW_WORDS_PER_DAY,
+  MIN_REPEAT_WORDS_PER_DAY,
+  MAX_REPEAT_WORDS_PER_DAY,
+  MIN_AVATAR_NUM,
+  MAX_AVATAR_NUM,
 };
