@@ -41,7 +41,7 @@ export interface wordsCount {
   count: number,
 }
 
-export interface userData extends signInRequestBody{
+export interface userData extends signInRequestBody {
   name: string,
 }
 
@@ -58,7 +58,7 @@ export interface userWordOptional {
   counter: number,
   success: number,
   progress: number,
-  status: 'active' | 'deleted' | 'difficult' ,//string,   //'active', 'deleted', 'difficult'
+  status: 'active' | 'deleted' | 'difficult',//string,   //'active', 'deleted', 'difficult'
   level: number,
   userWord: true,
 }
@@ -83,23 +83,23 @@ interface aggregatedCount {
 }
 
 export interface aggregatedWordsResult {
-    paginatedResults: paginatedWord[],
-    totalCount: aggregatedCount[],
+  paginatedResults: paginatedWord[],
+  totalCount: aggregatedCount[],
 }
 
 export interface userStatistics {
-    id?:  string,
-    learnedWords: number,
-    optional: {
-      mainGameShort: string,
-      mainGameLong: string,
-      savannahLong: string,
-      savannahMain:  string,
-      sprintLong: string,
-      sprintMain: string,
-      magicButtonLong: string,
-      magicButtonMain:  string,
-    }
+  id?: string,
+  learnedWords: number,
+  optional: {
+    mainGameShort: string,
+    mainGameLong: string,
+    savannahLong: string,
+    savannahMain: string,
+    sprintLong: string,
+    sprintMain: string,
+    magicButtonLong: string,
+    magicButtonMain: string,
+  }
 }
 
 export interface areThereStillWordsOnGroups {
@@ -107,14 +107,14 @@ export interface areThereStillWordsOnGroups {
 }
 
 export interface userSettingsOptional {
-  newWordsPerDay: number,  
+  newWordsPerDay: number,
   repeatWordsPerDay: number,
-  userLanguageLevel:number, 
+  userLanguageLevel: number,
   cardsPerDay: number,   //deprecated.  use newWordsPerDay  + repeatWordsPerDay
   mixedCards: number,    //depricated. 
-  isSoundOn:boolean,     
+  isSoundOn: boolean,
   cardWordPronunciation: boolean, //new
-  cardTranslation: boolean,       
+  cardTranslation: boolean,
   cardExplanation: boolean,
   cardExample: boolean,
   cardTranscription: boolean,
@@ -145,8 +145,8 @@ export interface userSettingsOptional {
   avatarSettings: string, // JSON.stingify(ava.settings.obj  null if we don't need it)
 }
 
-export interface userSettings{
-  id?:  string,
+export interface userSettings {
+  id?: string,
   wordsPerDay: number,
   optional: userSettingsOptional,
 }
@@ -161,7 +161,7 @@ export interface saveTrainingPart {
 }
 
 
-export interface userCardAnswer extends userWordReq{
+export interface userCardAnswer extends userWordReq {
   isRepeat: boolean,
   points: number,
 }
@@ -191,12 +191,12 @@ export interface cardAnswer {
   _id: string,
 }
 
-export interface trainingCardProps  extends darkThemeProps {
+export interface trainingCardProps extends darkThemeProps {
   word: paginatedWord,
   wordNumber: number,
   totalWords: number,
   settings: userSettings,
-  getAnswer: (res:cardAnswer) => void,
+  getAnswer: (res: cardAnswer) => void,
 }
 
 
@@ -220,22 +220,24 @@ export interface dashboardProps extends defaultLoginedProps { }
 
 export interface magicButtonProps extends defaultLoginedProps, loginStatusProps { }
 
-export interface settingsPageProps extends defaultLoginedProps  { } 
+export interface settingsPageProps extends defaultLoginedProps { }
 
-export interface logOutProps extends defaultLoginedProps  { }
+export interface logOutProps extends darkThemeProps {
+  logoutUser: () => void,
+}
 
-export interface trainingProps extends defaultLoginedProps  { }
+export interface trainingProps extends defaultLoginedProps { }
 
-export interface shadowTrainingProps extends defaultLoginedProps  {
+export interface shadowTrainingProps extends defaultLoginedProps {
   currentTrainingState: currentTraining,
   setCurrentTrainingState: React.Dispatch<React.SetStateAction<currentTraining>>,
 }
 
-export interface vocabularyProps extends defaultLoginedProps  { }
+export interface vocabularyProps extends defaultLoginedProps { }
 
 export type trainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
-export   interface startTrainingParams {
-  trainingType: trainingType ,
+export interface startTrainingParams {
+  trainingType: trainingType,
   newWords: number,
   repeatWords: number,
 }
