@@ -55,6 +55,12 @@ function TrainingPage(props:trainingProps) {
   const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
   const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
 
+  const playWord = async () => {
+    const soundObject = new Audio(audioWordURL);
+    await soundObject.load();
+    soundObject.play();
+  }
+
   const objForTranslation: lineProps = {
     isTrue: cardTranslation,
     line: thisWord.wordTranslate,
@@ -104,7 +110,9 @@ function TrainingPage(props:trainingProps) {
     isAnswerSet: isAnswered,
     updateAnswerSet: setIsAnswered,
     isTrue: isAnswerTrue,
-    updateAnswer: setIsAnswerTrue
+    updateAnswer: setIsAnswerTrue,
+    isSoundOn: isSoundOn,
+    wordSound: playWord
   };
 
   return (
@@ -203,18 +211,12 @@ function ButtonNext(props: forNextBtn) {
   }  
 }
 
-// это если ответил правильно
-  // if (autoSound) {
-        //   const audioWord = new Audio(audioWordURL);
-        //   const audioWordExample = new Audio(audioExampleURL);
-        //   const audioWordMeaning = new Audio(audioMeaningURL);
-        //   audioWord.play();
-          // audioWordExample.play();
-          // audioWordMeaning.play();
-
 function InputControl(props: forInput) {
-  const {value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer} = props;
+  const {
+    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound
+  } = props;
   
+  const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -242,32 +244,44 @@ function InputControl(props: forInput) {
       }
   };
 
+  const SoundHandler =() => {
+    if (isSoundOn) {
+      wordSound().catch(() => true);  
+    }
+  }
+
   if (isAnswerSet) {
     console.log('isAnswerSet true');
-    const cssStyle: string = isTrue ? "training-card-body-word-details-input green"
-      : "training-card-body-word-details-input red";
+    const cssStyle: string = isTrue ? "training-card-body-word-details-field-input green"
+      : "training-card-body-word-details-field-input red";
     return (
-    <input 
-      className={cssStyle} 
-      type="text" 
-      size={theWord.length}
-      autoFocus={false} 
-      spellCheck={false}
-      value={value}
-      disabled={true}/>)
+    <div className="training-card-body-word-details-field">
+      <i className={audioIcon} onClick={SoundHandler}></i>
+      <input 
+        className={cssStyle} 
+        type="text" 
+        size={theWord.length}
+        autoFocus={false} 
+        spellCheck={false}
+        value={value}
+        disabled={true}/>
+    </div>)
   } 
   console.log('isAnswerSet false');
   return (
-  <input 
-    className="training-card-body-word-details-input" 
-    type="text" 
-    size={theWord.length}
-    autoFocus={true} 
-    spellCheck={false}
-    onKeyPress={KeyPressHandler}
-    value={value} 
-    onChange={InputChangeHandler}
-    onClick={ClickHandler}/>)
+  <div className="training-card-body-word-details-field">
+    <i className={audioIcon} onClick={SoundHandler}></i>
+    <input 
+      className="training-card-body-word-details-field-input" 
+      type="text" 
+      size={theWord.length}
+      autoFocus={true} 
+      spellCheck={false}
+      onKeyPress={KeyPressHandler}
+      value={value} 
+      onChange={InputChangeHandler}
+      onClick={ClickHandler}/>
+  </div>)
 }
 
 export default TrainingPage;

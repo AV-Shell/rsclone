@@ -15,13 +15,18 @@ $color-info-hover: #7130f1;
 $orange: #FFA800;
 $orange-hover: #d68f01;
 
+.dark-theme {
+  >.training-page {
+    background-color: $dark-color;
+  }
+}
+
 .training-page {
   background-color: $bg-primary;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0.5em 0;
-
 
   .wrapper {
     box-sizing: border-box;
@@ -258,19 +263,29 @@ $orange-hover: #d68f01;
           align-items: center;
           padding: 5px;
 
-          &-input {
-            outline: none;
-            font-size: 24px;
-            font-family:'Courier New', Courier, monospace;
-            color: $color-info;
-            border-radius: 5px;
-            border: none;
-
-            &.green{
-              color: $success;
+          &-field {
+            >.bi {
+              font-size: 1.5em;
+              color: $text-dark;
             }
-            &.red{
-              color: $red;
+            &-input {
+              margin-left: 0.5em;
+              outline: none;
+              font-size: 24px;
+              font-family:'Courier New', Courier, monospace;
+              color: $color-info;
+              border-radius: 5px;
+              border: none;
+              &[disabled] {
+                background-color: $text-dark;
+              }
+  
+              &.green{
+                color: $success;
+              }
+              &.red{
+                color: $red;
+              }
             }
           }
 

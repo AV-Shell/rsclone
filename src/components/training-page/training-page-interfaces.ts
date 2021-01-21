@@ -24,7 +24,9 @@ export interface forInput {
   isAnswerSet: boolean,
   updateAnswerSet: React.Dispatch<React.SetStateAction<boolean>>,
   isTrue: boolean,
-  updateAnswer: React.Dispatch<React.SetStateAction<boolean>>
+  updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
+  isSoundOn: boolean,
+  wordSound: ()=>Promise<void>
 }
 
 type IntervalTime = {
