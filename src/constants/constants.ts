@@ -8,6 +8,15 @@ const MB_ROUTES = {
 
 const BASE_URL = 'https://afternoon-falls-25894.herokuapp.com';
 const FILE_URL = 'https://raw.githubusercontent.com/av-shell/rslang-data/master';
+const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/'
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
+const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/'
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_usa.svg
+
+const MIN_AVATAR_NUM = 1;
+const MAX_AVATAR_NUM = 45;
 
 const ONE_MINUTE = (60 * 1000);
 const TEN_MINUTES = (10 * 60 * 1000);
@@ -117,6 +126,8 @@ export {
   MB_ROUTES,
   BASE_URL,
   FILE_URL,
+  AVA_URL,
+  FLAG_URL,
   ONE_MINUTE,
   TEN_MINUTES,
   ONE_DAY,
@@ -137,4 +148,6 @@ export {
   MAX_NEW_WORDS_PER_DAY,
   MIN_REPEAT_WORDS_PER_DAY,
   MAX_REPEAT_WORDS_PER_DAY,
+  MIN_AVATAR_NUM,
+  MAX_AVATAR_NUM,
 };
