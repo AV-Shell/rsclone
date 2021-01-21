@@ -15,7 +15,7 @@ import SentenceWrapper from '../../../slave-components/sentence-wrapper'
 function TestingCard(props: trainingCardProps) {
   const { word, wordNumber, totalWords, getAnswer } = props
 
-  function answer(a: number) {
+  function answer(testCardCompletionType: number) {
     let res: cardAnswer;
     if (word.userWord) {
       res = {
@@ -38,9 +38,9 @@ function TestingCard(props: trainingCardProps) {
         _id: word._id,
       }
     }
-    if (a === 0) {
+    if (testCardCompletionType === 0) {
       res.isRepeat = true;
-    } else if (a === 1) {
+    } else if (testCardCompletionType === 1) {
       res.points = 1;
     }
     getAnswer(res);

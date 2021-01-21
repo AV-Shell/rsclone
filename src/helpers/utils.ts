@@ -30,19 +30,14 @@ interface querySettings {
 }
 const wordGroup:areThereStillWordsOnGroups = { 0: true, 1: true, 2: true, 3: true, 4: true, 5: true };
 
-
-
-const loadNewWords = async ({ maxWordsGroup, userLevel, newWordsCount, levelsWord, apiService }: querySettings) => {
-  let isWordsOnGroups;
-  if (levelsWord) {
-    isWordsOnGroups = { ...levelsWord };
-  } else {
-    isWordsOnGroups = { ...wordGroup }
-  }
+const loadNewWords = async ({ maxWordsGroup, userLevel,
+                              newWordsCount, levelsWord,
+                              apiService }: querySettings) => {
+  const isWordsOnGroups = levelsWord ? { ...levelsWord } : { ...wordGroup };
   let startLvl = userLevel;
   const constWordArray: paginatedWord[] = [];
-  let hiLvlWordsCount = Math.ceil(newWordsCount / 2);
-  let lowLvlWordsCount = newWordsCount - hiLvlWordsCount;
+  let highLvlWordsCount = Math.ceil(newWordsCount / 2);
+  let lowLvlWordsCount = newWordsCount - highLvlWordsCount;
   let hasLowLvlWords = false;
   let hasHiLvlWords = false;
   for (let i: number = 0; i < startLvl; i++) {
@@ -52,46 +47,46 @@ const loadNewWords = async ({ maxWordsGroup, userLevel, newWordsCount, levelsWor
     hasHiLvlWords = hasHiLvlWords || isWordsOnGroups[i];
   }
   if (hasLowLvlWords === false) {
-    hiLvlWordsCount = newWordsCount;
+    highLvlWordsCount = newWordsCount;
   }
   if (hasHiLvlWords === false) {
     lowLvlWordsCount = newWordsCount;
   }
   console.log('lowLvlWordsCount', lowLvlWordsCount);
-  console.log('hiLvlWordsCount', hiLvlWordsCount);
+  console.log('highLvlWordsCount', highLvlWordsCount);
   console.log('hasLowLvlWords', hasLowLvlWords);
   console.log('hasHiLvlWords', hasHiLvlWords);
   if (hasLowLvlWords) {
     let totalGotWords = 0;
-    for (let i = 0; i < startLvl; i += 1) {
+    for (let i = 0; i < startLvl; i++) {
       if (isWordsOnGroups[i] !== false) {
         const requestWordsCount = Math.ceil((lowLvlWordsCount - totalGotWords) / (startLvl - i));
         console.log('ilow', i, 'requestWordsCount', requestWordsCount, 'totalGotWords', totalGotWords);
-        let responce = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
-        console.log('responce', responce);
-        if (responce.paginatedResults.length === 0) {
+        const response = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
+        console.log('response', response);
+        if (response.paginatedResults.length === 0) {
           isWordsOnGroups[i] = false;
         } else {
-          responce.paginatedResults.forEach((word) => constWordArray.push(word));
-          totalGotWords += responce.paginatedResults.length;
+          response.paginatedResults.forEach((word) => constWordArray.push(word));
+          totalGotWords += response.paginatedResults.length;
         }
       }
     }
   }
   if (hasHiLvlWords) {
     let totalGotWords = 0;
-    for (let i = startLvl; i <= maxWordsGroup; i += 1) {
+    for (let i = startLvl; i <= maxWordsGroup; i++ ) {
       if (isWordsOnGroups[i] !== false) {
-        const requestWordsCount = hiLvlWordsCount - totalGotWords;
+        const requestWordsCount = highLvlWordsCount - totalGotWords;
         console.log('i hi', i, 'requestWordsCount', requestWordsCount, 'totalGotWords', totalGotWords);
-        let responce = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
-        console.log('responce', responce);
-        if (responce.paginatedResults.length === 0) {
+        const response = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
+        console.log('response', response);
+        if (response.paginatedResults.length === 0) {
           isWordsOnGroups[i] = false;
         } else {
-          responce.paginatedResults.forEach((word) => constWordArray.push(word));
-          totalGotWords += responce.paginatedResults.length;
-          if (hiLvlWordsCount === totalGotWords) {
+          response.paginatedResults.forEach((word) => constWordArray.push(word));
+          totalGotWords += response.paginatedResults.length;
+          if (highLvlWordsCount === totalGotWords) {
             break;
           }
         }

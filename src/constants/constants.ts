@@ -18,6 +18,11 @@ const MULTIPLIER_GOOD = 2.5;
 const MULTIPLIER_EASY = 4;
 const ALL_WORDS = 3600;
 const TOTAL_DIFFICULTY_GROUPS = 6;
+const MIN_NEW_WORDS_PER_DAY = 3;
+const MAX_NEW_WORDS_PER_DAY = 15;
+const MIN_REPEAT_WORDS_PER_DAY = 10;
+const MAX_REPEAT_WORDS_PER_DAY = 35;
+
 
 const WORD_PARAM = {
   again: 'again',
@@ -128,4 +133,8 @@ export {
   newWordsFilter,
   userWordsFilter,
   DARK_THEME_CLASSNAME,
+  MIN_NEW_WORDS_PER_DAY,
+  MAX_NEW_WORDS_PER_DAY,
+  MIN_REPEAT_WORDS_PER_DAY,
+  MAX_REPEAT_WORDS_PER_DAY,
 };

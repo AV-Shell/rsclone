@@ -8,6 +8,12 @@ import {
   trainingType,
 } from '../../../../constants/interfaces';
 
+import {
+  MIN_NEW_WORDS_PER_DAY,
+  MAX_NEW_WORDS_PER_DAY,
+  MIN_REPEAT_WORDS_PER_DAY,
+  MAX_REPEAT_WORDS_PER_DAY,
+} from '../../../../constants/constants';
 interface wordsSetting {
   new: number,
   repeat: number,
@@ -31,10 +37,15 @@ function TrainingConfigure(props: props) {
 
     const name = event.target.name;
     let value = +event.target.value;
-    if (name === 'new') {
-      value = value > 15 ? 15 : value < 3 ? 3 : value;
-    } else if (name === 'repeat') {
-      value = value > 35 ? 35 : value < 10 ? 10 : value;
+
+    if ((name === 'new') && (value > MAX_NEW_WORDS_PER_DAY)) {
+      value = MAX_NEW_WORDS_PER_DAY;
+    } else if ((name === 'new') && (value < MIN_NEW_WORDS_PER_DAY)) {
+      value = MIN_NEW_WORDS_PER_DAY;
+    } else if ((name === 'repeat') && (value > MAX_REPEAT_WORDS_PER_DAY)) {
+      value = MAX_REPEAT_WORDS_PER_DAY;
+    } else if ((name === 'repeat') && (value < MIN_REPEAT_WORDS_PER_DAY)) {
+      value = MIN_REPEAT_WORDS_PER_DAY;
     }
 
     setWordsSetting((old) => {
@@ -44,6 +55,7 @@ function TrainingConfigure(props: props) {
       }
     })
   }
+
   console.log('wordsSetting', wordsSetting);
 
   const startTrainingWithWords = (trainingType: trainingType) => {
@@ -52,6 +64,7 @@ function TrainingConfigure(props: props) {
       newWords: wordsSetting.new,
       repeatWords: wordsSetting.repeat,
     }
+    
     startTraining(startTrainingParams);
   }
 
