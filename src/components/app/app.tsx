@@ -344,6 +344,7 @@ const App: React.FC = () => {
           )
         }} exact />
         <Route path='/login' component={LoginPage} />
+        <Route path='/registration' component={LoginPage} />
         <Redirect to='/' />
       </Switch>
       <Footer></Footer>
