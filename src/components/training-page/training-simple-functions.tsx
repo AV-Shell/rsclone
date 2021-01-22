@@ -4,7 +4,7 @@ import {TOTAL_DIFFICULTY_GROUPS} from '../../constants/constants';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
   const {id, isShown, isAnswerRight, isWordNew, line, status, classCss, iClass, setStatusForObj} = props;
-  const classWhole: string = !isWordNew && (id === status) ? classCss + ' active' : classCss;
+  const classWhole: string = (id === status) ? classCss + ' active' : classCss;
 
   const ClickHandler = () => {
     console.log(`${id} is clicked`);

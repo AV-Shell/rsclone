@@ -1,76 +1,63 @@
 import React, { useState } from 'react';
 import './training-page.scss';
-import { trainingProps, userSettings, paginatedWord, cardAnswer, userWordOptional } from '../../constants/interfaces';
-import levelsOfRepeat from './training-consts';
+import { userSettings, paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
+import { levelsOfRepeat, MAX_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, forNextBtn, ForCardExamples } from './training-page-interfaces';
+import { lineProps, forInput, NextButtonProps, ForCardExamples } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
 import CardFooter from './training-page-card-footer';
 import TrainingCardExamples from './training-card-examples-field';
 
-function TrainingPage(props:trainingProps) {
+function TrainingPage(props:trainingCardProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
   const [wordPosition, setWordPosition] = useState<'active' | 'deleted' | 'difficult'>('active'); // для создания объекта
   const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
-  const [isNew, setIsNew] = useState<boolean>(true);
-  const [isToRepeat, setIsToRepeat] = useState<boolean>(false);
-
+  const [intervalLevel, setIntervalLevel] = useState<number>(0); // прокидывать в футер карточки
+  const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
+  
   const trainingDay: number = Date.now();
+
   console.log(props);
   const {
-    userWords, apiService, settings, statistic, updateSettings, updateStatistic, updateUserWords
+    word, settings, wordNumber, totalWords, getAnswer
   } = props;
-  if ((props.settings === null) || (props.statistic === null) || (props.userWords=== null)) {
-    return <div className="training-page"></div>
-  };
-  const { optional } = props.settings;
-  const trainingDayWords = userWords ? userWords : [];
-  const currentCard: number = 9;
+  
+  const { optional } = settings;
+  
+  const currentCard: number = wordNumber;
   let thisWord: paginatedWord;
-  thisWord = trainingDayWords[currentCard];
+  thisWord = word;
   const {group} = thisWord;
  
   const {
-    answerButton, autoSound/*автовоспроизведение всех звуков*/, cardExample, cardExampleTranslation,
-    cardExplanation, cardExplanationTranslation, cardImage, cardTranscription,
-    cardTranslation, cardTranslationAfterSuccess, cardsPerDay, commonProgress,
-    deleteButton, difficultWordsButton, feedbackButtons, isSoundOn,
+    answerButton, /*autoSound, автовоспроизведение всех звуков*/ cardExample, cardExampleTranslation,
+    cardWordPronunciation, cardExplanation, cardExplanationTranslation, 
+    cardImage, cardTranscription, cardExplanationTranslationAfter, cardExampleTranslationAfter,
+    cardTranslation, cardTranslationAfterSuccess, commonProgress,
+    statusButtons, feedbackButtons,
   } = optional;
+  const isSoundOn:boolean = true; // временно, пока звук не передается
+  const autoSound:boolean = false; // пока не найду, как нормально проигрывать
 
-  const allTrainingCards: number = cardsPerDay;
-  
+  const allTrainingCards: number = totalWords;
+  let firstAppearance: number = trainingDay;
+  let counter: number = 0;
+  let success: number = 0;
+
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
     const {userWord} = thisWord;
     const wordStatus: 'active' | 'deleted' | 'difficult' = userWord!.optional.status; // active, difficult, deleted
     setWordPosition(wordStatus);
+    firstAppearance = userWord!.optional.firstAppearance;
+    setIntervalLevel(userWord!.optional.level);
+    counter = userWord!.optional.counter;
+    success = userWord!.optional.success;
   };
-
-  const wordSettings: userWordOptional = {
-    firstAppearance: 0,
-    lastRepeat: trainingDay,
-    nextRepeat: 0,
-    counter: 0,
-    success: 0,
-    progress: 0,
-    status: wordPosition,//string,   //'active', 'deleted', 'difficult'
-    level: 1,
-    userWord: true,
-    }
-  // объект для Виталика
-  const resultOfTheCard: cardAnswer = {
-    difficulty: '',
-    optional: wordSettings,
-    isRepeat: isToRepeat,
-    points: 0,
-    _id: ''
-  }
-
-  
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
@@ -142,12 +129,25 @@ function TrainingPage(props:trainingProps) {
     meaningTranslationString: thisWord.textMeaningTranslate
   }
 
+  const objForNextButton: NextButtonProps = {
+    isShown: isAnswered,
+    isAnswerTrue: isAnswerTrue,
+    levelForRepeat: intervalLevel,
+    levelStatus: intervalStatus,
+    wordID: word._id,
+    getAnswer: getAnswer,
+    wordStatus: wordPosition,
+    firstAppearance: firstAppearance,
+    counter: counter,
+    success: success
+  }
+
   return (
     <div className="training-page">
       <div className="wrapper">
         <div className="wrapper-upper">
           <h1><i className="bi bi-stack"></i> Training</h1>
-          <ButtonNext isShown={isAnswered}/>
+          <ButtonNext {...objForNextButton}/>
         </div>
         <div className="training-progress">
           <span className="training-progress-left">1</span>
@@ -161,7 +161,7 @@ function TrainingPage(props:trainingProps) {
             </button>
             <TrainingCardUpperBtn 
               id={'active'}
-              isShown={difficultWordsButton}
+              isShown={statusButtons}
               isAnswerRight={isAnswered}
               isWordNew={isNew}
               status={wordPosition}
@@ -171,7 +171,7 @@ function TrainingPage(props:trainingProps) {
               setStatusForObj={setWordPosition}/>            
             <TrainingCardUpperBtn 
               id={'difficult'}
-              isShown={difficultWordsButton}
+              isShown={statusButtons}
               isAnswerRight={isAnswered}
               isWordNew={isNew}
               status={wordPosition}
@@ -181,7 +181,7 @@ function TrainingPage(props:trainingProps) {
               setStatusForObj={setWordPosition}/>
             <TrainingCardUpperBtn
               id={'deleted'}
-              isShown={deleteButton}
+              isShown={statusButtons}
               isAnswerRight={isAnswered}
               isWordNew={false}
               status={wordPosition}
@@ -224,13 +224,87 @@ function TrainingPage(props:trainingProps) {
   );
 }
 
-function ButtonNext(props: forNextBtn) {
-  const {isShown} = props;
-  if (isShown) {
-    return (<button className="button-next">Дальше</button>)
-  } else {
+function ButtonNext(props: NextButtonProps) {
+  const {
+    isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
+    firstAppearance, counter, success
+  } = props;
+  if (!isShown) {
     return null;
-  }  
+  };  
+
+  const ButtonNextHandler = () => {
+    const isToRepeat: boolean = (levelStatus === 'again') ? true : false;
+    const point: number = isAnswerTrue ? 1 : 0;
+    const trainingDay: number = Date.now();
+    const currentCount: number = counter + 1;
+    const currentSuccess: number = isAnswerTrue? success + 1 : success;
+    const currentProgress: number = currentSuccess / currentCount;
+
+    
+    
+    let nextRepeat: number = 0;
+    let levelNow: number = levelForRepeat;
+    if (isAnswerTrue ) {
+      switch (levelStatus) {
+        case 'again': nextRepeat = trainingDay;
+        break;
+        case 'hard':  
+          if (levelNow !== 0) {
+            levelNow = levelNow - 1;
+          };
+          nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+        break;
+        case 'easy':
+          if (levelNow < MAX_REPEAT_LEVEL - 1) {
+            levelNow = levelNow + 2;
+          } else if (levelNow < MAX_REPEAT_LEVEL) {
+            levelNow = levelNow + 1;
+          }
+          nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+        break;
+        default:
+          if (levelNow < MAX_REPEAT_LEVEL) {
+            levelNow = levelNow + 1;
+          };
+          nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+        break;
+      }
+    } else {
+      if (levelNow > 1) {
+        levelNow = levelNow - 1;  
+      } else {
+        levelNow = 1;
+      }; 
+        nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+    };  
+
+    const wordSettings: userWordOptional = {
+      firstAppearance: firstAppearance,
+      lastRepeat: trainingDay,
+      nextRepeat: nextRepeat, // подсчет по методике в кнопке
+      counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
+      success: currentSuccess, // сколько всего правильных ответов, плюсовать по клику на дальше
+      progress: currentProgress,
+      status: wordStatus,//string,   //'active', 'deleted', 'difficult'
+      level: levelNow,
+      userWord: true,
+      }
+    
+    const resultOfTheCard: cardAnswer = {
+      difficulty: 'default',
+      optional: wordSettings,
+      isRepeat: isToRepeat,
+      points: point,
+      _id: wordID
+    }
+    
+    console.log('повторять или нет: ', resultOfTheCard.isRepeat);
+    console.log(`уровень повторения: ${levelForRepeat}, следущий повтор: ${nextRepeat}`);
+    console.log(resultOfTheCard);
+  }
+
+  return (<button className="button-next" onClick={ButtonNextHandler}>Дальше</button>)
 }
 
 function InputControl(props: forInput) {

@@ -284,9 +284,18 @@ const App: React.FC = () => {
             <DailyGoalPage {...trainingPageProps}></DailyGoalPage>
           )
         }} />
-        <Route path='/training' component={() => {
+        {/* <Route path='/training' component={() => {
           return (
             <TrainingPage {...trainingPageProps}></TrainingPage>
+          )
+        }} /> */}
+        <Route path='/training' component={() => {
+          return (
+            <ShadowTrainingPage
+              {...trainingPageProps}
+              currentTrainingState={currentTrainingState}
+              setCurrentTrainingState={setCurrentTrainingState}
+            ></ShadowTrainingPage>
           )
         }} />
         {/* <Route path='/vocabulary' component={VocabularyPage} /> */}
@@ -309,12 +318,12 @@ const App: React.FC = () => {
             ></LogoutPage>
           )
         }} />
-        {/* <Route path='/magicButton' component={() => {
+        <Route path='/magicButton' component={() => {
           return (
             <MagicButton {...trainingPageProps} isAuthorizated={isAuthorizated}></MagicButton>
           )
-        }} /> */}
-        <Route path='/magicButton' component={() => {
+        }} />
+        {/* <Route path='/magicButton' component={() => {
           return (
             <ShadowTrainingPage
               {...trainingPageProps}
@@ -322,7 +331,7 @@ const App: React.FC = () => {
               setCurrentTrainingState={setCurrentTrainingState}
             ></ShadowTrainingPage>
           )
-        }} />
+        }} /> */}
 
         <Redirect to='dashboard' />
       </Switch>

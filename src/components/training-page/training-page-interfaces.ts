@@ -1,11 +1,12 @@
 import React from 'react';
+import { cardAnswer, userWordOptional } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: 'active' | 'deleted' | 'difficult',
   isShown:boolean,
   isAnswerRight: boolean,
   isWordNew: boolean,
-  status: string;
+  status: 'active' | 'deleted' | 'difficult';
   line:string,
   classCss: string,
   iClass: string
@@ -66,10 +67,6 @@ export interface footerBtns {
   isAnswerTrue: boolean
 }
 
-export interface forNextBtn {
-  isShown: boolean
-}
-
 export interface IconForSound {
   isSoundOn: boolean;
   sound: ()=>Promise<void>,
@@ -107,4 +104,17 @@ export interface TranslationProps {
   hasAnswer: boolean,
   line: string,
   classCSS: string
+}
+
+export interface NextButtonProps {
+  isShown: boolean,
+  isAnswerTrue: boolean,
+  levelForRepeat: number,
+  levelStatus: string,
+  wordStatus: 'active' | 'deleted' | 'difficult',
+  wordID: string,
+  getAnswer: (res: cardAnswer) => void,
+  firstAppearance: number,
+  counter: number,
+  success: number
 }
