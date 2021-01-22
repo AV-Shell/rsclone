@@ -8,7 +8,7 @@ function burgerMenu() {
       {/* <a  className="burger-menu__button" onClick = {handleClick}>
 <span className="burger-menu__lines"></span>
 </a> */}
-      <button className="c-hamburger c-hamburger--htx" id='c-hamburgerID' onClick={handleClick}>
+      <button className="burger-menu-c-hamburger burger-menu-c-hamburger--htx" id='c-hamburgerID' onClick={handleClick}>
         <span>toggle menu</span>
       </button>
       <nav className="burger-menu__nav">
@@ -26,7 +26,7 @@ function burgerMenu() {
           <li className="list__item" ><Link to='/magicButton' className="list__link list__link_active" onClick={handleClick}>Magic Button</Link>
           </li>
         </ul>
-        <Link to='/' className='burger_logout'>logout</Link>
+        <Link to='/' className='burger-menu_logout'>logout</Link>
       </nav>
       <div className="burger-menu__overlay" onClick={handleClick}></div></div>
   )
