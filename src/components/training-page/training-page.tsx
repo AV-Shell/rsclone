@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './training-page.scss';
-import { trainingProps, userSettings, paginatedWord } from '../../constants/interfaces';
+import { trainingProps, userSettings, paginatedWord, cardAnswer, userWordOptional } from '../../constants/interfaces';
 import levelsOfRepeat from './training-consts';
 import { FILE_URL } from '../../constants/constants';
 import { lineProps, forInput, forNextBtn, ForCardExamples } from './training-page-interfaces';
@@ -14,9 +14,10 @@ function TrainingPage(props:trainingProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
-  const [wordPosition, setWordPosition] = useState<string>(''); // для создания объекта
+  const [wordPosition, setWordPosition] = useState<'active' | 'deleted' | 'difficult'>('active'); // для создания объекта
   const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
   const [isNew, setIsNew] = useState<boolean>(true);
+  const [isToRepeat, setIsToRepeat] = useState<boolean>(false);
 
   const trainingDay: number = Date.now();
   console.log(props);
@@ -45,9 +46,31 @@ function TrainingPage(props:trainingProps) {
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
     const {userWord} = thisWord;
-    const wordStatus: string = userWord!.optional.status; // active, difficult, deleted
+    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord!.optional.status; // active, difficult, deleted
     setWordPosition(wordStatus);
   };
+
+  const wordSettings: userWordOptional = {
+    firstAppearance: 0,
+    lastRepeat: trainingDay,
+    nextRepeat: 0,
+    counter: 0,
+    success: 0,
+    progress: 0,
+    status: wordPosition,//string,   //'active', 'deleted', 'difficult'
+    level: 1,
+    userWord: true,
+    }
+  // объект для Виталика
+  const resultOfTheCard: cardAnswer = {
+    difficulty: '',
+    optional: wordSettings,
+    isRepeat: isToRepeat,
+    points: 0,
+    _id: ''
+  }
+
+  
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface upperButtonProps {
-  id: string,
+  id: 'active' | 'deleted' | 'difficult',
   isShown:boolean,
   isAnswerRight: boolean,
   isWordNew: boolean,
@@ -9,7 +9,7 @@ export interface upperButtonProps {
   line:string,
   classCss: string,
   iClass: string
-  setStatusForObj: React.Dispatch<React.SetStateAction<string>>
+  setStatusForObj: React.Dispatch<React.SetStateAction<'active' | 'deleted' | 'difficult'>>
 }
 export interface lineProps {
   isTrue:boolean,
