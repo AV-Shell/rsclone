@@ -71,7 +71,7 @@ function Header(props: headerProps) {
   return (
     <header className="header">
       {headerSwitchMenu}
-      <div className='logoimg' id='logoImgID'><img src={logo} alt="" /></div>
+      <div className='header-logoimg' id='logoImgID'><img src={logo} alt="" /></div>
       <div className='header-switch-menu'>
         {muteImg}
         {switchLangMenu}
