@@ -7,6 +7,7 @@ import { lineProps, forInput, NextButtonProps, ForCardExamples } from './trainin
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
   } from './training-simple-functions';
+import InputControl from './training-page-input';
 import CardFooter from './training-page-card-footer';
 import TrainingCardExamples from './training-card-examples-field';
 
@@ -45,8 +46,9 @@ function TrainingPage(props:trainingCardProps) {
 
   const allTrainingCards: number = totalWords;
   let firstAppearance: number = trainingDay;
-  let counter: number = 0;
-  let success: number = 0;
+  let counter: number = 5;
+  let success: number = 3;
+  let progress: number = 0;
 
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
@@ -57,7 +59,9 @@ function TrainingPage(props:trainingCardProps) {
     setIntervalLevel(userWord!.optional.level);
     counter = userWord!.optional.counter;
     success = userWord!.optional.success;
+    progress = userWord!.optional.counter;
   };
+  progress = Math.floor((success / counter) * 100) / 100;
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
@@ -194,7 +198,7 @@ function TrainingPage(props:trainingCardProps) {
             <div className="training-card-body-upper">
               <hr />
               <div className="training-card-body-upper-progress">
-                <span className="word-progress">word-progress<small>тут чо-то написано</small></span>
+                <span className="word-progress">{`${progress * 100}%`}<small>тут чо-то написано</small></span>
                 <StarsLevelField level={group} />
               </div>
             </div>
@@ -239,24 +243,25 @@ function ButtonNext(props: NextButtonProps) {
     const trainingDay: number = Date.now();
     const currentCount: number = counter + 1;
     const currentSuccess: number = isAnswerTrue? success + 1 : success;
-    const currentProgress: number = currentSuccess / currentCount;
-
-    
+    const currentProgress: number = Math.floor((currentSuccess / currentCount) * 100) / 100;
     
     let nextRepeat: number = 0;
     let levelNow: number = levelForRepeat;
-    if (isAnswerTrue ) {
+    if (isAnswerTrue) {
       switch (levelStatus) {
         case 'again': nextRepeat = trainingDay;
+          levelNow = levelNow + 1;
         break;
         case 'hard':  
-          if (levelNow !== 0) {
-            levelNow = levelNow - 1;
+          if (levelNow < MAX_REPEAT_LEVEL) {
+            levelNow = levelNow + 1;
           };
           nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
         break;
         case 'easy':
-          if (levelNow < MAX_REPEAT_LEVEL - 1) {
+          if (levelNow < MAX_REPEAT_LEVEL - 2) {
+            levelNow = levelNow + 3;
+          } else if (levelNow < MAX_REPEAT_LEVEL - 1) {
             levelNow = levelNow + 2;
           } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
@@ -264,18 +269,16 @@ function ButtonNext(props: NextButtonProps) {
           nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
         break;
         default:
-          if (levelNow < MAX_REPEAT_LEVEL) {
+          if (levelNow < MAX_REPEAT_LEVEL - 1) {
+            levelNow = levelNow + 2;
+          } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           };
           nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
         break;
       }
     } else {
-      if (levelNow > 1) {
-        levelNow = levelNow - 1;  
-      } else {
         levelNow = 1;
-      }; 
         nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
     };  
 
@@ -302,90 +305,14 @@ function ButtonNext(props: NextButtonProps) {
     console.log('повторять или нет: ', resultOfTheCard.isRepeat);
     console.log(`уровень повторения: ${levelForRepeat}, следущий повтор: ${nextRepeat}`);
     console.log(resultOfTheCard);
+
+    // возвращение нужного объекта
+    // let res: cardAnswer;
+    // res = resultOfTheCard;
+    // getAnswer(res);
   }
 
   return (<button className="button-next" onClick={ButtonNextHandler}>Дальше</button>)
-}
-
-function InputControl(props: forInput) {
-  const {
-    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
-    isAutoPlayOn, exampleSound, meaningSound
-  } = props;
-  
-  const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
-
-  const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    updateValue(event.target.value);
-  };
-
-  // const ClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
-  //   event.preventDefault();
-  //   updateValue('');
-  // };
-
-  const KeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      updateAnswerSet(true);
-      console.log('enter pressed in input');
-      if (value.toLocaleLowerCase() === theWord) {
-        console.log('that is right');
-        updateAnswer(true);
-        updateAnswerSet(true);
-        } else {
-          updateValue(theWord);
-          updateAnswer(false);
-          updateAnswerSet(true);
-        }
-        // if (isAutoPlayOn) {
-        //   wordSound()
-        //     .then(() => {exampleSound()})
-        //     .then(() => {meaningSound()})
-        //     .catch(() => true);
-        // }
-        // воспроизводится одновременно(
-      }
-  };
-
-  const SoundHandler =() => {
-    if (isSoundOn) {
-      wordSound().catch(() => true);  
-    }
-  }
-
-  if (isAnswerSet) {
-    console.log('isAnswerSet true');
-    const cssStyle: string = isTrue ? "training-card-body-word-details-field-input green"
-      : "training-card-body-word-details-field-input red";
-    return (
-    <div className="training-card-body-word-details-field">
-      <i className={audioIcon} onClick={SoundHandler}></i>
-      <input 
-        className={cssStyle} 
-        type="text" 
-        size={theWord.length}
-        autoFocus={false} 
-        spellCheck={false}
-        value={value}
-        disabled={true}/>
-    </div>)
-  } 
-  console.log('isAnswerSet false');
-  return (
-  <div className="training-card-body-word-details-field">
-    <i className={audioIcon} onClick={SoundHandler}></i>
-    <input 
-      className="training-card-body-word-details-field-input" 
-      type="text" 
-      size={theWord.length}
-      autoFocus={true} 
-      spellCheck={false}
-      onKeyPress={KeyPressHandler}
-      value={value} 
-      onChange={InputChangeHandler}
-      />
-  </div>)
 }
 
 export default TrainingPage;
