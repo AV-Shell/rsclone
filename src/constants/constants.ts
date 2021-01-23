@@ -86,8 +86,9 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     magicButtonSettings: 'null',
     stillWordsOnGroup: '{"0":true,"1":true,"2":true,"3":true,"4":true,"5":true}',
     avatarID: 1, // zero - take ava from link;
-    avatarLink: '', // link to avatar, if avatarID === 0
+    avatarLink: 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png', // link to avatar, if avatarID === 0
     avatarSettings: 'null', // JSON.stingify(ava.settings.obj  null if we don't need it)
+    createSettingsTimestamp: 0,
   },
 }
 

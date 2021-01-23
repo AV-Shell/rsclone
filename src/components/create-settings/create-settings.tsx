@@ -62,6 +62,7 @@ function CreateSettings(props: ICreateSettingsProps) {
         ...DEFAULT_USER_SETTINGS.optional,
         avatarID: avatarNumber,
         userLanguageLevel: englishWordsLevel,
+        createSettingsTimestamp: Date.now(),
       }
     }
     const defaultStatistic: userStatistics = {
@@ -69,23 +70,23 @@ function CreateSettings(props: ICreateSettingsProps) {
       optional: { ...DEFAULT_USER_STATISTIC.optional }
     }
     apiService.updateSettings(defaultSettings)
-    .then(() => {
-      return apiService.updateStatistics(defaultStatistic)
-    })
-    .then(() => {
-      getSettingsCallback({
-        isSuccess:true,
-        userSettings: defaultSettings,
-        userStatistics: defaultStatistic,
+      .then(() => {
+        return apiService.updateStatistics(defaultStatistic)
       })
-    })
-    .catch((err) => {
-      getSettingsCallback({
-        isSuccess:false,
-        userSettings: defaultSettings,
-        userStatistics: defaultStatistic,
+      .then(() => {
+        getSettingsCallback({
+          isSuccess: true,
+          userSettings: defaultSettings,
+          userStatistics: defaultStatistic,
+        })
       })
-    })
+      .catch((err) => {
+        getSettingsCallback({
+          isSuccess: false,
+          userSettings: defaultSettings,
+          userStatistics: defaultStatistic,
+        })
+      })
   }
 
   useEffect(() => {
@@ -160,7 +161,10 @@ function CreateSettings(props: ICreateSettingsProps) {
           min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}>
         </input>
       </label>
-      <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+      <div className='image-container'>
+        <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+      </div>
+
       <span className="save-settings-button" onClick={onClick}>
         <span className="text-container">Принять</span>
       </span>

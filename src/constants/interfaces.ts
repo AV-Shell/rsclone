@@ -143,6 +143,7 @@ export interface userSettingsOptional {
   avatarID: number, // zero - take ava from link;
   avatarLink: string, // link to avatar, if avatarID === 0
   avatarSettings: string, // JSON.stingify(ava.settings.obj  null if we don't need it)
+  createSettingsTimestamp : number,
 }
 
 export interface userSettings {

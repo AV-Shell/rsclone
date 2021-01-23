@@ -77,17 +77,22 @@ const api = new ApiService();
 interface IrefContainer {
   api: ApiService,
   isLoading: boolean,
+  isAuthorizated: boolean,
+  // tokenRefreshInterval: null | ReturnType<typeof setTimeout>,
+  // tokenRefreshInterval: ReturnType<typeof setInterval> | undefined,
+  tokenRefreshInterval: number | undefined;
 }
-
+const shell = (a: IrefContainer) => a;
 
 
 const App: React.FC = () => {
   console.log('\r\n Render App \r\n');
-  const that = useRef({
+  const that = useRef(shell({
     api: new ApiService(),
     isLoading: true,
     isAuthorizated: api.checkTokenValidity(),
-  });
+    tokenRefreshInterval: undefined,
+  }));
   // console.log('\r\n\r\n\r\n\r\n\r\n');
   // console.log(that.current.isAuthorizated);
   // console.log('\r\n\r\n\r\n\r\n\r\n');
@@ -143,13 +148,62 @@ const App: React.FC = () => {
   //check Login and refresh token
   //TODO:
   useEffect(() => {
-    console.log('useEffect checkTokenValidity');
-    if (api.checkTokenValidity()) {
-      //TODO: REFRESH token 
-      console.log('6 checkTokenValidity');
-      setIsAuthorizated(true);
+    const deltaTimeToRefresh = 30 * 60 * 1000;
+    const tokenLifeTime = 4 * 60 * 60 * 1000;
+    const spareTime2min = 2 * 60 * 1000;
+    const timeToRefresh = tokenLifeTime - deltaTimeToRefresh;
+    function setRefreshTokenInterval() {
+      console.log('setRefreshTokenInterval');
+      //TODO:// get from that
+      // clearTimeout(this.refreshAuthTimer);
+      window.clearInterval(that.current.tokenRefreshInterval);
+      // const refreshTime = expTime - new Date().getTime() - timeToRefresh;
+
+      //TODO: add to that
+      that.current.tokenRefreshInterval = window.setInterval(() => {
+
+        api.getNewTokens()
+          .then(() => {
+            console.log('Token Refreshed');
+          })
+          .catch((err) => {
+            console.log(err.message);
+            logoutUser();
+          })
+      }, timeToRefresh - spareTime2min);
+        // },  3 * 60 * 1000);
     }
-  }, []);
+    if (isAuthorizated) {
+      console.log('Обновляем токен при заходе юзера, и ставим таймаут.');
+      let expTime;
+      expTime = api.tokenExpiresIn;
+      if (expTime - new Date().getTime() < timeToRefresh) {
+        console.log('refresh token');
+        api.getNewTokens()
+          .then(() => {
+            console.log('обновили токен, всё норм');
+            setRefreshTokenInterval();
+          })
+          .catch((err) => {
+            console.log('api.getNewTokens() problem, logout user', err.message);
+            logoutUser();
+          })
+
+      } else {
+        setRefreshTokenInterval();
+      }
+
+    } else {
+      console.log('сбрасываем интервал');
+      window.clearInterval(that.current.tokenRefreshInterval);
+    }
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log(isAuthorizated);
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log('userWords data');
+  }, [isAuthorizated]);
 
 
 
