@@ -76,9 +76,50 @@ function SettingsPage(props: settingsPageProps) {
     const target = event.target;
     const value = target.checked;
     const name = target.name;
+    let iscardTranslationAfterSuccess = set2.cardTranslationAfterSuccess;
+    let isCardExplanationTranslation = set2.cardExplanationTranslation;
+    let isCardExplanationTranslationAfter = set2.cardExplanationTranslationAfter;
+    let isCardExampleTranslation = set2.cardExampleTranslation;
+    let isCardExampleTranslationAfter = set2.cardExampleTranslationAfter;
+
+    if ((name === 'cardTranslation') && (value === true)) {
+      iscardTranslationAfterSuccess = false;
+    }
+
+    if ((name === 'cardExplanation') && (value === false)) {
+      isCardExplanationTranslation = false;
+      isCardExplanationTranslationAfter = false;
+    }
+
+    if ((name === 'cardExample') && (value === false)) {
+      isCardExampleTranslation = false;
+      isCardExampleTranslationAfter = false;
+    }
+
+    if ((name === 'cardExplanationTranslation') && (value === true)) {
+      isCardExplanationTranslationAfter = false;
+    }
+
+    if ((name === 'cardExplanationTranslationAfter') && (value === true)) {
+      isCardExplanationTranslation = false;
+    }
+
+    if ((name === 'cardExampleTranslation') && (value === true)) {
+      isCardExampleTranslationAfter = false;
+    }
+
+    if ((name === 'cardExampleTranslationAfter') && (value === true)) {
+      isCardExampleTranslation = false;
+    }
+
     setSet2((previousState: CardSettings) => {
       return {
         ...previousState,
+        cardTranslationAfterSuccess: iscardTranslationAfterSuccess,
+        cardExplanationTranslation: isCardExplanationTranslation,
+        cardExplanationTranslationAfter: isCardExplanationTranslationAfter,
+        cardExampleTranslation: isCardExampleTranslation,
+        cardExampleTranslationAfter: isCardExampleTranslationAfter,
         [name]: value,
       }
     });
@@ -175,6 +216,7 @@ function SettingsPage(props: settingsPageProps) {
             type="checkbox"
             name='cardTranslationAfterSuccess'
             checked={set2.cardTranslationAfterSuccess}
+            disabled={set2.cardTranslation}
             onChange={onChangeSet2}
           />
           показывать перевод слова после ответа
@@ -184,6 +226,7 @@ function SettingsPage(props: settingsPageProps) {
             type="checkbox"
             name='cardExampleTranslation'
             checked={set2.cardExampleTranslation}
+            disabled={!set2.cardExample}
             onChange={onChangeSet2}
           />
           перевод примера
@@ -193,6 +236,7 @@ function SettingsPage(props: settingsPageProps) {
             type="checkbox"
             name='cardExplanationTranslation'
             checked={set2.cardExplanationTranslation}
+            disabled={!set2.cardExplanation}
             onChange={onChangeSet2}
           />
           перевод объяснения
@@ -202,6 +246,7 @@ function SettingsPage(props: settingsPageProps) {
             type="checkbox"
             name='cardExplanationTranslationAfter'
             checked={set2.cardExplanationTranslationAfter}
+            disabled={!set2.cardExplanation}
             onChange={onChangeSet2}
           />
           перевод объяснения после ответа
@@ -211,6 +256,7 @@ function SettingsPage(props: settingsPageProps) {
             type="checkbox"
             name='cardExampleTranslationAfter'
             checked={set2.cardExampleTranslationAfter}
+            disabled={!set2.cardExample}
             onChange={onChangeSet2}
           />
           перевод примера после ответа
