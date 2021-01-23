@@ -19,6 +19,8 @@ function TrainingPage(props:trainingCardProps) {
   const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
   const [intervalLevel, setIntervalLevel] = useState<number>(0); // прокидывать в футер карточки
   const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
+  const [counter, setCounter] = useState<number>(5);
+  const [success, setSuccess] = useState<number>(3);
   
   const trainingDay: number = Date.now();
 
@@ -46,8 +48,8 @@ function TrainingPage(props:trainingCardProps) {
 
   const allTrainingCards: number = totalWords;
   let firstAppearance: number = trainingDay;
-  let counter: number = 5;
-  let success: number = 3;
+  // let counter: number = 5;
+  // let success: number = 3;
   let progress: number = 0;
 
   if (('userWord' in thisWord) && (isNew)) {
@@ -57,8 +59,10 @@ function TrainingPage(props:trainingCardProps) {
     setWordPosition(wordStatus);
     firstAppearance = userWord!.optional.firstAppearance;
     setIntervalLevel(userWord!.optional.level);
-    counter = userWord!.optional.counter;
-    success = userWord!.optional.success;
+    // counter = userWord!.optional.counter;
+    // success = userWord!.optional.success;
+    setCounter(userWord!.optional.counter);
+    setSuccess(userWord!.optional.success);
     progress = userWord!.optional.counter;
   };
   progress = Math.floor((success / counter) * 100) / 100;
@@ -114,7 +118,11 @@ function TrainingPage(props:trainingCardProps) {
     wordSound: playWord,
     isAutoPlayOn: autoSound,
     exampleSound: playExample,
-    meaningSound: playMeaning
+    meaningSound: playMeaning,
+    counter: counter,
+    success: success,
+    updateCounter: setCounter,
+    updateSuccess: setSuccess
   };
   
   const objForExamplesPart: ForCardExamples = {
@@ -228,37 +236,47 @@ function TrainingPage(props:trainingCardProps) {
   );
 }
 
+
 function ButtonNext(props: NextButtonProps) {
   const {
     isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
     firstAppearance, counter, success
   } = props;
+  const trainingDay: number = Date.now();
+  const [nextRepeat, setNextRepeat] = useState<number>(trainingDay);
   if (!isShown) {
     return null;
   };  
+  
+  const currentCount: number = counter;
+  const currentSuccess: number = success;
+  const currentProgress: number = Math.floor((currentSuccess / currentCount) * 100) / 100;
 
   const ButtonNextHandler = () => {
     const isToRepeat: boolean = (levelStatus === 'again') ? true : false;
     const point: number = isAnswerTrue ? 1 : 0;
-    const trainingDay: number = Date.now();
-    const currentCount: number = counter + 1;
-    const currentSuccess: number = isAnswerTrue? success + 1 : success;
-    const currentProgress: number = Math.floor((currentSuccess / currentCount) * 100) / 100;
     
-    let nextRepeat: number = 0;
+    // let nextRepeat: number = trainingDay;
     let levelNow: number = levelForRepeat;
+    console.log(levelNow, 'levelNow');
     if (isAnswerTrue) {
       switch (levelStatus) {
-        case 'again': nextRepeat = trainingDay;
+        case 'again': 
+          console.log('in again switch');
+          setNextRepeat(nextRepeat + 0);;
           levelNow = levelNow + 1;
+          console.log(`nextRepeat: ${nextRepeat}`);
         break;
         case 'hard':  
+          console.log('in hard switch');
           if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           };
-          nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+          setNextRepeat(nextRepeat + levelsOfRepeat[levelNow]);
+          console.log(`nextRepeat: ${nextRepeat}`);
         break;
         case 'easy':
+          console.log('in easy switch');
           if (levelNow < MAX_REPEAT_LEVEL - 2) {
             levelNow = levelNow + 3;
           } else if (levelNow < MAX_REPEAT_LEVEL - 1) {
@@ -266,21 +284,28 @@ function ButtonNext(props: NextButtonProps) {
           } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           }
-          nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+          const interval: number = levelsOfRepeat[levelNow];
+          setNextRepeat(nextRepeat + interval);
+          console.log(`interval: ${interval}, nextRepeat: ${nextRepeat}`);
         break;
         default:
+          console.log('in normal switch');
           if (levelNow < MAX_REPEAT_LEVEL - 1) {
             levelNow = levelNow + 2;
           } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           };
-          nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
+          setNextRepeat(nextRepeat + levelsOfRepeat[levelNow]);
+          console.log(`nextRepeat: ${nextRepeat}`);
         break;
       }
     } else {
-        levelNow = 1;
-        nextRepeat = levelsOfRepeat[levelNow] + trainingDay;
-    };  
+      console.log('when answer wrong');
+      levelNow = 1;
+      setNextRepeat(nextRepeat + levelsOfRepeat[levelNow]);
+      console.log(`nextRepeat: ${nextRepeat}`);
+    };
+    console.log(`nextRepeat: ${nextRepeat}`, 'outside switch');
 
     const wordSettings: userWordOptional = {
       firstAppearance: firstAppearance,
@@ -303,7 +328,7 @@ function ButtonNext(props: NextButtonProps) {
     }
     
     console.log('повторять или нет: ', resultOfTheCard.isRepeat);
-    console.log(`уровень повторения: ${levelForRepeat}, следущий повтор: ${nextRepeat}`);
+    console.log(`уровень повторения: ${levelForRepeat}, повторить через: ${levelsOfRepeat[levelNow]} следущий повтор: ${nextRepeat}`);
     console.log(resultOfTheCard);
 
     // возвращение нужного объекта

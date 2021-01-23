@@ -1,11 +1,11 @@
 import React from 'react';
-import {ONE_DAY} from '../../constants/constants';
+// import {ONE_DAY} from '../../constants/constants';
 
 type IntervalTime = {
   [days: number]: number 
 };
 
-const DAY_IN_SECONDS : number = ONE_DAY;
+const DAY_IN_SECONDS : number = 24 * 60 * 60 * 1000;
 const levelsOfRepeat: IntervalTime = {
   0: 0,
   1: DAY_IN_SECONDS,

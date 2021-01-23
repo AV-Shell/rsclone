@@ -4,7 +4,7 @@ import { lineProps, forInput, NextButtonProps, ForCardExamples } from './trainin
 export default function InputControl(props: forInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
-    isAutoPlayOn, exampleSound, meaningSound
+    isAutoPlayOn, exampleSound, meaningSound, counter, success, updateCounter, updateSuccess
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
@@ -21,12 +21,14 @@ export default function InputControl(props: forInput) {
 
   const KeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
+      updateCounter(counter + 1);
       updateAnswerSet(true);
       console.log('enter pressed in input');
       if (value.toLocaleLowerCase() === theWord) {
         console.log('that is right');
         updateAnswer(true);
         updateAnswerSet(true);
+        updateSuccess(success + 1);
         } else {
           updateValue(theWord);
           updateAnswer(false);

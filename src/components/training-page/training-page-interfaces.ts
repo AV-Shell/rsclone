@@ -29,7 +29,11 @@ export interface forInput {
   wordSound: ()=>Promise<void>,
   isAutoPlayOn: boolean,
   exampleSound: ()=>Promise<void>,
-  meaningSound: ()=>Promise<void>
+  meaningSound: ()=>Promise<void>,
+  counter: number,
+  success: number,
+  updateCounter: React.Dispatch<React.SetStateAction<number>>,
+  updateSuccess: React.Dispatch<React.SetStateAction<number>>
 }
 
 type IntervalTime = {
