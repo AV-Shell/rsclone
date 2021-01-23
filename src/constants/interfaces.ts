@@ -41,7 +41,7 @@ export interface wordsCount {
   count: number,
 }
 
-export interface userData extends signInRequestBody{
+export interface userData extends signInRequestBody {
   name: string,
 }
 
@@ -51,19 +51,21 @@ export interface userResponce {
   email: string,
 }
 
+export interface userWordOptional {
+  firstAppearance: number,
+  lastRepeat: number,
+  nextRepeat: number,
+  counter: number,
+  success: number,
+  progress: number,
+  status: 'active' | 'deleted' | 'difficult',//string,   //'active', 'deleted', 'difficult'
+  level: number,
+  userWord: true,
+}
+
 export interface userWordReq {
   difficulty: string,
-  optional: {
-    firstAppearance: number,
-    lastRepeat: number,
-    nextRepeat: number,
-    counter: number,
-    success: number,
-    progress: number,
-    status: string,   //'active', 'deleted', 'difficult'
-    level: number,
-    userWord: true,
-  },
+  optional: userWordOptional,
 }
 
 export interface userWordRes extends userWordReq {
@@ -81,67 +83,89 @@ interface aggregatedCount {
 }
 
 export interface aggregatedWordsResult {
-    paginatedResults: paginatedWord[],
-    totalCount: aggregatedCount[],
+  paginatedResults: paginatedWord[],
+  totalCount: aggregatedCount[],
 }
 
 export interface userStatistics {
-    id?:  string,
-    learnedWords: number,
-    optional: {
-      mainGameShort: string,
-      mainGameLong: string,
-      savannahLong: string,
-      savannahMain:  string,
-      sprintLong: string,
-      sprintMain: string,
-      magicButtonLong: string,
-      magicButtonMain:  string,
-    }
-}
-
-export interface userSettings{
-  id?:  string,
-  wordsPerDay: number,
+  id?: string,
+  learnedWords: number,
   optional: {
-    newWordsPerDay: number,
-    repeatWordsPerDay: number,
-    userLanguageLevel:number,
-    cardsPerDay: number,
-    mixedCards: number,
-    isSoundOn:boolean,
-    cardTranslation: boolean,
-    cardExplanation: boolean,
-    cardExample: boolean,
-    cardTranscription: boolean,
-    cardImage: boolean,
-    cardTranslationAfterSuccess: boolean,
-    cardExplanationTranslation: boolean,
-    cardExampleTranslation: boolean,
-    autoSound: boolean,
-    answerButton: boolean,
-    deleteButton: boolean,
-    difficultWordsButton: boolean,
-    feedbackButtons: boolean,
-    vocabularyExplanation: boolean,
-    vocabularyExample: boolean,
-    vocabularyTranscription: boolean,
-    vocabularyImage: boolean,
     mainGameShort: string,
     mainGameLong: string,
-    commonProgress: number,
-    savannaSettings: string,
-    magicButtonSettings: string,
-  },
+    savannahLong: string,
+    savannahMain: string,
+    sprintLong: string,
+    sprintMain: string,
+    magicButtonLong: string,
+    magicButtonMain: string,
+  }
+}
+
+export interface areThereStillWordsOnGroups {
+  [group: number]: boolean,
+}
+
+export interface userSettingsOptional {
+  newWordsPerDay: number,
+  repeatWordsPerDay: number,
+  userLanguageLevel: number,
+  cardsPerDay: number,   //deprecated.  use newWordsPerDay  + repeatWordsPerDay
+  mixedCards: number,    //depricated. 
+  isSoundOn: boolean,
+  cardWordPronunciation: boolean, //new
+  cardTranslation: boolean,
+  cardExplanation: boolean,
+  cardExample: boolean,
+  cardTranscription: boolean,
+  cardImage: boolean,
+  cardTranslationAfterSuccess: boolean,
+  cardExplanationTranslation: boolean, //before answer 
+  cardExampleTranslation: boolean,  //before answer
+  cardExplanationTranslationAfter: boolean, //after answer new
+  cardExampleTranslationAfter: boolean,   //after answer new
+  autoSound: boolean,
+  answerButton: boolean,
+  deleteButton: boolean,  //deprecated.  use statusButtons
+  difficultWordsButton: boolean, //deprecated.  use statusButtons
+  statusButtons: boolean, // new
+  feedbackButtons: boolean,
+  vocabularyExplanation: boolean,
+  vocabularyExample: boolean,
+  vocabularyTranscription: boolean,
+  vocabularyImage: boolean,
+  mainGameShort: string,
+  mainGameLong: string,
+  commonProgress: number,
+  savannaSettings: string,
+  magicButtonSettings: string,
+  stillWordsOnGroup: string,  //new/ for prepare training
+  avatarID: number, // zero - take ava from link;
+  avatarLink: string, // link to avatar, if avatarID === 0
+  avatarSettings: string, // JSON.stingify(ava.settings.obj  null if we don't need it)
+}
+
+export interface userSettings {
+  id?: string,
+  wordsPerDay: number,
+  optional: userSettingsOptional,
 }
 
 
-interface saveTrainingPart {
+export interface saveTrainingPart {
   startTrainingTimestamp: number,
   totalWordsCount: number,
   trainingCountPerDay: number,
   trueAnswerCount: number,
+  // isTrainingFinish: boolean,
 }
+
+
+export interface userCardAnswer extends userWordReq {
+  isRepeat: boolean,
+  points: number,
+}
+
 
 export interface currentTraining extends saveTrainingPart {
   wordsForTraining: paginatedWord[]
@@ -159,13 +183,30 @@ export interface loginStatusProps {
   isAuthorizated: boolean,
 }
 
+export interface cardAnswer {
+  difficulty: string,
+  optional: userWordOptional,
+  isRepeat: boolean,
+  points: number,
+  _id: string,
+}
+
+export interface trainingCardProps extends darkThemeProps {
+  word: paginatedWord,
+  wordNumber: number,
+  totalWords: number,
+  settings: userSettings,
+  getAnswer: (res: cardAnswer) => void,
+}
+
+
 export interface headerProps extends darkThemeProps, loginStatusProps {
   toggleTheme: () => void,
 }
 
 interface defaultLoginedProps extends darkThemeProps {
-  settings: userSettings | null,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings | null>>,
+  settings: userSettings,
+  updateSettings: React.Dispatch<React.SetStateAction<userSettings>>,
   statistic: userStatistics | null,
   updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
   userWords: paginatedWord[] | null,
@@ -179,15 +220,24 @@ export interface dashboardProps extends defaultLoginedProps { }
 
 export interface magicButtonProps extends defaultLoginedProps, loginStatusProps { }
 
-export interface settingsPageProps extends defaultLoginedProps  { } 
+export interface settingsPageProps extends defaultLoginedProps { }
 
-export interface logOutProps extends defaultLoginedProps  { }
+export interface logOutProps extends darkThemeProps {
+  logoutUser: () => void,
+}
 
-export interface trainingProps extends defaultLoginedProps  { }
+export interface trainingProps extends defaultLoginedProps { }
 
-export interface shadowTrainingProps extends defaultLoginedProps  {
+export interface shadowTrainingProps extends defaultLoginedProps {
   currentTrainingState: currentTraining,
   setCurrentTrainingState: React.Dispatch<React.SetStateAction<currentTraining>>,
 }
 
-export interface vocabularyProps extends defaultLoginedProps  { }
+export interface vocabularyProps extends defaultLoginedProps { }
+
+export type trainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
+export interface startTrainingParams {
+  trainingType: trainingType,
+  newWords: number,
+  repeatWords: number,
+}

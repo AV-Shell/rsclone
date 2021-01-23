@@ -4,4 +4,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  .buttons-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 320px;
+    .buttons {
+      border-radius: 5px;
+      border: solie 1px;
+      padding: 13px;
+      color: #fff;
+      background-color: #3445e5;
+      border-color: #3445e5;
+      width: 140px;
+      text-decoration: none;
+      margin: 1rem;
+      cursor: pointer;
+      text-align: center;
+      &:hover {
+        background-color: #1b2ccf;
+        border-color: #1b2ccf;
+      }
+      &.button-quit {
+        background-color: #f64e60;
+        border-color: #f64e60;;
+        &:hover {
+          background-color: #ee2d41;
+          border-color: #ee2d41;
+        }
+      }
+    }
+  }
 }

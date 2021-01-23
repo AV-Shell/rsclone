@@ -33,7 +33,7 @@ function Header(props: headerProps) {
     setisLangUp((value) => !value);
   }
   const loginMenu = <div className='header-login'>
-    <Link to='/login ' className='header-login-link'> Login</Link>
+    <Link to='/login' className='header-login-link'> Login</Link>
     <Link to='/registration' className='header-login-link'> Registration</Link>
   </div>;
 
@@ -71,7 +71,7 @@ function Header(props: headerProps) {
   return (
     <header className="header">
       {headerSwitchMenu}
-      <div className='logoimg' id='logoImgID'><img src={logo} alt="" /></div>
+      <div className='header-logoimg' id='logoImgID'><img src={logo} alt="" /></div>
       <div className='header-switch-menu'>
         {muteImg}
         {switchLangMenu}
