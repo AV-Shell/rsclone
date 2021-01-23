@@ -122,3 +122,7 @@ export interface NextButtonProps {
   counter: number,
   success: number
 }
+
+export interface WordProgressProps {
+  level: number
+}

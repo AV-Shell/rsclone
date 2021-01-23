@@ -39,5 +39,6 @@ const levelsOfRepeat: IntervalTime = {
 };
 
 const MAX_REPEAT_LEVEL: number = 28;
+const MIN_REPEAT_LEVEL: number = 0;
 
-export { levelsOfRepeat, MAX_REPEAT_LEVEL };
+export { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL };

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './training-page.scss';
 import { userSettings, paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
-import { levelsOfRepeat, MAX_REPEAT_LEVEL } from './training-consts';
+import { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
 import { lineProps, forInput, NextButtonProps, ForCardExamples } from './training-page-interfaces';
 import {
-  TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField, TrainingProgressBar
+  TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
+  TrainingProgressBar, WordProgress
   } from './training-simple-functions';
 import InputControl from './training-page-input';
 import CardFooter from './training-page-card-footer';
@@ -19,8 +20,8 @@ function TrainingPage(props:trainingCardProps) {
   const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
   const [intervalLevel, setIntervalLevel] = useState<number>(0); // прокидывать в футер карточки
   const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
-  const [counter, setCounter] = useState<number>(5);
-  const [success, setSuccess] = useState<number>(3);
+  const [counter, setCounter] = useState<number>(0);
+  const [success, setSuccess] = useState<number>(0);
   
   const trainingDay: number = Date.now();
 
@@ -40,8 +41,7 @@ function TrainingPage(props:trainingCardProps) {
     answerButton, /*autoSound, автовоспроизведение всех звуков*/ cardExample, cardExampleTranslation,
     cardWordPronunciation, cardExplanation, cardExplanationTranslation, 
     cardImage, cardTranscription, cardExplanationTranslationAfter, cardExampleTranslationAfter,
-    cardTranslation, cardTranslationAfterSuccess, commonProgress,
-    statusButtons, feedbackButtons,
+    cardTranslation, cardTranslationAfterSuccess, statusButtons, feedbackButtons,
   } = optional;
   const isSoundOn:boolean = true; // временно, пока звук не передается
   const autoSound:boolean = false; // пока не найду, как нормально проигрывать
@@ -206,7 +206,7 @@ function TrainingPage(props:trainingCardProps) {
             <div className="training-card-body-upper">
               <hr />
               <div className="training-card-body-upper-progress">
-                <span className="word-progress">{`${progress * 100}%`}<small>тут чо-то написано</small></span>
+                <WordProgress level={intervalLevel}/>
                 <StarsLevelField level={group} />
               </div>
             </div>
@@ -236,14 +236,12 @@ function TrainingPage(props:trainingCardProps) {
   );
 }
 
-
 function ButtonNext(props: NextButtonProps) {
   const {
     isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
     firstAppearance, counter, success
   } = props;
   const trainingDay: number = Date.now();
-  const [nextRepeat, setNextRepeat] = useState<number>(trainingDay);
   if (!isShown) {
     return null;
   };  
@@ -255,25 +253,24 @@ function ButtonNext(props: NextButtonProps) {
   const ButtonNextHandler = () => {
     const isToRepeat: boolean = (levelStatus === 'again') ? true : false;
     const point: number = isAnswerTrue ? 1 : 0;
+    let nextTime: number = trainingDay
     
-    // let nextRepeat: number = trainingDay;
     let levelNow: number = levelForRepeat;
     console.log(levelNow, 'levelNow');
     if (isAnswerTrue) {
       switch (levelStatus) {
         case 'again': 
           console.log('in again switch');
-          setNextRepeat(nextRepeat + 0);;
           levelNow = levelNow + 1;
-          console.log(`nextRepeat: ${nextRepeat}`);
+          console.log(`nextRepeat: ${nextTime}`);
         break;
         case 'hard':  
           console.log('in hard switch');
           if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           };
-          setNextRepeat(nextRepeat + levelsOfRepeat[levelNow]);
-          console.log(`nextRepeat: ${nextRepeat}`);
+          nextTime+= levelsOfRepeat[levelNow];
+          console.log(`nextRepeat: ${nextTime}`);
         break;
         case 'easy':
           console.log('in easy switch');
@@ -284,9 +281,8 @@ function ButtonNext(props: NextButtonProps) {
           } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           }
-          const interval: number = levelsOfRepeat[levelNow];
-          setNextRepeat(nextRepeat + interval);
-          console.log(`interval: ${interval}, nextRepeat: ${nextRepeat}`);
+          nextTime += levelsOfRepeat[levelNow];
+          console.log(`nextRepeat: ${nextTime}`);
         break;
         default:
           console.log('in normal switch');
@@ -295,25 +291,25 @@ function ButtonNext(props: NextButtonProps) {
           } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           };
-          setNextRepeat(nextRepeat + levelsOfRepeat[levelNow]);
-          console.log(`nextRepeat: ${nextRepeat}`);
+          nextTime += levelsOfRepeat[levelNow];
+          console.log(`nextRepeat: ${nextTime}`);
         break;
       }
     } else {
       console.log('when answer wrong');
       levelNow = 1;
-      setNextRepeat(nextRepeat + levelsOfRepeat[levelNow]);
-      console.log(`nextRepeat: ${nextRepeat}`);
+      nextTime += levelsOfRepeat[levelNow];
+      console.log(`nextRepeat: ${nextTime}`);
     };
-    console.log(`nextRepeat: ${nextRepeat}`, 'outside switch');
+    console.log(`nextRepeat: ${nextTime}`, 'outside switch');
 
     const wordSettings: userWordOptional = {
       firstAppearance: firstAppearance,
       lastRepeat: trainingDay,
-      nextRepeat: nextRepeat, // подсчет по методике в кнопке
+      nextRepeat: nextTime, // подсчет по методике в кнопке
       counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
       success: currentSuccess, // сколько всего правильных ответов, плюсовать по клику на дальше
-      progress: currentProgress,
+      progress: currentProgress, // отношение успешных ответов ко всем
       status: wordStatus,//string,   //'active', 'deleted', 'difficult'
       level: levelNow,
       userWord: true,
@@ -328,13 +324,13 @@ function ButtonNext(props: NextButtonProps) {
     }
     
     console.log('повторять или нет: ', resultOfTheCard.isRepeat);
-    console.log(`уровень повторения: ${levelForRepeat}, повторить через: ${levelsOfRepeat[levelNow]} следущий повтор: ${nextRepeat}`);
+    console.log(`уровень повторения: ${levelForRepeat}, повторить через: ${levelsOfRepeat[levelNow]} следущий повтор: ${nextTime}`);
     console.log(resultOfTheCard);
 
     // возвращение нужного объекта
-    // let res: cardAnswer;
-    // res = resultOfTheCard;
-    // getAnswer(res);
+    let res: cardAnswer;
+    res = resultOfTheCard;
+    getAnswer(res);
   }
 
   return (<button className="button-next" onClick={ButtonNextHandler}>Дальше</button>)
