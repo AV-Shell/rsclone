@@ -4,7 +4,7 @@ import { lineProps, forInput, NextButtonProps, ForCardExamples } from './trainin
 export default function InputControl(props: forInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
-    isAutoPlayOn, exampleSound, meaningSound, counter, success, updateCounter, updateSuccess
+    isAutoPlayOn, exampleSound, meaningSound, counter, success, updateCounter, updateSuccess, isSoundBtnShown
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
@@ -44,19 +44,14 @@ export default function InputControl(props: forInput) {
       }
   };
 
-  const SoundHandler =() => {
-    if (isSoundOn) {
-      wordSound().catch(() => true);  
-    }
-  }
-
   if (isAnswerSet) {
     console.log('isAnswerSet true');
     const cssStyle: string = isTrue ? "training-card-body-word-details-field-input green"
       : "training-card-body-word-details-field-input red";
     return (
     <div className="training-card-body-word-details-field">
-      <i className={audioIcon} onClick={SoundHandler}></i>
+      <SoundButton isShown={isSoundBtnShown} isSoundOn={isSoundOn}
+        wordSound={wordSound} classCss={audioIcon}/>
       <input 
         className={cssStyle} 
         type="text" 
@@ -70,7 +65,8 @@ export default function InputControl(props: forInput) {
   console.log('isAnswerSet false');
   return (
   <div className="training-card-body-word-details-field">
-    <i className={audioIcon} onClick={SoundHandler}></i>
+    <SoundButton isShown={isSoundBtnShown} isSoundOn={isSoundOn}
+        wordSound={wordSound} classCss={audioIcon}/>
     <input 
       className="training-card-body-word-details-field-input" 
       type="text" 
@@ -82,4 +78,27 @@ export default function InputControl(props: forInput) {
       onChange={InputChangeHandler}
       />
   </div>)
+}
+
+interface SoundProps {
+  isShown: boolean,
+  isSoundOn: boolean,
+  wordSound: ()=>Promise<void>,
+  classCss: string
+}
+
+function SoundButton(props: SoundProps) {
+  const { isShown, isSoundOn, wordSound, classCss } = props;
+  
+  if (!isShown) {
+    return null;
+  };
+
+  const SoundHandler =() => {
+    if (isSoundOn) {
+      wordSound().catch(() => true);  
+    }
+  }
+
+  return (<i className={classCss} onClick={SoundHandler}></i>)
 }

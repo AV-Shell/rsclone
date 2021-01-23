@@ -33,7 +33,8 @@ export interface forInput {
   counter: number,
   success: number,
   updateCounter: React.Dispatch<React.SetStateAction<number>>,
-  updateSuccess: React.Dispatch<React.SetStateAction<number>>
+  updateSuccess: React.Dispatch<React.SetStateAction<number>>,
+  isSoundBtnShown: boolean
 }
 
 type IntervalTime = {

@@ -122,7 +122,8 @@ function TrainingPage(props:trainingCardProps) {
     counter: counter,
     success: success,
     updateCounter: setCounter,
-    updateSuccess: setSuccess
+    updateSuccess: setSuccess,
+    isSoundBtnShown: cardWordPronunciation
   };
   
   const objForExamplesPart: ForCardExamples = {
@@ -309,7 +310,7 @@ function ButtonNext(props: NextButtonProps) {
       nextRepeat: nextTime, // подсчет по методике в кнопке
       counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
       success: currentSuccess, // сколько всего правильных ответов, плюсовать по клику на дальше
-      progress: currentProgress, // отношение успешных ответов ко всем
+      progress: currentProgress, // отношение успешных ответов ко всемпше ыефегы
       status: wordStatus,//string,   //'active', 'deleted', 'difficult'
       level: levelNow,
       userWord: true,
