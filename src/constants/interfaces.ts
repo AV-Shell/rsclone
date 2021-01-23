@@ -208,7 +208,7 @@ interface defaultLoginedProps extends darkThemeProps {
   settings: userSettings,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings>>,
   statistic: userStatistics | null,
-  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics | null>>,
+  updateStatistic: React.Dispatch<React.SetStateAction<userStatistics>>,
   userWords: paginatedWord[] | null,
   updateUserWords: React.Dispatch<React.SetStateAction<Array<paginatedWord> | null>>,
   apiService: ApiService,
@@ -240,4 +240,24 @@ export interface startTrainingParams {
   trainingType: trainingType,
   newWords: number,
   repeatWords: number,
+}
+
+
+export interface errorPath       {
+  path: string[],
+  message: string,
+}
+
+export interface IcreateUserError422Field {
+  error: {
+    status: string,
+    errors: errorPath[]
+  }
+}
+
+
+export interface IgetSettingsPageResponce{
+  isSuccess:boolean,
+  userSettings: userSettings,
+  userStatistics: userStatistics,
 }
