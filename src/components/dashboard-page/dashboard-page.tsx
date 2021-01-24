@@ -33,7 +33,7 @@ function DashboardPage(props: dashboardProps) {
   const avatarUrl = `${AVA_URL}` + "ava_18.png";
 
   useLayoutEffect(() => {
-    const ctx: any = document.getElementById("myChart");
+    const ctx:any = document.getElementById("myChart");
     new Chart(ctx, {
       type: "line",
       data: {
