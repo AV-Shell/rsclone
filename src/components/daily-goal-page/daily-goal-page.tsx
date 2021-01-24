@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './daily-goal-page.scss';
 import {  dailyGoalProps } from '../../constants/interfaces';
 function DailyGoalPage(props:dailyGoalProps) {
+
+  useEffect(() => {
+    console.log('DailyGoalPage did mount');
+    return () => {
+      console.log('DailyGoalPage did UNmount');
+    };
+  }, []);
 
   // Component code start
   return (

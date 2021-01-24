@@ -179,6 +179,20 @@ export interface saveTraining extends saveTrainingPart {
 export interface darkThemeProps {
   isDarkTheme: boolean,
 }
+// export type Tlangeage =  'EN' | 'RU';
+
+
+export interface IlanguageThemeProps {
+  isLanguageRU: boolean,
+}
+
+export interface IsoundMuteProps {
+  isMute: boolean,
+}
+
+export interface IlocalProps extends darkThemeProps, IlanguageThemeProps, IsoundMuteProps{
+
+}
 
 export interface loginStatusProps {
   isAuthorizated: boolean,
@@ -192,7 +206,7 @@ export interface cardAnswer {
   _id: string,
 }
 
-export interface trainingCardProps extends darkThemeProps {
+export interface trainingCardProps extends IlocalProps {
   word: paginatedWord,
   wordNumber: number,
   totalWords: number,
@@ -201,11 +215,14 @@ export interface trainingCardProps extends darkThemeProps {
 }
 
 
-export interface headerProps extends darkThemeProps, loginStatusProps {
+export interface headerProps extends loginStatusProps, IlocalProps {
   toggleTheme: () => void,
+  setIsMute: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLanguageRU: React.Dispatch<React.SetStateAction<boolean>>,
+  settings: userSettings,
 }
 
-interface defaultLoginedProps extends darkThemeProps {
+interface defaultLoginedProps extends IlocalProps {
   settings: userSettings,
   updateSettings: React.Dispatch<React.SetStateAction<userSettings>>,
   statistic: userStatistics | null,
@@ -223,7 +240,7 @@ export interface magicButtonProps extends defaultLoginedProps, loginStatusProps 
 
 export interface settingsPageProps extends defaultLoginedProps { }
 
-export interface logOutProps extends darkThemeProps {
+export interface logOutProps extends IlocalProps {
   logoutUser: () => void,
 }
 
@@ -233,6 +250,13 @@ export interface shadowTrainingProps extends defaultLoginedProps {
   currentTrainingState: currentTraining,
   setCurrentTrainingState: React.Dispatch<React.SetStateAction<currentTraining>>,
 }
+
+export interface ICreateSettingsProps {
+  apiService: ApiService,
+  getSettingsCallback: (isReady: IgetSettingsPageResponce) => void,
+}
+
+
 
 export interface vocabularyProps extends defaultLoginedProps { }
 

@@ -9,6 +9,7 @@ import {
   IgetSettingsPageResponce,
   userStatistics,
   userSettings,
+  ICreateSettingsProps,
 } from '../../constants/interfaces';
 
 import {
@@ -28,15 +29,7 @@ import {
   limitMinMax,
 } from '../../helpers/utils';
 
-interface ICreateSettingsProps {
-  apiService: ApiService,
-  getSettingsCallback: (isReady: IgetSettingsPageResponce) => void,
-}
 
-interface IfirstSettings {
-  englishLevel: number,
-  avatarNumber: number,
-}
 
 function CreateSettings(props: ICreateSettingsProps) {
   const { apiService, getSettingsCallback } = props;
