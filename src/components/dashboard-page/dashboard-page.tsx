@@ -15,11 +15,7 @@ function DashboardPage(props: dashboardProps) {
   const chartoption ={
     legend: {
       display: false,
-    //   position: 'left',
-    //   labels: {
-    //     boxWidth: 80,
-    //     fontColor: 'black'
-    //   }
+  
     },
     scales: {
       yAxes: [
@@ -49,7 +45,7 @@ function DashboardPage(props: dashboardProps) {
       },
       options: optionMenuItems
     });
-    CreateLineChart("CardChart")
+    CreateLineChart("CardChart");
     CreatePieChart();
   },[]);
 
