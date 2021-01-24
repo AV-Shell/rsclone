@@ -127,7 +127,7 @@ function SettingsPage(props: settingsPageProps) {
     });
   }
 
-  const onSubmit = (event) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     settings.optional = {
       ...settings.optional,
