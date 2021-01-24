@@ -56,7 +56,6 @@ const getSet2 = ({ optional }: userSettings) => {
 
 
 function SettingsPage(props: settingsPageProps) {
-  console.log(props);
   let basicSettingsAtention: string = '';
   let acceptButtonState: boolean = true;
   const { settings, apiService } = props;
@@ -130,7 +129,6 @@ function SettingsPage(props: settingsPageProps) {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log('onsubmit');
     settings.optional = {
       ...settings.optional,
       ...set1,
@@ -140,7 +138,7 @@ function SettingsPage(props: settingsPageProps) {
       .then(() => {
         console.log ('все хорошо')
       })
-      .catch((err) => {
+      .catch(() => {
         console.log ('все плохо')
       })
   }
