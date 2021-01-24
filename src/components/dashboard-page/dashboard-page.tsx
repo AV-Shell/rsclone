@@ -5,17 +5,17 @@ import Chart from "chart.js";
 import './dashboard-page.scss';
 import { dashboardProps } from '../../constants/interfaces';
 import userImg from '../header/assets/1.png'
-import {AVA_URL} from '../../constants/constants'
+import { AVA_URL } from '../../constants/constants'
 
 
 function DashboardPage(props: dashboardProps) {
   const {
     isDarkTheme
   } = props;
-  const chartoption ={
+  const chartoption = {
     legend: {
       display: false,
-  
+
     },
     scales: {
       yAxes: [
@@ -30,10 +30,10 @@ function DashboardPage(props: dashboardProps) {
   }
   const [optionMenuItems, setOptionMenuItems] = useState(chartoption);
   console.log(props);
-  const avatarUrl = `${AVA_URL}` +'ava_18.png'
+  const avatarUrl = `${AVA_URL}` + 'ava_18.png'
 
   useLayoutEffect(() => {
-    const ctx:any = document.getElementById('myChart');
+    const ctx: any = document.getElementById('myChart');
     new Chart(ctx, {
       type: "line",
       data: {
@@ -47,7 +47,7 @@ function DashboardPage(props: dashboardProps) {
     });
     CreateLineChart("CardChart");
     CreatePieChart();
-  },[]);
+  }, []);
 
   function CreateLineChart(id: string) {
     const ctx: any = document.getElementById(id);
@@ -120,21 +120,21 @@ function DashboardPage(props: dashboardProps) {
       </div>
       <div className='dashboard-page-second_column'>
         <div className='dashboard-page-second_column-info'>
-         <div className='dashboard-page-second_column-info-all_words'>
-             New words:
+          <div className='dashboard-page-second_column-info-all_words'>
+            New words:
              <p className='dashboard-page-second_column-info-card-stat'>3</p>
-             </div>
-          <div className='dashboard-page-second_column-info-best_series'>Best streak:   
+          </div>
+          <div className='dashboard-page-second_column-info-best_series'>Best streak:
           <p className='dashboard-page-second_column-info-card-stat'>3</p>
           </div>
-         <div className='dashboard-page-second_column-info-all_cards'>
+          <div className='dashboard-page-second_column-info-all_cards'>
             Total passed cards:
             <p className='dashboard-page-second_column-info-card-stat'>3</p>
-            </div>
+          </div>
           <div className='dashboard-page-second_column-info-card_point'> Your point:
           <p className='dashboard-page-second_column-info-card-stat'>3</p>
           </div>
-          
+
         </div>
         <div className='dashboard-page-second_column-chart_diaram'>
           <div className='piechart'>
@@ -149,7 +149,7 @@ function DashboardPage(props: dashboardProps) {
           </div>
           <canvas id="piechart" width="500" height="275"></canvas>
           <div>
-Ratio of correct and incorrect answers for all time</div>
+            Ratio of correct and incorrect answers for all time</div>
         </div>
       </div>
       <div className='dashboard-page-third_column'>
@@ -163,7 +163,7 @@ Ratio of correct and incorrect answers for all time</div>
         <div className='dashboard-page-third_column-chart_card_progress'>
           <canvas id="CardChart" width="460" height="290"></canvas>
           <div>
-Number of cards made by day</div>
+            Number of cards made by day</div>
         </div>
       </div>
     </div>
