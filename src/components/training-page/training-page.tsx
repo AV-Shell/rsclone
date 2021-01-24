@@ -329,9 +329,9 @@ function ButtonNext(props: NextButtonProps) {
     console.log(resultOfTheCard);
 
     // возвращение нужного объекта
-    // let res: cardAnswer;
-    // res = resultOfTheCard;
-    // getAnswer(res);
+    let res: cardAnswer;
+    res = resultOfTheCard;
+    getAnswer(res);
   }
 
   return (<button className="button-next" onClick={ButtonNextHandler}>Дальше</button>)
