@@ -13,8 +13,20 @@ import {
   aggregatedWordsResult,
   userStatistics,
   userSettings,
+  IcreateUserError422Field,
 } from '../constants/interfaces';
 import { storage } from '../helpers/utils';
+
+
+export class CreateUserError422 extends Error {
+  public myErrField: IcreateUserError422Field;
+  constructor(message:string, myErroField:IcreateUserError422Field) {
+    super(message);
+    this.myErrField = myErroField;
+  }
+}
+
+
 
 export default class ApiService {
   public userId: string | null;
@@ -167,8 +179,6 @@ export default class ApiService {
     return content;
   }
 
-
-
   // Users methods
   async createUser(user: userData) {
     const rawResponse = await fetch(`${BASE_URL}/users`, {
@@ -181,6 +191,11 @@ export default class ApiService {
     });
 
     if (rawResponse.status !== 200) {
+      if (rawResponse.status === 422) {
+        const errorResult: IcreateUserError422Field = await rawResponse.json();
+        const myError = new CreateUserError422(`${rawResponse.status}`, errorResult);
+        throw myError;
+      }
       throw new Error(`${rawResponse.status}`);
     }
 
@@ -503,7 +518,7 @@ export default class ApiService {
     return await this.getAllUserAggregatedWords(null, null, 3600,
       '{ "userWord.optional.userWord": true }');
   };
-  
+
   getAllAggregatedWords = async () => {
     return await this.getAllUserAggregatedWords(null, null, 3600, null);
   };
@@ -512,10 +527,10 @@ export default class ApiService {
     return await this.getAllUserAggregatedWords(null, null, 3600, '{ "userWord": null }');
   };
 
-  getSomethingAggregatedNewWords = async (count:number) => {
+  getSomethingAggregatedNewWords = async (count: number) => {
     return await this.getAllUserAggregatedWords(null, null, count, '{ "userWord": null }');
   };
-  getAggregatedNewWordsFromGroup = async (count:number, group:number) => {
+  getAggregatedNewWordsFromGroup = async (count: number, group: number) => {
     return await this.getAllUserAggregatedWords(group, null, count, '{ "userWord": null }');
   };
 
