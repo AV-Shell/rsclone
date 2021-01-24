@@ -77,10 +77,14 @@ function FooterButton(props: footerBtns) {
   const disabled: boolean = (!isAnswerTrue && ((id === 'easy') || (id === 'good')));
 
   const IntervalButtonsHandler =(event: React.MouseEvent<HTMLButtonElement>) => {
-    updateIntervalLvl(event.currentTarget.id);
-    console.log(event.currentTarget.id);
-  }
-
+    if (intervalLvl === id) {
+      updateIntervalLvl('');
+    } else {
+      updateIntervalLvl(event.currentTarget.id);
+    };    
+  };
+  
+  console.log('интервальное повторение:', intervalLvl);
   return (
   <button className={wholeClass} id={id} disabled={disabled}
   onClick={IntervalButtonsHandler}>
