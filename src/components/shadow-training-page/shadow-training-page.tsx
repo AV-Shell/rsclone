@@ -19,7 +19,8 @@ import {
 
 import Spinner from '../slave-components/spinner';
 import TrainingConfigure from './components/training-configure';
-import TestingCard from './components/testing-card';
+// import TestingCard from './components/testing-card';
+import TrainingPage from '../training-page';
 import {
   loadNewWords,
   currentUTCDayTimeStamp,
@@ -373,14 +374,22 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
   console.log("currentTrainingState ", currentTrainingState)
   const words = currentTrainingState.wordsForTraining;
   return (
-    <TestingCard
+    <TrainingPage
       word={words[words.length - 1]}
       isDarkTheme={isDarkTheme}
       settings={settings}
       wordNumber={currentTrainingState.totalWordsCount - words.length + 1}
       totalWords={currentTrainingState.totalWordsCount}
       getAnswer={getAnswer}
-    ></TestingCard>
+    ></TrainingPage>
+    // <TestingCard
+    //   word={words[words.length - 1]}
+    //   isDarkTheme={isDarkTheme}
+    //   settings={settings}
+    //   wordNumber={currentTrainingState.totalWordsCount - words.length + 1}
+    //   totalWords={currentTrainingState.totalWordsCount}
+    //   getAnswer={getAnswer}
+    // ></TestingCard>
   );
 }
 
