@@ -6,6 +6,8 @@ import {
 } from '../../constants/interfaces';
 
 
+
+
 interface IndependentCardSettings {
   cardTranscription: boolean,
   cardImage: boolean,
@@ -54,9 +56,10 @@ const getSet2 = ({ optional }: userSettings) => {
 
 
 function SettingsPage(props: settingsPageProps) {
+  console.log(props);
   let basicSettingsAtention: string = '';
   let acceptButtonState: boolean = true;
-  const { settings } = props;
+  const { settings, apiService } = props;
   const [set1, setSet1] = useState<IndependentCardSettings>(getSet1(settings));
   const [set2, setSet2] = useState<CardSettings>(getSet2(settings));
 
@@ -128,6 +131,18 @@ function SettingsPage(props: settingsPageProps) {
   const onSubmit = (event) => {
     event.preventDefault();
     console.log('onsubmit');
+    settings.optional = {
+      ...settings.optional,
+      ...set1,
+      ...set2,
+    }
+    apiService.updateSettings(settings)
+      .then(() => {
+        console.log ('все хорошо')
+      })
+      .catch((err) => {
+        console.log ('все плохо')
+      })
   }
 
   if (!(set2.cardWordPronunciation || set2.cardExample || set2.cardExplanation || set2.cardTranslation)) {
