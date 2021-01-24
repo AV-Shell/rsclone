@@ -1,10 +1,13 @@
 import React from 'react';
-import { upperButtonProps, lineProps, forStars, dayProgress } from './training-page-interfaces';
+import {
+  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps
+  } from './training-page-interfaces';
 import {TOTAL_DIFFICULTY_GROUPS} from '../../constants/constants';
+import { MAX_REPEAT_LEVEL } from './training-consts';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
   const {id, isShown, isAnswerRight, isWordNew, line, status, classCss, iClass, setStatusForObj} = props;
-  const classWhole: string = !isWordNew && (id === status) ? classCss + ' active' : classCss;
+  const classWhole: string = (id === status) ? classCss + ' active' : classCss;
 
   const ClickHandler = () => {
     console.log(`${id} is clicked`);
@@ -60,4 +63,21 @@ export function TrainingProgressBar(props: dayProgress) {
         style={{width: perCent}}></div>
     </div>
   </div>)
+}
+
+export function WordProgress(props: WordProgressProps) {
+  const {level} = props;
+
+  const rightNum: number = MAX_REPEAT_LEVEL;
+  const  progressString: string = `${level / rightNum * 100}%`;
+
+  return (
+    <div className="word-progress">
+      <div className="progress progress-striped active">
+        <div className="word-bar"
+          style={{width: progressString}}></div>
+      </div>
+      <small>Прогресс интервального повторения</small>
+    </div>
+  )
 }
