@@ -1,4 +1,4 @@
-import {userSettings, userStatistics, userWordReq} from '../constants/interfaces'
+import { userSettings, userStatistics, userWordReq } from '../constants/interfaces'
 const MB_STORAGE_KEY = 'magicButtonLocal';
 
 const MB_ROUTES = {
@@ -31,6 +31,11 @@ const MIN_NEW_WORDS_PER_DAY = 3;
 const MAX_NEW_WORDS_PER_DAY = 15;
 const MIN_REPEAT_WORDS_PER_DAY = 10;
 const MAX_REPEAT_WORDS_PER_DAY = 35;
+
+const USER_HAS_ENTITY = 0;
+const USER_NO_ENTITY = 1;
+const USER_NOT_LOGGED = 2;
+const USER_SERVER_ERROR = 3;
 
 
 const WORD_PARAM = {
@@ -81,13 +86,14 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     magicButtonSettings: 'null',
     stillWordsOnGroup: '{"0":true,"1":true,"2":true,"3":true,"4":true,"5":true}',
     avatarID: 1, // zero - take ava from link;
-    avatarLink: '', // link to avatar, if avatarID === 0
+    avatarLink: 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png', // link to avatar, if avatarID === 0
     avatarSettings: 'null', // JSON.stingify(ava.settings.obj  null if we don't need it)
+    createSettingsTimestamp: 0,
   },
 }
 
 
-const DEFAULT_USER_STATISTIC: userStatistics =  {
+const DEFAULT_USER_STATISTIC: userStatistics = {
   learnedWords: 0,
   optional: {
     mainGameShort: 'null',
@@ -121,7 +127,7 @@ const userWordsFilter = '{"userWord":{"$ne":null}}';
 const DARK_THEME_CLASSNAME = 'dark-theme';
 
 
-export { 
+export {
   MB_STORAGE_KEY,
   MB_ROUTES,
   BASE_URL,
@@ -150,4 +156,8 @@ export {
   MAX_REPEAT_WORDS_PER_DAY,
   MIN_AVATAR_NUM,
   MAX_AVATAR_NUM,
+  USER_HAS_ENTITY,
+  USER_NO_ENTITY,
+  USER_NOT_LOGGED,
+  USER_SERVER_ERROR,
 };
