@@ -130,10 +130,11 @@ async function loadSettings({ apiService }: getSettings) {
     }
   }
   try {
-    const userSettings = await apiService.getSettings()
+    userSettings = await apiService.getSettings()
     console.log(userSettings);
     if (userSettings.optional) {
       isHasSettings = USER_HAS_ENTITY;
+      console.log('USER_HAS_ENTITY');
     }
     else {
       console.log('throw error settings');
