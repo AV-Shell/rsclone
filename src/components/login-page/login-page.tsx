@@ -140,11 +140,11 @@ function LoginPage(props: props) {
 
   const nickName = isLogin ? null :
     <div className="input-group-container">
-      <label className="label" htmlFor="inputEmail">Никнэйм</label>
+      <label className="label" htmlFor="inputEmail">Nickname</label>
       <input
         className="input-text" type="text" name="usernick"
         autoComplete="off" id="inputNickname" required={true}
-        placeholder="Введите никнэйм"
+        placeholder="Введите nickname"
         onChange={onChangeNickname}
         value={nickname}
       />

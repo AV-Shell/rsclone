@@ -49,23 +49,23 @@ const loadNewWords = async ({ maxWordsGroup, userLevel,
   let highLvlWordsCount = Math.ceil(newWordsCount / 2);
   let lowLvlWordsCount = newWordsCount - highLvlWordsCount;
   let hasLowLvlWords = false;
-  let hasHiLvlWords = false;
+  let hasHighLvlWords = false;
   for (let i: number = 0; i < startLvl; i++) {
     hasLowLvlWords = hasLowLvlWords || isWordsOnGroups[i];
   }
   for (let i: number = startLvl; i <= maxWordsGroup; i++) {
-    hasHiLvlWords = hasHiLvlWords || isWordsOnGroups[i];
+    hasHighLvlWords = hasHighLvlWords || isWordsOnGroups[i];
   }
   if (hasLowLvlWords === false) {
     highLvlWordsCount = newWordsCount;
   }
-  if (hasHiLvlWords === false) {
+  if (hasHighLvlWords === false) {
     lowLvlWordsCount = newWordsCount;
   }
   console.log('lowLvlWordsCount', lowLvlWordsCount);
   console.log('highLvlWordsCount', highLvlWordsCount);
   console.log('hasLowLvlWords', hasLowLvlWords);
-  console.log('hasHiLvlWords', hasHiLvlWords);
+  console.log('hasHighLvlWords', hasHighLvlWords);
   if (hasLowLvlWords) {
     let totalGotWords = 0;
     for (let i = 0; i < startLvl; i++) {
@@ -83,7 +83,7 @@ const loadNewWords = async ({ maxWordsGroup, userLevel,
       }
     }
   }
-  if (hasHiLvlWords) {
+  if (hasHighLvlWords) {
     let totalGotWords = 0;
     for (let i = startLvl; i <= maxWordsGroup; i++) {
       if (isWordsOnGroups[i] !== false) {
