@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import './app.scss';
 import LoginPage from '../login-page';
+import CreateSettings from '../create-settings';
 import LogoutPage from '../logout-page'
 import DailyGoalPage from '../daily-goal-page';
 import DashboardPage from '../dashboard-page';
@@ -15,11 +16,13 @@ import VocabularyPage from '../vocabulary-page';
 import MagicButton from '../magic-button'
 import Header from '../header';
 import Footer from '../footer';
+import Spinner from '../slave-components/spinner';
 import ApiService from '../../services/api-service';
 
 import testUser, { testWordsIdArray, TEST_DEFAULT_USER_WORD } from '../../gitignoreConf/.testUserConfig';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+
 import {
   loginResponseData,
   signInRequestBody,
@@ -38,8 +41,24 @@ import {
   headerProps,
   currentTraining,
   saveTraining,
+  IgetSettingsPageResponce,
 } from '../../constants/interfaces';
-import { DEFAULT_USER_SETTINGS, DEFAULT_USER_STATISTIC, DEFAULT_USER_WORD, DARK_THEME_CLASSNAME } from '../../constants/constants'
+
+import {
+  DEFAULT_USER_SETTINGS,
+  DEFAULT_USER_STATISTIC,
+  DEFAULT_USER_WORD,
+  DARK_THEME_CLASSNAME,
+  USER_HAS_ENTITY,
+  USER_NO_ENTITY,
+  USER_NOT_LOGGED,
+  USER_SERVER_ERROR,
+  userWordsFilter,
+} from '../../constants/constants';
+import {
+  loadSettings,
+  loadStatistic,
+} from '../../helpers/utils';
 
 const currentTrainingDefault: currentTraining = {
   wordsForTraining: [],
@@ -50,208 +69,220 @@ const currentTrainingDefault: currentTraining = {
 }
 
 
-
-
+type TreadyToJoin = 'READY' | 'NOTLOGGED' | 'NEEDSETTINGS' | 'LOADING';
+type ThasUserSettings = 'NO' | 'YES' | 'NOTONSERVER';
 const api = new ApiService();
+
+
+interface IrefContainer {
+  api: ApiService,
+  isLoading: boolean,
+  isAuthorizated: boolean,
+  // tokenRefreshInterval: null | ReturnType<typeof setTimeout>,
+  // tokenRefreshInterval: ReturnType<typeof setInterval> | undefined,
+  tokenRefreshInterval: number | undefined;
+}
+const shell = (a: IrefContainer) => a;
+
+
 const App: React.FC = () => {
   console.log('\r\n Render App \r\n');
-  const that = useRef({
+  const that = useRef(shell({
     api: new ApiService(),
-  });
+    isLoading: true,
+    isAuthorizated: api.checkTokenValidity(),
+    tokenRefreshInterval: undefined,
+  }));
+  // console.log('\r\n\r\n\r\n\r\n\r\n');
+  // console.log(that.current.isAuthorizated);
+  // console.log('\r\n\r\n\r\n\r\n\r\n');
+
+
 
   // const routeComponent = useRef<any>(null);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  const [isAuthorizated, setIsAuthorizated] = useState<boolean>(false);
+  const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings>(DEFAULT_USER_SETTINGS);
-  const [userStatistic, setUserStatistic] = useState<userStatistics | null>(null);
+  const [userStatistic, setUserStatistic] = useState<userStatistics>(DEFAULT_USER_STATISTIC);
   const [currentTrainingState, setCurrentTrainingState] = useState<currentTraining>(currentTrainingDefault);
-  const [readyToJoin, setReadyToJoin] = useState<boolean>(false);
-
+  const [readyToJoin, setReadyToJoin] = useState<TreadyToJoin>('LOADING');
+  const [hasUserSettings, setHasUserSettings] = useState<ThasUserSettings>('NO');
+  // const [hasUserStatistic, setHasUserStatistic] = useState<ThasUserSettings>('NO');
   const appClassNames: string = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}`;
+
+  const logoutUser = () => {
+    api.clearUserLog();
+    setIsAuthorizated(false);
+    setHasUserSettings('NO');
+    // setHasUserStatistic('NO');
+    setUserSettings(DEFAULT_USER_SETTINGS);
+    setUserStatistic(DEFAULT_USER_STATISTIC);
+    setUserWordsArray(null);
+  }
 
   const toggleCurrentTheme = () => {
     setIsDarkTheme((value) => !value);
   }
 
-  useEffect(() => {
-    console.log('use effect');
-    let isTestUserLoggin = false;
-    const user: signInRequestBody = {
-      email: testUser.email,
-      password: testUser.password,
-    }
-    console.log(api.checkTokenValidity())
-    api.loginUser(user)
-      .then((data) => {
-        isTestUserLoggin = true;
-        console.log(data);
-        console.log(api.checkTokenValidity());
-      })
-      .catch((err) => {
-        console.log('---Atata---');
-        console.log(err.message);
-        console.log('---Error---');
-        api.createUser(testUser)
-          .then((data) => {
-            console.log('User Created');
-            console.log(data);
-            api.loginUser(user)
-              .then((data) => {
-                isTestUserLoggin = true;
-                console.log(data);
-                console.log(api.checkTokenValidity());
-              })
-              .catch((err) => {
-                console.log('---Cannot Login after Creating---');
-                console.log(err.message);
-                console.log('---Error---');
-              });
-          })
-          .catch((err) => {
-            if (err.message === '422') {
-              console.log('Incorrect e-mail or password');
-            } else if (err.message === '417') {
-              console.log('user with this e-mail exists');
-            } else {
-              console.log('Something went wrong');
-
-              console.log('---Atata---');
-              console.log(err.message);
-              console.log('---Error---');
-            }
-          });
-      })
-      .finally(() => {
-        console.log('finaly data');
-        console.log('isTestUserLoggin', isTestUserLoggin);
-
-        setIsAuthorizated(() => isTestUserLoggin);
-        if (isTestUserLoggin) {
-          let isHaveSettings = false;
-          let isHaveStatistics = false;
-          let isHaveUserWords = false;
-          api.getSettings()
-            .then((userSettings) => {
-              console.log(userSettings);
-              if (userSettings.optional) {
-                isHaveSettings = true;
-                setUserSettings(() => userSettings);
-              }
-              else {
-                console.log('throw error settongs');
-                throw new Error('404');
-              }
-            })
-            .catch((err) => {
-              if (err.message === '401') {
-                console.log('token expired')
-              } else if (err.message === '404') {
-                // TODO: check  enother errors, may be need to compare message
-                console.log('settings not found');
-                //create Default settings.
-                api.updateSettings(DEFAULT_USER_SETTINGS)
-                  .then((userSettings) => {
-                    console.log(userSettings);
-                    isHaveSettings = true;
-                    console.log('Settings:', userSettings);
-                    setUserSettings(() => userSettings);
-                  })
-                  .catch((err) => {
-                    console.log('update settings error:', err.message);
-                  })
-              }
-            })
-
-          api.getStatistics()
-            .then((userStatistics) => {
-              console.log(userStatistics);
-              if (userStatistics.optional) {
-                isHaveStatistics = true;
-                setUserStatistic(() => userStatistics);
-              }
-              else {
-                console.log('throw error statistics');
-                throw new Error('404');
-              }
-            })
-            .catch((err) => {
-              if (err.message === '401') {
-                console.log('token expired')
-              } else if (err.message === '404') {
-                // TODO: check  enother errors, may be need to compare message
-                console.log('Statistics not found');
-                //create Default settings.
-                api.updateStatistics(DEFAULT_USER_STATISTIC)
-                  .then((userStatistics) => {
-
-                    isHaveStatistics = true;
-                    console.log(isHaveStatistics, userStatistics);
-                    console.log('userStatistics:', userStatistics);
-                    setUserStatistic(() => userStatistics);
-                  })
-                  .catch((err) => {
-                    console.log('update userStatistics error:', err.message);
-                  })
-              }
-            })
-          api.getAllUserAggregatedWords(null, null, 3600,
-            '{ "userWord.optional.userWord": true }')
-            .then((data) => {
-              console.log('user words data', data);
-              if (data.paginatedResults.length > 0) {
-                isHaveUserWords = true;
-                setUserWordsArray(() => data.paginatedResults);
-              } else {
-                console.log('promice all');
-                const promiceArray = testWordsIdArray.map((obj) => {
-                  return api.createUserWord(obj.id, TEST_DEFAULT_USER_WORD);
-                })
-                Promise.all(promiceArray)
-                  .then((arrayResp) => {
-                    console.log('arrayResp', arrayResp);
-                    api.getAllUserAggregatedWords(null, null, 3600,
-                      '{ "userWord.optional.userWord": true }')
-                      .then((data) => {
-                        console.log('user words data after ADD', data);
-                        if (data.paginatedResults.length > 0) {
-                          isHaveUserWords = true;
-                          setUserWordsArray(() => data.paginatedResults);
-                        }
-                      })
-                      .catch((err) => {
-                        console.log('user words get error after ADD', err);
-                      })
-
-                  })
-                  .catch((err) => {
-                    console.log('err.promice all', err);
-                  })
-              }
-            })
-            .catch((err) => {
-              console.log('user words get error', err.message);
-            })
-        }
-      })
-  }, []);
-
-  const logoutUser = () => {
-    api.clearUserLog();
-    setIsAuthorizated(false);
-    setUserSettings(DEFAULT_USER_SETTINGS);
-    setUserStatistic(null);
-    setUserWordsArray(null);
+  const isLoginCallback = (isLogin: boolean) => {
+    console.log('isLoginCallback', isLogin);
+    setIsAuthorizated(true);
   }
 
-  useEffect(() => {
-    if (isAuthorizated && userWordsArray !== null && userSettings !== null && userStatistic !== null) {
-      setReadyToJoin(() => true);
+
+  const getSettingsCallback = (result: IgetSettingsPageResponce) => {
+    console.log('getSettingsCallback', result);
+    // setIsAuthorizated(true);
+    if (result.isSuccess) {
+      setUserSettings(result.userSettings);
+      setUserStatistic(result.userStatistics)
+      setHasUserSettings('YES');
+      // setHasUserStatistic('YES');
     } else {
-      setReadyToJoin(() => false);
+      logoutUser();
     }
-  }, [isAuthorizated, userWordsArray, userSettings, userStatistic])
+  }
+
+
+  //check Login and refresh token
+  //TODO:
+  useEffect(() => {
+    const deltaTimeToRefresh = 30 * 60 * 1000;
+    const tokenLifeTime = 4 * 60 * 60 * 1000;
+    const spareTime2min = 2 * 60 * 1000;
+    const timeToRefresh = tokenLifeTime - deltaTimeToRefresh;
+    function setRefreshTokenInterval() {
+      console.log('setRefreshTokenInterval');
+      //TODO:// get from that
+      // clearTimeout(this.refreshAuthTimer);
+      window.clearInterval(that.current.tokenRefreshInterval);
+      // const refreshTime = expTime - new Date().getTime() - timeToRefresh;
+
+      //TODO: add to that
+      that.current.tokenRefreshInterval = window.setInterval(() => {
+
+        api.getNewTokens()
+          .then(() => {
+            console.log('Token Refreshed');
+          })
+          .catch((err) => {
+            console.log(err.message);
+            logoutUser();
+          })
+      }, timeToRefresh - spareTime2min);
+        // },  3 * 60 * 1000);
+    }
+    if (isAuthorizated) {
+      console.log('Обновляем токен при заходе юзера, и ставим таймаут.');
+      let expTime;
+      expTime = api.tokenExpiresIn;
+      if (expTime - new Date().getTime() < timeToRefresh) {
+        console.log('refresh token');
+        api.getNewTokens()
+          .then(() => {
+            console.log('обновили токен, всё норм');
+            setRefreshTokenInterval();
+          })
+          .catch((err) => {
+            console.log('api.getNewTokens() problem, logout user', err.message);
+            logoutUser();
+          })
+
+      } else {
+        setRefreshTokenInterval();
+      }
+
+    } else {
+      console.log('сбрасываем интервал');
+      window.clearInterval(that.current.tokenRefreshInterval);
+    }
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log(isAuthorizated);
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log('\r\n\r\n\r\n\r\n\r\n');
+    console.log('userWords data');
+  }, [isAuthorizated]);
+
+
+
+  useEffect(() => {
+    if (isAuthorizated && hasUserSettings === 'YES' && userWordsArray !== null) {
+      console.log('useEffect === READY');
+      console.log(isAuthorizated, hasUserSettings, userWordsArray)
+      setReadyToJoin('READY');
+    } else if (isAuthorizated && hasUserSettings === 'NO') {
+      console.log('useEffect === LOADING')
+      if (isAuthorizated && hasUserSettings === 'NO') {
+        loadSettings({ apiService: api })
+          .then((responseSettings) => {
+            if (responseSettings.result === USER_HAS_ENTITY) {
+              loadStatistic({ apiService: api })
+                .then((responseStat) => {
+                  if (responseStat.result === USER_HAS_ENTITY) {
+                    //TODO: set user statistic and settings, 
+                    //TODO: change to ref
+                    userSettings.wordsPerDay = responseSettings.settings.wordsPerDay;
+                    userSettings.optional = {
+                      ...responseSettings.settings.optional,
+                    }
+                    userStatistic.learnedWords = responseStat.statistic.learnedWords;
+                    userStatistic.optional = {
+                      ...responseStat.statistic.optional,
+                    }
+
+                    setHasUserSettings('YES');
+                    // setHasUserStatistic('YES');
+
+                  } else {
+                    //TODO: logout;
+                    logoutUser();
+                  }
+                })
+                .catch((err) => {
+                  console.log('get error with statistic in app after get settings something went wrong', err.message);
+                })
+            } else if (responseSettings.result === USER_NO_ENTITY) {
+              setHasUserSettings('NOTONSERVER')
+            }
+          })
+        //запрос на сервер
+
+        // если есть настройки,  то да
+      }
+      setReadyToJoin('LOADING');
+    } else if (isAuthorizated && hasUserSettings === 'NOTONSERVER') {
+      console.log('useEffect === NEEDSETTINGS')
+      setReadyToJoin('NEEDSETTINGS');
+    } else if (!isAuthorizated) {
+      console.log('useEffect === NOTLOGGED')
+      setReadyToJoin('NOTLOGGED');
+    } else if (isAuthorizated && hasUserSettings === 'YES' && userWordsArray === null) {
+      api.getAllUserAggregatedWords(null, null, 3600, userWordsFilter)
+        .then((data) => {
+          console.log('\r\n\r\n\r\n\r\n\r\n');
+          console.log(that.current.isAuthorizated);
+          console.log('\r\n\r\n\r\n\r\n\r\n');
+          console.log('userWords data', data);
+          if (data.paginatedResults.length > 0) {
+            setUserWordsArray(data.paginatedResults);
+          } else {
+            setUserWordsArray([]);
+          }
+        })
+        .catch((err) => {
+          console.log('user words get error', err.message);
+          logoutUser();
+        })
+      setReadyToJoin('LOADING');
+    } else {
+      console.log('useEffect === LOADING')
+      setReadyToJoin('LOADING');
+    }
+  }, [isAuthorizated, hasUserSettings, userWordsArray])
   let routeComponent: ReactNode = null;
+
 
   const trainingPageProps: trainingProps = {
     isDarkTheme: isDarkTheme,
@@ -264,12 +295,13 @@ const App: React.FC = () => {
     apiService: api,
   }
 
-  if (readyToJoin) {
+  if (readyToJoin === 'READY') {
+    console.log('readyToJoin === READY');
     routeComponent = <div className={appClassNames}>
       <Header
         isDarkTheme={isDarkTheme}
         toggleTheme={toggleCurrentTheme}
-        isAuthorizated={readyToJoin}
+        isAuthorizated={readyToJoin === 'READY'}
       ></Header>
       <Switch >
         {/* <Route path='/dashboard' component={DashboardPage} /> */}
@@ -338,12 +370,13 @@ const App: React.FC = () => {
       <Footer></Footer>
     </div>
     console.log('user login');
-  } else {
+  } else if (readyToJoin === 'NOTLOGGED') {
+    console.log('readyToJoin === NOTLOGGED');
     routeComponent = <div className={appClassNames}>
       <Header
         isDarkTheme={isDarkTheme}
         toggleTheme={toggleCurrentTheme}
-        isAuthorizated={readyToJoin}
+        isAuthorizated={false}
       ></Header>
       <Switch >
         {/* <Route path='/' component={MagicButton} exact /> */}
@@ -352,13 +385,53 @@ const App: React.FC = () => {
             <MagicButton isAuthorizated={false}></MagicButton>
           )
         }} exact />
-        <Route path='/login' component={LoginPage} />
-        <Route path='/registration' component={LoginPage} />
+        <Route path='/login' component={() => {
+          return (
+            <LoginPage
+              isLogin={true}
+              apiService={api}
+              isLoginCallback={isLoginCallback}
+            ></LoginPage>
+          )
+        }} />
+        <Route path='/registration' component={() => {
+          return (
+            <LoginPage
+              isLogin={false}
+              apiService={api}
+              isLoginCallback={isLoginCallback}
+            ></LoginPage>
+          )
+        }} />
         <Redirect to='/' />
       </Switch>
       <Footer></Footer>
     </div>
     console.log('user not login');
+  } else if (readyToJoin === 'NEEDSETTINGS') {
+    console.log('readyToJoin === NEEDSETTINGS');
+    routeComponent = <div className={appClassNames}>
+      <Header
+        isDarkTheme={isDarkTheme}
+        toggleTheme={toggleCurrentTheme}
+        isAuthorizated={false}
+      ></Header>
+      <Switch >
+        <Route path='/createsettings' component={() => {
+          return (
+            <CreateSettings
+              apiService={api}
+              getSettingsCallback={getSettingsCallback}
+            ></CreateSettings>
+          )
+        }} />
+        <Redirect to='/createsettings' />
+      </Switch>
+      <Footer></Footer>
+    </div>
+  } else if (readyToJoin === 'LOADING') {
+    console.log('readyToJoin === LOADING');
+    routeComponent = <Spinner></Spinner>
   }
   return (
     <Router>
