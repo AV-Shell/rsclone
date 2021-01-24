@@ -46,10 +46,12 @@ export default function TrainingCardExamples(props: ForCardExamples) {
     <div className="training-card-body-examples">
       <SoundOnSentences isSoundOn={isSoundOn}
                 sound={soundExample}
-                forCSS="example-sound" />
+                forCSS="example-sound"
+                isShown={isExampleShown} />
       <SoundOnSentences isSoundOn={isSoundOn}
                 sound={soundMeaning}
-                forCSS="meaning-sound" />
+                forCSS="meaning-sound"
+                isShown={isMeaningShown} />
       <SentenceWithBlancs {...objForExample}/>
       <TranslationSentence {...objForExampleTranslation}/>
       <SentenceWithBlancs {...objForMeaning}/>
@@ -59,7 +61,10 @@ export default function TrainingCardExamples(props: ForCardExamples) {
 }
 
 function SoundOnSentences(props: IconForSound) {
-  const {isSoundOn, sound, forCSS} = props;
+  const { isSoundOn, sound, forCSS, isShown} = props;
+  if (!isShown) {
+    return null;
+  };
 
   const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
 

@@ -75,7 +75,8 @@ export interface footerBtns {
 export interface IconForSound {
   isSoundOn: boolean;
   sound: ()=>Promise<void>,
-  forCSS: string
+  forCSS: string,
+  isShown: boolean
 }
 
 export interface ForCardExamples {
