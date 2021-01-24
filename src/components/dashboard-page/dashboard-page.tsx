@@ -1,14 +1,12 @@
 import React, {
-  useRef,
-  useEffect,
+ 
   useState,
-  ReactNode,
+ 
   useLayoutEffect,
 } from "react";
 import Chart from "chart.js";
 import "./dashboard-page.scss";
 import { dashboardProps } from "../../constants/interfaces";
-import userImg from "../header/assets/1.png";
 import { AVA_URL } from "../../constants/constants";
 
 function DashboardPage(props: dashboardProps) {
@@ -30,7 +28,7 @@ function DashboardPage(props: dashboardProps) {
   };
   const [optionMenuItems, setOptionMenuItems] = useState(chartOption);
   console.log(props);
-  const avatarUrl = `${AVA_URL}` + "ava_18.png";
+  const avatarUrl = `${AVA_URL}ava_18.png`;
 
   useLayoutEffect(() => {
     const ctx:any = document.getElementById("myChart");
