@@ -10,16 +10,17 @@ import userImg from './assets/1.png'
 import langImg from './assets/flag-en.png'
 
 function Header(props: headerProps) {
-  const [isMute, setIsMute] = useState<boolean>(true);
-  const [isLunguageRU, setisLunguageRU] = useState<boolean>(false);
+  // const [isMute, setIsMute] = useState<boolean>(true);
+  // const [isLanguageRU, setIsLanguageRU] = useState<boolean>(false);
   const [isUserSetUp, setisUserSetUp] = useState<boolean>(false);
   const [isLangUp, setisLangUp] = useState<boolean>(false);
   console.log('header props:', props);
   const {
-    isDarkTheme, isAuthorizated
+    isDarkTheme, isAuthorizated, isMute, setIsMute, isLanguageRU, setIsLanguageRU,
+    settings,
   } = props;
   const toggleCurrentLang = () => {
-    setisLunguageRU((value) => !value);
+    setIsLanguageRU((value) => !value);
   }
   const toggleCurrentMute = () => {
     setIsMute((value) => !value);
@@ -63,7 +64,13 @@ function Header(props: headerProps) {
     </div>
   </div>;
 
-  const muteImg = isMute ? <div className='header-mute' onClick={toggleCurrentMute}><i className="bi bi-volume-up"></i> </div> : <div className='header-mute' onClick={toggleCurrentMute}><i className="bi bi-volume-mute"></i></div>;
+  const muteImg = isMute ?
+    <div className='header-mute' onClick={toggleCurrentMute}>
+      <i className="bi bi-volume-mute"></i>
+    </div> :
+    <div className='header-mute' onClick={toggleCurrentMute}>
+      <i className="bi bi-volume-up"></i>
+    </div>;
   const headerSwitchMenu = isAuthorizated ? <BurgerMenu /> : null;
   const headerSwitch = isAuthorizated ? avtorizationHeader : loginMenu;
 
