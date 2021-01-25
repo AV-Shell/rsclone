@@ -93,13 +93,8 @@ const App: React.FC = () => {
     isAuthorizated: api.checkTokenValidity(),
     tokenRefreshInterval: undefined,
   }));
-  // console.log('\r\n\r\n\r\n\r\n\r\n');
-  // console.log(that.current.isAuthorizated);
-  // console.log('\r\n\r\n\r\n\r\n\r\n');
-
-
-
-  // const routeComponent = useRef<any>(null);
+  const [isMute, setIsMute] = useState<boolean>(false);
+  const [isLanguageRU, setIsLanguageRU] = useState<boolean>(true);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
@@ -124,6 +119,12 @@ const App: React.FC = () => {
   const toggleCurrentTheme = () => {
     setIsDarkTheme((value) => !value);
   }
+
+
+  //TODO: save to LocalStorage isMute  Language // useEffect
+
+  //TODO: save to LocalStorage
+
 
   const isLoginCallback = (isLogin: boolean) => {
     console.log('isLoginCallback', isLogin);
@@ -171,7 +172,7 @@ const App: React.FC = () => {
             logoutUser();
           })
       }, timeToRefresh - spareTime2min);
-        // },  3 * 60 * 1000);
+      // },  3 * 60 * 1000);
     }
     if (isAuthorizated) {
       console.log('Обновляем токен при заходе юзера, и ставим таймаут.');
@@ -285,6 +286,8 @@ const App: React.FC = () => {
 
 
   const trainingPageProps: trainingProps = {
+    isMute: isMute,
+    isLanguageRU: isLanguageRU,
     isDarkTheme: isDarkTheme,
     settings: userSettings,
     updateSettings: setUserSettings,
@@ -297,64 +300,21 @@ const App: React.FC = () => {
 
   if (readyToJoin === 'READY') {
     console.log('readyToJoin === READY');
-    routeComponent = <div className={appClassNames}>
-      <Header
-        isDarkTheme={isDarkTheme}
-        toggleTheme={toggleCurrentTheme}
-        isAuthorizated={readyToJoin === 'READY'}
-      ></Header>
+    routeComponent = (
       <Switch >
-        {/* <Route path='/dashboard' component={DashboardPage} /> */}
-        <Route path='/dashboard' component={() => {
-          return (
-            <DashboardPage {...trainingPageProps}></DashboardPage>
-          )
-        }} />
-        {/* <Route path='/dailygoal' component={DailyGoalPage} /> */}
-        <Route path='/dailygoal' component={() => {
-          return (
-            <DailyGoalPage {...trainingPageProps}></DailyGoalPage>
-          )
-        }} />
-        {/* <Route path='/training' component={() => {
-          return (
-            <TrainingPage {...trainingPageProps}></TrainingPage>
-          )
-        }} /> */}
-        <Route path='/training' component={() => {
-          return (
-            <ShadowTrainingPage
-              {...trainingPageProps}
-              currentTrainingState={currentTrainingState}
-              setCurrentTrainingState={setCurrentTrainingState}
-            ></ShadowTrainingPage>
-          )
-        }} />
-        {/* <Route path='/vocabulary' component={VocabularyPage} /> */}
-        <Route path='/vocabulary' component={() => {
-          return (
-            <VocabularyPage {...trainingPageProps}></VocabularyPage>
-          )
-        }} />
-        {/* <Route path='/settings' component={SettingsPage} /> */}
-        <Route path='/settings' component={() => {
-          return (
-            <SettingsPage {...trainingPageProps}></SettingsPage>
-          )
-        }} />
-        <Route path='/logout' component={() => {
-          return (
-            <LogoutPage
-              isDarkTheme={isDarkTheme}
-              logoutUser={logoutUser}
-            ></LogoutPage>
-          )
-        }} />
-        <Route path='/magicButton' component={() => {
-          return (
-            <MagicButton {...trainingPageProps} isAuthorizated={isAuthorizated}></MagicButton>
-          )
-        }} />
+        <Route path='/dashboard' render={() => <DashboardPage {...trainingPageProps}></DashboardPage>} />
+        <Route path='/dailygoal' render={() => <DailyGoalPage {...trainingPageProps}></DailyGoalPage>} />
+        <Route path='/training' render={() => <ShadowTrainingPage
+          {...trainingPageProps}
+          currentTrainingState={currentTrainingState}
+          setCurrentTrainingState={setCurrentTrainingState}
+        ></ShadowTrainingPage>} />
+        <Route path='/vocabulary' render={() => <VocabularyPage {...trainingPageProps}></VocabularyPage>} />
+        <Route path='/settings' render={() => <SettingsPage {...trainingPageProps}></SettingsPage>} />
+        <Route path='/logout' render={() => <LogoutPage isDarkTheme={isDarkTheme} logoutUser={logoutUser} 
+          isMute={isMute} isLanguageRU={isLanguageRU} ></LogoutPage>} />
+        <Route path='/magicButton' render={() => <MagicButton {...trainingPageProps}
+          isAuthorizated={isAuthorizated}></MagicButton>} />
         {/* <Route path='/magicButton' component={() => {
           return (
             <ShadowTrainingPage
@@ -364,78 +324,47 @@ const App: React.FC = () => {
             ></ShadowTrainingPage>
           )
         }} /> */}
-
-        <Redirect to='dashboard' />
+        <Redirect to='/dashboard' />
       </Switch>
-      <Footer></Footer>
-    </div>
+    );
     console.log('user login');
   } else if (readyToJoin === 'NOTLOGGED') {
     console.log('readyToJoin === NOTLOGGED');
-    routeComponent = <div className={appClassNames}>
-      <Header
-        isDarkTheme={isDarkTheme}
-        toggleTheme={toggleCurrentTheme}
-        isAuthorizated={false}
-      ></Header>
+    routeComponent = (
       <Switch >
-        {/* <Route path='/' component={MagicButton} exact /> */}
-        <Route path='/' component={() => {
-          return (
-            <MagicButton isAuthorizated={false}></MagicButton>
-          )
-        }} exact />
-        <Route path='/login' component={() => {
-          return (
-            <LoginPage
-              isLogin={true}
-              apiService={api}
-              isLoginCallback={isLoginCallback}
-            ></LoginPage>
-          )
-        }} />
-        <Route path='/registration' component={() => {
-          return (
-            <LoginPage
-              isLogin={false}
-              apiService={api}
-              isLoginCallback={isLoginCallback}
-            ></LoginPage>
-          )
-        }} />
+        <Route path='/' render={() => <MagicButton isAuthorizated={false}></MagicButton>} exact />
+        <Route path='/login' render={() => <LoginPage isLogin={true} apiService={api}
+          isLoginCallback={isLoginCallback} ></LoginPage>} />
+        <Route path='/registration' render={() => <LoginPage isLogin={false} apiService={api}
+          isLoginCallback={isLoginCallback} ></LoginPage>} />
         <Redirect to='/' />
       </Switch>
-      <Footer></Footer>
-    </div>
+    );
     console.log('user not login');
   } else if (readyToJoin === 'NEEDSETTINGS') {
     console.log('readyToJoin === NEEDSETTINGS');
-    routeComponent = <div className={appClassNames}>
-      <Header
-        isDarkTheme={isDarkTheme}
-        toggleTheme={toggleCurrentTheme}
-        isAuthorizated={false}
-      ></Header>
+    routeComponent = (
       <Switch >
-        <Route path='/createsettings' component={() => {
-          return (
-            <CreateSettings
-              apiService={api}
-              getSettingsCallback={getSettingsCallback}
-            ></CreateSettings>
-          )
-        }} />
+        <Route path='/createsettings' render={() => <CreateSettings apiService={api}
+          getSettingsCallback={getSettingsCallback} ></CreateSettings>} />
         <Redirect to='/createsettings' />
       </Switch>
-      <Footer></Footer>
-    </div>
+    );
   } else if (readyToJoin === 'LOADING') {
     console.log('readyToJoin === LOADING');
     routeComponent = <Spinner></Spinner>
   }
   return (
     <Router>
-      {routeComponent}
+      <div className={appClassNames}>
+        <Header
+          isMute={isMute} isDarkTheme={isDarkTheme} isLanguageRU={isLanguageRU} settings={userSettings}
+          setIsMute={setIsMute} setIsLanguageRU={setIsLanguageRU} toggleTheme={toggleCurrentTheme}
+          isAuthorizated={readyToJoin === 'READY'}
+        ></Header>
+        {routeComponent}
+        <Footer></Footer>
+      </div>
     </Router>
   );
 }
