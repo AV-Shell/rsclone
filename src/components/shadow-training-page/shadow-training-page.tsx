@@ -45,7 +45,7 @@ const userWordServerLog = (obj: any) => {
 function ShadowTrainingPage(props: shadowTrainingProps) {
   console.log(props);
   const { currentTrainingState, setCurrentTrainingState, updateSettings,
-    userWords, statistic, settings, apiService, isDarkTheme } = props;
+    userWords, statistic, settings, apiService, isDarkTheme, isMute, isLanguageRU } = props;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -312,7 +312,8 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
         ...saveTrainingPart,
         wordsForTraining: newWordsForTraining,
       }
-      setIsLoading(true);
+      //TODO: check this
+      // setIsLoading(true);
       setCurrentTrainingState(newState);
 
     }
@@ -377,6 +378,8 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
     <TrainingPage
       word={words[words.length - 1]}
       isDarkTheme={isDarkTheme}
+      isMute={isMute}
+      isLanguageRU={isLanguageRU}
       settings={settings}
       wordNumber={currentTrainingState.totalWordsCount - words.length + 1}
       totalWords={currentTrainingState.totalWordsCount}
