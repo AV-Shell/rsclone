@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps
+  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation
   } from './training-page-interfaces';
 import {TOTAL_DIFFICULTY_GROUPS} from '../../constants/constants';
 import { MAX_REPEAT_LEVEL } from './training-consts';
@@ -28,6 +28,21 @@ export function TrainingCardLineCode(props:lineProps) {
   if (isTrue) {
     return (<p className={classCss}>{line}</p>);
   };
+  return null;
+}
+
+export function TrainingCardTranslationLine(props: IlinePropsTranslation) {
+  const {isTrue, line, classCss, isShownAfter, isAnswered} = props;
+  if (isTrue) {
+    return (<p className={classCss}>{line}</p>);
+  };
+  if (isShownAfter) {
+    if (isAnswered) {
+      return (<p className={classCss}>{line}</p>);
+    } else {
+      return null;
+    }
+  }
   return null;
 }
 

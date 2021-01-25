@@ -378,6 +378,7 @@ $orange-hover: #d68f01;
         padding: 10px 10px 5px;
         width: 100%;
         box-sizing: border-box;
+        min-height: 100px;
 
         .sentence-eng {
           grid-column: 2;
@@ -430,7 +431,7 @@ $orange-hover: #d68f01;
       display: flex;
       justify-content: space-evenly;
       align-items: stretch;
-      min-height: 40px;
+      min-height: 56px;
       padding: 0.5em;
 
       >.btn-footer {

@@ -17,6 +17,14 @@ export interface lineProps {
   line:string,
   classCss: string,
 }
+
+export interface IlinePropsTranslation {
+  isTrue:boolean,
+  isShownAfter: boolean,
+  isAnswered: boolean,
+  line:string,
+  classCss: string,
+}
 export interface forInput {
   value: string,
   updateValue: React.Dispatch<React.SetStateAction<string>>,
@@ -75,15 +83,16 @@ export interface IconForSound {
   isSoundOn: boolean;
   sound: ()=>Promise<void>,
   forCSS: string,
-  isShown: boolean
+  isShown: boolean,
 }
 
 export interface ForCardExamples {
   isExampleShown: boolean,
   isExampleTranslationShown: boolean,
+  isExampleTranslationAfter: boolean,
   isMeaningShown: boolean,
   isMeaningTranslationShown: boolean,
-  showTranslationAfter: boolean,
+  isMeaningTranslationAfter: boolean,
   isSoundOn: boolean,
   isAnswered: boolean,
   soundExample: ()=>Promise<void>,

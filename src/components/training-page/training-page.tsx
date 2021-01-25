@@ -3,10 +3,10 @@ import './training-page.scss';
 import { userSettings, paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
 import { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, NextButtonProps, ForCardExamples } from './training-page-interfaces';
+import { lineProps, forInput, NextButtonProps, ForCardExamples, IlinePropsTranslation } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
-  TrainingProgressBar, WordProgress
+  TrainingProgressBar, WordProgress, TrainingCardTranslationLine
   } from './training-simple-functions';
 import InputControl from './training-page-input';
 import CardFooter from './training-page-card-footer';
@@ -57,18 +57,14 @@ function TrainingPage(props:trainingCardProps) {
   const {group} = thisWord;
  
   const {
-    answerButton, /*autoSound, автовоспроизведение всех звуков*/ cardExample, cardExampleTranslation,
+    answerButton, autoSound, /*автовоспроизведение всех звуков*/ cardExample, cardExampleTranslation,
     cardWordPronunciation, cardExplanation, cardExplanationTranslation, 
     cardImage, cardTranscription, cardExplanationTranslationAfter, cardExampleTranslationAfter,
     cardTranslation, cardTranslationAfterSuccess, statusButtons, feedbackButtons,
   } = optional;
 
-  const autoSound:boolean = true; // пока не найду, как нормально проигрывать
-
   const allTrainingCards: number = totalWords;
   let firstAppearance: number = trainingDay;
-  // let counter: number = 5;
-  // let success: number = 3;
 
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
@@ -103,8 +99,10 @@ function TrainingPage(props:trainingCardProps) {
     soundObject.play();
   }
 
-  const objForTranslation: lineProps = {
+  const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
+    isShownAfter: cardTranslationAfterSuccess,
+    isAnswered: isAnswered,
     line: thisWord.wordTranslate,
     classCss: "training-card-body-word-details-translation"
   };
@@ -147,9 +145,10 @@ function TrainingPage(props:trainingCardProps) {
   const objForExamplesPart: ForCardExamples = {
     isExampleShown: cardExample,
     isExampleTranslationShown: cardExampleTranslation,
+    isExampleTranslationAfter: cardExampleTranslationAfter,
     isMeaningShown: cardExplanation,
     isMeaningTranslationShown: cardExplanationTranslation,
-    showTranslationAfter: cardTranslationAfterSuccess,
+    isMeaningTranslationAfter: cardExplanationTranslationAfter,
     isSoundOn: isSoundOn,
     isAnswered: isAnswered,
     soundExample: playExample,
@@ -233,7 +232,7 @@ function TrainingPage(props:trainingCardProps) {
               <div className="training-card-body-word-details">
                 <p>Введите английское слово</p>
                 <InputControl {...objForInput} />
-                <TrainingCardLineCode {...objForTranslation}/>
+                <TrainingCardTranslationLine {...objForTranslation}/>
                 <TrainingCardLineCode {...objForTranscription}/>
               </div>
               <TrainingCardImage {...objForImage}/>

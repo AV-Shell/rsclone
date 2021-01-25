@@ -30,7 +30,7 @@ export default function InputControl(props: forInput) {
       soundObjectWord.onended = () => {
         soundObjectExample.play();
       }
-    } else {
+    } else if (playMeaning) {
       soundObjectMeaning.load();
       soundObjectWord.onended = () => {
         soundObjectMeaning.play();
