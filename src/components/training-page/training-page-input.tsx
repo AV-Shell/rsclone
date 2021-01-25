@@ -24,7 +24,7 @@ export default function InputControl(props: forInput) {
       updateCounter(counter + 1);
       updateAnswerSet(true);
       console.log('enter pressed in input');
-      if (value.toLocaleLowerCase() === theWord) {
+      if (value.toLocaleLowerCase() === theWord.toLocaleLowerCase()) {
         console.log('that is right');
         updateAnswer(true);
         updateAnswerSet(true);

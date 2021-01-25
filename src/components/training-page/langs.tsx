@@ -16,7 +16,7 @@ const EN: Tlanguages = {
   'hardButton': 'Hard',
   'goodButton': 'Good',
   'easyButton': 'Easy',
-  'furtherButton': 'Go on!'
+  'nextButton': 'Go on!'
 };
 
 const RU: Tlanguages = {
@@ -31,7 +31,7 @@ const RU: Tlanguages = {
   'hardButton': 'Сложно',
   'goodButton': 'Хорошо',
   'easyButton': 'Легко',
-  'furtherButton': 'Далее'
+  'nextButton': 'Далее'
 };
 
 export { EN, RU }

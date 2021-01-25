@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './training-page.scss';
 import { userSettings, paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
 import { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
@@ -22,15 +22,34 @@ function TrainingPage(props:trainingCardProps) {
   const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
   const [counter, setCounter] = useState<number>(0);
   const [success, setSuccess] = useState<number>(0);
-  
+
   const trainingDay: number = Date.now();
 
   console.log(props);
   const {
-    word, settings, wordNumber, totalWords, getAnswer
+    word, settings, wordNumber, totalWords, getAnswer, isLanguageRU, isMute
   } = props;
-  
   const { optional } = settings;
+  const [isSoundOn, setIsSoundOn] = useState<boolean>(!isMute);
+  
+  useEffect(() => {
+    setIsAnswerTrue(false);
+    setIsAnswered(false);
+    setInputValue('');
+    setWordPosition('active');
+    setIntervalStatus('');
+    setIntervalLevel(0);
+    setIsNew(true);
+    setCounter(0);
+    setSuccess(0);
+    console.log('in the useEffect');
+  }, [ word ]);
+
+  useEffect(() => {
+    setIsSoundOn(!isMute);
+  }, [ isMute ])
+
+  
   
   const currentCard: number = wordNumber;
   let thisWord: paginatedWord;
@@ -43,14 +62,13 @@ function TrainingPage(props:trainingCardProps) {
     cardImage, cardTranscription, cardExplanationTranslationAfter, cardExampleTranslationAfter,
     cardTranslation, cardTranslationAfterSuccess, statusButtons, feedbackButtons,
   } = optional;
-  const isSoundOn:boolean = true; // временно, пока звук не передается
+
   const autoSound:boolean = false; // пока не найду, как нормально проигрывать
 
   const allTrainingCards: number = totalWords;
   let firstAppearance: number = trainingDay;
   // let counter: number = 5;
   // let success: number = 3;
-  let progress: number = 0;
 
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
@@ -59,13 +77,10 @@ function TrainingPage(props:trainingCardProps) {
     setWordPosition(wordStatus);
     firstAppearance = userWord!.optional.firstAppearance;
     setIntervalLevel(userWord!.optional.level);
-    // counter = userWord!.optional.counter;
-    // success = userWord!.optional.success;
     setCounter(userWord!.optional.counter);
     setSuccess(userWord!.optional.success);
-    progress = userWord!.optional.counter;
+    console.log(`counter: ${counter}, success: ${success}`);
   };
-  progress = Math.floor((success / counter) * 100) / 100;
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
