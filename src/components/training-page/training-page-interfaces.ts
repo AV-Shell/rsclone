@@ -1,5 +1,5 @@
 import React from 'react';
-import { cardAnswer, userWordOptional } from '../../constants/interfaces';
+import { cardAnswer } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: 'active' | 'deleted' | 'difficult',
@@ -28,18 +28,17 @@ export interface forInput {
   isSoundOn: boolean,
   wordSound: ()=>Promise<void>,
   isAutoPlayOn: boolean,
-  exampleSound: ()=>Promise<void>,
-  meaningSound: ()=>Promise<void>,
+  wordSoundURL: string
+  exampleSoundURL: string,
+  meaningSoundURL: string,  
+  playExample: boolean,
+  playMeaning: boolean,
   counter: number,
   success: number,
   updateCounter: React.Dispatch<React.SetStateAction<number>>,
   updateSuccess: React.Dispatch<React.SetStateAction<number>>,
   isSoundBtnShown: boolean
 }
-
-type IntervalTime = {
-  [days: number]: number 
-};
 
 export interface forStars {
   level: number

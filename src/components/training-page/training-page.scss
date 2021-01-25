@@ -213,7 +213,8 @@ $orange-hover: #d68f01;
           display: grid;
           grid-template-rows: minmax(25px, auto);
           grid-template-columns: 1fr 100px;
-          column-gap: 100px; 
+          column-gap: 100px;
+          margin-top: 0.5em; 
 
           .word-progress {
             width: 100%;

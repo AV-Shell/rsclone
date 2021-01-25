@@ -1,23 +1,47 @@
-import React, { useState } from 'react';
-import { lineProps, forInput, NextButtonProps, ForCardExamples } from './training-page-interfaces';
+import React from 'react';
+import { forInput } from './training-page-interfaces';
 
 export default function InputControl(props: forInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
-    isAutoPlayOn, exampleSound, meaningSound, counter, success, updateCounter, updateSuccess, isSoundBtnShown
+    isAutoPlayOn, wordSoundURL, exampleSoundURL, meaningSoundURL, playExample, playMeaning, counter, success,
+    updateCounter, updateSuccess, isSoundBtnShown
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
+
+  const soundObjectWord = new Audio(wordSoundURL);
+  const soundObjectExample = new Audio(exampleSoundURL);
+  const soundObjectMeaning = new Audio(meaningSoundURL);
+  const playAll = async () => {
+    soundObjectWord.load();
+    soundObjectWord.play();
+    if (playExample && playMeaning) {
+      soundObjectExample.load();
+      soundObjectMeaning.load();
+      soundObjectWord.onended = () => {
+      soundObjectExample.play();
+      soundObjectExample.onended = () => {
+        soundObjectMeaning.play();
+        }
+      }
+    } else if (playExample) {
+      soundObjectExample.load();
+      soundObjectWord.onended = () => {
+        soundObjectExample.play();
+      }
+    } else {
+      soundObjectMeaning.load();
+      soundObjectWord.onended = () => {
+        soundObjectMeaning.play();
+      }
+    }
+  }
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     updateValue(event.target.value);
   };
-
-  // const ClickHandler = (event: React.MouseEvent<HTMLInputElement>) => {
-  //   event.preventDefault();
-  //   updateValue('');
-  // };
 
   const KeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -34,13 +58,9 @@ export default function InputControl(props: forInput) {
           updateAnswer(false);
           updateAnswerSet(true);
         }
-        // if (isAutoPlayOn) {
-        //   wordSound()
-        //     .then(() => {exampleSound()})
-        //     .then(() => {meaningSound()})
-        //     .catch(() => true);
-        // }
-        // воспроизводится одновременно(
+        if (isAutoPlayOn && isSoundOn) {
+          playAll().catch(() => true);
+        }
       }
   };
 

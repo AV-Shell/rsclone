@@ -63,7 +63,7 @@ function TrainingPage(props:trainingCardProps) {
     cardTranslation, cardTranslationAfterSuccess, statusButtons, feedbackButtons,
   } = optional;
 
-  const autoSound:boolean = false; // пока не найду, как нормально проигрывать
+  const autoSound:boolean = true; // пока не найду, как нормально проигрывать
 
   const allTrainingCards: number = totalWords;
   let firstAppearance: number = trainingDay;
@@ -132,8 +132,11 @@ function TrainingPage(props:trainingCardProps) {
     isSoundOn: isSoundOn,
     wordSound: playWord,
     isAutoPlayOn: autoSound,
-    exampleSound: playExample,
-    meaningSound: playMeaning,
+    wordSoundURL: audioWordURL,
+    exampleSoundURL: audioExampleURL,
+    meaningSoundURL: audioMeaningURL,
+    playExample: cardExample,
+    playMeaning: cardExplanation,
     counter: counter,
     success: success,
     updateCounter: setCounter,
