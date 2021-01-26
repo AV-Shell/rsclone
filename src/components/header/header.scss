@@ -50,6 +50,7 @@
     margin-left: auto;
     display: flex;
     align-items: center;
+    
   }
 
   &-lang {
@@ -82,14 +83,19 @@
     }
 
     &-dropdown {
+      overflow: hidden;
       position: absolute;
-      top: 53px;
-      left: 47px;
+      top: 60px;
+      left: 24px;
       background: #ffffff;
       width: 125px;
       border-radius: 5px;
-      display: none;
-
+      display: block;
+      max-height: 0;
+      transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 3px 10px 1px #7E8299;
+      text-align: center;
+      
 
       & div {
         display: block;
@@ -101,25 +107,29 @@
         cursor: pointer;
 
         &:hover {
-          background-color: rgb(212, 212, 212);
-          transition: .6s;
+          background-color: #F3F6F9;;
+          transition: .2s;
+          color: #3445E5 ;
         }
       }
     }
 
     &.isActive .header-lang-dropdown {
-      display: block;
+      max-height: 5rem;
 
     }
   }
 
   &-userInfo {
-    width: 74px;
+    width: 79px;
     height: 50px;
     display: flex;
     align-items: center;
     margin-right: 30px;
     border-radius: 5px;
+    justify-content: space-between;
+    padding: 5px;
+    position: relative;
 
     &-userImg {
       width: 42px;
@@ -138,12 +148,51 @@
 
     & i::before {
       font-size: 18px;
-      margin-left: 5px;
+      
     }
 
     &:hover {
       background: #27283D;
       transition: .1s;
+    }
+    &-dropdown{
+      overflow: hidden;
+      position: absolute;
+      top: 60px;
+      left: 24px;
+      background: #ffffff;
+      width: 125px;
+      border-radius: 5px;
+      display: block;
+      max-height: 0;
+      transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: 0 3px 10px 1px #7E8299;
+      text-align: center;
+      & div {
+        display: block;
+        padding: 10px 20px;
+        border-radius: 5px;
+        user-select: none;
+        align-items: center;
+
+        cursor: pointer;
+        & a{
+          text-decoration: none;
+          color: #7E8299;
+        }
+        &:hover {
+          background-color: #F3F6F9;
+          transition: .2s;
+          color: #3445E5 ;
+          & a{
+            color: #3445E5 ;
+          }
+
+        }
+      }
+    }
+    &.isActive .header-userInfo-dropdown {
+      max-height: 5rem;
     }
   }
 
@@ -200,11 +249,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #e2c195;
+      color: #7E8299;
       text-decoration: none;
-      border: 1px solid black;
-      border-radius: 20px;
-      background-color: black;
+      height: 50px;
+      border-radius: 5px;
+    
 
       &:hover {
         background: #27283D;
