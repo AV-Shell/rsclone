@@ -77,13 +77,13 @@ function Header(props: headerProps) {
   );
 
   const styleTheme = isDarkTheme ? "Dark theme" : "Light theme";
-  const styleLangDawnMenu =
+  const styleLangDownMenu =
     isLangUp && isLangVisible ? "header-lang isActive" : "header-lang";
   const styleLangIcon =
     isLangUp && isLangVisible
       ? "bi bi-chevron-down rotate"
       : "bi bi-chevron-down";
-  const styleUserDawnMenu =
+  const styleUserDownMenu =
     isUserSetUp && isUserVisible
       ? "header-userInfo isActive"
       : "header-userInfo";
@@ -98,7 +98,7 @@ function Header(props: headerProps) {
     : `${FLAG_URL}flag_usa.svg`;
 
   const switchLangMenu = (
-    <div className={styleLangDawnMenu} onClick={toggleLangUp} ref={refLang}>
+    <div className={styleLangDownMenu} onClick={toggleLangUp} ref={refLang}>
       <img src={flagUrl} alt='flag' />
       {!isLanguageRU && <span>English</span>}
       {isLanguageRU && <span>Русский</span>}
@@ -113,10 +113,10 @@ function Header(props: headerProps) {
     </div>
   );
 
-  const autorizationHeader = (
+  const authorizationHeader = (
     <div className='header-switch-menu'>
       <div
-        className={styleUserDawnMenu}
+        className={styleUserDownMenu}
         onClick={toggleUserSetUp}
         ref={refUser}
       >
@@ -149,7 +149,7 @@ function Header(props: headerProps) {
       'bi bi-volume-up'
   );
   const headerSwitchMenu = isAuthorizated ? <BurgerMenu /> : null;
-  const headerSwitch = isAuthorizated ? autorizationHeader : loginMenu;
+  const headerSwitch = isAuthorizated ? authorizationHeader : loginMenu;
 
   return (
     <header className='header'>
