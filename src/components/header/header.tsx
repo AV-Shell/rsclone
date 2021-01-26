@@ -145,7 +145,6 @@ function Header(props: headerProps) {
 
   const muteImg = isMute ? (
       <i className='bi bi-volume-mute'></i>
-  
   ) : (
       <i className='bi bi-volume-up'></i>
   );
