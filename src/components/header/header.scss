@@ -1,3 +1,6 @@
+@import "./../../sass/constants.scss";
+@import "./../../sass/breakpoints.scss";
+
 .header {
   background-color: #1F1E2E;
   color: #7E8299;
@@ -6,6 +9,7 @@
   padding: 0 50px;
   height: 70px;
   position: relative;
+  font-size: 16px;
 
   &-toggle {
     float: right;
@@ -41,16 +45,14 @@
       border-radius: 100px;
     }
 
-    .dark-theme & {
-      // background: $section-background-dark-theme;
-    }
+
   }
 
   &-switch-menu {
     margin-left: auto;
     display: flex;
     align-items: center;
-    
+
   }
 
   &-lang {
@@ -63,16 +65,17 @@
     margin-right: 25px;
     border-radius: 5px;
     position: relative;
-    
+
 
     & i::before {
       font-size: 18px;
-     
+
     }
 
     &:hover {
       background: #27283D;
       transition: .1s;
+      color: #3445E5;
     }
 
     & img {
@@ -95,7 +98,7 @@
       transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       box-shadow: 0 3px 10px 1px #7E8299;
       text-align: center;
-      
+
 
       & div {
         display: block;
@@ -103,19 +106,21 @@
         border-radius: 5px;
         user-select: none;
         align-items: center;
+        color: #7E8299;
 
         cursor: pointer;
 
         &:hover {
-          background-color: #F3F6F9;;
+          background-color: #F3F6F9;
+          ;
           transition: .2s;
-          color: #3445E5 ;
+          color: #3445E5;
         }
       }
     }
 
     &.isActive .header-lang-dropdown {
-      max-height: 5rem;
+      max-height: 9rem;
 
     }
   }
@@ -148,14 +153,16 @@
 
     & i::before {
       font-size: 18px;
-      
+
     }
 
     &:hover {
       background: #27283D;
       transition: .1s;
+      color: #3445E5;
     }
-    &-dropdown{
+
+    &-dropdown {
       overflow: hidden;
       position: absolute;
       top: 60px;
@@ -168,6 +175,7 @@
       transition: max-height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       box-shadow: 0 3px 10px 1px #7E8299;
       text-align: center;
+
       & div {
         display: block;
         padding: 10px 20px;
@@ -176,29 +184,34 @@
         align-items: center;
 
         cursor: pointer;
-        & a{
+
+        & a {
           text-decoration: none;
           color: #7E8299;
         }
+
         &:hover {
           background-color: #F3F6F9;
           transition: .2s;
-          color: #3445E5 ;
-          & a{
-            color: #3445E5 ;
+          color: #3445E5;
+
+          & a {
+            color: #3445E5;
           }
 
         }
       }
     }
+
     &.isActive .header-userInfo-dropdown {
-      max-height: 5rem;
+      max-height: 9rem;
     }
   }
 
   &-theme {
     margin-left: auto;
     width: 185px;
+    padding: 0.5rem;
 
     &-label {
       margin-left: auto;
@@ -236,6 +249,7 @@
     &:hover {
       background: #27283D;
       transition: .1s;
+      color: #3445E5;
     }
   }
 
@@ -253,11 +267,12 @@
       text-decoration: none;
       height: 50px;
       border-radius: 5px;
-    
+
 
       &:hover {
         background: #27283D;
         transition: .1s;
+        color: #3445E5;
       }
     }
   }
@@ -266,6 +281,7 @@
     margin-left: 165px;
     z-index: 30;
     transition: 1s;
+    width: 22rem;
   }
 
   &-logoimg.is-active {
@@ -273,8 +289,33 @@
 
   }
 }
+
 .rotate {
   transform: rotate(180deg);
   transition: transform 0.4s;
 
 }
+
+@media(max-width: $size-xl){
+  .header-theme {
+      width: 16.5rem;
+      &-label{
+        margin-right: 0.5rem ;
+      }
+}
+.header-userInfo {
+ 
+  margin-right: 1rem;
+}
+.header-lang {
+  margin-right: 1rem;
+}
+.header-mute {
+  
+  margin-right: 1rem;
+
+
+}
+.header-logoimg {
+  margin-left: 80px;
+}}
