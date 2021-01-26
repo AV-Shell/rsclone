@@ -40,12 +40,14 @@ function Header(props: headerProps) {
 
   const styleTheme = isDarkTheme ? 'Dark theme' : 'Light theme';
   const styleLangDawnMenu = isLangUp ? 'header-lang isActive' : 'header-lang';
+  const styleLangIcon = isLangUp ? "bi bi-chevron-down rotate" : "bi bi-chevron-down";
+
 
   const switchLangMenu = <div className={styleLangDawnMenu} onClick={toggleLangUp}>
     <img src={langImg} alt="en" />
     <span>English</span>
-    <i className="bi bi-chevron-down"></i>
-    <div className='header-lang-dropdawn'><div>English</div> <div> Русский
+    <i className={styleLangIcon}></i>
+    <div className='header-lang-dropdown'><div>English</div> <div> Русский
   </div></div>
   </div>
 

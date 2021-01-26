@@ -53,18 +53,20 @@
   }
 
   &-lang {
-    width: 172px;
+    padding: 0 5px;
+    width: 150px;
     height: 50px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     margin-right: 25px;
     border-radius: 5px;
     position: relative;
+    
 
     & i::before {
       font-size: 18px;
-      margin-left: 5px;
+     
     }
 
     &:hover {
@@ -79,7 +81,7 @@
       margin-right: 5px;
     }
 
-    &-dropdawn {
+    &-dropdown {
       position: absolute;
       top: 53px;
       left: 47px;
@@ -105,7 +107,7 @@
       }
     }
 
-    &.isActive .header-lang-dropdawn {
+    &.isActive .header-lang-dropdown {
       display: block;
 
     }
@@ -221,4 +223,9 @@
     margin-left: 5px;
 
   }
+}
+.rotate {
+  transform: rotate(180deg);
+  transition: transform 0.4s;
+
 }
