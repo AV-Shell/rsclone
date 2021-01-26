@@ -143,10 +143,10 @@ function Header(props: headerProps) {
     </div>
   );
 
-  const muteImg = isMute ? (
-      <i className='bi bi-volume-mute'></i>
+  const muteImgSet = isMute ? (
+     'bi bi-volume-mute'
   ) : (
-      <i className='bi bi-volume-up'></i>
+      'bi bi-volume-up'
   );
   const headerSwitchMenu = isAuthorizated ? <BurgerMenu /> : null;
   const headerSwitch = isAuthorizated ? autorizationHeader : loginMenu;
@@ -159,7 +159,8 @@ function Header(props: headerProps) {
       </div>
       <div className='header-switch-menu'>
       <div className='header-mute' onClick={toggleCurrentMute}>
-        {muteImg}
+      <i className= {muteImgSet}></i>
+       
         </div>
         {switchLangMenu}
         {headerSwitch}
