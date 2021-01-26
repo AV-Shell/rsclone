@@ -170,6 +170,7 @@ const App: React.FC = () => {
           .catch((err) => {
             console.log(err.message);
             logoutUser();
+            window.clearInterval(that.current.tokenRefreshInterval);
           })
       }, timeToRefresh - spareTime2min);
       // },  3 * 60 * 1000);

@@ -1,4 +1,10 @@
-import { userSettings, userStatistics, userWordReq } from '../constants/interfaces'
+import {
+  userSettings,
+  userStatistics,
+  userWordReq,
+  IstatisticMainLong,
+  IStatGraphItem,
+} from '../constants/interfaces'
 const MB_STORAGE_KEY = 'magicButtonLocal';
 
 const MB_ROUTES = {
@@ -107,6 +113,29 @@ const DEFAULT_USER_STATISTIC: userStatistics = {
   }
 }
 
+const DEFAULT_STAT_ITEM: IStatGraphItem = {
+  date: 0,
+  value: 0,
+}
+
+
+const DEFAULT_MAIN_GAME_LONG_STATISTIC: IstatisticMainLong = {
+  bestAll: 0,
+  bestAllData: 0,
+  bestForTraining: 0,
+  bestForTrainingData: 0,
+  currentAll: 0,
+  currentForTraining: 0,
+  totalCorrectCards: 0,
+  totalCards: 0,
+  totalPoints: 0,
+  rightPerDay: [],
+  userWordsPerDay: [],
+  currentRightPerDay:DEFAULT_STAT_ITEM,
+  currentUserWordPerDay:DEFAULT_STAT_ITEM,
+}
+
+
 const DEFAULT_USER_WORD: userWordReq = {
   difficulty: 'new',
   optional: {
@@ -146,6 +175,8 @@ export {
   WORD_PARAM,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
+  DEFAULT_STAT_ITEM,
+  DEFAULT_MAIN_GAME_LONG_STATISTIC,
   DEFAULT_USER_WORD,
   newWordsFilter,
   userWordsFilter,
