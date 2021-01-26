@@ -25,7 +25,7 @@ export interface IlinePropsTranslation {
   line:string,
   classCss: string,
 }
-export interface forInput {
+export interface IforInput {
   value: string,
   updateValue: React.Dispatch<React.SetStateAction<string>>,
   theWord: string,
@@ -45,7 +45,9 @@ export interface forInput {
   success: number,
   updateCounter: React.Dispatch<React.SetStateAction<number>>,
   updateSuccess: React.Dispatch<React.SetStateAction<number>>,
-  isSoundBtnShown: boolean
+  isSoundBtnShown: boolean,
+  intervalLevel: number,
+  updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>
 }
 
 export interface forStars {

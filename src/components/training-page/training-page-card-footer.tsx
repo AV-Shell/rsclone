@@ -74,7 +74,8 @@ function FooterButton(props: footerBtns) {
   const {id, line, classCss, updateIntervalLvl, intervalLvl, isAnswerTrue} = props;
 
   const wholeClass: string = (intervalLvl === id) ? classCss + ' active' : classCss;
-  const disabled: boolean = (!isAnswerTrue && ((id === 'easy') || (id === 'good')));
+  // если ответил неправильно, не может их нажать
+  const disabled: boolean = (!isAnswerTrue && ((id === 'easy') || (id === 'good') || (id === 'hard')));
 
   const IntervalButtonsHandler =(event: React.MouseEvent<HTMLButtonElement>) => {
     if (intervalLvl === id) {

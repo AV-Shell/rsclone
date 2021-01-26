@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './training-page.scss';
-import { userSettings, paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
+import { paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
 import { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, forInput, NextButtonProps, ForCardExamples, IlinePropsTranslation } from './training-page-interfaces';
+import { lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
   TrainingProgressBar, WordProgress, TrainingCardTranslationLine
@@ -18,7 +18,7 @@ function TrainingPage(props:trainingCardProps) {
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
   const [wordPosition, setWordPosition] = useState<'active' | 'deleted' | 'difficult'>('active'); // для создания объекта
   const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
-  const [intervalLevel, setIntervalLevel] = useState<number>(0); // прокидывать в футер карточки
+  const [intervalLevel, setIntervalLevel] = useState<number>(MIN_REPEAT_LEVEL); // прокидывать в футер карточки
   const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
   const [counter, setCounter] = useState<number>(0);
   const [success, setSuccess] = useState<number>(0);
@@ -119,7 +119,7 @@ function TrainingPage(props:trainingCardProps) {
     classCss: "training-card-body-word-img"
   };
 
-  const objForInput: forInput = {
+  const objForInput: IforInput = {
     value: inputValue,
     updateValue: setInputValue,
     theWord: thisWord.word,
@@ -139,7 +139,9 @@ function TrainingPage(props:trainingCardProps) {
     success: success,
     updateCounter: setCounter,
     updateSuccess: setSuccess,
-    isSoundBtnShown: cardWordPronunciation
+    isSoundBtnShown: cardWordPronunciation,
+    intervalLevel: intervalLevel,
+    updateIntervalLevel: setIntervalLevel
   };
   
   const objForExamplesPart: ForCardExamples = {
@@ -279,47 +281,37 @@ function ButtonNext(props: NextButtonProps) {
       switch (levelStatus) {
         case 'again': 
           console.log('in again switch');
-          levelNow = levelNow + 1;
-          console.log(`nextRepeat: ${nextTime}`);
+          levelNow = levelNow - 2; // сбросить до исходного
+          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
         break;
         case 'hard':  
           console.log('in hard switch');
           if (levelNow < MAX_REPEAT_LEVEL) {
-            levelNow = levelNow + 1;
+            levelNow = levelNow - 1;
           };
           nextTime+= levelsOfRepeat[levelNow];
-          console.log(`nextRepeat: ${nextTime}`);
+          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
         break;
         case 'easy':
           console.log('in easy switch');
           if (levelNow < MAX_REPEAT_LEVEL - 2) {
-            levelNow = levelNow + 3;
-          } else if (levelNow < MAX_REPEAT_LEVEL - 1) {
-            levelNow = levelNow + 2;
-          } else if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow = levelNow + 1;
           }
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`nextRepeat: ${nextTime}`);
+          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
         break;
         default:
-          console.log('in normal switch');
-          if (levelNow < MAX_REPEAT_LEVEL - 1) {
-            levelNow = levelNow + 2;
-          } else if (levelNow < MAX_REPEAT_LEVEL) {
-            levelNow = levelNow + 1;
-          };
+          console.log('in normal switch')
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`nextRepeat: ${nextTime}`);
+          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
         break;
       }
     } else {
       console.log('when answer wrong');
       levelNow = 1;
       nextTime += levelsOfRepeat[levelNow];
-      console.log(`nextRepeat: ${nextTime}`);
+      console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
     };
-    console.log(`nextRepeat: ${nextTime}`, 'outside switch');
 
     const wordSettings: userWordOptional = {
       firstAppearance: firstAppearance,
@@ -342,7 +334,10 @@ function ButtonNext(props: NextButtonProps) {
     }
     
     console.log('повторять или нет: ', resultOfTheCard.isRepeat);
-    console.log(`уровень повторения: ${levelForRepeat}, повторить через: ${levelsOfRepeat[levelNow]} следущий повтор: ${nextTime}`);
+    console.log(`доинтервальный уровень повторения: ${levelForRepeat},
+    уровень повторения: ${levelNow}, 
+    повторить через: ${levelsOfRepeat[levelNow]} 
+    следущий повтор: ${nextTime}`);
     console.log(resultOfTheCard);
 
     // возвращение нужного объекта

@@ -491,7 +491,7 @@ $orange-hover: #d68f01;
           background-color: $success-hover;
         }
       }
-      &-btn-good[disabled], &-btn-easy[disabled] {
+      &-btn-good[disabled], &-btn-easy[disabled], &-btn-hard[disabled] {
         background-color: $color-secondary;
         cursor: auto;
       }

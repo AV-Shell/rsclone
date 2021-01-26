@@ -1,11 +1,12 @@
 import React from 'react';
-import { forInput } from './training-page-interfaces';
+import { IforInput } from './training-page-interfaces';
+import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 
-export default function InputControl(props: forInput) {
+export default function InputControl(props: IforInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
     isAutoPlayOn, wordSoundURL, exampleSoundURL, meaningSoundURL, playExample, playMeaning, counter, success,
-    updateCounter, updateSuccess, isSoundBtnShown
+    updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
@@ -53,10 +54,19 @@ export default function InputControl(props: forInput) {
         updateAnswer(true);
         updateAnswerSet(true);
         updateSuccess(success + 1);
+        if (intervalLevel < (MAX_REPEAT_LEVEL - 1)) {
+          updateIntervalLevel(intervalLevel + 2);
+        } else {
+          updateIntervalLevel(MAX_REPEAT_LEVEL);
+        };
+        
         } else {
           updateValue(theWord);
           updateAnswer(false);
           updateAnswerSet(true);
+          if (intervalLevel !== MIN_REPEAT_LEVEL) {
+            updateIntervalLevel(1);
+          }
         }
         if (isAutoPlayOn && isSoundOn) {
           playAll().catch(() => true);
@@ -91,7 +101,8 @@ export default function InputControl(props: forInput) {
       className="training-card-body-word-details-field-input" 
       type="text" 
       size={theWord.length}
-      autoFocus={true} 
+      autoFocus={true}
+      maxLength={theWord.length} 
       spellCheck={false}
       onKeyPress={KeyPressHandler}
       value={value} 
