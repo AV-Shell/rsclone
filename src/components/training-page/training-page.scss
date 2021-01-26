@@ -26,6 +26,7 @@ $orange-hover: #d68f01;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.6rem;
 
   .wrapper {
     box-sizing: border-box;
@@ -52,6 +53,7 @@ $orange-hover: #d68f01;
       >h1 {
         margin-top: 0;
         margin-bottom: 0.5em;
+        font-size: 3.2rem;
       }      
 
       > .button-next {
