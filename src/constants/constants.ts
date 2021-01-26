@@ -18,6 +18,9 @@ const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/av
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
 const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/'
+const FLAG_URL_4x3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/'
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/us.svg
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_usa.svg
 
