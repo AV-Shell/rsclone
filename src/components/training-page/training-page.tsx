@@ -23,8 +23,10 @@ function TrainingPage(props:trainingCardProps) {
   const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
   const [counter, setCounter] = useState<number>(0);
   const [success, setSuccess] = useState<number>(0);
+  const [isIntervalUsed, setIntervalUsed] = useState<boolean>(true);
 
   const trainingDay: number = Date.now();
+  let nextTrainingDay: number = 0;
 
   console.log(props);
   const {
@@ -45,6 +47,7 @@ function TrainingPage(props:trainingCardProps) {
     setIsNew(true);
     setCounter(0);
     setSuccess(0);
+    setIntervalUsed(true)
     console.log('in the useEffect');
   }, [ word ]);
 
@@ -63,7 +66,7 @@ function TrainingPage(props:trainingCardProps) {
   const {group} = thisWord;
  
   const {
-    answerButton, autoSound, /*автовоспроизведение всех звуков*/ cardExample, cardExampleTranslation,
+    answerButton, autoSound, cardExample, cardExampleTranslation,
     cardWordPronunciation, cardExplanation, cardExplanationTranslation, 
     cardImage, cardTranscription, cardExplanationTranslationAfter, cardExampleTranslationAfter,
     cardTranslation, cardTranslationAfterSuccess, statusButtons, feedbackButtons,
@@ -82,6 +85,17 @@ function TrainingPage(props:trainingCardProps) {
     setCounter(userWord!.optional.counter);
     setSuccess(userWord!.optional.success);
     console.log(`counter: ${counter}, success: ${success}`);
+
+    nextTrainingDay = userWord!.optional.nextRepeat;
+    const nextDate = new Date(nextTrainingDay).setHours(0, 0, 0, 0);
+    console.log(nextDate);
+    const thisDay = new Date(trainingDay).setHours(0, 0, 0, 0);
+    console.log(thisDay);
+    console.log(nextDate > thisDay);
+    if (nextDate > thisDay) {
+      setIntervalUsed(false);
+    };
+
   };
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
@@ -147,7 +161,8 @@ function TrainingPage(props:trainingCardProps) {
     updateSuccess: setSuccess,
     isSoundBtnShown: cardWordPronunciation,
     intervalLevel: intervalLevel,
-    updateIntervalLevel: setIntervalLevel
+    updateIntervalLevel: setIntervalLevel,
+    isIntervalUsed: isIntervalUsed
   };
   
   const objForExamplesPart: ForCardExamples = {
@@ -178,7 +193,9 @@ function TrainingPage(props:trainingCardProps) {
     firstAppearance: firstAppearance,
     counter: counter,
     success: success,
-    language: currentLang
+    language: currentLang,
+    nextTrainingDay: nextTrainingDay,
+    isIntervalUsed: isIntervalUsed
   }
 
   return (
@@ -268,7 +285,7 @@ function TrainingPage(props:trainingCardProps) {
 function ButtonNext(props: NextButtonProps) {
   const {
     isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
-    firstAppearance, counter, success, language
+    firstAppearance, counter, success, language, nextTrainingDay, isIntervalUsed
   } = props;
   const trainingDay: number = Date.now();
   if (!isShown) {
@@ -282,11 +299,11 @@ function ButtonNext(props: NextButtonProps) {
   const ButtonNextHandler = () => {
     const isToRepeat: boolean = (levelStatus === 'again') ? true : false;
     const point: number = isAnswerTrue ? 1 : 0;
-    let nextTime: number = trainingDay
+    let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
     
     let levelNow: number = levelForRepeat;
     console.log(levelNow, 'levelNow');
-    if (isAnswerTrue) {
+    if (isAnswerTrue && isIntervalUsed) {
       switch (levelStatus) {
         case 'again': 
           console.log('in again switch');
@@ -315,7 +332,7 @@ function ButtonNext(props: NextButtonProps) {
           console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
         break;
       }
-    } else {
+    } else if (isIntervalUsed) {
       console.log('when answer wrong');
       levelNow = 1;
       nextTime += levelsOfRepeat[levelNow];
@@ -325,7 +342,7 @@ function ButtonNext(props: NextButtonProps) {
     const wordSettings: userWordOptional = {
       firstAppearance: firstAppearance,
       lastRepeat: trainingDay,
-      nextRepeat: nextTime, // подсчет по методике в кнопке
+      nextRepeat: nextTime, // подсчет по методике в кнопке или из настроек, если без ИП
       counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
       success: currentSuccess, // сколько всего правильных ответов, плюсовать по клику на дальше
       progress: currentProgress, // отношение успешных ответов ко всемпше ыефегы

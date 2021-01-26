@@ -47,7 +47,8 @@ export interface IforInput {
   updateSuccess: React.Dispatch<React.SetStateAction<number>>,
   isSoundBtnShown: boolean,
   intervalLevel: number,
-  updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>
+  updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>,
+  isIntervalUsed: boolean
 }
 
 export interface forStars {
@@ -134,7 +135,9 @@ export interface NextButtonProps {
   firstAppearance: number,
   counter: number,
   success: number,
-  language: Tlanguages
+  language: Tlanguages,
+  nextTrainingDay: number,
+  isIntervalUsed: boolean
 }
 
 export interface WordProgressProps {

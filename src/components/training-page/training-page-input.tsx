@@ -6,7 +6,7 @@ export default function InputControl(props: IforInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
     isAutoPlayOn, wordSoundURL, exampleSoundURL, meaningSoundURL, playExample, playMeaning, counter, success,
-    updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel
+    updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel, isIntervalUsed
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
@@ -54,17 +54,18 @@ export default function InputControl(props: IforInput) {
         updateAnswer(true);
         updateAnswerSet(true);
         updateSuccess(success + 1);
-        if (intervalLevel < (MAX_REPEAT_LEVEL - 1)) {
-          updateIntervalLevel(intervalLevel + 2);
-        } else {
-          updateIntervalLevel(MAX_REPEAT_LEVEL);
-        };
-        
+        if (isIntervalUsed) {
+          if (intervalLevel < (MAX_REPEAT_LEVEL - 1)) {
+            updateIntervalLevel(intervalLevel + 2);
+          } else {
+            updateIntervalLevel(MAX_REPEAT_LEVEL);
+          }   
+        };             
         } else {
           updateValue(theWord);
           updateAnswer(false);
           updateAnswerSet(true);
-          if (intervalLevel !== MIN_REPEAT_LEVEL) {
+          if ((intervalLevel !== MIN_REPEAT_LEVEL) && isIntervalUsed) {
             updateIntervalLevel(1);
           }
         }
