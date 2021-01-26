@@ -81,7 +81,7 @@ export function TrainingProgressBar(props: dayProgress) {
 }
 
 export function WordProgress(props: WordProgressProps) {
-  const {level} = props;
+  const { level, language } = props;
 
   const rightNum: number = MAX_REPEAT_LEVEL;
   const  progressString: string = `${level / rightNum * 100}%`;
@@ -92,7 +92,7 @@ export function WordProgress(props: WordProgressProps) {
         <div className="word-bar"
           style={{width: progressString}}></div>
       </div>
-      <small>Прогресс интервального повторения</small>
+      <small>{language.intervalProgress}</small>
     </div>
   )
 }

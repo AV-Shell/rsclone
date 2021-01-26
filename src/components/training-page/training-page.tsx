@@ -11,6 +11,7 @@ import {
 import InputControl from './training-page-input';
 import CardFooter from './training-page-card-footer';
 import TrainingCardExamples from './training-card-examples-field';
+import { RU, EN } from './langs';
 
 function TrainingPage(props:trainingCardProps) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -31,6 +32,8 @@ function TrainingPage(props:trainingCardProps) {
   } = props;
   const { optional } = settings;
   const [isSoundOn, setIsSoundOn] = useState<boolean>(!isMute);
+
+  let currentLang = isLanguageRU ? RU : EN;
   
   useEffect(() => {
     setIsAnswerTrue(false);
@@ -47,8 +50,11 @@ function TrainingPage(props:trainingCardProps) {
 
   useEffect(() => {
     setIsSoundOn(!isMute);
-  }, [ isMute ])
+  }, [ isMute ]);
 
+  useEffect(() => {
+    currentLang = isLanguageRU ? RU : EN;
+  }, [ isLanguageRU ]);
   
   
   const currentCard: number = wordNumber;
@@ -171,14 +177,15 @@ function TrainingPage(props:trainingCardProps) {
     wordStatus: wordPosition,
     firstAppearance: firstAppearance,
     counter: counter,
-    success: success
+    success: success,
+    language: currentLang
   }
 
   return (
     <div className="training-page">
       <div className="wrapper">
         <div className="wrapper-upper">
-          <h1><i className="bi bi-stack"></i> Training</h1>
+          <h1><i className="bi bi-stack"></i>&nbsp;{currentLang.trainingHeader}</h1>
           <ButtonNext {...objForNextButton}/>
         </div>
         <div className="training-progress">
@@ -197,7 +204,7 @@ function TrainingPage(props:trainingCardProps) {
               isAnswerRight={isAnswered}
               isWordNew={isNew}
               status={wordPosition}
-              line={`Изучаемое`}
+              line={currentLang.activeButton}
               classCss={"training-card-header-btn-active"}
               iClass={"bi bi-check-circle"}
               setStatusForObj={setWordPosition}/>            
@@ -207,7 +214,7 @@ function TrainingPage(props:trainingCardProps) {
               isAnswerRight={isAnswered}
               isWordNew={isNew}
               status={wordPosition}
-              line={`Сложное`}
+              line={currentLang.difficultButton}
               classCss={"training-card-header-btn-difficult"}
               iClass={"bi bi-exclamation-diamond"}
               setStatusForObj={setWordPosition}/>
@@ -217,7 +224,7 @@ function TrainingPage(props:trainingCardProps) {
               isAnswerRight={isAnswered}
               isWordNew={false}
               status={wordPosition}
-              line={`Удалить`}
+              line={currentLang.deleteButton}
               classCss={"training-card-header-btn-delete"}
               iClass={"bi bi-dash-square-dotted"}
               setStatusForObj={setWordPosition}/>
@@ -226,13 +233,14 @@ function TrainingPage(props:trainingCardProps) {
             <div className="training-card-body-upper">
               <hr />
               <div className="training-card-body-upper-progress">
-                <WordProgress level={intervalLevel}/>
+                <WordProgress level={intervalLevel}
+                  language={currentLang} />
                 <StarsLevelField level={group} />
               </div>
             </div>
             <div className="training-card-body-word">
               <div className="training-card-body-word-details">
-                <p>Введите английское слово</p>
+                <p>{currentLang.beforeInput}</p>
                 <InputControl {...objForInput} />
                 <TrainingCardTranslationLine {...objForTranslation}/>
                 <TrainingCardLineCode {...objForTranscription}/>
@@ -249,7 +257,8 @@ function TrainingPage(props:trainingCardProps) {
             updateHasAnswer={setIsAnswered}
             intervalLevel={intervalStatus}
             updateIntervalLevel={setIntervalStatus}
-            isAnswerTrue={isAnswerTrue} />
+            isAnswerTrue={isAnswerTrue}
+            language={currentLang} />
         </div>
       </div>
     </div>
@@ -259,7 +268,7 @@ function TrainingPage(props:trainingCardProps) {
 function ButtonNext(props: NextButtonProps) {
   const {
     isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
-    firstAppearance, counter, success
+    firstAppearance, counter, success, language
   } = props;
   const trainingDay: number = Date.now();
   if (!isShown) {
@@ -346,7 +355,7 @@ function ButtonNext(props: NextButtonProps) {
     getAnswer(res);
   }
 
-  return (<button className="button-next" onClick={ButtonNextHandler}>Дальше</button>)
+  return (<button className="button-next" onClick={ButtonNextHandler}>{language.nextButton}</button>)
 }
 
 export default TrainingPage;

@@ -4,7 +4,7 @@ import { forFooter, footerBtns } from './training-page-interfaces';
 export default function CardFooter(props: forFooter) {
   const {
     hasShowAnswerButton, hasIntervalButtons, currentWord, updateInput, 
-    hasAnswer, updateHasAnswer, intervalLevel, updateIntervalLevel, isAnswerTrue
+    hasAnswer, updateHasAnswer, intervalLevel, updateIntervalLevel, isAnswerTrue, language
   } = props;
 
   const ShowAnswerHandler = () => {
@@ -14,7 +14,7 @@ export default function CardFooter(props: forFooter) {
 
   const objForAgain: footerBtns = {
     id: "again",
-    line: 'Снова',
+    line: language.againButton,
     classCss: "training-card-footer-btn-again btn-footer",
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
@@ -22,7 +22,7 @@ export default function CardFooter(props: forFooter) {
   };
   const objForHard: footerBtns = {
     id: "hard",
-    line: 'Сложно',
+    line: language.hardButton,
     classCss: "training-card-footer-btn-hard btn-footer",
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
@@ -30,7 +30,7 @@ export default function CardFooter(props: forFooter) {
   }
   const objForGood: footerBtns = {
     id: "good",
-    line: 'Хорошо',
+    line: language.goodButton,
     classCss: "training-card-footer-btn-good btn-footer",
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
@@ -38,7 +38,7 @@ export default function CardFooter(props: forFooter) {
   }
   const objForEasy: footerBtns = {
     id: "easy",
-    line: 'Легко',
+    line: language.easyButton,
     classCss: "training-card-footer-btn-easy btn-footer",
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
@@ -61,7 +61,7 @@ export default function CardFooter(props: forFooter) {
       <button className="btn-footer training-card-footer-btn-answer"
       onClick={ShowAnswerHandler}>
         <i className="bi bi-eye-fill"></i> 
-        Показать ответ
+        {language.showAnswer}
       </button>
     </div>)
   } ;

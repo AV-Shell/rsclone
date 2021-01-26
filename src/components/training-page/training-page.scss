@@ -48,7 +48,8 @@ $orange-hover: #d68f01;
     &-upper {
       display: grid;
       grid-template-columns: 1fr 150px;
-      gap: 5px; 
+      gap: 5px;
+      min-height: 55px; 
       
       >h1 {
         margin-top: 0;
@@ -142,11 +143,12 @@ $orange-hover: #d68f01;
     }
 
     &-header {
-      padding: 0.5em 0.5em;
+      padding: 0.8em 0.8em;
       display: grid;
       grid-template-rows: minmax(40px, auto);
       grid-template-columns: 120px 1fr 120px 120px 120px;
       gap: 5px; 
+      min-height: 56px;
 
       &-btn-active, &-btn-keyboard, &-btn-difficult, &-btn-delete {
         font-family: 'Montserrat', sans-serif;
@@ -438,13 +440,15 @@ $orange-hover: #d68f01;
 
       >.btn-footer {
         font-family: 'Montserrat', sans-serif;
-        border-radius: 4px;
+        border-radius: 5px;
         border: none;
         outline: none;
         transition: 0.3s;
         cursor: pointer;
         min-width: 130px;
         min-height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
 
         &.active {
           background-color: $color-hover;

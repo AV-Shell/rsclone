@@ -69,7 +69,8 @@ export interface forFooter {
   updateHasAnswer: React.Dispatch<React.SetStateAction<boolean>>
   intervalLevel: string,
   updateIntervalLevel: React.Dispatch<React.SetStateAction<string>>,
-  isAnswerTrue: boolean
+  isAnswerTrue: boolean,
+  language: Tlanguages
 }
 
 export interface footerBtns {
@@ -132,9 +133,15 @@ export interface NextButtonProps {
   getAnswer: (res: cardAnswer) => void,
   firstAppearance: number,
   counter: number,
-  success: number
+  success: number,
+  language: Tlanguages
 }
 
 export interface WordProgressProps {
   level: number
+  language: Tlanguages
 }
+
+export type Tlanguages = {
+  [variable: string]: string 
+};

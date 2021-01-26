@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
-type Tlanguages = {
-  [variable: string]: string 
-};
+import { Tlanguages } from './training-page-interfaces';
 
 const EN: Tlanguages = {
   'trainingHeader': 'Training',
