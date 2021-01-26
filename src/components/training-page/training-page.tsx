@@ -3,10 +3,12 @@ import './training-page.scss';
 import { paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '../../constants/interfaces';
 import { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
-import { lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation } from './training-page-interfaces';
+import {
+  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation, ISoundFunctionProps
+ } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
-  TrainingProgressBar, WordProgress, TrainingCardTranslationLine
+  TrainingProgressBar, WordProgress, TrainingCardTranslationLine, soundControl
   } from './training-simple-functions';
 import InputControl from './training-page-input';
 import CardFooter from './training-page-card-footer';
@@ -50,10 +52,6 @@ function TrainingPage(props:trainingCardProps) {
     setIntervalUsed(true)
     console.log('in the useEffect');
   }, [ word ]);
-
-  useEffect(() => {
-    setIsSoundOn(!isMute);
-  }, [ isMute ]);
 
   useEffect(() => {
     currentLang = isLanguageRU ? RU : EN;
@@ -102,21 +100,35 @@ function TrainingPage(props:trainingCardProps) {
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
   const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
   const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
-
-  const playWord = async () => {
-    const soundObject = new Audio(audioWordURL);
-    await soundObject.load();
-    soundObject.play();
+  const soundWord = new Audio(audioWordURL);
+  const soundExample = new Audio(audioExampleURL);
+  const soundMeaning = new Audio(audioMeaningURL);
+  const SoundsObj: ISoundFunctionProps = {
+    soundWord: soundWord,
+    soundExample: soundExample,
+    soundMeaning: soundMeaning
   }
-  const playExample = async () => {
-    const soundObject = new Audio(audioExampleURL);
-    await soundObject.load();
-    soundObject.play();
+
+  useEffect(() => {
+    setIsSoundOn(!isMute);
+    // if (isMute) {
+    //   soundWord.pause();
+    //   soundWord.currentTime = 0.0;
+    //   soundExample.pause();
+    //   soundExample.currentTime = 0.0;
+    //   soundMeaning.pause();
+    //   soundMeaning.currentTime = 0.0;
+    // }
+    // soundControl(SoundsObj);
+  }, [ isMute ]);
+
+   const playExample = async () => {
+    await soundExample.load();
+    soundExample.play();
   }
   const playMeaning = async () => {
-    const soundObject = new Audio(audioMeaningURL);
-    await soundObject.load();
-    soundObject.play();
+    await soundMeaning.load();
+    soundMeaning.play();
   }
 
   const objForTranslation: IlinePropsTranslation = {
@@ -148,11 +160,8 @@ function TrainingPage(props:trainingCardProps) {
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue,
     isSoundOn: isSoundOn,
-    wordSound: playWord,
+    sounds: SoundsObj,
     isAutoPlayOn: autoSound,
-    wordSoundURL: audioWordURL,
-    exampleSoundURL: audioExampleURL,
-    meaningSoundURL: audioMeaningURL,
     playExample: cardExample,
     playMeaning: cardExplanation,
     counter: counter,

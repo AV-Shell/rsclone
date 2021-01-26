@@ -34,11 +34,8 @@ export interface IforInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  wordSound: ()=>Promise<void>,
-  isAutoPlayOn: boolean,
-  wordSoundURL: string
-  exampleSoundURL: string,
-  meaningSoundURL: string,  
+  sounds: ISoundFunctionProps,
+  isAutoPlayOn: boolean,  
   playExample: boolean,
   playMeaning: boolean,
   counter: number,
@@ -147,4 +144,10 @@ export interface WordProgressProps {
 
 export type Tlanguages = {
   [variable: string]: string 
-};
+}
+
+export interface ISoundFunctionProps {
+  soundWord: HTMLAudioElement,
+  soundExample: HTMLAudioElement,
+  soundMeaning: HTMLAudioElement,
+}

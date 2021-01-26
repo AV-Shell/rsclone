@@ -1,19 +1,20 @@
 import React from 'react';
-import { IforInput } from './training-page-interfaces';
+import { IforInput, ISoundFunctionProps } from './training-page-interfaces';
+import { soundControl } from './training-simple-functions';
 import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 
 export default function InputControl(props: IforInput) {
   const {
-    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, wordSound,
-    isAutoPlayOn, wordSoundURL, exampleSoundURL, meaningSoundURL, playExample, playMeaning, counter, success,
+    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, sounds,
+    isAutoPlayOn, playExample, playMeaning, counter, success,
     updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel, isIntervalUsed
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
 
-  const soundObjectWord = new Audio(wordSoundURL);
-  const soundObjectExample = new Audio(exampleSoundURL);
-  const soundObjectMeaning = new Audio(meaningSoundURL);
+  const soundObjectWord = sounds.soundWord;
+  const soundObjectExample = sounds.soundExample;
+  const soundObjectMeaning = sounds.soundMeaning;
   const playAll = async () => {
     soundObjectWord.load();
     soundObjectWord.play();
@@ -37,7 +38,12 @@ export default function InputControl(props: IforInput) {
         soundObjectMeaning.play();
       }
     }
-  }
+  };
+
+  const wordSound = async () => {
+    soundObjectWord.load();
+    soundObjectWord.play();
+  };
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
