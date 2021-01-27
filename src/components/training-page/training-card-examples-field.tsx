@@ -5,9 +5,9 @@ import {
 
 export default function TrainingCardExamples(props: ForCardExamples) {
   const {
-    isExampleShown, isExampleTranslationShown, isMeaningShown, isMeaningTranslationShown, showTranslationAfter,
+    isExampleShown, isExampleTranslationShown, isMeaningShown, isMeaningTranslationShown,
     isSoundOn, isAnswered, soundExample, soundMeaning, exampleString, meaningString,
-    exampleTranslationString, meaningTranslationString
+    exampleTranslationString, meaningTranslationString, isExampleTranslationAfter, isMeaningTranslationAfter
   } = props;
   
   const objForExample: LineWrapperProps = {
@@ -29,14 +29,14 @@ export default function TrainingCardExamples(props: ForCardExamples) {
   
   const objForExampleTranslation: TranslationProps = {
     isShown: isExampleTranslationShown,
-    isShownAfter: showTranslationAfter,
+    isShownAfter: isExampleTranslationAfter,
     hasAnswer: isAnswered,
     line: exampleTranslationString,
     classCSS: 'sentence-ru'
   }
   const objForMeaningTranslation: TranslationProps = {
     isShown: isMeaningTranslationShown,
-    isShownAfter: showTranslationAfter,
+    isShownAfter: isMeaningTranslationAfter,
     hasAnswer: isAnswered,
     line: meaningTranslationString,
     classCSS: 'meaning-ru'
@@ -126,8 +126,11 @@ function SentenceWithBlancs(props: LineWrapperProps) {
   
 function TranslationSentence(props: TranslationProps) {
   const {isShown, isShownAfter, hasAnswer, line, classCSS} = props;
-  if (isShown && (!isShownAfter || hasAnswer)) {
+  if (isShown) {
     return (<p className={classCSS}>{line}</p>);
   };
+  if (isShownAfter && hasAnswer) {
+    return (<p className={classCSS}>{line}</p>);
+  }
   return null;  
 }

@@ -26,6 +26,7 @@ $orange-hover: #d68f01;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.6rem;
 
   .wrapper {
     box-sizing: border-box;
@@ -47,11 +48,13 @@ $orange-hover: #d68f01;
     &-upper {
       display: grid;
       grid-template-columns: 1fr 150px;
-      gap: 5px; 
+      gap: 5px;
+      min-height: 55px; 
       
       >h1 {
         margin-top: 0;
         margin-bottom: 0.5em;
+        font-size: 3.2rem;
       }      
 
       > .button-next {
@@ -140,11 +143,12 @@ $orange-hover: #d68f01;
     }
 
     &-header {
-      padding: 0.5em 0.5em;
+      padding: 0.8em 0.8em;
       display: grid;
       grid-template-rows: minmax(40px, auto);
       grid-template-columns: 120px 1fr 120px 120px 120px;
       gap: 5px; 
+      min-height: 56px;
 
       &-btn-active, &-btn-keyboard, &-btn-difficult, &-btn-delete {
         font-family: 'Montserrat', sans-serif;
@@ -213,7 +217,8 @@ $orange-hover: #d68f01;
           display: grid;
           grid-template-rows: minmax(25px, auto);
           grid-template-columns: 1fr 100px;
-          column-gap: 100px; 
+          column-gap: 100px;
+          margin-top: 0.5em; 
 
           .word-progress {
             width: 100%;
@@ -377,6 +382,7 @@ $orange-hover: #d68f01;
         padding: 10px 10px 5px;
         width: 100%;
         box-sizing: border-box;
+        min-height: 100px;
 
         .sentence-eng {
           grid-column: 2;
@@ -429,18 +435,20 @@ $orange-hover: #d68f01;
       display: flex;
       justify-content: space-evenly;
       align-items: stretch;
-      min-height: 40px;
+      min-height: 56px;
       padding: 0.5em;
 
       >.btn-footer {
         font-family: 'Montserrat', sans-serif;
-        border-radius: 4px;
+        border-radius: 5px;
         border: none;
         outline: none;
         transition: 0.3s;
         cursor: pointer;
         min-width: 130px;
         min-height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
 
         &.active {
           background-color: $color-hover;
@@ -489,7 +497,7 @@ $orange-hover: #d68f01;
           background-color: $success-hover;
         }
       }
-      &-btn-good[disabled], &-btn-easy[disabled] {
+      &-btn-good[disabled], &-btn-easy[disabled], &-btn-hard[disabled] {
         background-color: $color-secondary;
         cursor: auto;
       }
