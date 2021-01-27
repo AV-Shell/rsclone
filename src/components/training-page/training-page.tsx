@@ -196,7 +196,7 @@ function TrainingPage(props:trainingCardProps) {
         </div>
         <div className="training-card">
           <div className="training-card-header">
-            <button className="training-card-header-btn-keyboard">
+            <button className="training-card-header-btn-keyboard upper-btns">
               <i className="bi bi-keyboard"></i>
             </button>
             <TrainingCardUpperBtn 
@@ -206,7 +206,7 @@ function TrainingPage(props:trainingCardProps) {
               isWordNew={isNew}
               status={wordPosition}
               line={currentLang.activeButton}
-              classCss={"training-card-header-btn-active"}
+              classCss={"training-card-header-btn-active upper-btns"}
               iClass={"bi bi-check-circle"}
               setStatusForObj={setWordPosition}/>            
             <TrainingCardUpperBtn 
@@ -216,7 +216,7 @@ function TrainingPage(props:trainingCardProps) {
               isWordNew={isNew}
               status={wordPosition}
               line={currentLang.difficultButton}
-              classCss={"training-card-header-btn-difficult"}
+              classCss={"training-card-header-btn-difficult upper-btns"}
               iClass={"bi bi-exclamation-diamond"}
               setStatusForObj={setWordPosition}/>
             <TrainingCardUpperBtn
@@ -226,7 +226,7 @@ function TrainingPage(props:trainingCardProps) {
               isWordNew={false}
               status={wordPosition}
               line={currentLang.deleteButton}
-              classCss={"training-card-header-btn-delete"}
+              classCss={"training-card-header-btn-delete upper-btns"}
               iClass={"bi bi-dash-square-dotted"}
               setStatusForObj={setWordPosition}/>
           </div>

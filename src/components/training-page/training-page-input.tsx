@@ -12,29 +12,7 @@ export default function InputControl(props: IforInput) {
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
 
-  const playAll = async () => {
-    soundControl();
-    const wordSound: any = document.querySelector('.audio-word');
-    const exampleSound: any = document.querySelector('.audio-example');
-    const meaningSound: any = document.querySelector('.audio-meaning');
-    wordSound!.play();
-    if (playExample && playMeaning) {
-      wordSound!.onended = () => {
-        exampleSound!.play();
-        exampleSound!.onended = () => {
-          meaningSound!.play();
-        }
-      }
-    } else if (playExample) {
-      wordSound!.onended = () => {
-        exampleSound!.play();
-      }
-    } else if (playMeaning) {
-      wordSound!.onended = () => {
-        meaningSound!.play();
-      }
-    }
-  };
+  
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -67,8 +45,36 @@ export default function InputControl(props: IforInput) {
           }
         };
         if (isAutoPlayOn && isSoundOn) {
+          const playAll = async () => {
+            soundControl();
+            const allSounds: any = document.querySelectorAll('.audio-all');
+            console.log(allSounds);
+            // const wordPlay: any = document.querySelector('.audio-word');
+            // const examplePlay: any = document.querySelector('.audio-example');
+            // const meaningPlay: any = document.querySelector('.audio-meaning');
+            const wordPlay: any = allSounds[0];
+            const examplePlay: any = allSounds[1];
+            const meaningPlay: any = allSounds[2];
+            wordPlay!.play();
+            if (playExample && playMeaning) {
+              wordPlay!.onended = () => {
+                examplePlay!.play();
+                examplePlay!.onended = () => {
+                  meaningPlay!.play();
+                }
+              }
+            } else if (playExample) {
+              wordPlay!.onended = () => {
+                examplePlay!.play();
+              }
+            } else if (playMeaning) {
+              wordPlay!.onended = () => {
+                meaningPlay!.play();
+              }
+            }
+          };
           playAll().catch(() => true);
-          soundControl();
+          
         }
       }
   };

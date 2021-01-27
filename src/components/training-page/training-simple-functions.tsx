@@ -73,8 +73,8 @@ export function TrainingProgressBar(props: dayProgress) {
 
   return (
   <div className="training-progress-center">
-    <div className="progress progress-striped active">
-      <div className="bar"
+    <div className="progress">
+      <div className="progress-bar progress-bar-striped progress-bar-animated"
         style={{width: perCent}}></div>
     </div>
   </div>)
@@ -88,8 +88,8 @@ export function WordProgress(props: WordProgressProps) {
 
   return (
     <div className="word-progress">
-      <div className="progress progress-striped active">
-        <div className="word-bar"
+      <div className="progress">
+        <div className="progress-bar progress-bar-striped"
           style={{width: progressString}}></div>
       </div>
       <small>{language.intervalProgress}</small>

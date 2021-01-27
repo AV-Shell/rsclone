@@ -1,23 +1,95 @@
-$color-primary: #3445E5;
-$color-primary-hover: #1B2CCF;
-$color-hover: #27283D;
-$text-dark: #181C32;
-$bg-primary: #F3F6F9;
-$dark-color: #1F1E2E;
-$color-secondary: #7E8299;
-$my-card-bg: #d8d9db;
-$success: #1BC5BD;
-$success-hover: #0BB7AF;
-$red: #F64E60;
-$red-hover: #EE2D41;
-$color-info: #8950FC;
-$color-info-hover: #7130f1;
-$orange: #FFA800;
-$orange-hover: #d68f01;
+@import "./../../sass/colors.scss";
+@import "./../../sass/constants.scss";
+@import "./../../sass/typography.scss";
+
+$color-info-blend: #ece5fc;
 
 .dark-theme {
   >.training-page {
     background-color: $dark-color;
+
+    .training-card {
+      background-color: $bg-card-dark;
+
+      .upper-btns {
+        background-color: $color-primary;
+        color: $text-dark;
+        &:hover {
+          background-color: $color-primary-hover;
+          color: $text-dark;
+        }
+      }
+      .upper-btns.active {
+        background-color: $color-dark-hover;
+        // color: $text-dark;
+      }
+
+      &-body {
+        background-color: $background-color;
+        color: $text-dark-25;
+
+        &-word {
+          color: $text-dark;
+        }
+
+        &-examples {
+          >.bi {
+            color: $color-info;
+          }
+          .sentence-eng {
+            >strong {
+              color: $color-info;
+            }
+          }
+          .meaning-eng {
+            em {
+              color: $color-info;
+            }
+          }
+        }
+      }
+
+      &-footer-btn-answer {
+        background-color: $color-primary;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-primary-hover;
+        }
+      }
+      &-footer-btn-again {
+        background-color: $color-danger;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-danger-hover;
+        }
+      }
+      &-footer-btn-hard {
+        background-color: $color-warning;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-warning-hover;
+        }
+      }
+      &-footer-btn-good {
+        background-color: $color-info;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-info-hover;
+        }
+      }
+      &-footer-btn-easy {
+        background-color: $color-success;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-success-hover;
+        }
+      }
+    }  
   }
 }
 
@@ -32,13 +104,14 @@ $orange-hover: #d68f01;
     box-sizing: border-box;
     width: 900px;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: $block-border-radius;
     margin: 5px;
     background-color: $color-info;
     display: flex;
     flex-direction: column;
     font-family: 'Montserrat', sans-serif;
     color: $text-dark;
+    box-shadow: 0 0 30px 0 rgba(82,63,105,.05);
     
     @media screen and (max-width: 1000px) {
       width: 90%;
@@ -58,10 +131,10 @@ $orange-hover: #d68f01;
       }      
 
       > .button-next {
-        background-color: $success;
+        background-color: $color-success;
         font-family: 'Montserrat', sans-serif;
         cursor: pointer;
-        border-radius: 4px;
+        border-radius: $block-border-radius;
         transition: 0.3s;
         outline: none;
         border: none;
@@ -70,7 +143,7 @@ $orange-hover: #d68f01;
         align-self: flex-end;
 
         &:hover {
-          background-color: $success-hover;
+          background-color: $color-success-hover;
         }
       }
     }
@@ -91,40 +164,53 @@ $orange-hover: #d68f01;
       width: 100%;
 
       .progress {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        height: 1.8rem;
         overflow: hidden;
-        height: 18px;
-        margin-bottom: 18px;
-        background-color: rgba(137, 148, 155, 0.2);
-        background-image: linear-gradient(top, #f5f5f5, #f9f9f9);
-        background-repeat: repeat-x;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
+        line-height: 0;
+        font-size: .75rem;
+        background-color: #ebedf3;
+        border-radius: $block-border-radius;
+        -webkit-box-shadow: none;
+        box-shadow: none;
 
-        & .bar {
-          width: 0%;
-          height: 18px;
-          color: $bg-primary;
-          font-size: 12px;
+        > .progress-bar {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          overflow: hidden;
+          color: #fff;
           text-align: center;
-          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-          background-color: $success;
-          background-image: linear-gradient(top, #149bdf, #0480be);
-          background-repeat: repeat-x;
-          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-          box-sizing: border-box;
-          transition: width 0.6s ease;
+          white-space: nowrap;
+          background-color: $color-success;
+          -webkit-transition: width .6s ease;
+          transition: width .6s ease;
         }
-
-        &.progress-striped .bar {
-        background-color: $success;
-        background-image: linear-gradient(-45deg,rgba(255, 255, 255, 0.15) 15%, 
-        transparent 15%, transparent 30%, rgba(255, 255, 255, 0.15) 30%, 
-        rgba(255, 255, 255, 0.15) 45%, transparent 45%, 
-        transparent 60%, rgba(255, 255, 255, 0.15) 60%,
-        rgba(255, 255, 255, 0.15) 75%, transparent 75%,
-        transparent 90%, rgba(255, 255, 255, 0.15) 90%,
-        rgba(255, 255, 255, 0.15)); 
+        > .progress-bar-striped {
+          background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+          background-size: 1.8rem 1.8rem;
         }
+        .progress-bar-animated {
+          -webkit-animation: 1s linear infinite progress-bar-stripes;
+          animation: 1s linear infinite progress-bar-stripes;
+          @keyframes progress-bar-stripes {
+            0% {
+              background-position: 1.8rem 0;
+            }
+            100% {
+              background-position: 0 0;
+            }
+          }
+        }     
       }
     }
   }
@@ -132,7 +218,7 @@ $orange-hover: #d68f01;
   .training-card {
     box-sizing: border-box;
     padding: 0.5em 0 0;
-    border-radius: 5px;
+    border-radius: $block-border-radius;
     margin-top: 0.5em;
     width: 100%;
     height: 100%;
@@ -150,25 +236,28 @@ $orange-hover: #d68f01;
       gap: 5px; 
       min-height: 56px;
 
-      &-btn-active, &-btn-keyboard, &-btn-difficult, &-btn-delete {
+      .upper-btns {
         font-family: 'Montserrat', sans-serif;
-        background-color: $color-primary;
-        border-radius: 5px;
+        background-color: $color-primary-blend;
+        color: $color-primary;
+        border-radius: $block-border-radius;
         transition: 0.3s;
         outline: none;
         border: none;
         cursor: pointer;
+        height: 40px;
       }
-    &-btn-keyboard > .bi {
-        font-size: 2em;
+      &-btn-keyboard > .bi {
+        font-size: 3.2rem;
         cursor: pointer;
       }
 
-      &-btn-active:hover, &-btn-keyboard:hover, &-btn-difficult:hover, &-btn-delete:hover {
-        background-color: $color-primary-hover;
+      .upper-btns:hover {
+        background-color: $color-primary;
+        color: $text-dark-25;
       }
 
-      &-btn-active.active, &-btn-difficult.active, &-btn-delete.active {
+      .upper-btns.active {
         background-color: $color-hover;
         color: $bg-primary;
       }
@@ -227,41 +316,43 @@ $orange-hover: #d68f01;
             grid-template-columns: 1fr 270px;
             gap: 10px;
 
-            > .progress {
+            .progress {
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              height: 1.8rem;
               overflow: hidden;
-              height: 18px;
-              margin-bottom: 18px;
-              background-color: rgba(137, 148, 155, 0.2);
-              background-image: linear-gradient(top, #f5f5f5, #f9f9f9);
-              background-repeat: repeat-x;
-              box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-              border-radius: 4px;
-
-              > .word-bar {
-                width: 0%;
-                height: 18px;
-                color: $orange;
-                font-size: 12px;
-                text-align: center;
-                text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-                background-color: $orange;
-                background-image: linear-gradient(top, #FFA800, #d68f01);
-                background-repeat: repeat-x;
-                box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-                box-sizing: border-box;
-                transition: width 0.6s ease;
-              }
+              line-height: 0;
+              font-size: .75rem;
+              background-color: #ebedf3;
+              border-radius: $block-border-radius;
+              -webkit-box-shadow: none;
+              box-shadow: none;
       
-              &.progress-striped .word-bar {
-              background-color: $orange;
-              background-image: linear-gradient(-45deg,rgba(255, 255, 255, 0.15) 15%, 
-              transparent 15%, transparent 30%, rgba(255, 255, 255, 0.15) 30%, 
-              rgba(255, 255, 255, 0.15) 45%, transparent 45%, 
-              transparent 60%, rgba(255, 255, 255, 0.15) 60%,
-              rgba(255, 255, 255, 0.15) 75%, transparent 75%,
-              transparent 90%, rgba(255, 255, 255, 0.15) 90%,
-              rgba(255, 255, 255, 0.15)); 
+              > .progress-bar {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                overflow: hidden;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                background-color: $color-warning;
+                -webkit-transition: width .6s ease;
+                transition: width .6s ease;
               }
+              > .progress-bar-striped {
+                background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+                background-size: 1.8rem 1.8rem;
+              }         
+
             }
             @media screen and (max-width: 500px) {
               grid-template-rows: 1fr;
@@ -277,7 +368,7 @@ $orange-hover: #d68f01;
             justify-self: flex-end;
             
             > i {
-            color: $orange;
+            color: $color-warning;
           }}
 
           @media screen and (max-width: 500px) {
@@ -302,7 +393,7 @@ $orange-hover: #d68f01;
 
       &-word {
         box-sizing: border-box;
-        border-radius: 5px;
+        border-radius: $block-border-radius;
         border: $color-info solid 1px;
         width: 80%;
         align-self: center;
@@ -334,17 +425,17 @@ $orange-hover: #d68f01;
               font-size: 24px;
               font-family:'Courier New', Courier, monospace;
               color: $color-info;
-              border-radius: 5px;
+              border-radius: $block-border-radius;
               border: none;
               &[disabled] {
                 background-color: $text-dark;
               }
   
               &.green{
-                color: $success;
+                color: $color-success;
               }
               &.red{
-                color: $red;
+                color: $color-danger;
               }
             }
           }
@@ -358,11 +449,11 @@ $orange-hover: #d68f01;
         &-img {
           box-sizing: border-box;
           height: 200px;
-          border-radius: 4px;
+          border-radius: $block-border-radius;
 
           >img {
             max-width: 300px;
-            border-radius: 4px;
+            border-radius: $block-border-radius;
             @media screen and (max-width: 500px) {
               max-width: 270px;
             }
@@ -410,7 +501,7 @@ $orange-hover: #d68f01;
         }
         > .bi {
           font-size: 1.2em;
-          color: $text-dark;
+          color: $color-primary;
           &:before {
             vertical-align: text-top;
           }
@@ -440,7 +531,7 @@ $orange-hover: #d68f01;
 
       >.btn-footer {
         font-family: 'Montserrat', sans-serif;
-        border-radius: 5px;
+        border-radius: $block-border-radius;
         border: none;
         outline: none;
         transition: 0.3s;
@@ -452,7 +543,7 @@ $orange-hover: #d68f01;
 
         &.active {
           background-color: $color-hover;
-          color: $bg-primary;
+          color: $text-dark-25;
         }
 
         @media screen and (max-width: 500px) {
@@ -461,44 +552,55 @@ $orange-hover: #d68f01;
       }
 
       &-btn-answer {
-        background-color: $color-primary;
+        background-color: $color-primary-blend;
         align-self: center;
+        color: $color-primary;
 
         &:hover {
-          background-color: $color-primary-hover;
+          background-color: $color-primary;
+          color: $text-dark-25;
         }
       }
 
       &-btn-again {
-        background-color: $red;
+        background-color: $color-danger-blend;
+        color: $color-danger;
 
         &:hover {
-          background-color: $red-hover;
+          background-color: $color-danger;
+          color: $text-dark-25;
         }
       }
       &-btn-hard {
-        background-color: $orange;
+        background-color: $color-warning-blend;
+        color: $color-warning;
 
         &:hover {
-          background-color: $orange-hover;
+          background-color: $color-warning;
+          color: $text-dark-25;
         }
       }
       &-btn-good {
-        background-color: $color-info;
+        background-color: $color-info-blend;
+        color: $color-info;
 
         &:hover {
-          background-color: $color-info-hover;
+          background-color: $color-info;
+          color: $text-dark-25;
         }
       }
       &-btn-easy {
-        background-color: $success;
+        background-color: $color-success-blend;
+        color: $color-success;
 
         &:hover {
-          background-color: $success-hover;
+          background-color: $color-success;
+          color: $text-dark-25;
         }
       }
-      &-btn-good[disabled], &-btn-easy[disabled], &-btn-hard[disabled] {
-        background-color: $color-secondary;
+      .btn-footer[disabled] {
+        background-color: $color-secondary !important;
+        color: $text-dark-75;
         cursor: auto;
       }
       @media screen and (max-width: 500px) {
