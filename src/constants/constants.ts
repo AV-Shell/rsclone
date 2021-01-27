@@ -46,6 +46,7 @@ const USER_NO_ENTITY = 1;
 const USER_NOT_LOGGED = 2;
 const USER_SERVER_ERROR = 3;
 
+const MAX_STATISTIC_LIMIT_DAYS = 30;
 
 const WORD_PARAM = {
   again: 'again',
@@ -194,4 +195,5 @@ export {
   USER_NO_ENTITY,
   USER_NOT_LOGGED,
   USER_SERVER_ERROR,
+  MAX_STATISTIC_LIMIT_DAYS,
 };

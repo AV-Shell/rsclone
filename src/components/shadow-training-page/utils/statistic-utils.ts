@@ -8,11 +8,13 @@ import {
   DEFAULT_USER_STATISTIC,
   DEFAULT_STAT_ITEM,
   DEFAULT_MAIN_GAME_LONG_STATISTIC,
+  MAX_STATISTIC_LIMIT_DAYS,
 } from '../../../constants/constants'
 import {
   someUTCDayTimeStamp,
   currentUTCDayTimeStamp,
 } from '../../../helpers/utils'
+
 
 
 //   {[key: string]: number,}
@@ -38,6 +40,7 @@ function getMainGameStatistic(stat: string): IstatisticMainLong {
 }
 
 
+
 function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatLast: boolean): IStatGraphItem[] {
   if (array.length === 0) {
     const tmp: IStatGraphItem = {
@@ -53,8 +56,9 @@ function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatL
     const currentDate: number = currentUTCDayTimeStamp();
     if (lastDate < currentDate) {
       //TODO:
-      console.log('lastDate < currentDate',lastDate, currentDate, len);
-      let startDate: number = ((lastDate + (30 * ONE_DAY)) < currentDate) ? (currentDate - (30 * ONE_DAY)) : lastDate;
+      console.log('lastDate < currentDate', lastDate, currentDate, len);
+      let startDate: number = ((lastDate + (MAX_STATISTIC_LIMIT_DAYS * ONE_DAY)) < currentDate) ?
+        (currentDate - (MAX_STATISTIC_LIMIT_DAYS * ONE_DAY)) : lastDate;
       let i = 0;
       console.log('startDate', startDate);
       while (startDate < currentDate) {
@@ -66,7 +70,7 @@ function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatL
         startDate += ONE_DAY;
         //TODO: DELETE I part after testing
         i++;
-        if (i > 31) {
+        if (i > (MAX_STATISTIC_LIMIT_DAYS + 1)) {
           console.log('infinity loop, impossible!!!');
           break;
         }
