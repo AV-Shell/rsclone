@@ -1,5 +1,5 @@
 import React from 'react';
-import { cardAnswer, userWordOptional } from '../../constants/interfaces';
+import { cardAnswer } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: 'active' | 'deleted' | 'difficult',
@@ -17,7 +17,15 @@ export interface lineProps {
   line:string,
   classCss: string,
 }
-export interface forInput {
+
+export interface IlinePropsTranslation {
+  isTrue:boolean,
+  isShownAfter: boolean,
+  isAnswered: boolean,
+  line:string,
+  classCss: string,
+}
+export interface IforInput {
   value: string,
   updateValue: React.Dispatch<React.SetStateAction<string>>,
   theWord: string,
@@ -26,20 +34,19 @@ export interface forInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  wordSound: ()=>Promise<void>,
-  isAutoPlayOn: boolean,
-  exampleSound: ()=>Promise<void>,
-  meaningSound: ()=>Promise<void>,
+  sounds: ISoundFunctionProps,
+  isAutoPlayOn: boolean,  
+  playExample: boolean,
+  playMeaning: boolean,
   counter: number,
   success: number,
   updateCounter: React.Dispatch<React.SetStateAction<number>>,
   updateSuccess: React.Dispatch<React.SetStateAction<number>>,
-  isSoundBtnShown: boolean
+  isSoundBtnShown: boolean,
+  intervalLevel: number,
+  updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>,
+  isIntervalUsed: boolean
 }
-
-type IntervalTime = {
-  [days: number]: number 
-};
 
 export interface forStars {
   level: number
@@ -60,7 +67,8 @@ export interface forFooter {
   updateHasAnswer: React.Dispatch<React.SetStateAction<boolean>>
   intervalLevel: string,
   updateIntervalLevel: React.Dispatch<React.SetStateAction<string>>,
-  isAnswerTrue: boolean
+  isAnswerTrue: boolean,
+  language: Tlanguages
 }
 
 export interface footerBtns {
@@ -76,15 +84,16 @@ export interface IconForSound {
   isSoundOn: boolean;
   sound: ()=>Promise<void>,
   forCSS: string,
-  isShown: boolean
+  isShown: boolean,
 }
 
 export interface ForCardExamples {
   isExampleShown: boolean,
   isExampleTranslationShown: boolean,
+  isExampleTranslationAfter: boolean,
   isMeaningShown: boolean,
   isMeaningTranslationShown: boolean,
-  showTranslationAfter: boolean,
+  isMeaningTranslationAfter: boolean,
   isSoundOn: boolean,
   isAnswered: boolean,
   soundExample: ()=>Promise<void>,
@@ -122,9 +131,23 @@ export interface NextButtonProps {
   getAnswer: (res: cardAnswer) => void,
   firstAppearance: number,
   counter: number,
-  success: number
+  success: number,
+  language: Tlanguages,
+  nextTrainingDay: number,
+  isIntervalUsed: boolean
 }
 
 export interface WordProgressProps {
   level: number
+  language: Tlanguages
+}
+
+export type Tlanguages = {
+  [variable: string]: string 
+}
+
+export interface ISoundFunctionProps {
+  soundWord: HTMLAudioElement,
+  soundExample: HTMLAudioElement,
+  soundMeaning: HTMLAudioElement,
 }
