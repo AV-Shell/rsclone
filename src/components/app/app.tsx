@@ -19,7 +19,7 @@ import Footer from '../footer';
 import Spinner from '../slave-components/spinner';
 import ApiService from '../../services/api-service';
 
-import testUser, { testWordsIdArray, TEST_DEFAULT_USER_WORD } from '../../gitignoreConf/.testUserConfig';
+// import testUser, { testWordsIdArray, TEST_DEFAULT_USER_WORD } from '../../gitignoreConf/.testUserConfig';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 

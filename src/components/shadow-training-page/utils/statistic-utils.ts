@@ -41,7 +41,7 @@ function getMainGameStatistic(stat: string): IstatisticMainLong {
 function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatLast: boolean): IStatGraphItem[] {
   if (array.length === 0) {
     const tmp: IStatGraphItem = {
-      date: item.value,
+      date: item.date,
       value: item.value,
     }
     return [tmp];
@@ -53,14 +53,17 @@ function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatL
     const currentDate: number = currentUTCDayTimeStamp();
     if (lastDate < currentDate) {
       //TODO:
+      console.log('lastDate < currentDate',lastDate, currentDate, len);
       let startDate: number = ((lastDate + (30 * ONE_DAY)) < currentDate) ? (currentDate - (30 * ONE_DAY)) : lastDate;
       let i = 0;
+      console.log('startDate', startDate);
       while (startDate < currentDate) {
         const tmp: IStatGraphItem = {
           date: startDate,
           value: repeatValue,
         }
         newArray.push(tmp);
+        startDate += ONE_DAY;
         //TODO: DELETE I part after testing
         i++;
         if (i > 31) {
@@ -69,21 +72,21 @@ function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatL
         }
       }
       const tmp: IStatGraphItem = {
-        date: item.value,
+        date: item.date,
         value: item.value,
       }
       newArray.push(tmp);
       return newArray.slice(-30);
     } else if (lastDate === currentDate) {
       const tmp: IStatGraphItem = {
-        date: item.value,
+        date: item.date,
         value: item.value,
       }
       newArray[len - 1] = tmp;
       return newArray.slice(-30);
     } else {
       const tmp: IStatGraphItem = {
-        date: item.value,
+        date: item.date,
         value: item.value,
       }
       return [tmp];
