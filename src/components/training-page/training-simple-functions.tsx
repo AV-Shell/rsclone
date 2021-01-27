@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation,
-  ISoundFunctionProps
-  } from './training-page-interfaces';
+  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation
+} from './training-page-interfaces';
 import {TOTAL_DIFFICULTY_GROUPS} from '../../constants/constants';
 import { MAX_REPEAT_LEVEL } from './training-consts';
 
@@ -98,12 +97,10 @@ export function WordProgress(props: WordProgressProps) {
   )
 }
 
-export function soundControl(sounds: ISoundFunctionProps) {
-  const { soundWord, soundExample, soundMeaning} = sounds;
-  soundWord.pause();
-  soundWord.currentTime = 0.0;
-  soundExample.pause();
-  soundExample.currentTime = 0.0;
-  soundMeaning.pause();
-  soundMeaning.currentTime = 0.0;
+export function soundControl() {
+  document.querySelectorAll('.audio-all').forEach((e: any) => {
+    const el: HTMLAudioElement = e;
+    el.pause();
+    el.currentTime = 0.0;
+  });
 }

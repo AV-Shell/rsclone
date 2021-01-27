@@ -34,7 +34,7 @@ export interface IforInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  sounds: ISoundFunctionProps,
+  wordURL: string;
   isAutoPlayOn: boolean,  
   playExample: boolean,
   playMeaning: boolean,
@@ -82,9 +82,9 @@ export interface footerBtns {
 
 export interface IconForSound {
   isSoundOn: boolean;
-  sound: ()=>Promise<void>,
   forCSS: string,
   isShown: boolean,
+  soundSelector: string
 }
 
 export interface ForCardExamples {
@@ -96,8 +96,8 @@ export interface ForCardExamples {
   isMeaningTranslationAfter: boolean,
   isSoundOn: boolean,
   isAnswered: boolean,
-  soundExample: ()=>Promise<void>,
-  soundMeaning: ()=>Promise<void>,
+  exampleURL: string,
+  meaningURL: string,
   exampleString: string,
   meaningString: string,
   exampleTranslationString: string,
@@ -146,8 +146,3 @@ export type Tlanguages = {
   [variable: string]: string 
 }
 
-export interface ISoundFunctionProps {
-  soundWord: HTMLAudioElement,
-  soundExample: HTMLAudioElement,
-  soundMeaning: HTMLAudioElement,
-}

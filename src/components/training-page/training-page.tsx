@@ -4,7 +4,7 @@ import { paginatedWord, cardAnswer, userWordOptional, trainingCardProps } from '
 import { levelsOfRepeat, MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
 import {
-  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation, ISoundFunctionProps
+  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation
  } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
@@ -100,36 +100,11 @@ function TrainingPage(props:trainingCardProps) {
   const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
   const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
   const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
-  const soundWord = new Audio(audioWordURL);
-  const soundExample = new Audio(audioExampleURL);
-  const soundMeaning = new Audio(audioMeaningURL);
-  const SoundsObj: ISoundFunctionProps = {
-    soundWord: soundWord,
-    soundExample: soundExample,
-    soundMeaning: soundMeaning
-  }
 
   useEffect(() => {
     setIsSoundOn(!isMute);
-    // if (isMute) {
-    //   soundWord.pause();
-    //   soundWord.currentTime = 0.0;
-    //   soundExample.pause();
-    //   soundExample.currentTime = 0.0;
-    //   soundMeaning.pause();
-    //   soundMeaning.currentTime = 0.0;
-    // }
-    // soundControl(SoundsObj);
+    soundControl();
   }, [ isMute ]);
-
-   const playExample = async () => {
-    await soundExample.load();
-    soundExample.play();
-  }
-  const playMeaning = async () => {
-    await soundMeaning.load();
-    soundMeaning.play();
-  }
 
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
@@ -160,7 +135,7 @@ function TrainingPage(props:trainingCardProps) {
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue,
     isSoundOn: isSoundOn,
-    sounds: SoundsObj,
+    wordURL: audioWordURL,
     isAutoPlayOn: autoSound,
     playExample: cardExample,
     playMeaning: cardExplanation,
@@ -183,8 +158,8 @@ function TrainingPage(props:trainingCardProps) {
     isMeaningTranslationAfter: cardExplanationTranslationAfter,
     isSoundOn: isSoundOn,
     isAnswered: isAnswered,
-    soundExample: playExample,
-    soundMeaning: playMeaning,
+    exampleURL: audioExampleURL,
+    meaningURL: audioMeaningURL,
     exampleString: thisWord.textExample,
     meaningString: thisWord.textMeaning,
     exampleTranslationString: thisWord.textExampleTranslate,

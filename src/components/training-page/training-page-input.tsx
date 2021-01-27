@@ -1,48 +1,39 @@
 import React from 'react';
-import { IforInput, ISoundFunctionProps } from './training-page-interfaces';
+import { IforInput } from './training-page-interfaces';
 import { soundControl } from './training-simple-functions';
 import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
 
 export default function InputControl(props: IforInput) {
   const {
-    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn, sounds,
-    isAutoPlayOn, playExample, playMeaning, counter, success,
+    value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn,
+    isAutoPlayOn,  counter, success, wordURL, playExample, playMeaning,
     updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel, isIntervalUsed
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
 
-  const soundObjectWord = sounds.soundWord;
-  const soundObjectExample = sounds.soundExample;
-  const soundObjectMeaning = sounds.soundMeaning;
   const playAll = async () => {
-    soundObjectWord.load();
-    soundObjectWord.play();
+    soundControl();
+    const wordSound: any = document.querySelector('.audio-word');
+    const exampleSound: any = document.querySelector('.audio-example');
+    const meaningSound: any = document.querySelector('.audio-meaning');
+    wordSound!.play();
     if (playExample && playMeaning) {
-      soundObjectExample.load();
-      soundObjectMeaning.load();
-      soundObjectWord.onended = () => {
-      soundObjectExample.play();
-      soundObjectExample.onended = () => {
-        soundObjectMeaning.play();
+      wordSound!.onended = () => {
+        exampleSound!.play();
+        exampleSound!.onended = () => {
+          meaningSound!.play();
         }
       }
     } else if (playExample) {
-      soundObjectExample.load();
-      soundObjectWord.onended = () => {
-        soundObjectExample.play();
+      wordSound!.onended = () => {
+        exampleSound!.play();
       }
     } else if (playMeaning) {
-      soundObjectMeaning.load();
-      soundObjectWord.onended = () => {
-        soundObjectMeaning.play();
+      wordSound!.onended = () => {
+        meaningSound!.play();
       }
     }
-  };
-
-  const wordSound = async () => {
-    soundObjectWord.load();
-    soundObjectWord.play();
   };
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,10 +54,10 @@ export default function InputControl(props: IforInput) {
         if (isIntervalUsed) {
           if (intervalLevel < (MAX_REPEAT_LEVEL - 1)) {
             updateIntervalLevel(intervalLevel + 2);
-          } else {
-            updateIntervalLevel(MAX_REPEAT_LEVEL);
-          }   
-        };             
+            } else {
+              updateIntervalLevel(MAX_REPEAT_LEVEL);
+            }   
+          };             
         } else {
           updateValue(theWord);
           updateAnswer(false);
@@ -74,9 +65,10 @@ export default function InputControl(props: IforInput) {
           if ((intervalLevel !== MIN_REPEAT_LEVEL) && isIntervalUsed) {
             updateIntervalLevel(1);
           }
-        }
+        };
         if (isAutoPlayOn && isSoundOn) {
           playAll().catch(() => true);
+          soundControl();
         }
       }
   };
@@ -87,8 +79,9 @@ export default function InputControl(props: IforInput) {
       : "training-card-body-word-details-field-input red";
     return (
     <div className="training-card-body-word-details-field">
+      <audio className="audio-all audio-word" src={wordURL} preload={wordURL}></audio>
       <SoundButton isShown={isSoundBtnShown} isSoundOn={isSoundOn}
-        wordSound={wordSound} classCss={audioIcon}/>
+        classCss={audioIcon}/>
       <input 
         className={cssStyle} 
         type="text" 
@@ -102,8 +95,9 @@ export default function InputControl(props: IforInput) {
   console.log('isAnswerSet false');
   return (
   <div className="training-card-body-word-details-field">
+    <audio className="audio-all audio-word" src={wordURL} preload={wordURL}></audio>
     <SoundButton isShown={isSoundBtnShown} isSoundOn={isSoundOn}
-        wordSound={wordSound} classCss={audioIcon}/>
+        classCss={audioIcon}/>
     <input 
       className="training-card-body-word-details-field-input" 
       type="text" 
@@ -121,12 +115,17 @@ export default function InputControl(props: IforInput) {
 interface SoundProps {
   isShown: boolean,
   isSoundOn: boolean,
-  wordSound: ()=>Promise<void>,
   classCss: string
 }
 
 function SoundButton(props: SoundProps) {
-  const { isShown, isSoundOn, wordSound, classCss } = props;
+  const { isShown, isSoundOn, classCss } = props;
+
+  const stopAndPlay = async () => {
+    const wordSound: any = document.querySelector('.audio-word');
+    soundControl();
+    wordSound!.play()
+  };
   
   if (!isShown) {
     return null;
@@ -134,7 +133,7 @@ function SoundButton(props: SoundProps) {
 
   const SoundHandler =() => {
     if (isSoundOn) {
-      wordSound().catch(() => true);  
+      stopAndPlay().catch(() => true);
     }
   }
 
