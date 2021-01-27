@@ -319,3 +319,88 @@
 .header-logoimg {
   margin-left: 80px;
 }}
+@media(max-width: $size-lg){
+  .header-logoimg {
+    margin-left: 1rem;
+}
+.header-userInfo {
+ 
+  margin-right: 0;
+}
+.header-lang {
+  margin-right: 0;
+}
+.header-mute {
+  
+  margin-right: 0;
+
+
+}
+.header {
+ 
+  padding: 0px 2.5rem;
+}}
+@media(max-width: $size-md){
+  .header-lang-dropdown{
+    left: -4rem;
+    top: 5rem;
+    & div{
+      height: 4rem;
+    } 
+  }
+  .header-userInfo-dropdown{
+    left: -4rem;
+    top: 5rem;
+    & div{
+      height: 4rem;
+    } 
+  }
+  .header{
+    height: 5rem;
+  }
+  .header-logoimg {
+    margin-left: 3rem;
+    width: 17rem;
+    & img {
+      width: 17rem;
+    }
+}
+  .header-mute i::before {
+  
+    font-size: 4rem;
+}
+.header-mute {
+  width: 4rem;
+  height: 4rem;
+  
+margin-right: 0.5rem;
+}
+.header-lang {
+  width: 8rem;
+ & span {
+   display: none;
+ }
+}
+.header-theme-label {
+  display: none;
+}
+.header-theme {
+  width: 6.5rem;
+}
+
+element.style {
+}
+
+
+
+.header-userInfo {
+    height: 4rem;
+}
+.header-lang{
+  height: 4rem;
+
+}
+.header-userInfo-userImg {
+    width: 4rem;
+    height: 4rem;
+}}
