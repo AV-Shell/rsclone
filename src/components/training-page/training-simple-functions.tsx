@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps
+  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation,
+  ISoundFunctionProps
   } from './training-page-interfaces';
 import {TOTAL_DIFFICULTY_GROUPS} from '../../constants/constants';
 import { MAX_REPEAT_LEVEL } from './training-consts';
@@ -28,6 +29,21 @@ export function TrainingCardLineCode(props:lineProps) {
   if (isTrue) {
     return (<p className={classCss}>{line}</p>);
   };
+  return null;
+}
+
+export function TrainingCardTranslationLine(props: IlinePropsTranslation) {
+  const {isTrue, line, classCss, isShownAfter, isAnswered} = props;
+  if (isTrue) {
+    return (<p className={classCss}>{line}</p>);
+  };
+  if (isShownAfter) {
+    if (isAnswered) {
+      return (<p className={classCss}>{line}</p>);
+    } else {
+      return null;
+    }
+  }
   return null;
 }
 
@@ -66,7 +82,7 @@ export function TrainingProgressBar(props: dayProgress) {
 }
 
 export function WordProgress(props: WordProgressProps) {
-  const {level} = props;
+  const { level, language } = props;
 
   const rightNum: number = MAX_REPEAT_LEVEL;
   const  progressString: string = `${level / rightNum * 100}%`;
@@ -77,7 +93,17 @@ export function WordProgress(props: WordProgressProps) {
         <div className="word-bar"
           style={{width: progressString}}></div>
       </div>
-      <small>Прогресс интервального повторения</small>
+      <small>{language.intervalProgress}</small>
     </div>
   )
+}
+
+export function soundControl(sounds: ISoundFunctionProps) {
+  const { soundWord, soundExample, soundMeaning} = sounds;
+  soundWord.pause();
+  soundWord.currentTime = 0.0;
+  soundExample.pause();
+  soundExample.currentTime = 0.0;
+  soundMeaning.pause();
+  soundMeaning.currentTime = 0.0;
 }
