@@ -312,7 +312,7 @@ const App: React.FC = () => {
         ></ShadowTrainingPage>} />
         <Route path='/vocabulary' render={() => <VocabularyPage {...trainingPageProps}></VocabularyPage>} />
         <Route path='/settings' render={() => <SettingsPage {...trainingPageProps}></SettingsPage>} />
-        <Route path='/logout' render={() => <LogoutPage isDarkTheme={isDarkTheme} logoutUser={logoutUser} 
+        <Route path='/logout' render={() => <LogoutPage isDarkTheme={isDarkTheme} logoutUser={logoutUser}
           isMute={isMute} isLanguageRU={isLanguageRU} ></LogoutPage>} />
         <Route path='/magicButton' render={() => <MagicButton {...trainingPageProps}
           isAuthorizated={isAuthorizated}></MagicButton>} />
@@ -335,9 +335,9 @@ const App: React.FC = () => {
       <Switch >
         <Route path='/' render={() => <MagicButton isAuthorizated={false}></MagicButton>} exact />
         <Route path='/login' render={() => <LoginPage isLogin={true} apiService={api}
-          isLoginCallback={isLoginCallback} ></LoginPage>} />
+          isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback} ></LoginPage>} />
         <Route path='/registration' render={() => <LoginPage isLogin={false} apiService={api}
-          isLoginCallback={isLoginCallback} ></LoginPage>} />
+          isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback} ></LoginPage>} />
         <Redirect to='/' />
       </Switch>
     );

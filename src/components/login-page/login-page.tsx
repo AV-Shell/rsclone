@@ -11,16 +11,95 @@ import {
 } from '../../constants/interfaces'
 
 
+interface Ilanguages {
+  title: string, 
+  email: string,
+  nick: string,
+  enterEmail: string,
+  password: string,
+  enterPassword: string,
+  enterNick: string,
+  errEmailMessage: string,
+  errPassMessage: string,
+  titlePassMessage: string,
+  loginError: string,
+  registerError: string,
+  serverError: string,
+  isNewbie: string,
+  createAcc: string,
+  beenHere: string,
+  toLogin: string,
+  login: string,
+  register: string,
+}
+
+
+
+
+
+const EN: Ilanguages = {
+  title: 'Welcome to',
+  email: 'Email',
+  password: 'Password',
+  nick: 'Nickname',
+  enterEmail: 'Enter your email',
+  enterPassword: 'Enter password',
+  enterNick: 'Enter Nickname',
+  errEmailMessage: 'Incorrect input',
+  errPassMessage: 'The password must contain: 8+ characters, [a-z],[A-Z],[0-9],[!@#$%^&*]',
+  titlePassMessage: '8+ characters, [a-z],[A-Z],[0-9],[!@#$%^&*]',
+  loginError: 'Login: Incorrect e-mail or password',
+  registerError: 'Register: Incorrect e-mail or password',
+  serverError: 'Server Error:',
+  isNewbie: 'Newbie here?',
+  createAcc: 'Create an account',
+  beenHere: 'Have you already been here?',
+  toLogin: 'To Login',
+  login: 'Login',
+  register: 'Register',
+};
+
+const RU: Ilanguages = {
+  title: 'Приветствуем в',
+  email: 'Электронная почта',
+  password: 'Пароль',
+  nick: 'Ник',
+  enterEmail: 'Введите вашу электронную почту',
+  enterPassword: 'Введите пароль',
+  enterNick: 'Введите ник',
+  errEmailMessage: 'Некорректный ввод',
+  errPassMessage: 'Пароль должен содержать: 8+ символов, [a-z],[A-Z],[0-9],[!@#$%^&*]',
+  titlePassMessage: '8+ символов, [a-z],[A-Z],[0-9],[!@#$%^&*]',
+  loginError: 'Вход:  Неверный email или пароль',
+  registerError: 'Регистрация:  Недопустимый email или пароль',
+  serverError: 'Ошибка сервера:',
+  isNewbie: 'Новенький тут?',
+  createAcc: 'Создать аккаунт',
+  beenHere: 'Уже были тут?',
+  toLogin: 'Войти',
+  login: 'Войти',
+  register: 'Регистрация'
+};
+
+
+
+
+
+
+
+
+
 interface props {
   isLogin: boolean,
   apiService: ApiService,
   isLoginCallback: (isLogin: boolean) => void,
+  isLanguageRU: boolean,
 }
 
 
 function LoginPage(props: props) {
 
-  const { isLogin, apiService, isLoginCallback } = props;
+  const { isLogin, apiService, isLoginCallback, isLanguageRU, } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
@@ -31,6 +110,7 @@ function LoginPage(props: props) {
     return <Spinner></Spinner>
   }
 
+  const lang = isLanguageRU ? RU: EN;
 
   const onChangesetPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -107,12 +187,12 @@ function LoginPage(props: props) {
       }
       if ((!isTryToLogin) && (err.message === '422')) {
         //TODO:
-        setErrorMessage('Register: Incorrect e-mail or password');
+        setErrorMessage(lang.registerError);
       } else if ((isTryToLogin) && ((err.message === '403') || (err.message === '404'))) {
         //TODO:
-        setErrorMessage('Login: Incorrect e-mail or password');
+        setErrorMessage(lang.loginError);
       } else {
-        setErrorMessage(`Server Error: ${err.message}`);
+        setErrorMessage(`${lang.serverError} ${err.message}`);
       }
     }
     return false;
@@ -122,29 +202,29 @@ function LoginPage(props: props) {
 
   const joinButton = isLogin ?
     <button className="button" type="submit" id="loginRegistered"
-    >Войти</button> :
+    >{lang.login}</button> :
     <button className="button" type="submit" id="loginRegistered"
-    >Регистрация</button>;
+    >{lang.register}</button>;
 
   const linkToPage = isLogin ?
     <Fragment>
-      <span className="asked-text">Новенький тут?
-    <Link to='/registration' className='link'> Создать аккаунт</Link>
+      <span className="asked-text">{lang.isNewbie}
+    <Link to='/registration' className='link'> {lang.createAcc}</Link>
       </span>
     </Fragment> :
     <Fragment>
-      <span className="asked-text">Уже были тут?
-        <Link to='/login' className='link'> Войти</Link>
+      <span className="asked-text">{lang.beenHere}
+        <Link to='/login' className='link'> {lang.toLogin}</Link>
       </span>
     </Fragment>
 
   const nickName = isLogin ? null :
     <div className="input-group-container">
-      <label className="label" htmlFor="inputEmail">Nickname</label>
+      <label className="label" htmlFor="inputEmail">{lang.nick}</label>
       <input
         className="input-text" type="text" name="usernick"
         autoComplete="off" id="inputNickname" required={true}
-        placeholder="Введите nickname"
+        placeholder={lang.enterNick}
         onChange={onChangeNickname}
         value={nickname}
       />
@@ -156,30 +236,31 @@ function LoginPage(props: props) {
     <div className="login-page">
       <form className="login-form" id="login_form" onSubmit={onSubmit}>
         <div className="title-container">
-          <h3 className="title">Приветствуем в Magic&nbsp;Buttons</h3>
+          <h3 className="title">{lang.title} Magic&nbsp;Buttons</h3>
           {linkToPage}
         </div>
         <div className="input-group-container">
-          <label className="label" htmlFor="inputEmail">Email</label>
+          <label className="label" htmlFor="inputEmail">{lang.email}</label>
           <input
             className="input-email" type="email" name="username"
             autoComplete="off" id="inputEmail" required={true}
-            placeholder="Введите email"
+            placeholder={lang.enterEmail}
             onChange={onChangeEmail}
+            // onInvalid="this.setCustomValidity('Lütfen işaretli yerleri doldurunuz')"
             value={email}
           />
           <div className="email-message-container"></div>
         </div>
         {nickName}
         <div className="input-group-container">
-          <label className="label" htmlFor="inputPassword">Password</label>
+          <label className="label" htmlFor="inputPassword">{lang.password}</label>
           <input
             className="input-password" type="password" name="password"
             autoComplete="off" id="inputPassword" required={true}
-            placeholder="Введите пароль"
+            placeholder={lang.enterPassword}
             // pattern="/^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$/"
             pattern="^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$"
-            title="8+ символов, [a-z],[A-Z],[0-9],[!@#$%^&*]"
+            title={lang.titlePassMessage}
             onChange={onChangesetPassword}
             value={password}
           />
