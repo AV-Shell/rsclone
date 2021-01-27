@@ -19,7 +19,7 @@ import Footer from '../footer';
 import Spinner from '../slave-components/spinner';
 import ApiService from '../../services/api-service';
 
-import testUser, { testWordsIdArray, TEST_DEFAULT_USER_WORD } from '../../gitignoreConf/.testUserConfig';
+// import testUser, { testWordsIdArray, TEST_DEFAULT_USER_WORD } from '../../gitignoreConf/.testUserConfig';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
@@ -170,6 +170,7 @@ const App: React.FC = () => {
           .catch((err) => {
             console.log(err.message);
             logoutUser();
+            window.clearInterval(that.current.tokenRefreshInterval);
           })
       }, timeToRefresh - spareTime2min);
       // },  3 * 60 * 1000);
@@ -311,7 +312,7 @@ const App: React.FC = () => {
         ></ShadowTrainingPage>} />
         <Route path='/vocabulary' render={() => <VocabularyPage {...trainingPageProps}></VocabularyPage>} />
         <Route path='/settings' render={() => <SettingsPage {...trainingPageProps}></SettingsPage>} />
-        <Route path='/logout' render={() => <LogoutPage isDarkTheme={isDarkTheme} logoutUser={logoutUser} 
+        <Route path='/logout' render={() => <LogoutPage isDarkTheme={isDarkTheme} logoutUser={logoutUser}
           isMute={isMute} isLanguageRU={isLanguageRU} ></LogoutPage>} />
         <Route path='/magicButton' render={() => <MagicButton {...trainingPageProps}
           isAuthorizated={isAuthorizated}></MagicButton>} />
@@ -334,9 +335,9 @@ const App: React.FC = () => {
       <Switch >
         <Route path='/' render={() => <MagicButton isAuthorizated={false}></MagicButton>} exact />
         <Route path='/login' render={() => <LoginPage isLogin={true} apiService={api}
-          isLoginCallback={isLoginCallback} ></LoginPage>} />
+          isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback} ></LoginPage>} />
         <Route path='/registration' render={() => <LoginPage isLogin={false} apiService={api}
-          isLoginCallback={isLoginCallback} ></LoginPage>} />
+          isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback} ></LoginPage>} />
         <Redirect to='/' />
       </Switch>
     );
