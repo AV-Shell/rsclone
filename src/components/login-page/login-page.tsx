@@ -151,7 +151,7 @@ function LoginPage(props: props) {
     console.log('email:', email);
     console.log('password:', password);
     console.log('confirm password', confirmPassword);
-    if (password !== confirmPassword) {
+    if (!isLogin && password !== confirmPassword) {
       setErrorMessage(lang.confirmError);
       return;
     }
