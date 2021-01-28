@@ -22,6 +22,9 @@ $color-info-blend: #ece5fc;
       .upper-btns.active {
         background-color: $color-dark-hover;
         // color: $text-dark;
+        &:hover {
+          color: $text-dark-25;
+        }
       }
 
       &-body {
