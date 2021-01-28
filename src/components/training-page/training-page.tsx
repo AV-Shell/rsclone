@@ -9,10 +9,10 @@ import {
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
   TrainingProgressBar, WordProgress, TrainingCardTranslationLine, soundControl
-  } from './training-simple-functions';
-import InputControl from './training-page-input';
-import CardFooter from './training-page-card-footer';
-import TrainingCardExamples from './training-card-examples-field';
+  } from './training-components/training-simple-functions';
+import InputControl from './training-components/training-page-input';
+import CardFooter from './training-components/training-page-card-footer';
+import TrainingCardExamples from './training-components/training-card-examples-field';
 import { RU, EN } from './langs';
 
 function TrainingPage(props:trainingCardProps) {

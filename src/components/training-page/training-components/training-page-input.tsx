@@ -1,7 +1,7 @@
 import React from 'react';
-import { IforInput } from './training-page-interfaces';
+import { IforInput } from '../training-page-interfaces';
 import { soundControl } from './training-simple-functions';
-import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from './training-consts';
+import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from '../training-consts';
 
 export default function InputControl(props: IforInput) {
   const {

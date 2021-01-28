@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   IconForSound, ForCardExamples, TranslationProps, LineWrapperProps
-} from './training-page-interfaces';
+} from '../training-page-interfaces';
 import { soundControl } from './training-simple-functions';
 
 export default function TrainingCardExamples(props: ForCardExamples) {

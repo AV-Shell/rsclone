@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation
-} from './training-page-interfaces';
-import {TOTAL_DIFFICULTY_GROUPS} from '../../constants/constants';
-import { MAX_REPEAT_LEVEL } from './training-consts';
+} from '../training-page-interfaces';
+import {TOTAL_DIFFICULTY_GROUPS} from '../../../constants/constants';
+import { MAX_REPEAT_LEVEL } from '../training-consts';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
   const {id, isShown, isAnswerRight, isWordNew, line, status, classCss, iClass, setStatusForObj} = props;

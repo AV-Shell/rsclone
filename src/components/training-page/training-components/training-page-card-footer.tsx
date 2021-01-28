@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { forFooter, footerBtns } from './training-page-interfaces';
+import { forFooter, footerBtns } from '../training-page-interfaces';
 
 export default function CardFooter(props: forFooter) {
   const {
@@ -60,7 +60,7 @@ export default function CardFooter(props: forFooter) {
     <div className="training-card-footer">
       <button className="btn-footer training-card-footer-btn-answer"
       onClick={ShowAnswerHandler}>
-        <i className="bi bi-eye-fill"></i> 
+        <i className="bi bi-eye-fill"></i>&nbsp;
         {language.showAnswer}
       </button>
     </div>)
