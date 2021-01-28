@@ -73,10 +73,10 @@ function Header(props: headerProps) {
   const loginMenu = (
     <div className='header-login'>
       <Link to='/login' className='header-login-link'>
-        Login
+      {currentLang.logIn}
       </Link>
       <Link to='/registration' className='header-login-link'>
-        Registration
+      {currentLang.registration}
       </Link>
     </div>
   );

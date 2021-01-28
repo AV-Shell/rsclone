@@ -7,6 +7,8 @@ const EN: Tlanguages = {
   'logOut': 'Log out',
   'lightTheme': 'Light theme',
   'darkTheme': 'Dark theme',
+  'logIn': 'Log in',
+  'registration': 'Registration',
  
 };
 
@@ -15,6 +17,8 @@ const RU: Tlanguages = {
     'logOut': 'Выйти',
     'lightTheme': 'Светлая тема',
     'darkTheme': 'Темная тема',
+    'logIn': 'Войти',
+  'registration': 'Регистрация',
 };
 
 export { EN, RU }
