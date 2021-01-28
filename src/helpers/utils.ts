@@ -3,6 +3,7 @@ import {
   areThereStillWordsOnGroups,
   userSettings,
   userStatistics,
+  IstatisticMainLong,
 } from '../constants/interfaces';
 import {
   USER_HAS_ENTITY,
@@ -11,6 +12,7 @@ import {
   USER_SERVER_ERROR,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
+  DEFAULT_MAIN_GAME_LONG_STATISTIC,
 } from '../constants/constants'
 import ApiService from '../services/api-service';
 
@@ -222,8 +224,8 @@ async function loadStatistic({ apiService }: getSettings) {
           console.log('throw error settings');
           throw new Error('404');
         }
-      } 
-      catch(err) {
+      }
+      catch (err) {
         isHasStatistic = USER_SERVER_ERROR;
       }
     } else {
@@ -266,6 +268,17 @@ const currentUTCDayTimeStamp = () => {
   return timestamp;
 }
 
+const someUTCDayTimeStamp = (someTimestamp:number) => {
+  const someDate = new Date(someTimestamp);
+  const timestamp: number = Date.UTC(
+    someDate.getUTCFullYear(),
+    someDate.getUTCMonth(),
+    someDate.getUTCDate(),
+  )
+  return timestamp;
+}
+
+
 function shuffleArrayInPlace(arr: any[]) {
   let randomIndex: number;
   let tmpVar;
@@ -277,15 +290,33 @@ function shuffleArrayInPlace(arr: any[]) {
   }
 }
 
-function limitMinMax(value:number, MinLimit:number, MaxLimit:number){
+function limitMinMax(value: number, MinLimit: number, MaxLimit: number): number {
   let result = value;
   if (result > MaxLimit) {
     result = MaxLimit;
-  } else if (result < MinLimit ) {
+  } else if (result < MinLimit) {
     result = MinLimit;
   }
   return result;
 }
+
+function isCurrentUTCDay(date: number): boolean {
+  const getDate = new Date(date);
+  const nowDate = new Date();
+  return ((getDate.getUTCFullYear() === nowDate.getUTCFullYear()) &&
+    (getDate.getUTCMonth() === nowDate.getUTCMonth()) &&
+    (getDate.getUTCDate() === nowDate.getUTCDate()));
+}
+
+function isSameDays(date1: number, date2:number): boolean {
+  const date1Date = new Date(date1);
+  const date2Date = new Date(date2);
+  return ((date1Date.getUTCFullYear() === date2Date.getUTCFullYear()) &&
+    (date1Date.getUTCMonth() === date2Date.getUTCMonth()) &&
+    (date1Date.getUTCDate() === date2Date.getUTCDate()));
+}
+
+
 
 export {
   storage,
@@ -293,7 +324,10 @@ export {
   nextUTCDayTimeStamp,
   shuffleArrayInPlace,
   currentUTCDayTimeStamp,
+  someUTCDayTimeStamp,
   loadSettings,
   loadStatistic,
   limitMinMax,
+  isCurrentUTCDay,
+  isSameDays,
 };
