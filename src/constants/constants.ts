@@ -167,6 +167,7 @@ export {
   FILE_URL,
   AVA_URL,
   FLAG_URL,
+  FLAG_URL_4x3,
   ONE_MINUTE,
   TEN_MINUTES,
   ONE_DAY,
