@@ -45,6 +45,10 @@ export default function InputControl(props: IforInput) {
         if (isAutoPlayOn && isSoundOn) {
           soundControl(soundsObject);
           if (playExample && playMeaning) {
+            // воспроизводится одновременно, но не сбивает жмяканье на инпут            
+            // playSingleSound({'wordSound': soundsObject.wordSound});
+            // playSingleSound({'exampleSound': soundsObject.exampleSound});
+            // playSingleSound({'meaningSound': soundsObject.meaningSound});
             playSounds(soundsObject);
           } else if (playExample) {
             const newSoundsObject: TsoundsObject = {

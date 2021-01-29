@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './training-page.scss';
 import { paginatedWord, trainingCardProps } from '../../constants/interfaces';
 import { MIN_REPEAT_LEVEL } from './training-consts';
@@ -97,25 +97,25 @@ function TrainingPage(props:trainingCardProps) {
   };
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
-  const audioWordURL: string = FILE_URL + '/' + thisWord.audio;
-  const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
-  const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
-
-  const wordSound: HTMLAudioElement = new Audio(audioWordURL);
-  const exampleSound: HTMLAudioElement = new Audio(audioExampleURL);
-  const meaningSound: HTMLAudioElement = new Audio(audioMeaningURL);
-
-  const allSounds: TsoundsObject = {
+  const audioWordURL: string = useMemo(() => (FILE_URL + '/' + thisWord.audio), [thisWord.audio]);
+  const audioExampleURL: string = useMemo(() => (FILE_URL + '/' + thisWord.audioExample), [thisWord.audioExample]);
+  const audioMeaningURL: string = useMemo(() => (FILE_URL + '/' + thisWord.audioMeaning), [thisWord.audioMeaning]);
+  // как-то надо нижележащее тоже в юзМемо
+  // упс, теперь снова на значок рядом с инпутом воспроизводится всё
+  const wordSound: HTMLAudioElement = useMemo(() => (new Audio(audioWordURL)), [audioWordURL]);
+  const exampleSound: HTMLAudioElement = useMemo(() => (new Audio(audioExampleURL)), [audioExampleURL]);
+  const meaningSound: HTMLAudioElement = useMemo(() => (new Audio(audioMeaningURL)), [audioMeaningURL]);
+  const allSounds: TsoundsObject = useMemo(() =>({
     'wordSound': wordSound,
     'exampleSound': exampleSound,
     'meaningSound': meaningSound
-  }
+  }), [wordSound, exampleSound, meaningSound]);
   
-
   useEffect(() => {
     setIsSoundOn(!isMute);
+    
     soundControl(allSounds);
-  }, [ isMute, wordSound, exampleSound, meaningSound ]);
+  }, [ isMute, allSounds ]);
 
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
@@ -191,7 +191,8 @@ function TrainingPage(props:trainingCardProps) {
     success: success,
     language: currentLang,
     nextTrainingDay: nextTrainingDay,
-    isIntervalUsed: isIntervalUsed
+    isIntervalUsed: isIntervalUsed,
+    stopSoundsObj: allSounds
   }
 
   return (

@@ -98,18 +98,17 @@ export function WordProgress(props: WordProgressProps) {
 }
 
 export function soundControl(soundsObject: TsoundsObject) {
+  console.log(soundsObject);
   for (const sound in soundsObject) {
+    console.log(soundsObject[sound]);
     soundsObject[sound].pause();
     soundsObject[sound].currentTime = 0.0;
   }
-  // document.querySelectorAll('.audio-all').forEach((e: any) => {
-  //   const el: HTMLAudioElement = e;
-  //   el.pause();
-  //   el.currentTime = 0.0;
-  // });
 }
 export function playSingleSound(soundsObject: TsoundsObject) {
+  console.log(soundsObject);
   for (const sound in soundsObject) {
+    console.log(soundsObject[sound]);
     soundsObject[sound].load();
     soundsObject[sound].play();
    }

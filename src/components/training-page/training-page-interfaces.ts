@@ -86,7 +86,7 @@ export interface IconForSound {
   isShown: boolean,
   soundSelector: string,
   soundToPlay: HTMLAudioElement,
-  key: string,
+  keyObj: string,
   soundObject: TsoundsObject
 }
 
@@ -138,7 +138,8 @@ export interface NextButtonProps {
   success: number,
   language: Tlanguages,
   nextTrainingDay: number,
-  isIntervalUsed: boolean
+  isIntervalUsed: boolean,
+  stopSoundsObj: TsoundsObject
 }
 
 export interface WordProgressProps {

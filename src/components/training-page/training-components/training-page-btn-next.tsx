@@ -2,11 +2,12 @@ import React from 'react';
 import { cardAnswer, userWordOptional } from '../../../constants/interfaces';
 import { levelsOfRepeat, MAX_REPEAT_LEVEL } from '../training-consts';
 import { NextButtonProps } from '../training-page-interfaces';
+import { soundControl } from './training-simple-functions';
 
 export default function ButtonNext(props: NextButtonProps) {
   const {
     isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
-    firstAppearance, counter, success, language, nextTrainingDay, isIntervalUsed
+    firstAppearance, counter, success, language, nextTrainingDay, isIntervalUsed, stopSoundsObj
   } = props;
   const trainingDay: number = Date.now();
   if (!isShown) {
@@ -18,6 +19,7 @@ export default function ButtonNext(props: NextButtonProps) {
   const currentProgress: number = Math.floor((currentSuccess / currentCount) * 100) / 100;
 
   const ButtonNextHandler = () => {
+    soundControl(stopSoundsObj);
     const isToRepeat: boolean = (levelStatus === 'again') ? true : false;
     const point: number = isAnswerTrue ? 1 : 0;
     let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
