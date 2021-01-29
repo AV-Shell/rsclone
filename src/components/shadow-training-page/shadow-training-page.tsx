@@ -15,17 +15,28 @@ import {
   currentTraining,
   userWordReq,
   startTrainingParams,
+  IstatisticMainLong,
+  IStatGraphItem,
 } from '../../constants/interfaces';
 
 import Spinner from '../slave-components/spinner';
 import TrainingConfigure from './components/training-configure';
 // import TestingCard from './components/testing-card';
 import TrainingPage from '../training-page';
+
 import {
   loadNewWords,
   currentUTCDayTimeStamp,
   shuffleArrayInPlace,
+  isCurrentUTCDay,
+  isSameDays,
 } from '../../helpers/utils';
+
+import {
+  addToStatArray,
+  getMainGameStatistic,
+} from './utils/statistic-utils'
+
 import {
   TOTAL_DIFFICULTY_GROUPS,
 } from '../../constants/constants';
@@ -215,18 +226,24 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
     apiService.updateSettings(settings).catch(serverErrorLog);
   }
 
-
   const startTraining = (params: startTrainingParams) => {
     if ((params.trainingType === 'mixed') || (params.trainingType === 'new')) {
       createMixedTraining(params.newWords, params.repeatWords, (params.trainingType === 'mixed'));
     } else if ((params.trainingType === 'repeat') || (params.trainingType === 'difficult')) {
       createRepeatTraining(params.newWords, params.repeatWords, (params.trainingType === 'repeat'));
     }
+    //clear currentForTraining: number, in CreateNewTraining;
+    const mainGameLong: IstatisticMainLong = getMainGameStatistic(statistic.optional.mainGameLong);
+    mainGameLong.currentForTraining = 0;  //TODO:  may be move this part for saved trainings.
+    statistic.optional.mainGameLong = JSON.stringify(mainGameLong);
+    apiService.updateStatistics(statistic).catch((err) => { console.log('update Statistic server error', err.message) })
   }
 
   const getAnswer = (res: cardAnswer) => {
     console.log('res: ', res);
-
+    let bonusPoints: number = 0;
+    const currentUTCDayTimeStampConst = currentUTCDayTimeStamp();
+    let isTrainingEnd: boolean = false;
     const len = currentTrainingState.wordsForTraining.length;
     if (len > 0 && currentTrainingState.wordsForTraining[len - 1]._id === res._id) {
       const word: paginatedWord = currentTrainingState.wordsForTraining[len - 1];
@@ -253,7 +270,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
 
           */
       } else {
-        //TODO: CHECK
         userWords[index].userWord = userWordReq; // так и оставить
         console.log('start update user word on server', index, userWords[index]._id)
         /*
@@ -270,28 +286,16 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
         newWordsForTraining = currentTrainingState.wordsForTraining.slice(0, -1);
       }
 
-      // for future statistic
-      let newTrueAnswerCount: number;
-      if (res.points > 0) {
-        newTrueAnswerCount = currentTrainingState.trueAnswerCount + res.points;
-      }
-
       if (newWordsForTraining.length === 0) {
-        currentTrainingState.trainingCountPerDay +=1;
-        const resultPoints = currentTrainingState.trueAnswerCount * 2 / currentTrainingState.trainingCountPerDay;
-        //TODO: ADD end calculate
-        //TODO: update statistic
-        // statistic.optional.mainGameLong = 'null';
-
-
-        if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0){
+        currentTrainingState.trainingCountPerDay += 1;
+        bonusPoints = Math.floor(currentTrainingState.trueAnswerCount * 2 / (currentTrainingState.trainingCountPerDay ** 2));
+        isTrainingEnd = true;
+        if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStampConst) < 0) {
           currentTrainingState.startTrainingTimestamp = 0;
           currentTrainingState.totalWordsCount = 0;
           currentTrainingState.trainingCountPerDay = 0;
           currentTrainingState.trueAnswerCount = 0;
         }
-
-
       }
       const saveTrainingPart: saveTrainingPart = {
         startTrainingTimestamp: currentTrainingState.startTrainingTimestamp,
@@ -299,7 +303,6 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
         trainingCountPerDay: (newWordsForTraining.length > 0) ? currentTrainingState.trainingCountPerDay : currentTrainingState.trainingCountPerDay + 1,
         trueAnswerCount: currentTrainingState.trueAnswerCount + res.points,
       }
-
 
       const idArray: string[] = newWordsForTraining.map((word) => word._id);
       const saveTraining: saveTraining = {
@@ -317,13 +320,69 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
       setCurrentTrainingState(newState);
 
     }
+
+    // Statistic parts 
+    const mainGameLong: IstatisticMainLong = getMainGameStatistic(statistic.optional.mainGameLong);
+
+    if ((res.points) && (!res.isRepeat)) {
+      mainGameLong.currentAll += 1;
+
+      if (mainGameLong.currentAll >= mainGameLong.bestAll) {
+        mainGameLong.bestAll = mainGameLong.currentAll;
+        mainGameLong.bestAllData = currentUTCDayTimeStampConst;
+      }
+
+      mainGameLong.currentForTraining += 1;
+
+      if (mainGameLong.currentForTraining >= mainGameLong.bestForTraining) {
+        mainGameLong.bestForTraining = mainGameLong.currentForTraining;
+        mainGameLong.bestForTrainingData = currentUTCDayTimeStampConst;
+      }
+
+      mainGameLong.totalCorrectCards += 1;
+      let currentPoints = 1;
+      //TODO: calculate MB  bonus and minus;
+      //check Bonus and Minus;
+      //currentPoints *=bonus;
+      //currentPoints /=minus;
+      //bonusPoints *=bonus;
+      //bonusPoints /=minus;
+      mainGameLong.totalPoints += currentPoints + bonusPoints;
+
+      if (isSameDays(mainGameLong.currentRightPerDay.date, currentUTCDayTimeStampConst)) {
+        mainGameLong.currentRightPerDay.value += 1;
+      } else {
+        mainGameLong.currentRightPerDay.value = 1;
+        mainGameLong.currentRightPerDay.date = currentUTCDayTimeStampConst;
+      }
+
+      mainGameLong.rightPerDay = addToStatArray(mainGameLong.rightPerDay, mainGameLong.currentRightPerDay, false);
+    } else if (res.points === 0) {
+      mainGameLong.currentAll = 0;
+      mainGameLong.currentForTraining = 0;
+    }
+
+    if (!res.isRepeat) {
+      mainGameLong.totalCards += 1;
+    }
+
+    mainGameLong.currentUserWordPerDay.value = userWords.length;
+    mainGameLong.currentUserWordPerDay.date = currentUTCDayTimeStampConst;
+    mainGameLong.userWordsPerDay = addToStatArray(mainGameLong.userWordsPerDay, mainGameLong.currentUserWordPerDay, true);
+
+    if (isTrainingEnd) {
+      mainGameLong.currentForTraining = 0;  //TODO:  may be move this part for saved trainings.
+    }
+
+    statistic.optional.mainGameLong = JSON.stringify(mainGameLong);
+    apiService.updateStatistics(statistic).catch((err) => { console.log('update Statistic server error', err.message) })
   }
 
 
   if (currentTrainingState.wordsForTraining.length === 0) {
     let dailyTrainingCount: number = 0;
 
-    if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0){
+    if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStamp()) < 0) {
       dailyTrainingCount = 0;
     } else {
       dailyTrainingCount = currentTrainingState.trainingCountPerDay;
@@ -366,7 +425,7 @@ function ShadowTrainingPage(props: shadowTrainingProps) {
     }
     return (
       <TrainingConfigure
-        dailyTrainingCount = {dailyTrainingCount}
+        dailyTrainingCount={dailyTrainingCount}
         startTraining={startTraining}
         {...props}
       />

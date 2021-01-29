@@ -1,4 +1,10 @@
-import { userSettings, userStatistics, userWordReq } from '../constants/interfaces'
+import {
+  userSettings,
+  userStatistics,
+  userWordReq,
+  IstatisticMainLong,
+  IStatGraphItem,
+} from '../constants/interfaces'
 const MB_STORAGE_KEY = 'magicButtonLocal';
 
 const MB_ROUTES = {
@@ -12,6 +18,9 @@ const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/av
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
 const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/'
+const FLAG_URL_4x3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/'
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/us.svg
+// example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_usa.svg
 
@@ -37,6 +46,7 @@ const USER_NO_ENTITY = 1;
 const USER_NOT_LOGGED = 2;
 const USER_SERVER_ERROR = 3;
 
+const MAX_STATISTIC_LIMIT_DAYS = 30;
 
 const WORD_PARAM = {
   again: 'again',
@@ -107,6 +117,29 @@ const DEFAULT_USER_STATISTIC: userStatistics = {
   }
 }
 
+const DEFAULT_STAT_ITEM: IStatGraphItem = {
+  date: 0,
+  value: 0,
+}
+
+
+const DEFAULT_MAIN_GAME_LONG_STATISTIC: IstatisticMainLong = {
+  bestAll: 0,
+  bestAllData: 0,
+  bestForTraining: 0,
+  bestForTrainingData: 0,
+  currentAll: 0,
+  currentForTraining: 0,
+  totalCorrectCards: 0,
+  totalCards: 0,
+  totalPoints: 0,
+  rightPerDay: [],
+  userWordsPerDay: [],
+  currentRightPerDay:DEFAULT_STAT_ITEM,
+  currentUserWordPerDay:DEFAULT_STAT_ITEM,
+}
+
+
 const DEFAULT_USER_WORD: userWordReq = {
   difficulty: 'new',
   optional: {
@@ -135,6 +168,7 @@ export {
   FILE_URL,
   AVA_URL,
   FLAG_URL,
+  FLAG_URL_4x3,
   ONE_MINUTE,
   TEN_MINUTES,
   ONE_DAY,
@@ -147,6 +181,8 @@ export {
   WORD_PARAM,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
+  DEFAULT_STAT_ITEM,
+  DEFAULT_MAIN_GAME_LONG_STATISTIC,
   DEFAULT_USER_WORD,
   newWordsFilter,
   userWordsFilter,
@@ -162,4 +198,5 @@ export {
   USER_NOT_LOGGED,
   USER_SERVER_ERROR,
   MAX_REPEAT_LEVEL,
+  MAX_STATISTIC_LIMIT_DAYS,
 };

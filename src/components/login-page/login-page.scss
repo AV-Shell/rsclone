@@ -9,6 +9,7 @@
   font-size: 16px;
 
   .login-form {
+    margin: 1rem 0;
     box-sizing: border-box;
     width: 500px;
     @media (max-width: 499px) {
@@ -53,6 +54,18 @@
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 22px;
+      &.buttons-container {
+        flex-direction: row;
+        justify-content: space-between;
+        .button-quit {
+          background-color: #f64e60;
+          border-color: #f64e60;
+          &:hover {
+            background-color: #ee2d41;
+            border-color: #ee2d41;
+          }
+        }
+      }
 
       .label {
         color: black;
@@ -65,6 +78,7 @@
       .input-text,
       .input-password {
         width: 100%;
+        font-size: 16px;
         box-sizing: border-box;
         outline: none;
         border: none;
@@ -110,4 +124,8 @@
       }
     }
   }
+}
+
+.register.login-page .login-form .input-group-container{
+  margin-bottom: 11px !important;
 }

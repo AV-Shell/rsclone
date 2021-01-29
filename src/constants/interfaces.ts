@@ -286,3 +286,24 @@ export interface IgetSettingsPageResponce{
   userSettings: userSettings,
   userStatistics: userStatistics,
 }
+
+export interface IStatGraphItem {
+  date: number,
+  value: number,
+}
+
+export interface IstatisticMainLong {
+  bestAll: number,
+  bestAllData: number,
+  bestForTraining: number,
+  bestForTrainingData: number,
+  currentAll: number,
+  currentForTraining: number,
+  totalCorrectCards: number,
+  totalCards:number,
+  totalPoints: number,
+  rightPerDay: IStatGraphItem[],
+  userWordsPerDay: IStatGraphItem[],
+  currentRightPerDay:IStatGraphItem,
+  currentUserWordPerDay:IStatGraphItem,
+}
