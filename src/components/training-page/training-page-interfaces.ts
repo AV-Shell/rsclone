@@ -34,7 +34,6 @@ export interface IforInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  wordURL: string;
   isAutoPlayOn: boolean,  
   playExample: boolean,
   playMeaning: boolean,
@@ -45,7 +44,8 @@ export interface IforInput {
   isSoundBtnShown: boolean,
   intervalLevel: number,
   updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>,
-  isIntervalUsed: boolean
+  isIntervalUsed: boolean,
+  soundsObject: TsoundsObject
 }
 
 export interface forStars {
@@ -84,7 +84,10 @@ export interface IconForSound {
   isSoundOn: boolean;
   forCSS: string,
   isShown: boolean,
-  soundSelector: string
+  soundSelector: string,
+  soundToPlay: HTMLAudioElement,
+  key: string,
+  soundObject: TsoundsObject
 }
 
 export interface ForCardExamples {
@@ -96,8 +99,9 @@ export interface ForCardExamples {
   isMeaningTranslationAfter: boolean,
   isSoundOn: boolean,
   isAnswered: boolean,
-  exampleURL: string,
-  meaningURL: string,
+  exampleSound: HTMLAudioElement,
+  meaningSound: HTMLAudioElement,
+  soundsObject: TsoundsObject,
   exampleString: string,
   meaningString: string,
   exampleTranslationString: string,
@@ -146,3 +150,6 @@ export type Tlanguages = {
   [variable: string]: string 
 }
 
+export type TsoundsObject = {
+  [variable: string]: HTMLAudioElement
+}

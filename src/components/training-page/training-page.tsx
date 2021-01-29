@@ -4,7 +4,7 @@ import { paginatedWord, trainingCardProps } from '../../constants/interfaces';
 import { MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
 import {
-  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation
+  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation, TsoundsObject
  } from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
@@ -94,7 +94,6 @@ function TrainingPage(props:trainingCardProps) {
     if (nextDate > thisDay) {
       setIntervalUsed(false);
     };
-
   };
 
   const imgURL: string = FILE_URL + '/' + thisWord.image;
@@ -102,10 +101,21 @@ function TrainingPage(props:trainingCardProps) {
   const audioExampleURL: string = FILE_URL + '/' + thisWord.audioExample;
   const audioMeaningURL: string = FILE_URL + '/' + thisWord.audioMeaning;
 
+  const wordSound: HTMLAudioElement = new Audio(audioWordURL);
+  const exampleSound: HTMLAudioElement = new Audio(audioExampleURL);
+  const meaningSound: HTMLAudioElement = new Audio(audioMeaningURL);
+
+  const allSounds: TsoundsObject = {
+    'wordSound': wordSound,
+    'exampleSound': exampleSound,
+    'meaningSound': meaningSound
+  }
+  
+
   useEffect(() => {
     setIsSoundOn(!isMute);
-    soundControl();
-  }, [ isMute ]);
+    soundControl(allSounds);
+  }, [ isMute, wordSound, exampleSound, meaningSound ]);
 
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
@@ -136,7 +146,6 @@ function TrainingPage(props:trainingCardProps) {
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue,
     isSoundOn: isSoundOn,
-    wordURL: audioWordURL,
     isAutoPlayOn: autoSound,
     playExample: cardExample,
     playMeaning: cardExplanation,
@@ -147,7 +156,8 @@ function TrainingPage(props:trainingCardProps) {
     isSoundBtnShown: cardWordPronunciation,
     intervalLevel: intervalLevel,
     updateIntervalLevel: setIntervalLevel,
-    isIntervalUsed: isIntervalUsed
+    isIntervalUsed: isIntervalUsed,
+    soundsObject: allSounds
   };
   
   const objForExamplesPart: ForCardExamples = {
@@ -159,8 +169,9 @@ function TrainingPage(props:trainingCardProps) {
     isMeaningTranslationAfter: cardExplanationTranslationAfter,
     isSoundOn: isSoundOn,
     isAnswered: isAnswered,
-    exampleURL: audioExampleURL,
-    meaningURL: audioMeaningURL,
+    exampleSound: exampleSound,
+    meaningSound: meaningSound,
+    soundsObject: allSounds,
     exampleString: thisWord.textExample,
     meaningString: thisWord.textMeaning,
     exampleTranslationString: thisWord.textExampleTranslate,

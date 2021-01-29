@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  IconForSound, ForCardExamples, TranslationProps, LineWrapperProps
+  IconForSound, ForCardExamples, TranslationProps, LineWrapperProps, TsoundsObject
 } from '../training-page-interfaces';
-import { soundControl } from './training-simple-functions';
+import { soundControl, playSingleSound } from './training-simple-functions';
 
 export default function TrainingCardExamples(props: ForCardExamples) {
   const {
     isExampleShown, isExampleTranslationShown, isMeaningShown, isMeaningTranslationShown,
-    isSoundOn, isAnswered, exampleString, meaningString, exampleURL, meaningURL,
+    isSoundOn, isAnswered, exampleString, meaningString, exampleSound, meaningSound, soundsObject,
     exampleTranslationString, meaningTranslationString, isExampleTranslationAfter, isMeaningTranslationAfter
   } = props;
   
@@ -45,16 +45,20 @@ export default function TrainingCardExamples(props: ForCardExamples) {
 
   return (
     <div className="training-card-body-examples">
-      <audio className="audio-all audio-example" src={exampleURL} preload={exampleURL}></audio>
       <SoundOnSentences isSoundOn={isSoundOn}
                 forCSS="example-sound"
                 isShown={isExampleShown}
-                soundSelector=".audio-example" />
-    <audio className="audio-all audio-meaning" src={meaningURL} preload={meaningURL}></audio>
+                soundSelector=".audio-example" 
+                soundToPlay={exampleSound}
+                key="exampleSound"
+                soundObject={soundsObject}/>
       <SoundOnSentences isSoundOn={isSoundOn}
                 forCSS="meaning-sound"
                 isShown={isMeaningShown}
-                soundSelector=".audio-meaning" />
+                soundSelector=".audio-meaning"
+                soundToPlay={meaningSound}
+                key="meaningSound"
+                soundObject={soundsObject} />
       <SentenceWithBlancs {...objForExample}/>
       <TranslationSentence {...objForExampleTranslation}/>
       <SentenceWithBlancs {...objForMeaning}/>
@@ -64,23 +68,20 @@ export default function TrainingCardExamples(props: ForCardExamples) {
 }
 
 function SoundOnSentences(props: IconForSound) {
-  const { isSoundOn, forCSS, isShown, soundSelector} = props;
+  const { isSoundOn, forCSS, isShown, soundToPlay, key, soundObject} = props;
   if (!isShown) {
     return null;
   };
-  
-  const stopAndPlay = async () => {
-    const playSound: any = document.querySelector(soundSelector);
-    console.log(playSound);
-    soundControl();
-    playSound!.play();
-  };
 
+  const sound: TsoundsObject = {
+    key: soundToPlay
+  }
   const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
 
   const SoundHandler = () => {
+    soundControl(soundObject);
     if (isSoundOn) {
-      stopAndPlay().catch(() => true);  
+      playSingleSound(sound);
     }
   }
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation
+  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation, TsoundsObject
 } from '../training-page-interfaces';
 import {TOTAL_DIFFICULTY_GROUPS} from '../../../constants/constants';
 import { MAX_REPEAT_LEVEL } from '../training-consts';
@@ -97,10 +97,50 @@ export function WordProgress(props: WordProgressProps) {
   )
 }
 
-export function soundControl() {
-  document.querySelectorAll('.audio-all').forEach((e: any) => {
-    const el: HTMLAudioElement = e;
-    el.pause();
-    el.currentTime = 0.0;
-  });
+export function soundControl(soundsObject: TsoundsObject) {
+  for (const sound in soundsObject) {
+    soundsObject[sound].pause();
+    soundsObject[sound].currentTime = 0.0;
+  }
+  // document.querySelectorAll('.audio-all').forEach((e: any) => {
+  //   const el: HTMLAudioElement = e;
+  //   el.pause();
+  //   el.currentTime = 0.0;
+  // });
+}
+export function playSingleSound(soundsObject: TsoundsObject) {
+  for (const sound in soundsObject) {
+    soundsObject[sound].load();
+    soundsObject[sound].play();
+   }
+}
+
+export function playSounds(soundsObject: TsoundsObject) {
+  let word: HTMLAudioElement = soundsObject.wordSound;
+  let example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
+  let meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
+
+  soundControl(soundsObject);
+  word.load();
+  word.play();
+  if (('exampleSound' in soundsObject) && ('meaningSound' in soundsObject)) {
+    example!.load();
+    meaning!.load();
+    word.onended = () => {
+      example!.play();
+      example!.onended = () => {
+        meaning!.play();
+      }
+    }
+  } else if ('exampleSound' in soundsObject) {
+    example!.load();
+    word.onended = () => {
+      example!.play();
+    }
+  } else if ('meaningSound' in soundsObject) {
+    meaning!.load();
+    word.onended = () => {
+      meaning!.play();
+    }
+  }
 }

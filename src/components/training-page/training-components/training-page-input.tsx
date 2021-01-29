@@ -1,18 +1,16 @@
 import React from 'react';
-import { IforInput } from '../training-page-interfaces';
-import { soundControl } from './training-simple-functions';
+import { IforInput, TsoundsObject } from '../training-page-interfaces';
+import { soundControl, playSounds, playSingleSound } from './training-simple-functions';
 import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from '../training-consts';
 
 export default function InputControl(props: IforInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn,
-    isAutoPlayOn,  counter, success, wordURL, playExample, playMeaning,
+    isAutoPlayOn,  counter, success, playExample, playMeaning, soundsObject,
     updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel, isIntervalUsed
   } = props;
   
   const audioIcon: string = isSoundOn ? "bi bi-volume-up-fill" : "bi bi-volume-mute-fill";
-
-  
 
   const InputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -45,37 +43,23 @@ export default function InputControl(props: IforInput) {
           }
         };
         if (isAutoPlayOn && isSoundOn) {
-          const playAll = async () => {
-            soundControl();
-            const allSounds: any = document.querySelectorAll('.audio-all');
-            console.log(allSounds);
-            // const wordPlay: any = document.querySelector('.audio-word');
-            // const examplePlay: any = document.querySelector('.audio-example');
-            // const meaningPlay: any = document.querySelector('.audio-meaning');
-            const wordPlay: any = allSounds[0];
-            const examplePlay: any = allSounds[1];
-            const meaningPlay: any = allSounds[2];
-            wordPlay!.play();
-            if (playExample && playMeaning) {
-              wordPlay!.onended = () => {
-                examplePlay!.play();
-                examplePlay!.onended = () => {
-                  meaningPlay!.play();
-                }
-              }
-            } else if (playExample) {
-              wordPlay!.onended = () => {
-                examplePlay!.play();
-              }
-            } else if (playMeaning) {
-              wordPlay!.onended = () => {
-                meaningPlay!.play();
-              }
-            }
-          };
-          playAll().catch(() => true);
-          
-        }
+          soundControl(soundsObject);
+          if (playExample && playMeaning) {
+            playSounds(soundsObject);
+          } else if (playExample) {
+            const newSoundsObject: TsoundsObject = {
+              'wordSound': soundsObject.wordSound,
+              'exampleSound': soundsObject.exampleSound
+            };
+            playSounds(newSoundsObject);
+          } else if (playMeaning) {
+            const newSoundsObject: TsoundsObject = {
+              'wordSound': soundsObject.wordSound,
+              'meaningSound': soundsObject.meaningSound
+            };
+            playSounds(newSoundsObject);
+          }
+         } 
       }
   };
 
@@ -85,9 +69,8 @@ export default function InputControl(props: IforInput) {
       : "training-card-body-word-details-field-input red";
     return (
     <div className="training-card-body-word-details-field">
-      <audio className="audio-all audio-word" src={wordURL} preload={wordURL}></audio>
       <SoundButton isShown={isSoundBtnShown} isSoundOn={isSoundOn}
-        classCss={audioIcon}/>
+        classCss={audioIcon} soundObject={soundsObject}/>
       <input 
         className={cssStyle} 
         type="text" 
@@ -101,9 +84,8 @@ export default function InputControl(props: IforInput) {
   console.log('isAnswerSet false');
   return (
   <div className="training-card-body-word-details-field">
-    <audio className="audio-all audio-word" src={wordURL} preload={wordURL}></audio>
     <SoundButton isShown={isSoundBtnShown} isSoundOn={isSoundOn}
-        classCss={audioIcon}/>
+        classCss={audioIcon} soundObject={soundsObject}/>
     <input 
       className="training-card-body-word-details-field-input" 
       type="text" 
@@ -121,25 +103,25 @@ export default function InputControl(props: IforInput) {
 interface SoundProps {
   isShown: boolean,
   isSoundOn: boolean,
-  classCss: string
+  classCss: string,
+  soundObject: TsoundsObject
 }
 
 function SoundButton(props: SoundProps) {
-  const { isShown, isSoundOn, classCss } = props;
+  const { isShown, isSoundOn, classCss, soundObject } = props;
 
-  const stopAndPlay = async () => {
-    const wordSound: any = document.querySelector('.audio-word');
-    soundControl();
-    wordSound!.play()
-  };
-  
+  const wordSound: TsoundsObject = {
+    'wordSound': soundObject.wordSound
+  }
+
   if (!isShown) {
     return null;
   };
 
   const SoundHandler =() => {
+    soundControl(soundObject);
     if (isSoundOn) {
-      stopAndPlay().catch(() => true);
+      playSingleSound(wordSound);
     }
   }
 
