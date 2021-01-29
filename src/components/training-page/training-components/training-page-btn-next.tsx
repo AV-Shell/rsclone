@@ -93,5 +93,9 @@ export default function ButtonNext(props: NextButtonProps) {
     getAnswer(res);
   }
 
-  return (<button className="button-next" onClick={ButtonNextHandler}>{language.nextButton}</button>)
+  return (
+  <button className="button-next" onClick={ButtonNextHandler}>
+    {language.nextButton}&nbsp;
+    <i className="bi bi-box-arrow-in-right"></i>
+  </button>)
 }

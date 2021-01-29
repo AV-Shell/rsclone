@@ -13,10 +13,10 @@ $color-info-blend: #ece5fc;
 
       .upper-btns {
         background-color: $color-primary;
-        color: $text-dark;
+        color: $text-dark-25;
         &:hover {
           background-color: $color-primary-hover;
-          color: $text-dark;
+          color: $text-dark-25;
         }
       }
       .upper-btns.active {
@@ -148,6 +148,10 @@ $color-info-blend: #ece5fc;
         &:hover {
           background-color: $color-success-hover;
         }
+
+        > .bi {
+          font-size: 1.7rem;
+        }
       }
     }
   }
@@ -203,8 +207,8 @@ $color-info-blend: #ece5fc;
           background-size: 1.8rem 1.8rem;
         }
         .progress-bar-animated {
-          -webkit-animation: 1s linear infinite progress-bar-stripes;
-          animation: 1s linear infinite progress-bar-stripes;
+          -webkit-animation: 2s linear infinite progress-bar-stripes;
+          animation: 2s linear infinite progress-bar-stripes;
           @keyframes progress-bar-stripes {
             0% {
               background-position: 1.8rem 0;
@@ -235,7 +239,7 @@ $color-info-blend: #ece5fc;
       padding: 0.8em 0.8em;
       display: grid;
       grid-template-rows: minmax(40px, auto);
-      grid-template-columns: 120px 1fr 120px 120px 120px;
+      grid-template-columns: 40px 1fr 120px 120px 120px;
       gap: 5px; 
       min-height: 56px;
 
@@ -250,11 +254,15 @@ $color-info-blend: #ece5fc;
         cursor: pointer;
         height: 40px;
       }
-      &-btn-keyboard > .bi {
-        font-size: 3.2rem;
-        cursor: pointer;
+      &-btn-keyboard{ 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        > .bi {
+          font-size: 3.2rem;
+        }
       }
-
       .upper-btns:hover {
         background-color: $color-primary;
         color: $text-dark-25;
@@ -430,15 +438,19 @@ $color-info-blend: #ece5fc;
               color: $color-info;
               border-radius: $block-border-radius;
               border: none;
-              &[disabled] {
-                background-color: $text-dark;
-              }
+              
   
               &.green{
                 color: $color-success;
+                &[disabled] {
+                  background-color: $color-success-blend;
+                }
               }
               &.red{
                 color: $color-danger;
+                &[disabled] {
+                  background-color: $color-danger-blend;
+                }
               }
             }
           }
