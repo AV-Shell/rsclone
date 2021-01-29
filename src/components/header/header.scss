@@ -504,7 +504,7 @@ hr {
 
 @media(max-width: $size-lg) {
   .header-logoimg {
-    margin-left: 1rem;
+    margin-left: 3rem;
   }
 
   .header-userInfo {
@@ -563,7 +563,7 @@ hr {
 
   .header-logoimg {
     margin-left: 3rem;
-    width: 17rem;
+    width: 15rem;
     background-image: url(./assets/Logo.svg);
     background-size: contain;
   }
@@ -614,8 +614,8 @@ hr {
 
   }
 
-  .isToggle .header {
-    overflow-x: auto;
+  .header.isToggle  {
+    overflow-x: visible;
   }
 
   .header-lang-dropdown {
@@ -668,13 +668,13 @@ hr {
 @media(max-width: $size-xs) {
 
   .isToggle .header-switch-menu {
-    max-width: calc(100% - 1.4rem);
+    max-width: calc(100% - 3rem);
   }
 
   // max-width: 96%}
 
   .header {
-    padding: 0 0.7rem;
+    padding: 0 1,5rem;
   }
 
   .header-userInfo {
