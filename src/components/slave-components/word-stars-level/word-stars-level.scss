@@ -1,6 +1,8 @@
-@import "./../../sass/colors.scss";
+@import "./../../../sass/colors.scss";
 
 .word-progress-stars {
+  display: flex;
+  
   > i {
     color: $color-warning;
   }
