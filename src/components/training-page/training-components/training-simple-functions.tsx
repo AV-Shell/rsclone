@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation, TsoundsObject
+  upperButtonProps, lineProps, dayProgress, WordProgressProps, IlinePropsTranslation, TsoundsObject
 } from '../training-page-interfaces';
-import { TOTAL_DIFFICULTY_GROUPS } from '../../../constants/constants';
-import { MAX_REPEAT_LEVEL } from '../training-consts';
+import WordProgressBar from '../../slave-components/word-progress-bar/word-progress-bar';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
-  const {id, isShown, isAnswerRight, isWordNew, line, status, classCss, iClass, setStatusForObj} = props;
+  const {id, isShown, isAnswerRight, line, status, classCss, iClass, setStatusForObj} = props;
   const classWhole: string = (id === status) ? classCss + ' active' : classCss;
 
   const ClickHandler = () => {
@@ -83,15 +82,9 @@ export function TrainingProgressBar(props: dayProgress) {
 export function WordProgress(props: WordProgressProps) {
   const { level, language } = props;
 
-  const rightNum: number = MAX_REPEAT_LEVEL;
-  const  progressString: string = `${level / rightNum * 100}%`;
-
   return (
     <div className="word-progress">
-      <div className="progress">
-        <div className="progress-bar progress-bar-striped"
-          style={{width: progressString}}></div>
-      </div>
+      <WordProgressBar level={level}/>
       <small>{language.intervalProgress}</small>
     </div>
   )

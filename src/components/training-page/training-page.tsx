@@ -7,7 +7,7 @@ import {
   lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation, TsoundsObject
  } from './training-page-interfaces';
 import {
-  TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage, StarsLevelField,
+  TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage,
   TrainingProgressBar, WordProgress, TrainingCardTranslationLine, soundControl
   } from './training-components/training-simple-functions';
 import InputControl from './training-components/training-page-input';

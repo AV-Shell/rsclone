@@ -1,6 +1,8 @@
 @import "./../../sass/colors.scss";
 @import "./../../sass/constants.scss";
 @import "./../../sass/typography.scss";
+@import "./../../components/slave-components/word-progress-bar/word-progress-bar.scss";
+@import "./../../components/slave-components/word-stars-level/word-stars-level.scss";
 
 $color-info-blend: #ece5fc;
 
@@ -327,44 +329,6 @@ $color-info-blend: #ece5fc;
             grid-template-columns: 1fr 270px;
             gap: 10px;
 
-            .progress {
-              display: -webkit-box;
-              display: -ms-flexbox;
-              display: flex;
-              height: 1.8rem;
-              overflow: hidden;
-              line-height: 0;
-              font-size: .75rem;
-              background-color: #ebedf3;
-              border-radius: $block-border-radius;
-              -webkit-box-shadow: none;
-              box-shadow: none;
-      
-              > .progress-bar {
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-box-orient: vertical;
-                -webkit-box-direction: normal;
-                -ms-flex-direction: column;
-                flex-direction: column;
-                -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                justify-content: center;
-                overflow: hidden;
-                color: #fff;
-                text-align: center;
-                white-space: nowrap;
-                background-color: $color-warning;
-                -webkit-transition: width .6s ease;
-                transition: width .6s ease;
-              }
-              > .progress-bar-striped {
-                background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
-                background-size: 1.8rem 1.8rem;
-              }         
-
-            }
             @media screen and (max-width: 500px) {
               grid-template-rows: 1fr;
               grid-template-columns: 1fr;
@@ -377,10 +341,6 @@ $color-info-blend: #ece5fc;
 
           .word-progress-stars {
             justify-self: flex-end;
-            
-          //   > i {
-          //   color: $color-warning;
-          // }
         }
 
           @media screen and (max-width: 500px) {
