@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { headerProps } from "../../constants/interfaces";
 import logo from "./assets/Logo.svg";
 import { AVA_URL } from "../../constants/constants";
-import { FLAG_URL } from "../../constants/constants";
+import { FLAG_URL_4x3} from "../../constants/constants";
 import { RU, EN } from "./langs";
 
 function Header(props: headerProps) {
@@ -22,6 +22,7 @@ function Header(props: headerProps) {
   const [isUserSetUp, setisUserSetUp] = useState<boolean>(false);
   const [isLangUp, setisLangUp] = useState<boolean>(false);
   const [isUserVisible, setisUserVisible] = useState<boolean>(true);
+  const [isToggleMenu, setisToggleMenu] = useState<boolean>(true);
   const refLang: any = useRef(null);
   const refUser: any = useRef(null);
   const userName: any = localStorage.getItem("userName")?.slice(1, -1);
@@ -60,6 +61,9 @@ function Header(props: headerProps) {
   };
   const toggleCurrentMute = () => {
     setIsMute((value) => !value);
+  };
+  const toggleHeaderMobile = () => {
+    setisToggleMenu((value) => !value);
   };
   const toggleUserSetUp = () => {
     setisUserSetUp((value) => !value);
@@ -101,11 +105,11 @@ function Header(props: headerProps) {
   const setLang = isLanguageRU ? <div> English</div> : <div>Русский</div>;
   const avatarUrl = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
   const flagUrl = isLanguageRU
-    ? `${FLAG_URL}flag_ru.svg`
-    : `${FLAG_URL}flag_usa.svg`;
+    ? `${FLAG_URL_4x3}ru.svg`
+    : `${FLAG_URL_4x3}us.svg`;
   const flagDropUrl = !isLanguageRU
-    ? `${FLAG_URL}flag_ru.svg`
-    : `${FLAG_URL}flag_usa.svg`;
+    ? `${FLAG_URL_4x3}ru.svg`
+    : `${FLAG_URL_4x3}us.svg`;
 
   const switchLangMenu = (
     <div className={styleLangDownMenu} onClick={toggleLangUp} ref={refLang}>
@@ -128,7 +132,7 @@ function Header(props: headerProps) {
   );
 
   const authorizationHeader = (
-    <div className='header-switch-menu'>
+    <div className='header-switch-menu-toggle'>
       <div
         className={styleUserDownMenu}
         onClick={toggleUserSetUp}
@@ -139,19 +143,19 @@ function Header(props: headerProps) {
         </div>
         <i className={styleUserIcon}></i>
         <div className='header-userInfo-dropdown' ref={refUser}>
-          <div>
+          <div >
             <i className='bi bi-person'></i>
             {userName}
           </div>
-          <div>
+          <Link to='/'>
             <i className='bi bi-file-earmark-person'></i>
-            <Link to='/'>{currentLang.profileSetting}</Link>
-          </div>
+            <div>{currentLang.profileSetting}</div>
+            </Link>
           <hr />
-          <div>
+          <Link to='/logout'>
             <i className='bi bi-box-arrow-left'></i>
-            <Link to='/logout'>{currentLang.logOut}</Link>
-          </div>
+            <div>{currentLang.logOut}</div>
+          </Link>
         </div>
       </div>
 
@@ -167,12 +171,13 @@ function Header(props: headerProps) {
   const muteImgSet = isMute ? "bi bi-volume-mute" : "bi bi-volume-up";
   const headerSwitchMenu = isAuthorizated ? <BurgerMenu /> : null;
   const headerSwitch = isAuthorizated ? authorizationHeader : loginMenu;
+  const headerToggleMenu = isToggleMenu ? 'header' : 'header isToggle';
 
   return (
-    <header className='header'>
+    <header className={headerToggleMenu}>
       {headerSwitchMenu}
       <div className='header-logoimg' id='logoImgID'>
-        <img src={logo} alt='' />
+        {/* <img src={logo} alt='' /> */}
       </div>
       <div className='header-switch-menu'>
         <div className='header-mute' onClick={toggleCurrentMute}>
@@ -180,6 +185,10 @@ function Header(props: headerProps) {
         </div>
         {switchLangMenu}
         {headerSwitch}
+        <span className="close"></span>
+      </div>
+      <div className='header-toggle-menu '     onClick={toggleHeaderMobile}>
+<div className='dot'></div>
       </div>
     </header>
   );
