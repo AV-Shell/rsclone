@@ -1,0 +1,7 @@
+@import "./../../sass/colors.scss";
+
+.word-progress-stars {
+  > i {
+    color: $color-warning;
+  }
+}

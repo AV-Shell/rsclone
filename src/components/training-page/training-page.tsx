@@ -15,6 +15,7 @@ import CardFooter from './training-components/training-page-card-footer';
 import TrainingCardExamples from './training-components/training-card-examples-field';
 import ButtonNext from './training-components/training-page-btn-next';
 import { RU, EN } from './langs';
+import WordStarsLevel from '../slave-components/word-stars-level';
 
 function TrainingPage(props:trainingCardProps) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -252,7 +253,7 @@ function TrainingPage(props:trainingCardProps) {
               <div className="training-card-body-upper-progress">
                 <WordProgress level={intervalLevel}
                   language={currentLang} />
-                <StarsLevelField level={group} />
+                <WordStarsLevel level={group} />
               </div>
             </div>
             <div className="training-card-body-word">

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   upperButtonProps, lineProps, forStars, dayProgress, WordProgressProps, IlinePropsTranslation, TsoundsObject
 } from '../training-page-interfaces';
-import {TOTAL_DIFFICULTY_GROUPS} from '../../../constants/constants';
+import { TOTAL_DIFFICULTY_GROUPS } from '../../../constants/constants';
 import { MAX_REPEAT_LEVEL } from '../training-consts';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
@@ -57,14 +57,14 @@ export function TrainingCardImage(props:lineProps) {
   return null;
 }
 
-export function StarsLevelField(props:forStars) {
-  const {level} = props;
+// export function StarsLevelField(props:forStars) {
+//   const {level} = props;
 
-  const elements = Array(TOTAL_DIFFICULTY_GROUPS).fill(0)
-  .map((el,index,arr) => <i key={index} className={index < (arr.length - 1 - level) ? "bi bi-star" : "bi bi-star-fill"}> 
-  </i>);
-  return <span className="training-card-body-upper-progress-stars">{elements}</span>;
-}
+//   const elements = Array(TOTAL_DIFFICULTY_GROUPS).fill(0)
+//   .map((el,index,arr) => <i key={index} className={index < (arr.length - 1 - level) ? "bi bi-star" : "bi bi-star-fill"}> 
+//   </i>);
+//   return <span className="word-progress-stars">{elements}</span>;
+// }
 
 export function TrainingProgressBar(props: dayProgress) {
   const { left, right } = props;

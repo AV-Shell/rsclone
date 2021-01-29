@@ -375,18 +375,19 @@ $color-info-blend: #ece5fc;
             }
           }
 
-          &-stars {
+          .word-progress-stars {
             justify-self: flex-end;
             
-            > i {
-            color: $color-warning;
-          }}
+          //   > i {
+          //   color: $color-warning;
+          // }
+        }
 
           @media screen and (max-width: 500px) {
             grid-template-rows: 1fr;
             grid-template-columns: 1fr;
 
-            &-stars {
+            .word-progress-stars {
               grid-row: 1;
             }
           }
