@@ -57,38 +57,48 @@ export default function CardFooter(props: forFooter) {
 
   if (!hasAnswer && hasShowAnswerButton) {
     return (
-    <div className="training-card-footer">
-      <button className="btn-footer training-card-footer-btn-answer"
-      onClick={ShowAnswerHandler}>
-        <i className="bi bi-eye-fill"></i>&nbsp;
-        {language.showAnswer}
-      </button>
-    </div>)
-  } ;
-  
-  return (<div className="training-card-footer"></div>)
-  
+      <div className="training-card-footer">
+        <button 
+          type="button" 
+          className="btn-footer training-card-footer-btn-answer"
+          onClick={ShowAnswerHandler}>
+          <i className="bi bi-eye-fill" />
+          &nbsp;
+          {language.showAnswer}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="training-card-footer" />
+  );
 }
 
 function FooterButton(props: footerBtns) {
-  const {id, line, classCss, updateIntervalLvl, intervalLvl, isAnswerTrue} = props;
+  const { id, line, classCss, updateIntervalLvl, intervalLvl, isAnswerTrue } = props;
 
   const wholeClass: string = (intervalLvl === id) ? classCss + ' active' : classCss;
   // если ответил неправильно, не может их нажать
   const disabled: boolean = (!isAnswerTrue && ((id === 'easy') || (id === 'good') || (id === 'hard')));
 
-  const IntervalButtonsHandler =(event: React.MouseEvent<HTMLButtonElement>) => {
+  const IntervalButtonsHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (intervalLvl === id) {
       updateIntervalLvl('');
     } else {
       updateIntervalLvl(event.currentTarget.id);
-    };    
+    };
   };
-  
+
   console.log('интервальное повторение:', intervalLvl);
   return (
-  <button className={wholeClass} id={id} disabled={disabled}
-  onClick={IntervalButtonsHandler}>
-    {line}
-  </button>)
+    <button
+      type="button"
+      className={wholeClass}
+      id={id}
+      disabled={disabled}
+      onClick={IntervalButtonsHandler}>
+      {line}
+    </button>
+  );
 }
