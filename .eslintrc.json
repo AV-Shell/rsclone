@@ -88,6 +88,34 @@
             {
                 "code": 150
             }
-        ]
+        ],
+        "operator-linebreak": "off",
+        "react/jsx-max-props-per-line": [
+            "error",
+            {
+                "maximum": 3
+            }
+        ],
+        "react/jsx-wrap-multilines": [
+            "error",
+            {
+                "declaration": "parens-new-line",
+                "assignment": "parens-new-line",
+                "return": "parens-new-line",
+                "arrow": "parens-new-line",
+                "condition": "parens-new-line",
+                "logical": "parens-new-line",
+                "prop": "parens-new-line"
+            }
+        ],
+        "react/jsx-indent": "off",
+        "react/jsx-fragments": "off",
+        "react/jsx-props-no-spreading": [
+            "error",
+            {
+                "custom": "ignore"
+            }
+        ],
+        "react-hooks/exhaustive-deps": "off"
     }
 }
