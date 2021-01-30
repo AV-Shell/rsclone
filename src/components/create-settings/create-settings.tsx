@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './create-settings.scss';
-import { loadSettings, loadStatistic } from '../../helpers/utils';
 import Spinner from '../slave-components/spinner';
-import ApiService from '../../services/api-service';
 
+import {
+  loadSettings,
+  loadStatistic,
+  limitMinMax,
+} from '../../helpers/utils';
 
 import {
   IgetSettingsPageResponce,
@@ -15,8 +18,6 @@ import {
 import {
   USER_HAS_ENTITY,
   USER_NO_ENTITY,
-  USER_NOT_LOGGED,
-  USER_SERVER_ERROR,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
   TOTAL_DIFFICULTY_GROUPS,
@@ -25,29 +26,22 @@ import {
   AVA_URL,
 } from '../../constants/constants';
 
-import {
-  limitMinMax,
-} from '../../helpers/utils';
-
-
-
 function CreateSettings(props: ICreateSettingsProps) {
   const { apiService, getSettingsCallback } = props;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isNeedToCreateSettings, setIsNeedToCreateSettings] = useState<boolean>(false);
   const [englishWordsLevel, setEnglishWordsLevel] = useState<number>(0);
-  const [avatarNumber, setAvatarNumber] = useState<number>(1); //TODO: create a random num from 1 to maxAvas
+  const [avatarNumber, setAvatarNumber] = useState<number>(1); // TODO: create a random num from 1 to maxAvas
 
   const onChangeEnglishWordsLevel = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = limitMinMax(+event.target.value, 0, TOTAL_DIFFICULTY_GROUPS - 1);
     setEnglishWordsLevel(value);
-  }
+  };
   const onChangeAvatarNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = limitMinMax(+event.target.value, MIN_AVATAR_NUM, MAX_AVATAR_NUM);
     setAvatarNumber(value);
-  }
+  };
   const onClick = () => {
-    console.log('button press');
     setIsLoading(true);
     const defaultSettings: userSettings = {
       wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
@@ -56,46 +50,44 @@ function CreateSettings(props: ICreateSettingsProps) {
         avatarID: avatarNumber,
         userLanguageLevel: englishWordsLevel,
         createSettingsTimestamp: Date.now(),
-      }
-    }
+      },
+    };
     const defaultStatistic: userStatistics = {
       learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
-      optional: { ...DEFAULT_USER_STATISTIC.optional }
-    }
+      optional: { ...DEFAULT_USER_STATISTIC.optional },
+    };
     apiService.updateSettings(defaultSettings)
-      .then(() => {
-        return apiService.updateStatistics(defaultStatistic)
-      })
+      .then(() => apiService.updateStatistics(defaultStatistic))
       .then(() => {
         getSettingsCallback({
           isSuccess: true,
           userSettings: defaultSettings,
           userStatistics: defaultStatistic,
-        })
+        });
       })
-      .catch((err) => {
+      .catch(() => {
         getSettingsCallback({
           isSuccess: false,
           userSettings: defaultSettings,
           userStatistics: defaultStatistic,
-        })
-      })
-  }
+        });
+      });
+  };
 
   useEffect(() => {
     const defaultSettings: userSettings = {
       wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
-      optional: { ...DEFAULT_USER_SETTINGS.optional }
-    }
+      optional: { ...DEFAULT_USER_SETTINGS.optional },
+    };
     const defaultStatistic: userStatistics = {
       learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
-      optional: { ...DEFAULT_USER_STATISTIC.optional }
-    }
+      optional: { ...DEFAULT_USER_STATISTIC.optional },
+    };
     const falseResponse: IgetSettingsPageResponce = {
       isSuccess: false,
       userSettings: defaultSettings,
       userStatistics: defaultStatistic,
-    }
+    };
     let success = false;
     loadSettings({ apiService })
       .then((settingsReso) => {
@@ -104,12 +96,12 @@ function CreateSettings(props: ICreateSettingsProps) {
             .then((statisticResp) => {
               if (statisticResp.result === USER_HAS_ENTITY) {
                 success = true;
-                //TODO: something
+                // TODO: something
                 const response: IgetSettingsPageResponce = {
                   isSuccess: true,
                   userSettings: settingsReso.settings,
                   userStatistics: statisticResp.statistic,
-                }
+                };
                 getSettingsCallback(response);
               } else {
                 getSettingsCallback(falseResponse);
@@ -118,24 +110,22 @@ function CreateSettings(props: ICreateSettingsProps) {
             .catch((err) => {
               getSettingsCallback(falseResponse);
               console.log('Create Settings: something went wrong', err.message);
-            })
-
+            });
         } else if (settingsReso.result === USER_NO_ENTITY) {
           setIsNeedToCreateSettings(true);
           setIsLoading(false);
         }
-        console.log(settingsReso)
+        console.log(settingsReso);
       })
       .catch((err) => {
         getSettingsCallback(falseResponse);
         console.log('Create Settings: something went wrong', err.message);
-      })
-  }, [])
-
+      });
+  }, []);
 
   // Component code start
   if (isLoading) {
-    return <Spinner></Spinner>
+    return <Spinner />;
   }
   return (
     <div className="create-settings">

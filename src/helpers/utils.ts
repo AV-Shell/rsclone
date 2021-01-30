@@ -1,9 +1,9 @@
+/* eslint-disable no-await-in-loop */
 import {
   paginatedWord,
   areThereStillWordsOnGroups,
   userSettings,
   userStatistics,
-  IstatisticMainLong,
 } from '../constants/interfaces';
 import {
   USER_HAS_ENTITY,
@@ -12,11 +12,10 @@ import {
   USER_SERVER_ERROR,
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
-  DEFAULT_MAIN_GAME_LONG_STATISTIC,
-} from '../constants/constants'
+} from '../constants/constants';
 import ApiService from '../services/api-service';
 
-function storage(key: string, data?: any) {
+function storage(key: string, data?: any): any {
   if (arguments.length === 1) {
     const storedData = localStorage.getItem(key);
     if (storedData !== null) {
@@ -32,7 +31,6 @@ function storage(key: string, data?: any) {
   return true;
 }
 
-
 interface querySettings {
   maxWordsGroup: number,
   userLevel: number,
@@ -40,13 +38,17 @@ interface querySettings {
   levelsWord: areThereStillWordsOnGroups,
   apiService: ApiService,
 }
-const wordGroup: areThereStillWordsOnGroups = { 0: true, 1: true, 2: true, 3: true, 4: true, 5: true };
+const wordGroup: areThereStillWordsOnGroups = {
+  0: true, 1: true, 2: true, 3: true, 4: true, 5: true,
+};
 
-const loadNewWords = async ({ maxWordsGroup, userLevel,
+const loadNewWords = async ({
+  maxWordsGroup, userLevel,
   newWordsCount, levelsWord,
-  apiService }: querySettings) => {
+  apiService,
+}: querySettings): Promise<any> => {
   const isWordsOnGroups = levelsWord ? { ...levelsWord } : { ...wordGroup };
-  let startLvl = userLevel;
+  const startLvl = userLevel;
   const constWordArray: paginatedWord[] = [];
   let highLvlWordsCount = Math.ceil(newWordsCount / 2);
   let lowLvlWordsCount = newWordsCount - highLvlWordsCount;
@@ -106,7 +108,7 @@ const loadNewWords = async ({ maxWordsGroup, userLevel,
     }
   }
   return { constWordArray, isWordsOnGroups };
-}
+};
 
 interface getSettings {
   apiService: ApiService,
@@ -120,31 +122,27 @@ interface getStatisticResponce {
   result: number,
 }
 
-
-
-async function loadSettings({ apiService }: getSettings) {
+async function loadSettings({ apiService }: getSettings): Promise<getSettingsResponce> {
   let isHasSettings: number = USER_NO_ENTITY;
-  //settings
+  // settings
   let userSettings = {
     wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
     optional: {
       ...DEFAULT_USER_SETTINGS.optional,
-    }
-  }
+    },
+  };
   try {
-    userSettings = await apiService.getSettings()
+    userSettings = await apiService.getSettings();
     console.log(userSettings);
     if (userSettings.optional) {
       isHasSettings = USER_HAS_ENTITY;
       console.log('USER_HAS_ENTITY');
-    }
-    else {
+    } else {
       console.log('throw error settings');
       throw new Error('404');
     }
-  }
-  catch (err) {
-    //need to set Settings
+  } catch (err) {
+    // need to set Settings
     if (err.message === '401') {
       // console.log('token expired');
       isHasSettings = USER_NOT_LOGGED;
@@ -159,44 +157,40 @@ async function loadSettings({ apiService }: getSettings) {
       wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
       optional: {
         ...DEFAULT_USER_SETTINGS.optional,
-      }
-    }
+      },
+    };
   }
   const res: getSettingsResponce = {
     settings: userSettings,
     result: isHasSettings,
-  }
+  };
   return res;
 }
 
-async function loadStatistic({ apiService }: getSettings) {
+async function loadStatistic({ apiService }: getSettings): Promise<getStatisticResponce> {
   let isHasStatistic: number = USER_NO_ENTITY;
-  //settings
+  // settings
   let userStatistic: userStatistics = {
     learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
     optional: {
       ...DEFAULT_USER_STATISTIC.optional,
-    }
-  }
+    },
+  };
   try {
-    const userStatistic = await apiService.getStatistics()
+    const userStatistic = await apiService.getStatistics();
     console.log(userStatistic);
     if (userStatistic.optional) {
       isHasStatistic = USER_HAS_ENTITY;
       const res: getStatisticResponce = {
         statistic: userStatistic,
         result: isHasStatistic,
-      }
+      };
       return res;
-
     }
-    else {
-      console.log('throw error settings');
-      throw new Error('404');
-    }
-  }
-  catch (err) {
-    //need to set Settings
+    console.log('throw error settings');
+    throw new Error('404');
+  } catch (err) {
+    // need to set Settings
     if (err.message === '401') {
       // console.log('token expired');
       isHasStatistic = USER_NOT_LOGGED;
@@ -209,23 +203,20 @@ async function loadStatistic({ apiService }: getSettings) {
           learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
           optional: {
             ...DEFAULT_USER_STATISTIC.optional,
-          }
-        }
-        userStatistic = await apiService.updateStatistics(userStatistic)
+          },
+        };
+        userStatistic = await apiService.updateStatistics(userStatistic);
         if (userStatistic.optional) {
           isHasStatistic = USER_HAS_ENTITY;
           const res: getStatisticResponce = {
             statistic: userStatistic,
             result: isHasStatistic,
-          }
+          };
           return res;
         }
-        else {
-          console.log('throw error settings');
-          throw new Error('404');
-        }
-      }
-      catch (err) {
+        console.log('throw error settings');
+        throw new Error('404');
+      } catch (err1) {
         isHasStatistic = USER_SERVER_ERROR;
       }
     } else {
@@ -236,57 +227,55 @@ async function loadStatistic({ apiService }: getSettings) {
       learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
       optional: {
         ...DEFAULT_USER_STATISTIC.optional,
-      }
-    }
+      },
+    };
   }
   const res: getStatisticResponce = {
     statistic: userStatistic,
     result: isHasStatistic,
-  }
+  };
   return res;
 }
 
-
-
-const nextUTCDayTimeStamp = () => {
+const nextUTCDayTimeStamp = (): number => {
   const now = new Date();
 
   const timestamp: number = Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
     now.getUTCDate() + 1,
-  )
+  );
   return timestamp;
-}
-const currentUTCDayTimeStamp = () => {
+};
+const currentUTCDayTimeStamp = (): number => {
   const now = new Date();
   const timestamp: number = Date.UTC(
     now.getUTCFullYear(),
     now.getUTCMonth(),
     now.getUTCDate(),
-  )
+  );
   return timestamp;
-}
+};
 
-const someUTCDayTimeStamp = (someTimestamp:number) => {
+const someUTCDayTimeStamp = (someTimestamp: number): number => {
   const someDate = new Date(someTimestamp);
   const timestamp: number = Date.UTC(
     someDate.getUTCFullYear(),
     someDate.getUTCMonth(),
     someDate.getUTCDate(),
-  )
+  );
   return timestamp;
-}
+};
 
-
-function shuffleArrayInPlace(arr: any[]) {
+function shuffleArrayInPlace(arr2: any[]): void {
   let randomIndex: number;
   let tmpVar;
-  for (let i = arr.length - 1; i > 0; i--) {
+  const myArr = arr2;
+  for (let i = myArr.length - 1; i > 0; i--) {
     randomIndex = Math.floor(Math.random() * (i));
-    tmpVar = arr[randomIndex];
-    arr[randomIndex] = arr[i];
-    arr[i] = tmpVar;
+    tmpVar = myArr[randomIndex];
+    myArr[randomIndex] = myArr[i];
+    myArr[i] = tmpVar;
   }
 }
 
@@ -308,15 +297,13 @@ function isCurrentUTCDay(date: number): boolean {
     (getDate.getUTCDate() === nowDate.getUTCDate()));
 }
 
-function isSameDays(date1: number, date2:number): boolean {
+function isSameDays(date1: number, date2: number): boolean {
   const date1Date = new Date(date1);
   const date2Date = new Date(date2);
   return ((date1Date.getUTCFullYear() === date2Date.getUTCFullYear()) &&
     (date1Date.getUTCMonth() === date2Date.getUTCMonth()) &&
     (date1Date.getUTCDate() === date2Date.getUTCDate()));
 }
-
-
 
 export {
   storage,

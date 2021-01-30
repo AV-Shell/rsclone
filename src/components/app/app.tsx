@@ -84,7 +84,6 @@ interface IrefContainer {
 }
 const shell = (a: IrefContainer) => a;
 
-
 const App: React.FC = () => {
   console.log('\r\n Render App \r\n');
   const that = useRef(shell({
