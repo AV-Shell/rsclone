@@ -34,7 +34,6 @@ export interface IforInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  sounds: ISoundFunctionProps,
   isAutoPlayOn: boolean,  
   playExample: boolean,
   playMeaning: boolean,
@@ -45,7 +44,8 @@ export interface IforInput {
   isSoundBtnShown: boolean,
   intervalLevel: number,
   updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>,
-  isIntervalUsed: boolean
+  isIntervalUsed: boolean,
+  soundsObject: TsoundsObject
 }
 
 export interface forStars {
@@ -82,9 +82,12 @@ export interface footerBtns {
 
 export interface IconForSound {
   isSoundOn: boolean;
-  sound: ()=>Promise<void>,
   forCSS: string,
   isShown: boolean,
+  soundSelector: string,
+  soundToPlay: HTMLAudioElement,
+  keyObj: string,
+  soundObject: TsoundsObject
 }
 
 export interface ForCardExamples {
@@ -96,8 +99,9 @@ export interface ForCardExamples {
   isMeaningTranslationAfter: boolean,
   isSoundOn: boolean,
   isAnswered: boolean,
-  soundExample: ()=>Promise<void>,
-  soundMeaning: ()=>Promise<void>,
+  exampleSound: HTMLAudioElement,
+  meaningSound: HTMLAudioElement,
+  soundsObject: TsoundsObject,
   exampleString: string,
   meaningString: string,
   exampleTranslationString: string,
@@ -134,7 +138,8 @@ export interface NextButtonProps {
   success: number,
   language: Tlanguages,
   nextTrainingDay: number,
-  isIntervalUsed: boolean
+  isIntervalUsed: boolean,
+  stopSoundsObj: TsoundsObject
 }
 
 export interface WordProgressProps {
@@ -146,8 +151,6 @@ export type Tlanguages = {
   [variable: string]: string 
 }
 
-export interface ISoundFunctionProps {
-  soundWord: HTMLAudioElement,
-  soundExample: HTMLAudioElement,
-  soundMeaning: HTMLAudioElement,
+export type TsoundsObject = {
+  [variable: string]: HTMLAudioElement
 }

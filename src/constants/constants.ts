@@ -159,6 +159,7 @@ const userWordsFilter = '{"userWord":{"$ne":null}}';
 
 const DARK_THEME_CLASSNAME = 'dark-theme';
 
+const MAX_REPEAT_LEVEL: number = 28;
 
 export {
   MB_STORAGE_KEY,
@@ -196,5 +197,6 @@ export {
   USER_NO_ENTITY,
   USER_NOT_LOGGED,
   USER_SERVER_ERROR,
+  MAX_REPEAT_LEVEL,
   MAX_STATISTIC_LIMIT_DAYS,
 };
