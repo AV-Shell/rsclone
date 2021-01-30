@@ -98,11 +98,11 @@ function TrainingPage(props:trainingCardProps) {
   const audioWordURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audio}`), [thisWord.audio]);
   const audioExampleURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audioExample}`), [thisWord.audioExample]);
   const audioMeaningURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audioMeaning}`), [thisWord.audioMeaning]);
-  // как-то надо нижележащее тоже в юзМемо
-  // упс, теперь снова на значок рядом с инпутом воспроизводится всё
+
   const wordSound: HTMLAudioElement = useMemo(() => (new Audio(audioWordURL)), [audioWordURL]);
   const exampleSound: HTMLAudioElement = useMemo(() => (new Audio(audioExampleURL)), [audioExampleURL]);
   const meaningSound: HTMLAudioElement = useMemo(() => (new Audio(audioMeaningURL)), [audioMeaningURL]);
+ 
   const allSounds: TsoundsObject = useMemo(() => ({
     wordSound,
     exampleSound,
@@ -114,6 +114,14 @@ function TrainingPage(props:trainingCardProps) {
 
     soundControl(allSounds);
   }, [isMute, allSounds]);
+
+  useEffect(() => {
+    console.log('ShadowTrainingPage did mount');
+    return () => {
+      console.log('ShadowTrainingPage did UNmount');
+      soundControl(allSounds);
+    };
+  }, []);
 
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,

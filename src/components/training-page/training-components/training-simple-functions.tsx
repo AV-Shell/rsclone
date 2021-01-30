@@ -11,7 +11,6 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
   const classWhole: string = (id === status) ? `${classCss} active` : classCss;
 
   const ClickHandler = () => {
-    console.log(`${id} is clicked`);
     setStatusForObj(id);
   };
 
@@ -24,7 +23,9 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
       >
         <i className={iClass} />
         &nbsp;
-        {line}
+        <span>
+          {line}
+        </span>
       </button>
     );
   }
@@ -105,12 +106,12 @@ export function soundControl(soundsObject: TsoundsObject) {
     sound.pause();
     // eslint-disable-next-line no-param-reassign
     sound.currentTime = 0.0;
+    // eslint-disable-next-line no-param-reassign
+    sound.onended = null;
   });
 }
 export async function playSingleSound(soundsObject: TsoundsObject) {
-  console.log(soundsObject);
   Object.values(soundsObject).forEach((sound) => {
-    console.log(sound);
     sound.load();
     sound.play();
   });
