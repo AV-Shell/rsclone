@@ -5,17 +5,19 @@ import {
 import WordProgressBar from '../../slave-components/word-progress-bar/word-progress-bar';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
-  const { id, isShown, isAnswerRight, line, status, classCss, iClass, setStatusForObj } = props;
-  const classWhole: string = (id === status) ? classCss + ' active' : classCss;
+  const {
+    id, isShown, isAnswerRight, line, status, classCss, iClass, setStatusForObj
+  } = props;
+  const classWhole: string = (id === status) ? `${classCss} active` : classCss;
 
   const ClickHandler = () => {
     console.log(`${id} is clicked`);
     setStatusForObj(id);
-  }
+  };
 
   if (isShown && isAnswerRight) {
     return (
-      <button 
+      <button
         type="button"
         onClick={ClickHandler}
         className={classWhole}>
@@ -24,41 +26,46 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
         {line}
       </button>
     );
-  };
+  }
   return null;
 }
 
 export function TrainingCardLineCode(props:lineProps) {
-  const {isTrue, line, classCss} = props;
+  const {
+    isTrue, line, classCss
+  } = props;
   if (isTrue) {
     return (<p className={classCss}>{line}</p>);
-  };
+  }
   return null;
 }
 
 export function TrainingCardTranslationLine(props: IlinePropsTranslation) {
-  const {isTrue, line, classCss, isShownAfter, isAnswered} = props;
+  const {
+    isTrue, line, classCss, isShownAfter, isAnswered
+  } = props;
   if (isTrue) {
     return (<p className={classCss}>{line}</p>);
-  };
+  }
   if (isShownAfter) {
     if (isAnswered) {
       return (<p className={classCss}>{line}</p>);
-    } else {
-      return null;
     }
   }
   return null;
 }
 
 export function TrainingCardImage(props:lineProps) {
-  const {isTrue, line, classCss} = props;
+  const {
+    isTrue, line, classCss
+  } = props;
   if (isTrue) {
     return (
-    <div className={classCss}>
-      <img src={line} alt="word" />
-    </div>);
-  };
+      <div className={classCss}>
+        <img src={line} alt="word" />
+      </div>
+    );
+  }
   return null;
 }
 
@@ -77,12 +84,14 @@ export function TrainingProgressBar(props: dayProgress) {
   const perCent: string = `${barWidth}%`;
 
   return (
-  <div className="training-progress-center">
-    <div className="progress">
-      <div className="progress-bar progress-bar-striped progress-bar-animated"
-        style={{width: perCent}}></div>
+    <div className="training-progress-center">
+      <div className="progress">
+        <div
+          className="progress-bar progress-bar-striped progress-bar-animated"
+          style={{ width: perCent }} />
+      </div>
     </div>
-  </div>)
+  );
 }
 
 export function WordProgress(props: WordProgressProps) {
@@ -114,31 +123,31 @@ export function playSingleSound(soundsObject: TsoundsObject) {
 }
 
 export function playSounds(soundsObject: TsoundsObject) {
-  let word: HTMLAudioElement = soundsObject.wordSound;
-  let example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
-  let meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
+  const word: HTMLAudioElement = soundsObject.wordSound;
+  const example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
+  const meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
 
   soundControl(soundsObject);
   word.load();
   word.play();
   if (('exampleSound' in soundsObject) && ('meaningSound' in soundsObject)) {
-    example!.load();
-    meaning!.load();
+    example.load();
+    meaning.load();
     word.onended = () => {
-      example!.play();
-      example!.onended = () => {
-        meaning!.play();
-      }
-    }
+      example.play();
+      example.onended = () => {
+        meaning.play();
+      };
+    };
   } else if ('exampleSound' in soundsObject) {
-    example!.load();
+    example.load();
     word.onended = () => {
-      example!.play();
-    }
+      example.play();
+    };
   } else if ('meaningSound' in soundsObject) {
-    meaning!.load();
+    meaning.load();
     word.onended = () => {
-      meaning!.play();
-    }
+      meaning.play();
+    };
   }
 }

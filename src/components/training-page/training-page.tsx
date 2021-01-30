@@ -4,12 +4,12 @@ import { paginatedWord, trainingCardProps } from '../../constants/interfaces';
 import { MIN_REPEAT_LEVEL } from './training-consts';
 import { FILE_URL } from '../../constants/constants';
 import {
-  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation, TsoundsObject
- } from './training-page-interfaces';
+  lineProps, IforInput, NextButtonProps, ForCardExamples, IlinePropsTranslation, TsoundsObject,
+} from './training-page-interfaces';
 import {
   TrainingCardUpperBtn, TrainingCardLineCode, TrainingCardImage,
-  TrainingProgressBar, WordProgress, TrainingCardTranslationLine, soundControl
-  } from './training-components/training-simple-functions';
+  TrainingProgressBar, WordProgress, TrainingCardTranslationLine, soundControl,
+} from './training-components/training-simple-functions';
 import InputControl from './training-components/training-page-input';
 import CardFooter from './training-components/training-page-card-footer';
 import TrainingCardExamples from './training-components/training-card-examples-field';
@@ -34,13 +34,13 @@ function TrainingPage(props:trainingCardProps) {
 
   console.log(props);
   const {
-    word, settings, wordNumber, totalWords, getAnswer, isLanguageRU, isMute
+    word, settings, wordNumber, totalWords, getAnswer, isLanguageRU, isMute,
   } = props;
   const { optional } = settings;
   const [isSoundOn, setIsSoundOn] = useState<boolean>(!isMute);
 
   let currentLang = isLanguageRU ? RU : EN;
-  
+
   useEffect(() => {
     setIsAnswerTrue(false);
     setIsAnswered(false);
@@ -51,23 +51,20 @@ function TrainingPage(props:trainingCardProps) {
     setIsNew(true);
     setCounter(0);
     setSuccess(0);
-    setIntervalUsed(true)
-    console.log('in the useEffect');
-  }, [ word ]);
+    setIntervalUsed(true);
+  }, [word]);
 
   useEffect(() => {
     currentLang = isLanguageRU ? RU : EN;
-  }, [ isLanguageRU ]);
-  
-  
+  }, [isLanguageRU]);
+
   const currentCard: number = wordNumber;
-  let thisWord: paginatedWord;
-  thisWord = word;
-  const {group} = thisWord;
- 
+  const thisWord: paginatedWord = word;
+  const { group } = thisWord;
+
   const {
     answerButton, autoSound, cardExample, cardExampleTranslation,
-    cardWordPronunciation, cardExplanation, cardExplanationTranslation, 
+    cardWordPronunciation, cardExplanation, cardExplanationTranslation,
     cardImage, cardTranscription, cardExplanationTranslationAfter, cardExampleTranslationAfter,
     cardTranslation, cardTranslationAfterSuccess, statusButtons, feedbackButtons,
   } = optional;
@@ -77,16 +74,16 @@ function TrainingPage(props:trainingCardProps) {
 
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
-    const {userWord} = thisWord;
-    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord!.optional.status; // active, difficult, deleted
+    const { userWord } = thisWord;
+    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord.optional.status; // active, difficult, deleted
     setWordPosition(wordStatus);
-    firstAppearance = userWord!.optional.firstAppearance;
-    setIntervalLevel(userWord!.optional.level);
-    setCounter(userWord!.optional.counter);
-    setSuccess(userWord!.optional.success);
+    firstAppearance = userWord.optional.firstAppearance;
+    setIntervalLevel(userWord.optional.level);
+    setCounter(userWord.optional.counter);
+    setSuccess(userWord.optional.success);
     console.log(`counter: ${counter}, success: ${success}`);
 
-    nextTrainingDay = userWord!.optional.nextRepeat;
+    nextTrainingDay = userWord.optional.nextRepeat;
     const nextDate = new Date(nextTrainingDay).setHours(0, 0, 0, 0);
     console.log(nextDate);
     const thisDay = new Date(trainingDay).setHours(0, 0, 0, 0);
@@ -94,48 +91,48 @@ function TrainingPage(props:trainingCardProps) {
     console.log(nextDate > thisDay);
     if (nextDate > thisDay) {
       setIntervalUsed(false);
-    };
-  };
+    }
+  }
 
-  const imgURL: string = FILE_URL + '/' + thisWord.image;
-  const audioWordURL: string = useMemo(() => (FILE_URL + '/' + thisWord.audio), [thisWord.audio]);
-  const audioExampleURL: string = useMemo(() => (FILE_URL + '/' + thisWord.audioExample), [thisWord.audioExample]);
-  const audioMeaningURL: string = useMemo(() => (FILE_URL + '/' + thisWord.audioMeaning), [thisWord.audioMeaning]);
+  const imgURL: string = `${FILE_URL}/${thisWord.image}`;
+  const audioWordURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audio}`), [thisWord.audio]);
+  const audioExampleURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audioExample}`), [thisWord.audioExample]);
+  const audioMeaningURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audioMeaning}`), [thisWord.audioMeaning]);
   // как-то надо нижележащее тоже в юзМемо
   // упс, теперь снова на значок рядом с инпутом воспроизводится всё
   const wordSound: HTMLAudioElement = useMemo(() => (new Audio(audioWordURL)), [audioWordURL]);
   const exampleSound: HTMLAudioElement = useMemo(() => (new Audio(audioExampleURL)), [audioExampleURL]);
   const meaningSound: HTMLAudioElement = useMemo(() => (new Audio(audioMeaningURL)), [audioMeaningURL]);
-  const allSounds: TsoundsObject = useMemo(() =>({
-    'wordSound': wordSound,
-    'exampleSound': exampleSound,
-    'meaningSound': meaningSound
+  const allSounds: TsoundsObject = useMemo(() => ({
+    wordSound: wordSound,
+    exampleSound: exampleSound,
+    meaningSound: meaningSound,
   }), [wordSound, exampleSound, meaningSound]);
-  
+
   useEffect(() => {
     setIsSoundOn(!isMute);
-    
+
     soundControl(allSounds);
-  }, [ isMute, allSounds ]);
+  }, [isMute, allSounds]);
 
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
     isShownAfter: cardTranslationAfterSuccess,
     isAnswered: isAnswered,
     line: thisWord.wordTranslate,
-    classCss: "training-card-body-word-details-translation"
+    classCss: "training-card-body-word-details-translation",
   };
 
   const objForTranscription: lineProps = {
     isTrue: cardTranscription,
     line: thisWord.transcription,
-    classCss: "training-card-body-word-details-transcription"
+    classCss: 'training-card-body-word-details-transcription',
   };
 
   const objForImage: lineProps = {
     isTrue: cardImage,
     line: imgURL,
-    classCss: "training-card-body-word-img"
+    classCss: 'training-card-body-word-img',
   };
 
   const objForInput: IforInput = {
@@ -158,9 +155,9 @@ function TrainingPage(props:trainingCardProps) {
     intervalLevel: intervalLevel,
     updateIntervalLevel: setIntervalLevel,
     isIntervalUsed: isIntervalUsed,
-    soundsObject: allSounds
+    soundsObject: allSounds,
   };
-  
+
   const objForExamplesPart: ForCardExamples = {
     isExampleShown: cardExample,
     isExampleTranslationShown: cardExampleTranslation,
@@ -176,8 +173,8 @@ function TrainingPage(props:trainingCardProps) {
     exampleString: thisWord.textExample,
     meaningString: thisWord.textMeaning,
     exampleTranslationString: thisWord.textExampleTranslate,
-    meaningTranslationString: thisWord.textMeaningTranslate
-  }
+    meaningTranslationString: thisWord.textMeaningTranslate,
+  };
 
   const objForNextButton: NextButtonProps = {
     isShown: isAnswered,
@@ -193,8 +190,8 @@ function TrainingPage(props:trainingCardProps) {
     language: currentLang,
     nextTrainingDay: nextTrainingDay,
     isIntervalUsed: isIntervalUsed,
-    stopSoundsObj: allSounds
-  }
+    stopSoundsObj: allSounds,
+  };
 
   return (
     <div className="training-page">
@@ -202,7 +199,8 @@ function TrainingPage(props:trainingCardProps) {
         <div className="wrapper-upper">
           <h1 className="training-page-title">
             <i className="bi bi-stack" />
-            &nbsp;{currentLang.trainingHeader}
+            &nbsp;
+            {currentLang.trainingHeader}
           </h1>
           <ButtonNext {...objForNextButton}/>
         </div>
@@ -213,13 +211,21 @@ function TrainingPage(props:trainingCardProps) {
         </div>
         <div className="training-card">
           <div className="training-card-header">
-            <button className="training-card-header-btn-keyboard upper-btns">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" className="bi bi-keyboard" viewBox="0 0 16 16">
+            <button
+              type="button"
+              className="training-card-header-btn-keyboard upper-btns">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                fill="currentColor"
+                className="bi bi-keyboard"
+                viewBox="0 0 16 16">
                 <path d="M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z"/>
                 <path d="M13 10.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm0-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5 0A.25.25 0 0 1 8.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 8 8.75v-.5zm2 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.5zm1 2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5-2A.25.25 0 0 1 6.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 6 8.75v-.5zm-2 0A.25.25 0 0 1 4.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 4 8.75v-.5zm-2 0A.25.25 0 0 1 2.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2 8.75v-.5zm11-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0A.25.25 0 0 1 9.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 9 6.75v-.5zm-2 0A.25.25 0 0 1 7.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 7 6.75v-.5zm-2 0A.25.25 0 0 1 5.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 5 6.75v-.5zm-3 0A.25.25 0 0 1 2.25 6h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5A.25.25 0 0 1 2 6.75v-.5zm0 4a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm2 0a.25.25 0 0 1 .25-.25h5.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-5.5a.25.25 0 0 1-.25-.25v-.5z"/>
               </svg>
             </button>
-            <TrainingCardUpperBtn 
+            <TrainingCardUpperBtn
               id="active"
               isShown={statusButtons}
               isAnswerRight={isAnswered}
@@ -229,7 +235,7 @@ function TrainingPage(props:trainingCardProps) {
               classCss="training-card-header-btn-active upper-btns status-btn"
               iClass="bi bi-check-circle"
               setStatusForObj={setWordPosition} />
-            <TrainingCardUpperBtn 
+            <TrainingCardUpperBtn
               id="difficult"
               isShown={statusButtons}
               isAnswerRight={isAnswered}
@@ -271,7 +277,8 @@ function TrainingPage(props:trainingCardProps) {
             </div>
             <TrainingCardExamples {...objForExamplesPart}/>
           </div>
-          <CardFooter currentWord={thisWord.word}
+          <CardFooter
+            currentWord={thisWord.word}
             hasShowAnswerButton={answerButton}
             hasIntervalButtons={feedbackButtons}
             updateInput={setInputValue}
