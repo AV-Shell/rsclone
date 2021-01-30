@@ -209,6 +209,7 @@
     text-align: left;
     color: $text-muted;
     letter-spacing: 0.13rem;
+    white-space: pre-wrap;
   }
 
   &-row {
@@ -286,6 +287,10 @@
     color: $color-primary;
     background-color: $color-primary-blend;
     transition: all $bg-color-transition;
+
+    &:not(:last-child){
+      margin-right: 10px;
+    }
 
     &:hover {
       color: #ffffff;
