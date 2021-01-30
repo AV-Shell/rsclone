@@ -3,7 +3,7 @@ import { forFooter, footerBtns } from '../training-page-interfaces';
 
 export default function CardFooter(props: forFooter) {
   const {
-    hasShowAnswerButton, hasIntervalButtons, currentWord, updateInput, 
+    hasShowAnswerButton, hasIntervalButtons, currentWord, updateInput,
     hasAnswer, updateHasAnswer, intervalLevel, updateIntervalLevel, isAnswerTrue, language,
   } = props;
 
@@ -18,7 +18,7 @@ export default function CardFooter(props: forFooter) {
     classCss: 'training-card-footer-btn-again btn-footer',
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
-    isAnswerTrue: isAnswerTrue,
+    isAnswerTrue,
   };
   const objForHard: footerBtns = {
     id: 'hard',
@@ -26,7 +26,7 @@ export default function CardFooter(props: forFooter) {
     classCss: 'training-card-footer-btn-hard btn-footer',
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
-    isAnswerTrue: isAnswerTrue,
+    isAnswerTrue,
   };
   const objForGood: footerBtns = {
     id: 'good',
@@ -34,7 +34,7 @@ export default function CardFooter(props: forFooter) {
     classCss: 'training-card-footer-btn-good btn-footer',
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
-    isAnswerTrue: isAnswerTrue,
+    isAnswerTrue,
   };
   const objForEasy: footerBtns = {
     id: 'easy',
@@ -42,16 +42,16 @@ export default function CardFooter(props: forFooter) {
     classCss: 'training-card-footer-btn-easy btn-footer',
     intervalLvl: intervalLevel,
     updateIntervalLvl: updateIntervalLevel,
-    isAnswerTrue: isAnswerTrue,
+    isAnswerTrue,
   };
 
   if (hasAnswer && hasIntervalButtons) {
     return (
       <div className="training-card-footer">
-        <FooterButton {...objForAgain}/>
-        <FooterButton {...objForHard}/>
-        <FooterButton {...objForGood}/>
-        <FooterButton {...objForEasy}/>
+        <FooterButton {...objForAgain} />
+        <FooterButton {...objForHard} />
+        <FooterButton {...objForGood} />
+        <FooterButton {...objForEasy} />
       </div>
     );
   }
@@ -62,7 +62,8 @@ export default function CardFooter(props: forFooter) {
         <button
           type="button"
           className="btn-footer training-card-footer-btn-answer"
-          onClick={ShowAnswerHandler}>
+          onClick={ShowAnswerHandler}
+        >
           <i className="bi bi-eye-fill" />
           &nbsp;
           {language.showAnswer}
@@ -81,7 +82,7 @@ function FooterButton(props: footerBtns) {
     id, line, classCss, updateIntervalLvl, intervalLvl, isAnswerTrue,
   } = props;
 
-  const wholeClass: string = (intervalLvl === id) ? `${classCss  } active` : classCss;
+  const wholeClass: string = (intervalLvl === id) ? `${classCss} active` : classCss;
   // если ответил неправильно, не может их нажать
   const disabled: boolean = (!isAnswerTrue && ((id === 'easy') || (id === 'good') || (id === 'hard')));
 
@@ -100,7 +101,8 @@ function FooterButton(props: footerBtns) {
       className={wholeClass}
       id={id}
       disabled={disabled}
-      onClick={IntervalButtonsHandler}>
+      onClick={IntervalButtonsHandler}
+    >
       {line}
     </button>
   );

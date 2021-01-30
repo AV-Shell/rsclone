@@ -104,9 +104,9 @@ function TrainingPage(props:trainingCardProps) {
   const exampleSound: HTMLAudioElement = useMemo(() => (new Audio(audioExampleURL)), [audioExampleURL]);
   const meaningSound: HTMLAudioElement = useMemo(() => (new Audio(audioMeaningURL)), [audioMeaningURL]);
   const allSounds: TsoundsObject = useMemo(() => ({
-    wordSound: wordSound,
-    exampleSound: exampleSound,
-    meaningSound: meaningSound,
+    wordSound,
+    exampleSound,
+    meaningSound,
   }), [wordSound, exampleSound, meaningSound]);
 
   useEffect(() => {
@@ -118,9 +118,9 @@ function TrainingPage(props:trainingCardProps) {
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
     isShownAfter: cardTranslationAfterSuccess,
-    isAnswered: isAnswered,
+    isAnswered,
     line: thisWord.wordTranslate,
-    classCss: "training-card-body-word-details-translation",
+    classCss: 'training-card-body-word-details-translation',
   };
 
   const objForTranscription: lineProps = {
@@ -143,18 +143,18 @@ function TrainingPage(props:trainingCardProps) {
     updateAnswerSet: setIsAnswered,
     isTrue: isAnswerTrue,
     updateAnswer: setIsAnswerTrue,
-    isSoundOn: isSoundOn,
+    isSoundOn,
     isAutoPlayOn: autoSound,
     playExample: cardExample,
     playMeaning: cardExplanation,
-    counter: counter,
-    success: success,
+    counter,
+    success,
     updateCounter: setCounter,
     updateSuccess: setSuccess,
     isSoundBtnShown: cardWordPronunciation,
-    intervalLevel: intervalLevel,
+    intervalLevel,
     updateIntervalLevel: setIntervalLevel,
-    isIntervalUsed: isIntervalUsed,
+    isIntervalUsed,
     soundsObject: allSounds,
   };
 
@@ -165,10 +165,10 @@ function TrainingPage(props:trainingCardProps) {
     isMeaningShown: cardExplanation,
     isMeaningTranslationShown: cardExplanationTranslation,
     isMeaningTranslationAfter: cardExplanationTranslationAfter,
-    isSoundOn: isSoundOn,
-    isAnswered: isAnswered,
-    exampleSound: exampleSound,
-    meaningSound: meaningSound,
+    isSoundOn,
+    isAnswered,
+    exampleSound,
+    meaningSound,
     soundsObject: allSounds,
     exampleString: thisWord.textExample,
     meaningString: thisWord.textMeaning,
@@ -178,18 +178,18 @@ function TrainingPage(props:trainingCardProps) {
 
   const objForNextButton: NextButtonProps = {
     isShown: isAnswered,
-    isAnswerTrue: isAnswerTrue,
+    isAnswerTrue,
     levelForRepeat: intervalLevel,
     levelStatus: intervalStatus,
     wordID: word._id,
-    getAnswer: getAnswer,
+    getAnswer,
     wordStatus: wordPosition,
-    firstAppearance: firstAppearance,
-    counter: counter,
-    success: success,
+    firstAppearance,
+    counter,
+    success,
     language: currentLang,
-    nextTrainingDay: nextTrainingDay,
-    isIntervalUsed: isIntervalUsed,
+    nextTrainingDay,
+    isIntervalUsed,
     stopSoundsObj: allSounds,
   };
 
@@ -202,27 +202,29 @@ function TrainingPage(props:trainingCardProps) {
             &nbsp;
             {currentLang.trainingHeader}
           </h1>
-          <ButtonNext {...objForNextButton}/>
+          <ButtonNext {...objForNextButton} />
         </div>
         <div className="training-progress">
           <span className="training-progress-left">1</span>
-          <TrainingProgressBar left={currentCard} right={allTrainingCards}/>
+          <TrainingProgressBar left={currentCard} right={allTrainingCards} />
           <span className="training-progress-right">{allTrainingCards}</span>
         </div>
         <div className="training-card">
           <div className="training-card-header">
             <button
               type="button"
-              className="training-card-header-btn-keyboard upper-btns">
+              className="training-card-header-btn-keyboard upper-btns"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"
                 height="28"
                 fill="currentColor"
                 className="bi bi-keyboard"
-                viewBox="0 0 16 16">
-                <path d="M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z"/>
-                <path d="M13 10.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm0-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5 0A.25.25 0 0 1 8.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 8 8.75v-.5zm2 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.5zm1 2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5-2A.25.25 0 0 1 6.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 6 8.75v-.5zm-2 0A.25.25 0 0 1 4.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 4 8.75v-.5zm-2 0A.25.25 0 0 1 2.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2 8.75v-.5zm11-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0A.25.25 0 0 1 9.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 9 6.75v-.5zm-2 0A.25.25 0 0 1 7.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 7 6.75v-.5zm-2 0A.25.25 0 0 1 5.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 5 6.75v-.5zm-3 0A.25.25 0 0 1 2.25 6h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5A.25.25 0 0 1 2 6.75v-.5zm0 4a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm2 0a.25.25 0 0 1 .25-.25h5.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-5.5a.25.25 0 0 1-.25-.25v-.5z"/>
+                viewBox="0 0 16 16"
+              >
+                <path d="M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z" />
+                <path d="M13 10.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm0-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5 0A.25.25 0 0 1 8.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 8 8.75v-.5zm2 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.5zm1 2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5-2A.25.25 0 0 1 6.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 6 8.75v-.5zm-2 0A.25.25 0 0 1 4.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 4 8.75v-.5zm-2 0A.25.25 0 0 1 2.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2 8.75v-.5zm11-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0A.25.25 0 0 1 9.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 9 6.75v-.5zm-2 0A.25.25 0 0 1 7.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 7 6.75v-.5zm-2 0A.25.25 0 0 1 5.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 5 6.75v-.5zm-3 0A.25.25 0 0 1 2.25 6h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5A.25.25 0 0 1 2 6.75v-.5zm0 4a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm2 0a.25.25 0 0 1 .25-.25h5.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-5.5a.25.25 0 0 1-.25-.25v-.5z" />
               </svg>
             </button>
             <TrainingCardUpperBtn
@@ -234,7 +236,8 @@ function TrainingPage(props:trainingCardProps) {
               line={currentLang.activeButton}
               classCss="training-card-header-btn-active upper-btns status-btn"
               iClass="bi bi-check-circle"
-              setStatusForObj={setWordPosition} />
+              setStatusForObj={setWordPosition}
+            />
             <TrainingCardUpperBtn
               id="difficult"
               isShown={statusButtons}
@@ -244,7 +247,8 @@ function TrainingPage(props:trainingCardProps) {
               line={currentLang.difficultButton}
               classCss="training-card-header-btn-difficult upper-btns status-btn"
               iClass="bi bi-exclamation-diamond"
-              setStatusForObj={setWordPosition} />
+              setStatusForObj={setWordPosition}
+            />
             <TrainingCardUpperBtn
               id="deleted"
               isShown={statusButtons}
@@ -254,7 +258,8 @@ function TrainingPage(props:trainingCardProps) {
               line={currentLang.deleteButton}
               classCss="training-card-header-btn-delete upper-btns status-btn"
               iClass="bi bi-dash-square-dotted"
-              setStatusForObj={setWordPosition} />
+              setStatusForObj={setWordPosition}
+            />
           </div>
           <div className="training-card-body">
             <div className="training-card-body-upper">
@@ -262,7 +267,8 @@ function TrainingPage(props:trainingCardProps) {
               <div className="training-card-body-upper-progress">
                 <WordProgress
                   level={intervalLevel}
-                  language={currentLang} />
+                  language={currentLang}
+                />
                 <WordStarsLevel level={group} />
               </div>
             </div>
@@ -270,12 +276,12 @@ function TrainingPage(props:trainingCardProps) {
               <div className="training-card-body-word-details">
                 <p>{currentLang.beforeInput}</p>
                 <InputControl {...objForInput} />
-                <TrainingCardTranslationLine {...objForTranslation}/>
-                <TrainingCardLineCode {...objForTranscription}/>
+                <TrainingCardTranslationLine {...objForTranslation} />
+                <TrainingCardLineCode {...objForTranscription} />
               </div>
-              <TrainingCardImage {...objForImage}/>
+              <TrainingCardImage {...objForImage} />
             </div>
-            <TrainingCardExamples {...objForExamplesPart}/>
+            <TrainingCardExamples {...objForExamplesPart} />
           </div>
           <CardFooter
             currentWord={thisWord.word}
@@ -287,7 +293,8 @@ function TrainingPage(props:trainingCardProps) {
             intervalLevel={intervalStatus}
             updateIntervalLevel={setIntervalStatus}
             isAnswerTrue={isAnswerTrue}
-            language={currentLang} />
+            language={currentLang}
+          />
         </div>
       </div>
     </div>

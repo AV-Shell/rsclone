@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  upperButtonProps, lineProps, dayProgress, WordProgressProps, IlinePropsTranslation, TsoundsObject
+  upperButtonProps, lineProps, dayProgress, WordProgressProps, IlinePropsTranslation, TsoundsObject,
 } from '../training-page-interfaces';
 import WordProgressBar from '../../slave-components/word-progress-bar/word-progress-bar';
 
 export function TrainingCardUpperBtn(props:upperButtonProps) {
   const {
-    id, isShown, isAnswerRight, line, status, classCss, iClass, setStatusForObj
+    id, isShown, isAnswerRight, line, status, classCss, iClass, setStatusForObj,
   } = props;
   const classWhole: string = (id === status) ? `${classCss} active` : classCss;
 
@@ -20,7 +20,8 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
       <button
         type="button"
         onClick={ClickHandler}
-        className={classWhole}>
+        className={classWhole}
+      >
         <i className={iClass} />
         &nbsp;
         {line}
@@ -32,7 +33,7 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
 
 export function TrainingCardLineCode(props:lineProps) {
   const {
-    isTrue, line, classCss
+    isTrue, line, classCss,
   } = props;
   if (isTrue) {
     return (<p className={classCss}>{line}</p>);
@@ -42,7 +43,7 @@ export function TrainingCardLineCode(props:lineProps) {
 
 export function TrainingCardTranslationLine(props: IlinePropsTranslation) {
   const {
-    isTrue, line, classCss, isShownAfter, isAnswered
+    isTrue, line, classCss, isShownAfter, isAnswered,
   } = props;
   if (isTrue) {
     return (<p className={classCss}>{line}</p>);
@@ -57,7 +58,7 @@ export function TrainingCardTranslationLine(props: IlinePropsTranslation) {
 
 export function TrainingCardImage(props:lineProps) {
   const {
-    isTrue, line, classCss
+    isTrue, line, classCss,
   } = props;
   if (isTrue) {
     return (
@@ -69,15 +70,6 @@ export function TrainingCardImage(props:lineProps) {
   return null;
 }
 
-// export function StarsLevelField(props:forStars) {
-//   const {level} = props;
-
-//   const elements = Array(TOTAL_DIFFICULTY_GROUPS).fill(0)
-//   .map((el,index,arr) => <i key={index} className={index < (arr.length - 1 - level) ? "bi bi-star" : "bi bi-star-fill"}> 
-//   </i>);
-//   return <span className="word-progress-stars">{elements}</span>;
-// }
-
 export function TrainingProgressBar(props: dayProgress) {
   const { left, right } = props;
   const barWidth: number = Math.round((left / right) * 100);
@@ -88,7 +80,8 @@ export function TrainingProgressBar(props: dayProgress) {
       <div className="progress">
         <div
           className="progress-bar progress-bar-striped progress-bar-animated"
-          style={{ width: perCent }} />
+          style={{ width: perCent }}
+        />
       </div>
     </div>
   );
@@ -99,27 +92,28 @@ export function WordProgress(props: WordProgressProps) {
 
   return (
     <div className="word-progress">
-      <WordProgressBar level={level}/>
+      <WordProgressBar level={level} />
       <small>{language.intervalProgress}</small>
     </div>
-  )
+  );
 }
 
 export function soundControl(soundsObject: TsoundsObject) {
   console.log(soundsObject);
-  for (const sound in soundsObject) {
-    console.log(soundsObject[sound]);
-    soundsObject[sound].pause();
-    soundsObject[sound].currentTime = 0.0;
-  }
+  Object.values(soundsObject).forEach((sound) => {
+    console.log(sound);
+    sound.pause();
+    // eslint-disable-next-line no-param-reassign
+    sound.currentTime = 0.0;
+  });
 }
-export function playSingleSound(soundsObject: TsoundsObject) {
+export async function playSingleSound(soundsObject: TsoundsObject) {
   console.log(soundsObject);
-  for (const sound in soundsObject) {
-    console.log(soundsObject[sound]);
-    soundsObject[sound].load();
-    soundsObject[sound].play();
-   }
+  Object.values(soundsObject).forEach((sound) => {
+    console.log(sound);
+    sound.load();
+    sound.play();
+  });
 }
 
 export function playSounds(soundsObject: TsoundsObject) {

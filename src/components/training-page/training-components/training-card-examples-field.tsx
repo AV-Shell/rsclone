@@ -52,7 +52,8 @@ export default function TrainingCardExamples(props: ForCardExamples) {
         soundSelector=".audio-example"
         soundToPlay={exampleSound}
         keyObj="exampleSound"
-        soundObject={soundsObject}/>
+        soundObject={soundsObject}
+      />
       <SoundOnSentences
         isSoundOn={isSoundOn}
         forCSS="meaning-sound"
@@ -60,11 +61,12 @@ export default function TrainingCardExamples(props: ForCardExamples) {
         soundSelector=".audio-meaning"
         soundToPlay={meaningSound}
         keyObj="meaningSound"
-        soundObject={soundsObject} />
-      <SentenceWithBlancs {...objForExample}/>
-      <TranslationSentence {...objForExampleTranslation}/>
-      <SentenceWithBlancs {...objForMeaning}/>
-      <TranslationSentence {...objForMeaningTranslation}/>
+        soundObject={soundsObject}
+      />
+      <SentenceWithBlancs {...objForExample} />
+      <TranslationSentence {...objForExampleTranslation} />
+      <SentenceWithBlancs {...objForMeaning} />
+      <TranslationSentence {...objForMeaningTranslation} />
     </div>
   );
 }
@@ -89,7 +91,7 @@ function SoundOnSentences(props: IconForSound) {
     }
   };
   return (
-    <i role="button" className={classCSS} onClick={SoundHandler} />
+    <i role="presentation" className={classCSS} onClick={SoundHandler} />
   );
 }
 
@@ -109,7 +111,8 @@ function SentenceWithBlancs(props: LineWrapperProps) {
     if (openTag === '<b>' && closingTag === '</b>') {
       return (
         <p
-          className={classCSS}>
+          className={classCSS}
+        >
           {line.slice(0, pos1)}
           <strong>
             {dash}

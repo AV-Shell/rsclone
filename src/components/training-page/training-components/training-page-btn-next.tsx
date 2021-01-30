@@ -63,7 +63,7 @@ export default function ButtonNext(props: NextButtonProps) {
     }
 
     const wordSettings: userWordOptional = {
-      firstAppearance: firstAppearance,
+      firstAppearance,
       lastRepeat: trainingDay,
       nextRepeat: nextTime, // подсчет по методике в кнопке или из настроек, если без ИП
       counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
@@ -98,7 +98,8 @@ export default function ButtonNext(props: NextButtonProps) {
     <button
       type="button"
       className="button-next"
-      onClick={ButtonNextHandler}>
+      onClick={ButtonNextHandler}
+    >
       {language.nextButton}
       &nbsp;
       <i className="bi bi-box-arrow-in-right" />

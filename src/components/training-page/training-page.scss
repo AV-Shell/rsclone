@@ -4,8 +4,6 @@
 @import "./../../components/slave-components/word-progress-bar/word-progress-bar.scss";
 @import "./../../components/slave-components/word-stars-level/word-stars-level.scss";
 
-$color-info-blend: #ece5fc;
-
 .dark-theme {
   >.training-page {
     background-color: $dark-color;

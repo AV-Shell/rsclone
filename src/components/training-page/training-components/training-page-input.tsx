@@ -46,20 +46,20 @@ export default function InputControl(props: IforInput) {
         soundControl(soundsObject);
         if (playExample && playMeaning) {
           // воспроизводится одновременно, но не сбивает жмяканье на инпут
-          // playSingleSound({'wordSound': soundsObject.wordSound});
-          // playSingleSound({'exampleSound': soundsObject.exampleSound});
-          // playSingleSound({'meaningSound': soundsObject.meaningSound});
+          // playSingleSound({ wordSound: soundsObject.wordSound });
+          // playSingleSound({ exampleSound: soundsObject.exampleSound });
+          // playSingleSound({ meaningSound: soundsObject.meaningSound });
           playSounds(soundsObject);
         } else if (playExample) {
           const newSoundsObject: TsoundsObject = {
-            'wordSound': soundsObject.wordSound,
-            'exampleSound': soundsObject.exampleSound
+            wordSound: soundsObject.wordSound,
+            exampleSound: soundsObject.exampleSound,
           };
           playSounds(newSoundsObject);
         } else if (playMeaning) {
           const newSoundsObject: TsoundsObject = {
-            'wordSound': soundsObject.wordSound,
-            'meaningSound': soundsObject.meaningSound
+            wordSound: soundsObject.wordSound,
+            meaningSound: soundsObject.meaningSound,
           };
           playSounds(newSoundsObject);
         }
@@ -73,41 +73,46 @@ export default function InputControl(props: IforInput) {
       : 'training-card-body-word-details-field-input red';
     return (
       <div
-        className="training-card-body-word-details-field">
-        <SoundButton 
+        className="training-card-body-word-details-field"
+      >
+        <SoundButton
           isShown={isSoundBtnShown}
           isSoundOn={isSoundOn}
           classCss={audioIcon}
-          soundObject={soundsObject}/>
-        <input 
+          soundObject={soundsObject}
+        />
+        <input
           className={cssStyle}
           type="text"
           size={theWord.length}
           autoFocus={false}
           spellCheck={false}
           value={value}
-          disabled />
+          disabled
+        />
       </div>
     );
   }
   console.log('isAnswerSet false');
   return (
     <div
-      className="training-card-body-word-details-field">
+      className="training-card-body-word-details-field"
+    >
       <SoundButton
         isShown={isSoundBtnShown}
         isSoundOn={isSoundOn}
         classCss={audioIcon}
-        soundObject={soundsObject} />
+        soundObject={soundsObject}
+      />
       <input
         className="training-card-body-word-details-field-input"
         type="text"
         size={theWord.length}
-        autoFocus={true}
+        autoFocus
         maxLength={theWord.length}
         spellCheck={false}
         onKeyPress={KeyPressHandler}
-        value={value} 
+        value={value}
         onChange={InputChangeHandler}
       />
     </div>
@@ -127,7 +132,7 @@ function SoundButton(props: SoundProps) {
   } = props;
 
   const wordSound: TsoundsObject = {
-    'wordSound': soundObject.wordSound
+    wordSound: soundObject.wordSound,
   };
 
   if (!isShown) {
@@ -141,5 +146,5 @@ function SoundButton(props: SoundProps) {
     }
   };
 
-  return (<i className={classCss} onClick={SoundHandler} />);
+  return (<i role="presentation" className={classCss} onClick={SoundHandler} />);
 }
