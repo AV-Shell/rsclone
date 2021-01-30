@@ -1,24 +1,26 @@
+/* eslint-disable camelcase */
 import {
   userSettings,
   userStatistics,
   userWordReq,
   IstatisticMainLong,
   IStatGraphItem,
-} from '../constants/interfaces'
+} from './interfaces';
+
 const MB_STORAGE_KEY = 'magicButtonLocal';
 
 const MB_ROUTES = {
   greetingPage: '/',
   settings: '/settings',
-}
+};
 
 const BASE_URL = 'https://afternoon-falls-25894.herokuapp.com';
 const FILE_URL = 'https://raw.githubusercontent.com/av-shell/rslang-data/master';
-const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/'
+const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/';
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
-const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/'
-const FLAG_URL_4x3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/'
+const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/';
+const FLAG_URL_4x3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/';
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/us.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
@@ -65,7 +67,7 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     newWordsPerDay: 5,
     repeatWordsPerDay: 10,
     userLanguageLevel: 0,
-    cardsPerDay: 15,  //calculated from  new + repeat. 
+    cardsPerDay: 15, // calculated from  new + repeat.
     mixedCards: 0,
     isSoundOn: true,
     cardWordPronunciation: true,
@@ -77,8 +79,8 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     cardTranslationAfterSuccess: false,
     cardExplanationTranslation: true,
     cardExampleTranslation: true,
-    cardExplanationTranslationAfter: false, //after answer 
-    cardExampleTranslationAfter: false,   //after answer
+    cardExplanationTranslationAfter: false, // after answer
+    cardExampleTranslationAfter: false, // after answer
     autoSound: true,
     answerButton: true,
     deleteButton: true,
@@ -100,8 +102,7 @@ const DEFAULT_USER_SETTINGS: userSettings = {
     avatarSettings: 'null', // JSON.stingify(ava.settings.obj  null if we don't need it)
     createSettingsTimestamp: 0,
   },
-}
-
+};
 
 const DEFAULT_USER_STATISTIC: userStatistics = {
   learnedWords: 0,
@@ -114,14 +115,13 @@ const DEFAULT_USER_STATISTIC: userStatistics = {
     sprintMain: 'null',
     magicButtonLong: 'null',
     magicButtonMain: 'null',
-  }
-}
+  },
+};
 
 const DEFAULT_STAT_ITEM: IStatGraphItem = {
   date: 0,
   value: 0,
-}
-
+};
 
 const DEFAULT_MAIN_GAME_LONG_STATISTIC: IstatisticMainLong = {
   bestAll: 0,
@@ -135,10 +135,9 @@ const DEFAULT_MAIN_GAME_LONG_STATISTIC: IstatisticMainLong = {
   totalPoints: 0,
   rightPerDay: [],
   userWordsPerDay: [],
-  currentRightPerDay:DEFAULT_STAT_ITEM,
-  currentUserWordPerDay:DEFAULT_STAT_ITEM,
-}
-
+  currentRightPerDay: DEFAULT_STAT_ITEM,
+  currentUserWordPerDay: DEFAULT_STAT_ITEM,
+};
 
 const DEFAULT_USER_WORD: userWordReq = {
   difficulty: 'new',
@@ -149,11 +148,11 @@ const DEFAULT_USER_WORD: userWordReq = {
     counter: 0,
     success: 0,
     progress: 0,
-    status: 'active',   //'active', 'deleted', 'difficult'
+    status: 'active', // 'active', 'deleted', 'difficult'
     level: 0,
     userWord: true,
   },
-}
+};
 const newWordsFilter = '{"userWord":null}';
 const userWordsFilter = '{"userWord":{"$ne":null}}';
 

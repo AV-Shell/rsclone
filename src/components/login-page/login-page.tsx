@@ -201,6 +201,7 @@ const LoginPage: React.FC<ILoginPageProps> = (props: ILoginPageProps) => {
       <Fragment>
         <span className="asked-text">
           {lang.isNewbie}
+          {' '}
           <Link to="/registration" className="link">
             {lang.createAcc}
           </Link>
@@ -211,6 +212,7 @@ const LoginPage: React.FC<ILoginPageProps> = (props: ILoginPageProps) => {
       <Fragment>
         <span className="asked-text">
           {lang.beenHere}
+          {' '}
           <Link to="/login" className="link">
             {lang.toLogin}
           </Link>
@@ -257,7 +259,8 @@ const LoginPage: React.FC<ILoginPageProps> = (props: ILoginPageProps) => {
         <div className="title-container">
           <h3 className="title">
             {lang.title}
-            {' Magic&nbsp;Buttons'}
+            {' Magic'}
+            &nbsp;Buttons
           </h3>
           {linkToPage}
         </div>

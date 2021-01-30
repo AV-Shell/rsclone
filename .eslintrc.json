@@ -97,7 +97,7 @@
             }
         ],
         "react/jsx-wrap-multilines": [
-            "warn",
+            "error",
             {
                 "declaration": "parens-new-line",
                 "assignment": "parens-new-line",
@@ -115,6 +115,7 @@
             {
                 "custom": "ignore"
             }
-        ]
+        ],
+        "react-hooks/exhaustive-deps": "off"
     }
 }

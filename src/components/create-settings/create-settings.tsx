@@ -26,10 +26,10 @@ import {
   AVA_URL,
 } from '../../constants/constants';
 
-function CreateSettings(props: ICreateSettingsProps) {
+const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsProps) => {
   const { apiService, getSettingsCallback } = props;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isNeedToCreateSettings, setIsNeedToCreateSettings] = useState<boolean>(false);
+  // const [isNeedToCreateSettings, setIsNeedToCreateSettings] = useState<boolean>(false);
   const [englishWordsLevel, setEnglishWordsLevel] = useState<number>(0);
   const [avatarNumber, setAvatarNumber] = useState<number>(1); // TODO: create a random num from 1 to maxAvas
 
@@ -88,15 +88,12 @@ function CreateSettings(props: ICreateSettingsProps) {
       userSettings: defaultSettings,
       userStatistics: defaultStatistic,
     };
-    let success = false;
     loadSettings({ apiService })
       .then((settingsReso) => {
         if (settingsReso.result === USER_HAS_ENTITY) {
           loadStatistic({ apiService })
             .then((statisticResp) => {
               if (statisticResp.result === USER_HAS_ENTITY) {
-                success = true;
-                // TODO: something
                 const response: IgetSettingsPageResponce = {
                   isSuccess: true,
                   userSettings: settingsReso.settings,
@@ -112,7 +109,7 @@ function CreateSettings(props: ICreateSettingsProps) {
               console.log('Create Settings: something went wrong', err.message);
             });
         } else if (settingsReso.result === USER_NO_ENTITY) {
-          setIsNeedToCreateSettings(true);
+          // setIsNeedToCreateSettings(true);
           setIsLoading(false);
         }
         console.log(settingsReso);
@@ -130,29 +127,31 @@ function CreateSettings(props: ICreateSettingsProps) {
   return (
     <div className="create-settings">
       <h2>Вы больше не сможете поменять эти настройки</h2>
-      <label >Введите ваш уровень знания слов(0-5):
+      <label htmlFor="englishWordsLevel">
+        {'Введите ваш уровень знания слов(0-5): '}
         <input
           onChange={onChangeEnglishWordsLevel}
           type="number" id="englishWordsLevel" name="englishWordsLevel"
-          min="0" max={TOTAL_DIFFICULTY_GROUPS - 1} value={englishWordsLevel}>
-        </input>
+          min="0" max={TOTAL_DIFFICULTY_GROUPS - 1} value={englishWordsLevel}
+        />
       </label>
-      <label >Выберите Аватарку({MIN_AVATAR_NUM}-{MAX_AVATAR_NUM}):
+      <label htmlFor="avatarNumber">
+        {`Выберите Аватарку '${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}:`}
         <input
           onChange={onChangeAvatarNumber}
           type="number" id="avatarNumber" name="avatarNumber"
-          min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}>
-        </input>
+          min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}
+        />
       </label>
-      <div className='image-container'>
+      <div className="image-container">
         <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
       </div>
 
-      <span className="save-settings-button" onClick={onClick}>
+      <span role="presentation" className="save-settings-button" onClick={onClick}>
         <span className="text-container">Принять</span>
       </span>
     </div>
   );
-}
+};
 
 export default CreateSettings;
