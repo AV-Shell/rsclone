@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import React from 'react';
 import ApiService from '../services/api-service';
+
 export interface tokenResponce {
   token: string,
   refreshToken: string,
@@ -58,7 +60,7 @@ export interface userWordOptional {
   counter: number,
   success: number,
   progress: number,
-  status: 'active' | 'deleted' | 'difficult',//string,   //'active', 'deleted', 'difficult'
+  status: 'active' | 'deleted' | 'difficult', // string,   //'active', 'deleted', 'difficult'
   level: number,
   userWord: true,
 }
@@ -110,24 +112,24 @@ export interface userSettingsOptional {
   newWordsPerDay: number,
   repeatWordsPerDay: number,
   userLanguageLevel: number,
-  cardsPerDay: number,   //deprecated.  use newWordsPerDay  + repeatWordsPerDay
-  mixedCards: number,    //depricated. 
+  cardsPerDay: number, // deprecated.  use newWordsPerDay  + repeatWordsPerDay
+  mixedCards: number, // depricated.
   isSoundOn: boolean,
-  cardWordPronunciation: boolean, //new
+  cardWordPronunciation: boolean, // new
   cardTranslation: boolean,
   cardExplanation: boolean,
   cardExample: boolean,
   cardTranscription: boolean,
   cardImage: boolean,
   cardTranslationAfterSuccess: boolean,
-  cardExplanationTranslation: boolean, //before answer 
-  cardExampleTranslation: boolean,  //before answer
-  cardExplanationTranslationAfter: boolean, //after answer new
-  cardExampleTranslationAfter: boolean,   //after answer new
+  cardExplanationTranslation: boolean, // before answer
+  cardExampleTranslation: boolean, // before answer
+  cardExplanationTranslationAfter: boolean, // after answer new
+  cardExampleTranslationAfter: boolean, // after answer new
   autoSound: boolean,
   answerButton: boolean,
-  deleteButton: boolean,  //deprecated.  use statusButtons
-  difficultWordsButton: boolean, //deprecated.  use statusButtons
+  deleteButton: boolean, // deprecated.  use statusButtons
+  difficultWordsButton: boolean, // deprecated.  use statusButtons
   statusButtons: boolean, // new
   feedbackButtons: boolean,
   vocabularyExplanation: boolean,
@@ -139,7 +141,7 @@ export interface userSettingsOptional {
   commonProgress: number,
   savannaSettings: string,
   magicButtonSettings: string,
-  stillWordsOnGroup: string,  //new/ for prepare training
+  stillWordsOnGroup: string, // new/ for prepare training
   avatarID: number, // zero - take ava from link;
   avatarLink: string, // link to avatar, if avatarID === 0
   avatarSettings: string, // JSON.stingify(ava.settings.obj  null if we don't need it)
@@ -152,7 +154,6 @@ export interface userSettings {
   optional: userSettingsOptional,
 }
 
-
 export interface saveTrainingPart {
   startTrainingTimestamp: number,
   totalWordsCount: number,
@@ -161,12 +162,10 @@ export interface saveTrainingPart {
   // isTrainingFinish: boolean,
 }
 
-
 export interface userCardAnswer extends userWordReq {
   isRepeat: boolean,
   points: number,
 }
-
 
 export interface currentTraining extends saveTrainingPart {
   wordsForTraining: paginatedWord[]
@@ -180,7 +179,6 @@ export interface darkThemeProps {
   isDarkTheme: boolean,
 }
 // export type Tlangeage =  'EN' | 'RU';
-
 
 export interface IlanguageThemeProps {
   isLanguageRU: boolean,
@@ -213,7 +211,6 @@ export interface trainingCardProps extends IlocalProps {
   settings: userSettings,
   getAnswer: (res: cardAnswer) => void,
 }
-
 
 export interface headerProps extends loginStatusProps, IlocalProps {
   toggleTheme: () => void,
@@ -256,8 +253,6 @@ export interface ICreateSettingsProps {
   getSettingsCallback: (isReady: IgetSettingsPageResponce) => void,
 }
 
-
-
 export interface vocabularyProps extends defaultLoginedProps { }
 
 export type trainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
@@ -267,8 +262,7 @@ export interface startTrainingParams {
   repeatWords: number,
 }
 
-
-export interface errorPath       {
+export interface errorPath {
   path: string[],
   message: string,
 }
@@ -280,9 +274,29 @@ export interface IcreateUserError422Field {
   }
 }
 
-
 export interface IgetSettingsPageResponce{
   isSuccess:boolean,
   userSettings: userSettings,
   userStatistics: userStatistics,
+}
+
+export interface IStatGraphItem {
+  date: number,
+  value: number,
+}
+
+export interface IstatisticMainLong {
+  bestAll: number,
+  bestAllData: number,
+  bestForTraining: number,
+  bestForTrainingData: number,
+  currentAll: number,
+  currentForTraining: number,
+  totalCorrectCards: number,
+  totalCards:number,
+  totalPoints: number,
+  rightPerDay: IStatGraphItem[],
+  userWordsPerDay: IStatGraphItem[],
+  currentRightPerDay:IStatGraphItem,
+  currentUserWordPerDay:IStatGraphItem,
 }
