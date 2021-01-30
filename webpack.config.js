@@ -10,9 +10,21 @@ module.exports = (env = {}) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
 
+  // const getStyleLoaders = () => {
+  //   return [
+  //     isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+  //     'css-loader',
+  //   ]
+  // };
+
   const getStyleLoaders = () => {
     return [
-      isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+      isProd ? {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: ''
+        }
+      } : 'style-loader',
       'css-loader',
     ]
   };
@@ -116,6 +128,7 @@ module.exports = (env = {}) => {
       inline: true,
       liveReload: true,
       overlay: true,
+      historyApiFallback: true,
       host: "localhost",
       port: 8086,
       contentBase: 'build',
