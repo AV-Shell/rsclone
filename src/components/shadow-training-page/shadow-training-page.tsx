@@ -261,23 +261,17 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
         userWords.push(word);
         // TODO: write to backend,
         console.log('start create user word on server');
-
-        /*
-        comment for testing
+        // comment for testing
         apiService.createUserWord(word._id, userWordReq)
           .then((data) => { console.log('create'); userWordServerLog(data); })
-          .catch((error) => { console.log('create'); userWordServerLog(error); })
-
-          */
+          .catch((error) => { console.log('create'); userWordServerLog(error); });
       } else {
         userWords[index].userWord = userWordReq; // так и оставить
         console.log('start update user word on server', index, userWords[index]._id);
-        /*
-        comment for testing
+        // comment for testing
         apiService.updateUserWord(word._id, userWordReq)
           .then((data) => { console.log('create'); userWordServerLog(data); })
-          .catch((error) => { console.log('create'); userWordServerLog(error); })
-        */
+          .catch((error) => { console.log('create'); userWordServerLog(error); });
       }
       let newWordsForTraining: paginatedWord[];
       if (res.isRepeat) {
