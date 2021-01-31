@@ -191,9 +191,7 @@
 
 .container {
   max-width: 1390px;
-  padding: 25px;
-  background-color: #fff;
-  border-radius: $block-border-radius;
+  
   margin: 0 auto;
 }
 
@@ -313,5 +311,14 @@
         background-color: $color-dark-hover;
       }
     }
+  }
+}
+
+.card {
+  padding: 25px;
+  background-color: #fff;
+  border-radius: $block-border-radius;
+  & .left-column{
+    display: flex;
   }
 }
