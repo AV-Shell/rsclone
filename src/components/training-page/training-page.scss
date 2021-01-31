@@ -127,6 +127,9 @@ $size-z: 500px;
       @media screen and (max-width: $size-md) {
         padding: 10px;
       }
+      @media screen and (max-width: $size-xs) {
+        padding: 5px;
+      }
     }    
 
     &-upper {
@@ -175,20 +178,28 @@ $size-z: 500px;
 
           @media screen and (max-width: $size-z) {
             align-self: flex-end;
-          }
-          @media screen and (max-width: $size-xs) {
-            align-self: center;
+            justify-self: baseline;
+            width: 100px;
+            height: 32px;
+
+            @media screen and (max-width: $size-xs) {
+              width: 60px;
+              > span {
+                display: none;
+              }
+            }
           }
         }
       }
       @media screen and (max-width: $size-z) {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 0.5em;
-         min-height: 99px;
+        grid-template-columns: 1fr 100px;
+        min-height: 50px;
 
         .training-page-title {
-          margin-bottom: 0;
+          font-size: 2.5rem;
+        }
+        @media screen and (max-width: $size-xs) {
+          grid-template-columns: 1fr 60px;
         }
       }
     }
@@ -352,8 +363,11 @@ $size-z: 500px;
         }
         @media screen and (max-width: $size-xs) {
           padding: 0.5em 0.3em;
+          grid-template-rows: minmax(32px, auto);
+          min-height: 48px;
 
           .status-btn {
+            height: 32px;
             >span {
               display: none;
             }
@@ -443,7 +457,7 @@ $size-z: 500px;
           padding: 5px;
 
           @media screen and (max-width: $size-um) {
-            min-height: 170px;
+            min-height: 150px;
           }
 
           &-field {
@@ -590,7 +604,7 @@ $size-z: 500px;
         }
 
         @media screen and (max-width: $size-sm) {
-          margin-top: 0.5em;
+          margin-top: 0.5em;         
         }
       }
 
@@ -681,7 +695,13 @@ $size-z: 500px;
       } 
       @media screen and (max-width: $size-xs) {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: 3px;
+        padding: 5px;
+
+        .btn-footer {
+          align-self: center;
+        }
       }
     }
   }
