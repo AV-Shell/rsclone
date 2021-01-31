@@ -1,7 +1,13 @@
+@import "./../../sass/breakpoints.scss";
+
 .app {
   background-color: blanchedalmond;
   min-width: 100%;
   min-height: 100vh;
   display:grid;
   grid-template-rows: 70px 1fr 4rem;
+
+  @media (max-width: $size-md) {
+    grid-template-rows: 50px 1fr 4rem;
+  }
 }

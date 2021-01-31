@@ -1,37 +1,176 @@
+@import "./../../sass/colors.scss";
+@import "./../../sass/constants.scss";
+
 .logout-page {
-  background-color: #f4fc7f;
-  color: rgb(47, 0, 255);
+  background-color: white;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  .buttons-container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 320px;
-    .buttons {
-      border-radius: 5px;
-      border: solie 1px;
-      padding: 13px;
-      color: #fff;
-      background-color: #3445e5;
-      border-color: #3445e5;
-      width: 140px;
-      text-decoration: none;
-      margin: 1rem;
-      cursor: pointer;
-      text-align: center;
-      &:hover {
-        background-color: #1b2ccf;
-        border-color: #1b2ccf;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  .dark-theme & {
+    background-color: $dark-color-secondary;
+    color: white;
+  }
+  .logout-form {
+    margin: 1rem 0;
+    box-sizing: border-box;
+    width: 500px;
+    @media (max-width: 499px) {
+      width: 320px;
+    }
+    background-color: white;
+    border: 1px solid black;
+    .dark-theme & {
+      background-color: $bg-card-dark;
+      color: white;
+      border-color: $color-secondary;
+    }
+    border-radius: $block-border-radius;
+    text-align: left;
+    padding: 1rem;
+
+    .title-container {
+      padding: 0 0 2em;
+      .title {
+        color: black;
+        font-size: 24px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        text-align: center;
+        user-select: none;
+        .dark-theme & {
+          color: $text-dark-25;
+        }
       }
-      &.button-quit {
-        background-color: #f64e60;
-        border-color: #f64e60;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-evenly;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 22px;
+      flex-direction: row;
+
+      .button {
+        border-radius: 5px;
+        border: solid 1px;
+        padding: 13px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #ffffff;
+        background-color: $color-primary;
+        border-color: $color-primary;
+        width: 140px;
+        text-decoration: none;
+        cursor: pointer;
+        text-align: center;
+        user-select: none;
+        // .dark-theme & {
+        //   color: $text-dark-25;
+        // }
+
         &:hover {
-          background-color: #ee2d41;
-          border-color: #ee2d41;
+          background-color: $color-primary-hover;
+          border-color: $color-primary-hover;
+        }
+
+        &.button-quit {
+          background-color: $color-danger;
+          border-color: $color-danger;
+          &:hover {
+            background-color: $color-danger-hover;
+            border-color: $color-danger-hover;
+          }
+        }
+      }
+    }
+  }
+  .modal-window {
+    position: absolute;
+    top: 0;
+    left: 0;
+    // width: 100vw;
+    // height: 100vh;
+    width: 100%;
+    height: 100%;
+    background-color: #00000080;
+    z-index: 100500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    .modal-form {
+      margin: 1rem 0;
+      box-sizing: border-box;
+      width: 320px;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: $block-border-radius;
+      text-align: left;
+      padding: 1rem;
+
+      .dark-theme & {
+        background-color: $bg-card-dark;
+        color: white;
+        border-color: $color-secondary;
+      }
+      .title-container {
+        padding: 0 0 1rem;
+        .title {
+          color: black;
+          font-size: 24px;
+          margin-bottom: 10px;
+          font-weight: 600;
+          text-align: center;
+          user-select: none;
+          .dark-theme & {
+            color: $text-dark-25;
+          }
+        }
+      }
+      .buttons-container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        flex-direction: row;
+
+        .button {
+          border-radius: 5px;
+          border: solid 1px;
+          padding: 13px;
+          font-size: 16px;
+          font-weight: 600;
+          color: #ffffff;
+          background-color: $color-primary;
+          border-color: $color-primary;
+          width: 140px;
+          text-decoration: none;
+          cursor: pointer;
+          text-align: center;
+          user-select: none;
+          // .dark-theme & {
+          //   color: $text-dark-25;
+          // }
+
+          &:hover {
+            background-color: $color-primary-hover;
+            border-color: $color-primary-hover;
+          }
+
+          &.button-quit {
+            background-color: $color-danger;
+            border-color: $color-danger;
+            &:hover {
+              background-color: $color-danger-hover;
+              border-color: $color-danger-hover;
+            }
+          }
         }
       }
     }

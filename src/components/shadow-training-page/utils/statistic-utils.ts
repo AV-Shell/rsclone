@@ -50,7 +50,7 @@ function addToStatArray(array: IStatGraphItem[], item: IStatGraphItem, isRepeatL
   if (lastDate < currentDate) {
     console.log('lastDate < currentDate', lastDate, currentDate, len);
     let startDate: number = ((lastDate + (MAX_STATISTIC_LIMIT_DAYS * ONE_DAY)) < currentDate) ?
-      (currentDate - (MAX_STATISTIC_LIMIT_DAYS * ONE_DAY)) : lastDate;
+      (currentDate - (MAX_STATISTIC_LIMIT_DAYS * ONE_DAY)) : (lastDate + ONE_DAY);
     let i = 0;
     console.log('startDate', startDate);
     while (startDate < currentDate) {
