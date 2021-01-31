@@ -384,26 +384,11 @@
     position: relative;
     z-index: 20;
   }
-}
 
-i {
-  display: flex;
+  &>i {
+    display: flex;
+  }
 }
-
-hr {
-  border: 0.1rem solid #EBEDF3;
-  margin-top: 1.5rem;
-}
-
-.bi {
-  transition: all 0.3s ease
-}
-
-.rotate {
-  transform: rotate(180deg);
-  transition: $bg-color-transition;
-}
-
 
 .dot,
 .dot:before,

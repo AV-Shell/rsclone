@@ -1,3 +1,5 @@
+@import './sass/constants.scss';
+
 html {
   font-size: 10px;
 }
@@ -19,4 +21,19 @@ body {
 
 button{
   outline: none;
+}
+
+.separator {
+  height: 0;
+  border-bottom: 1px solid #EBEDF3;
+  margin-top: 1.5rem;
+}
+
+.rotate {
+  transform: rotate(180deg);
+  transition: $bg-color-transition;
+}
+
+.d-none {
+  display: none !important;
 }
