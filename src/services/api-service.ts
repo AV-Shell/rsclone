@@ -1,3 +1,5 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable max-classes-per-file */
 import { BASE_URL } from '../constants/constants';
 import {
   loginResponseData,
@@ -17,22 +19,24 @@ import {
 } from '../constants/interfaces';
 import { storage } from '../helpers/utils';
 
-
 export class CreateUserError422 extends Error {
   public myErrField: IcreateUserError422Field;
-  constructor(message:string, myErroField:IcreateUserError422Field) {
+
+  constructor(message: string, myErroField: IcreateUserError422Field) {
     super(message);
     this.myErrField = myErroField;
   }
 }
 
-
-
 export default class ApiService {
   public userId: string | null;
+
   public userName: string | null;
+
   public token: string | null;
+
   public refreshToken: string | null;
+
   public tokenExpiresIn: number;
 
   constructor() {
@@ -155,7 +159,6 @@ export default class ApiService {
     const content: wordsCount = await rawResponse.json();
     return content;
   }
-
 
   async getWordById(wordId: string, noAssets: boolean | null = true) {
     let url: string = `${BASE_URL}/words/${wordId}`;
@@ -368,7 +371,6 @@ export default class ApiService {
     return rawResponse.status;
   }
 
-
   // Users/AggregatedWords methods
 
   // filter must be a string:
@@ -426,8 +428,6 @@ export default class ApiService {
     return content;
   }
 
-
-
   // Users/Statistic methods
   async getStatistics() {
     const rawResponse = await fetch(`${BASE_URL}/users/${this.userId}/statistics`, {
@@ -469,8 +469,6 @@ export default class ApiService {
 
     return content;
   }
-
-
 
   // Users/Settings methods
   async getSettings() {
@@ -515,25 +513,28 @@ export default class ApiService {
   }
 
   getAllAggregatedUserWords = async () => {
-    return await this.getAllUserAggregatedWords(null, null, 3600,
+    const result = await this.getAllUserAggregatedWords(null, null, 3600,
       '{ "userWord.optional.userWord": true }');
-  };
+    return result;
+  }
 
   getAllAggregatedWords = async () => {
-    return await this.getAllUserAggregatedWords(null, null, 3600, null);
-  };
+    const result = await this.getAllUserAggregatedWords(null, null, 3600, null);
+    return result;
+  }
 
   getAllAggregatedNewWords = async () => {
-    return await this.getAllUserAggregatedWords(null, null, 3600, '{ "userWord": null }');
-  };
+    const result = await this.getAllUserAggregatedWords(null, null, 3600, '{ "userWord": null }');
+    return result;
+  }
 
   getSomethingAggregatedNewWords = async (count: number) => {
-    return await this.getAllUserAggregatedWords(null, null, count, '{ "userWord": null }');
-  };
+    const result = await this.getAllUserAggregatedWords(null, null, count, '{ "userWord": null }');
+    return result;
+  }
+
   getAggregatedNewWordsFromGroup = async (count: number, group: number) => {
-    return await this.getAllUserAggregatedWords(group, null, count, '{ "userWord": null }');
-  };
-
-
-
+    const result = await this.getAllUserAggregatedWords(group, null, count, '{ "userWord": null }');
+    return result;
+  }
 }

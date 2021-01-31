@@ -3,17 +3,19 @@
 import React, {
   useRef, useEffect, useState, ReactNode,
 } from 'react';
+import {
+  BrowserRouter as Router, Route, Switch, Redirect,
+} from 'react-router-dom';
 import './app.scss';
 import LoginPage from '../login-page';
 import CreateSettings from '../create-settings';
-import LogoutPage from '../logout-page'
+import LogoutPage from '../logout-page';
 import DailyGoalPage from '../daily-goal-page';
 import DashboardPage from '../dashboard-page';
 import SettingsPage from '../settings-page';
-import TrainingPage from '../training-page';
 import ShadowTrainingPage from '../shadow-training-page';
 import VocabularyPage from '../vocabulary-page';
-import MagicButton from '../magic-button'
+import MagicButton from '../magic-button';
 import Header from '../header';
 import Footer from '../footer';
 import Spinner from '../slave-components/spinner';
@@ -21,38 +23,21 @@ import ApiService from '../../services/api-service';
 
 // import testUser, { testWordsIdArray, TEST_DEFAULT_USER_WORD } from '../../gitignoreConf/.testUserConfig';
 
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-
 import {
-  loginResponseData,
-  signInRequestBody,
-  wordData,
-  wordsCount,
-  userData,
-  userResponce,
-  tokenResponce,
-  userWordReq,
-  userWordRes,
   paginatedWord,
-  aggregatedWordsResult,
   userStatistics,
   userSettings,
   trainingProps,
-  headerProps,
   currentTraining,
-  saveTraining,
   IgetSettingsPageResponce,
 } from '../../constants/interfaces';
 
 import {
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
-  DEFAULT_USER_WORD,
   DARK_THEME_CLASSNAME,
   USER_HAS_ENTITY,
   USER_NO_ENTITY,
-  USER_NOT_LOGGED,
-  USER_SERVER_ERROR,
   userWordsFilter,
 } from '../../constants/constants';
 import {
@@ -66,13 +51,11 @@ const currentTrainingDefault: currentTraining = {
   totalWordsCount: 0,
   trainingCountPerDay: 0,
   trueAnswerCount: 0,
-}
-
+};
 
 type TreadyToJoin = 'READY' | 'NOTLOGGED' | 'NEEDSETTINGS' | 'LOADING';
 type ThasUserSettings = 'NO' | 'YES' | 'NOTONSERVER';
 const api = new ApiService();
-
 
 interface IrefContainer {
   api: ApiService,
@@ -83,7 +66,6 @@ interface IrefContainer {
   tokenRefreshInterval: number | undefined;
 }
 const shell = (a: IrefContainer) => a;
-
 
 const App: React.FC = () => {
   console.log('\r\n Render App \r\n');
@@ -114,40 +96,36 @@ const App: React.FC = () => {
     setUserSettings(DEFAULT_USER_SETTINGS);
     setUserStatistic(DEFAULT_USER_STATISTIC);
     setUserWordsArray(null);
-  }
+  };
 
   const toggleCurrentTheme = () => {
     setIsDarkTheme((value) => !value);
-  }
+  };
 
+  // TODO: save to LocalStorage isMute  Language // useEffect
 
-  //TODO: save to LocalStorage isMute  Language // useEffect
-
-  //TODO: save to LocalStorage
-
+  // TODO: save to LocalStorage
 
   const isLoginCallback = (isLogin: boolean) => {
     console.log('isLoginCallback', isLogin);
     setIsAuthorizated(true);
-  }
-
+  };
 
   const getSettingsCallback = (result: IgetSettingsPageResponce) => {
     console.log('getSettingsCallback', result);
     // setIsAuthorizated(true);
     if (result.isSuccess) {
       setUserSettings(result.userSettings);
-      setUserStatistic(result.userStatistics)
+      setUserStatistic(result.userStatistics);
       setHasUserSettings('YES');
       // setHasUserStatistic('YES');
     } else {
       logoutUser();
     }
-  }
+  };
 
-
-  //check Login and refresh token
-  //TODO:
+  // check Login and refresh token
+  // TODO:
   useEffect(() => {
     const deltaTimeToRefresh = 30 * 60 * 1000;
     const tokenLifeTime = 4 * 60 * 60 * 1000;
@@ -155,14 +133,13 @@ const App: React.FC = () => {
     const timeToRefresh = tokenLifeTime - deltaTimeToRefresh;
     function setRefreshTokenInterval() {
       console.log('setRefreshTokenInterval');
-      //TODO:// get from that
+      // TODO:// get from that
       // clearTimeout(this.refreshAuthTimer);
       window.clearInterval(that.current.tokenRefreshInterval);
       // const refreshTime = expTime - new Date().getTime() - timeToRefresh;
 
-      //TODO: add to that
+      // TODO: add to that
       that.current.tokenRefreshInterval = window.setInterval(() => {
-
         api.getNewTokens()
           .then(() => {
             console.log('Token Refreshed');
@@ -171,14 +148,13 @@ const App: React.FC = () => {
             console.log(err.message);
             logoutUser();
             window.clearInterval(that.current.tokenRefreshInterval);
-          })
+          });
       }, timeToRefresh - spareTime2min);
       // },  3 * 60 * 1000);
     }
     if (isAuthorizated) {
       console.log('Обновляем токен при заходе юзера, и ставим таймаут.');
-      let expTime;
-      expTime = api.tokenExpiresIn;
+      const expTime = api.tokenExpiresIn;
       if (expTime - new Date().getTime() < timeToRefresh) {
         console.log('refresh token');
         api.getNewTokens()
@@ -189,12 +165,10 @@ const App: React.FC = () => {
           .catch((err) => {
             console.log('api.getNewTokens() problem, logout user', err.message);
             logoutUser();
-          })
-
+          });
       } else {
         setRefreshTokenInterval();
       }
-
     } else {
       console.log('сбрасываем интервал');
       window.clearInterval(that.current.tokenRefreshInterval);
@@ -207,15 +181,13 @@ const App: React.FC = () => {
     console.log('userWords data');
   }, [isAuthorizated]);
 
-
-
   useEffect(() => {
     if (isAuthorizated && hasUserSettings === 'YES' && userWordsArray !== null) {
       console.log('useEffect === READY');
-      console.log(isAuthorizated, hasUserSettings, userWordsArray)
+      console.log(isAuthorizated, hasUserSettings, userWordsArray);
       setReadyToJoin('READY');
     } else if (isAuthorizated && hasUserSettings === 'NO') {
-      console.log('useEffect === LOADING')
+      console.log('useEffect === LOADING');
       if (isAuthorizated && hasUserSettings === 'NO') {
         loadSettings({ apiService: api })
           .then((responseSettings) => {
@@ -223,42 +195,41 @@ const App: React.FC = () => {
               loadStatistic({ apiService: api })
                 .then((responseStat) => {
                   if (responseStat.result === USER_HAS_ENTITY) {
-                    //TODO: set user statistic and settings, 
-                    //TODO: change to ref
+                    // TODO: set user statistic and settings,
+                    // TODO: change to ref
                     userSettings.wordsPerDay = responseSettings.settings.wordsPerDay;
                     userSettings.optional = {
                       ...responseSettings.settings.optional,
-                    }
+                    };
                     userStatistic.learnedWords = responseStat.statistic.learnedWords;
                     userStatistic.optional = {
                       ...responseStat.statistic.optional,
-                    }
+                    };
 
                     setHasUserSettings('YES');
                     // setHasUserStatistic('YES');
-
                   } else {
-                    //TODO: logout;
+                    // TODO: logout;
                     logoutUser();
                   }
                 })
                 .catch((err) => {
                   console.log('get error with statistic in app after get settings something went wrong', err.message);
-                })
+                });
             } else if (responseSettings.result === USER_NO_ENTITY) {
-              setHasUserSettings('NOTONSERVER')
+              setHasUserSettings('NOTONSERVER');
             }
-          })
-        //запрос на сервер
+          });
+        // запрос на сервер
 
         // если есть настройки,  то да
       }
       setReadyToJoin('LOADING');
     } else if (isAuthorizated && hasUserSettings === 'NOTONSERVER') {
-      console.log('useEffect === NEEDSETTINGS')
+      console.log('useEffect === NEEDSETTINGS');
       setReadyToJoin('NEEDSETTINGS');
     } else if (!isAuthorizated) {
-      console.log('useEffect === NOTLOGGED')
+      console.log('useEffect === NOTLOGGED');
       setReadyToJoin('NOTLOGGED');
     } else if (isAuthorizated && hasUserSettings === 'YES' && userWordsArray === null) {
       api.getAllUserAggregatedWords(null, null, 3600, userWordsFilter)
@@ -276,20 +247,19 @@ const App: React.FC = () => {
         .catch((err) => {
           console.log('user words get error', err.message);
           logoutUser();
-        })
+        });
       setReadyToJoin('LOADING');
     } else {
-      console.log('useEffect === LOADING')
+      console.log('useEffect === LOADING');
       setReadyToJoin('LOADING');
     }
-  }, [isAuthorizated, hasUserSettings, userWordsArray])
+  }, [isAuthorizated, hasUserSettings, userWordsArray]);
   let routeComponent: ReactNode = null;
 
-
   const trainingPageProps: trainingProps = {
-    isMute: isMute,
-    isLanguageRU: isLanguageRU,
-    isDarkTheme: isDarkTheme,
+    isMute,
+    isLanguageRU,
+    isDarkTheme,
     settings: userSettings,
     updateSettings: setUserSettings,
     statistic: userStatistic,
@@ -297,77 +267,97 @@ const App: React.FC = () => {
     userWords: userWordsArray,
     updateUserWords: setUserWordsArray,
     apiService: api,
-  }
+  };
 
   if (readyToJoin === 'READY') {
     console.log('readyToJoin === READY');
     routeComponent = (
-      <Switch >
-        <Route path='/dashboard' render={() => <DashboardPage {...trainingPageProps}></DashboardPage>} />
-        <Route path='/dailygoal' render={() => <DailyGoalPage {...trainingPageProps}></DailyGoalPage>} />
-        <Route path='/training' render={() => <ShadowTrainingPage
-          {...trainingPageProps}
-          currentTrainingState={currentTrainingState}
-          setCurrentTrainingState={setCurrentTrainingState}
-        ></ShadowTrainingPage>} />
-        <Route path='/vocabulary' render={() => <VocabularyPage {...trainingPageProps}></VocabularyPage>} />
-        <Route path='/settings' render={() => <SettingsPage {...trainingPageProps}></SettingsPage>} />
-        <Route path='/logout' render={() => <LogoutPage isDarkTheme={isDarkTheme} logoutUser={logoutUser}
-          isMute={isMute} isLanguageRU={isLanguageRU} ></LogoutPage>} />
-        <Route path='/magicButton' render={() => <MagicButton {...trainingPageProps}
-          isAuthorizated={isAuthorizated}></MagicButton>} />
-        {/* <Route path='/magicButton' component={() => {
-          return (
+      <Switch>
+        <Route path="/dashboard" render={() => <DashboardPage {...trainingPageProps} />} />
+        <Route path="/dailygoal" render={() => <DailyGoalPage {...trainingPageProps} />} />
+        <Route
+          path="/training" render={() => (
             <ShadowTrainingPage
               {...trainingPageProps}
               currentTrainingState={currentTrainingState}
               setCurrentTrainingState={setCurrentTrainingState}
-            ></ShadowTrainingPage>
-          )
-        }} /> */}
-        <Redirect to='/dashboard' />
+            />
+          )}
+        />
+        <Route path="/vocabulary" render={() => <VocabularyPage {...trainingPageProps} />} />
+        <Route path="/settings" render={() => <SettingsPage {...trainingPageProps} />} />
+        <Route
+          path="/logout" render={() => (
+            <LogoutPage
+              isDarkTheme={isDarkTheme} logoutUser={logoutUser}
+              isMute={isMute} isLanguageRU={isLanguageRU}
+            />
+          )}
+        />
+        <Route
+          path="/magicButton" render={() => (
+            <MagicButton {...trainingPageProps} isAuthorizated={isAuthorizated} />
+          )}
+        />
+        <Redirect to="/dashboard" />
       </Switch>
     );
     console.log('user login');
   } else if (readyToJoin === 'NOTLOGGED') {
     console.log('readyToJoin === NOTLOGGED');
     routeComponent = (
-      <Switch >
-        <Route path='/' render={() => <MagicButton isAuthorizated={false}></MagicButton>} exact />
-        <Route path='/login' render={() => <LoginPage isLogin={true} apiService={api}
-          isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback} ></LoginPage>} />
-        <Route path='/registration' render={() => <LoginPage isLogin={false} apiService={api}
-          isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback} ></LoginPage>} />
-        <Redirect to='/' />
+      <Switch>
+        <Route path="/" render={() => <MagicButton isAuthorizated={false} />} exact />
+        <Route
+          path="/login" render={() => (
+            <LoginPage
+              isLogin
+              apiService={api}
+              isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback}
+            />
+          )}
+        />
+        <Route
+          path="/registration" render={() => (
+            <LoginPage
+              isLogin={false} apiService={api}
+              isLanguageRU={isLanguageRU} isLoginCallback={isLoginCallback}
+            />
+          )}
+        />
+        <Redirect to="/" />
       </Switch>
     );
     console.log('user not login');
   } else if (readyToJoin === 'NEEDSETTINGS') {
     console.log('readyToJoin === NEEDSETTINGS');
     routeComponent = (
-      <Switch >
-        <Route path='/createsettings' render={() => <CreateSettings apiService={api}
-          getSettingsCallback={getSettingsCallback} ></CreateSettings>} />
-        <Redirect to='/createsettings' />
+      <Switch>
+        <Route
+          path="/createsettings" render={() => (
+            <CreateSettings apiService={api} getSettingsCallback={getSettingsCallback} />
+          )}
+        />
+        <Redirect to="/createsettings" />
       </Switch>
     );
   } else if (readyToJoin === 'LOADING') {
     console.log('readyToJoin === LOADING');
-    routeComponent = <Spinner></Spinner>
+    routeComponent = <Spinner />;
   }
   return (
     <Router>
       <div className={appClassNames}>
         <Header
-          isMute={isMute} isDarkTheme={isDarkTheme} isLanguageRU={isLanguageRU} settings={userSettings}
-          setIsMute={setIsMute} setIsLanguageRU={setIsLanguageRU} toggleTheme={toggleCurrentTheme}
-          isAuthorizated={readyToJoin === 'READY'}
-        ></Header>
+          isMute={isMute} isDarkTheme={isDarkTheme} isLanguageRU={isLanguageRU}
+          settings={userSettings} setIsMute={setIsMute} setIsLanguageRU={setIsLanguageRU}
+          toggleTheme={toggleCurrentTheme} isAuthorizated={readyToJoin === 'READY'}
+        />
         {routeComponent}
-        <Footer></Footer>
+        <Footer />
       </div>
     </Router>
   );
-}
+};
 
 export default App;
