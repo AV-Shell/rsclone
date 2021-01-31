@@ -50,16 +50,16 @@ export default function InputControl(props: IforInput) {
           // playSingleSound({ exampleSound: soundsObject.exampleSound });
           // playSingleSound({ meaningSound: soundsObject.meaningSound });
           playSounds(soundsObject);
-        } else if (playExample) {
-          const newSoundsObject: TsoundsObject = {
-            wordSound: soundsObject.wordSound,
-            exampleSound: soundsObject.exampleSound,
-          };
-          playSounds(newSoundsObject);
         } else if (playMeaning) {
           const newSoundsObject: TsoundsObject = {
             wordSound: soundsObject.wordSound,
             meaningSound: soundsObject.meaningSound,
+          };
+          playSounds(newSoundsObject);
+        } else if (playExample) {
+          const newSoundsObject: TsoundsObject = {
+            wordSound: soundsObject.wordSound,
+            exampleSound: soundsObject.exampleSound,
           };
           playSounds(newSoundsObject);
         }

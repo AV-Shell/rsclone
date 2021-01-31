@@ -63,10 +63,10 @@ export default function TrainingCardExamples(props: ForCardExamples) {
         keyObj="meaningSound"
         soundObject={soundsObject}
       />
-      <SentenceWithBlancs {...objForExample} />
-      <TranslationSentence {...objForExampleTranslation} />
       <SentenceWithBlancs {...objForMeaning} />
       <TranslationSentence {...objForMeaningTranslation} />
+      <SentenceWithBlancs {...objForExample} />
+      <TranslationSentence {...objForExampleTranslation} />
     </div>
   );
 }

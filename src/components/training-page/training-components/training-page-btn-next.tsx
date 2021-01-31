@@ -68,7 +68,7 @@ export default function ButtonNext(props: NextButtonProps) {
       nextRepeat: nextTime, // подсчет по методике в кнопке или из настроек, если без ИП
       counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
       success: currentSuccess, // сколько всего правильных ответов, плюсовать по клику на дальше
-      progress: currentProgress, // отношение успешных ответов ко всемпше ыефегы
+      progress: currentProgress, // отношение успешных ответов ко всем
       status: wordStatus, // string,   'active', 'deleted', 'difficult'
       level: levelNow,
       userWord: true,
@@ -100,7 +100,9 @@ export default function ButtonNext(props: NextButtonProps) {
       className="button-next"
       onClick={ButtonNextHandler}
     >
-      {language.nextButton}
+      <span>
+        {language.nextButton}
+      </span>
       &nbsp;
       <i className="bi bi-box-arrow-in-right" />
     </button>
