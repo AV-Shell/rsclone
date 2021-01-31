@@ -129,9 +129,9 @@ export function playSounds(soundsObject: TsoundsObject) {
     example.load();
     meaning.load();
     word.onended = () => {
-      example.play();
-      example.onended = () => {
-        meaning.play();
+      meaning.play();
+      meaning.onended = () => {
+        example.play();
       };
     };
   } else if ('exampleSound' in soundsObject) {
