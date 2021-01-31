@@ -623,6 +623,7 @@
 
   .header-logoimg {
     margin: 0 auto;
+    height: 5rem;
   }
 
   .header-switch-menu {
@@ -646,7 +647,9 @@
   .close {
     display: block;
   }
-
+  .header-logoimg.is-active {
+    margin-left: 2.8rem;
+}
 }
 
 @media(max-width: $size-xs) {
@@ -685,4 +688,5 @@
   .isToggle .header-switch-menu {
     right: 1.5rem;
   }
+  
 }
