@@ -49,13 +49,15 @@
         justify-content: space-around;
         height: 100%;
         margin-left: 10%;
-        &-rangImg{
+
+        &-rangImg {
           display: flex;
           justify-content: center;
           width: 50%;
           margin: 0 auto;
           height: 30%;
-          & img{
+
+          & img {
             border-radius: 30%;
             box-shadow: 1rem 1rem 1.7rem $bg-card-dark;
           }
@@ -198,7 +200,7 @@
       margin: 0 10px;
       width: 20px;
       height: 10px;
-      background-color:$color-success;
+      background-color: $color-success;
 
 
     }
@@ -254,42 +256,50 @@
 @media(max-width: $size-md) {
   .dashboard-page {
     grid-template-columns: 90%;
-  padding: 2.5rem;
+    padding: 2.5rem;
 
   }
 }
+
 @media(max-width: $size-xs) {
   .dashboard-page-first_column-user_info {
     flex-direction: column;
   }
-  .dashboard-page{
+
+  .dashboard-page {
     grid-template-rows: 1fr;
     padding: 1.5rem;
     grid-template-columns: 90%;
   }
+
   #piechart {
     height: 40%;
   }
-  .chart-wrapper{
-    height:90%;
+
+  .chart-wrapper {
+    height: 90%;
     width: 95%;
   }
+
   .dashboard-page-first_column-user_info-data {
     margin: 0;
   }
-  
 
-.dashboard-page-first_column-user_info-data-rangImg {
-  height: 50%;
+
+  .dashboard-page-first_column-user_info-data-rangImg {
+    height: 50%;
   }
+
   .dashboard-page-first_column-user_info-data p {
     padding-bottom: 1rem;
-    }
-    .dashboard-page-first_column-user_info-data h3 {
-      padding-bottom: 1rem;
-      }
-      .dashboard-page-first_column-user_info-img {
-        margin: 0 ;
-        margin-bottom: 1rem;
-      }
+  }
+
+  .dashboard-page-first_column-user_info-data h3 {
+    padding-bottom: 1rem;
+  }
+
+  .dashboard-page-first_column-user_info-img {
+    margin: 0;
+    margin-bottom: 1rem;
+  }
 }
