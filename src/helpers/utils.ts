@@ -75,6 +75,9 @@ const loadNewWords = async ({
     for (let i = 0; i < startLvl; i++) {
       if (isWordsOnGroups[i] !== false) {
         const requestWordsCount = Math.ceil((lowLvlWordsCount - totalGotWords) / (startLvl - i));
+        if (requestWordsCount <= 0) {
+          break;
+        }
         console.log('ilow', i, 'requestWordsCount', requestWordsCount, 'totalGotWords', totalGotWords);
         const response = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
         console.log('response', response);
@@ -92,6 +95,9 @@ const loadNewWords = async ({
     for (let i = startLvl; i <= maxWordsGroup; i++) {
       if (isWordsOnGroups[i] !== false) {
         const requestWordsCount = highLvlWordsCount - totalGotWords;
+        if (requestWordsCount <= 0) {
+          break;
+        }
         console.log('i hi', i, 'requestWordsCount', requestWordsCount, 'totalGotWords', totalGotWords);
         const response = await apiService.getAggregatedNewWordsFromGroup(requestWordsCount, i);
         console.log('response', response);
