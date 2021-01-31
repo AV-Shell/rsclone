@@ -2,7 +2,7 @@ type Tlanguages = {
     [variable: string]: string
   }
 const EN: Tlanguages = {
-  learningFrom: 'Learning from',
+  learningFrom: 'Learning from ',
   newWords: 'New words:',
   bestStreak: 'Best streak:',
   totalPassed: 'Total passed cards:',
@@ -18,10 +18,12 @@ const EN: Tlanguages = {
   chartTitle3: 'Correct answer by day',
   correctAnswer: 'correct answer',
   incorrectAnswer: 'incorrect answer',
+  dailyGoalDone: 'Daily goal is done!',
+  engkishLvl: 'Your english lvl: '
 };
 
 const RU: Tlanguages = {
-  learningFrom: 'Изучает с',
+  learningFrom: 'Изучает с ',
   newWords: 'Новых слов:',
   bestStreak: 'Лучшая серия:',
   totalPassed: 'Всего пройдено карточек:',
@@ -37,6 +39,8 @@ const RU: Tlanguages = {
   chartTitle3: 'Правильных ответов за день',
   correctAnswer: 'верные ответы',
   incorrectAnswer: 'неверные ответы',
+  dailyGoalDone: 'Цель достигнута!',
+  engkishLvl: 'Ваш уровень английского языка: '
 };
 
 export { EN, RU };
