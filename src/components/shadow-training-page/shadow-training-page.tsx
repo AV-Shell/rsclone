@@ -281,7 +281,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       }
 
       if (newWordsForTraining.length === 0) {
-        currentTrainingState.trainingCountPerDay += 1;
+        // currentTrainingState.trainingCountPerDay += 1;
         bonusPoints = Math.floor((currentTrainingState.trueAnswerCount * 2) / (currentTrainingState.trainingCountPerDay ** 2));
         isTrainingEnd = true;
         if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStampConst) < 0) {
