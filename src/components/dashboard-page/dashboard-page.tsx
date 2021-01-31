@@ -122,10 +122,7 @@ function DashboardPage(props: dashboardProps) {
   }
   const userYear = dateUser.getFullYear();
   const dateCreateUser = `${userDay}.${userMonth}.${userYear}`;
-  // console.log(new Date(dateUser).toString());
 
-  // console.log(new Date(rightPerDay[0].date).getDate());
-  // console.log(Date.prototype.toDateString(a));
 
   function transformDate(dateArr: any) {
     const arr: any = [];
@@ -221,8 +218,7 @@ function DashboardPage(props: dashboardProps) {
   const avatarUrl = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
 
   const userName = localStorage.getItem('userName') !== null ? localStorage.getItem('userName')?.slice(1, -1) : 'Student';
-  // const comonProgress = props.settings.optional.commonProgress;
-  // const userLvl = props.settings.optional.userLanguageLevel
+  
   let currentLang = isLanguageRU ? RU : EN;
   useEffect(() => {
     currentLang = isLanguageRU ? RU : EN;
@@ -283,7 +279,6 @@ function DashboardPage(props: dashboardProps) {
     ) : (
         <p>{currentLang.dailyGoalDone}</p>
     );
-  // Component code start
   return (
     <div className="dashboard-page">
       <div className="dashboard-page-first_column-user_info">

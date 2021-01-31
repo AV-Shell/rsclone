@@ -5,7 +5,7 @@ const EN: Tlanguages = {
   learningFrom: 'Learning from ',
   newWords: 'New words:',
   bestStreak: 'Best streak:',
-  totalPassed: 'Total passed cards:',
+  totalPassed: 'Total cards:',
   yourPoint: 'Your point:',
   dailyGoal: 'Daily goal:',
   complete: ' Complete ',
@@ -19,14 +19,14 @@ const EN: Tlanguages = {
   correctAnswer: 'correct answer',
   incorrectAnswer: 'incorrect answer',
   dailyGoalDone: 'Daily goal is done!',
-  engkishLvl: 'Your english lvl: '
+  engkishLvl: 'Your English lvl: '
 };
 
 const RU: Tlanguages = {
   learningFrom: 'Изучает с ',
   newWords: 'Новых слов:',
   bestStreak: 'Лучшая серия:',
-  totalPassed: 'Всего пройдено карточек:',
+  totalPassed: 'Всего карточек:',
   yourPoint: 'Ваши очки:',
   dailyGoal: 'Цель на сегодня:',
   complete: ' Завершите ',
