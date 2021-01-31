@@ -442,7 +442,7 @@ $size-z: 500px;
         @media screen and (max-width: $size-um) {
           flex-direction: column-reverse;
           align-items: center;
-          width: 270px;
+          width: 272px;
           height: auto;
 
         }
@@ -500,18 +500,18 @@ $size-z: 500px;
           width: 100%;
           max-width: 300px;
           height: 100%;
-          border-radius: $block-border-radius;          
+          border-radius: $block-border-radius;        
+          display: flex;  
 
           @media screen and (max-width: $size-sm) {
             width: 270px;
           }
 
           >img {
-            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+            width: 100%;
             border-radius: $block-border-radius;
-            @media screen and (max-width: $size-sm) {
-              max-width: 270px;
-            }
           }
           @media screen and (max-width: $size-sm) {
             height: auto;
