@@ -1,30 +1,58 @@
+@import "./../../sass/colors.scss";
+@import "./../../sass/breakpoints.scss";
+@import "./../../sass/constants.scss";
 .burger-menu {
   &__nav {
-    padding: 50px 10px;
+    
     position: fixed;
     z-index: 20;
-    width: 300px;
+    width: 45rem;
     height: 100%;
-    background-color: #1F1E2E;
+    background-color:$dark-color;
     overflow-y: auto;
     top: 0;
     left: -100%;
-    transition: 1s;
+    transition: $bg-color-transition;
 
     & ul {
-
+      margin-top: 21rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
 
       & li {
         list-style-type: none;
+
+        & img {
+          filter: grayscale(100%);
+        }
+        &:last-child a {
+          padding-left: 7.8rem;
+          & span {
+            margin-left: 2.4rem;
+          }
+        }
       }
 
       & a {
+        width: 100%;
+        padding-left: 8rem;
         font-size: 30px;
         text-decoration: none;
-        color: #e2c195;
+        color: $color-secondary;
+        display: flex;
+        align-items: center;
+        height: 7.2rem;
+        & span{
+          margin-left: 3rem;
+        }
+        &:hover{
+          background-color: $dark-color-secondary;
+          color: #ffffff;
+          & img {
+            filter: none;
+          }
+        }
       }
     }
   }
@@ -53,17 +81,17 @@
     display: block;
   }
 
-  &_logout {
-    padding: 5px;
-    display: flex;
-    margin: 100px auto;
-    color: #e2c195;
-    text-decoration: none;
-    width: 50px;
-    border: 1px solid black;
-    border-radius: 20px;
-    background-color: black;
-  }
+  // &_logout {
+  //   padding: 5px;
+  //   display: flex;
+  //   margin: 10rem auto;
+  //   color: #e2c195;
+  //   text-decoration: none;
+  //   width: 4,2rem;
+  //   border: 1px solid black;
+  //   border-radius: 2rem;
+  //   background-color: black;
+  // }
 
   &-c-hamburger {
     display: block;
@@ -80,8 +108,20 @@
     border-radius: none;
     border: none;
     cursor: pointer;
-    transition: background 0.3s;
+    // transition: $bg-color-transition;
+    &:hover{
+      & span {background:$color-primary-hover;
+      &::before{
+        background:$color-primary-hover;
+    transition:  $bg-color-transition;
 
+      }
+      &::after{
+        background:$color-primary-hover;
+    transition:  $bg-color-transition;
+
+      }
+    }}
     &:focus {
       outline: none;
     }
@@ -93,6 +133,9 @@
       width: 42px;
       border-radius: 3px;
       background: #7E8299;
+      // transition:  $bg-color-transition;
+
+      
     }
 
     & span::after,
@@ -104,26 +147,32 @@
       height: 3px;
       border-radius: 3px;
       background: #7E8299;
+      transition:  $bg-color-transition;
       content: "";
+     
+    
     }
 
     & span::before {
       top: -10px;
+     
     }
 
     & span::after {
       bottom: -10px;
+     
     }
 
     &--htx {
       & span {
-        transition: background 0s 0.3s;
+        transition: $bg-color-transition;
       }
 
       & span::before,
       & span::after {
-        transition-duration: 0.3s, 0.3s;
-        transition-delay: 0.3s, 0s;
+        
+      transition:  $bg-color-transition;
+
       }
 
       & span::before {
@@ -152,7 +201,7 @@
     &.is-active span::after,
     &.is-active span::before
       {
-      transition-delay: 0s, 0.3s;
+      transition-delay: $bg-color-transition;
     }
   }
 }
