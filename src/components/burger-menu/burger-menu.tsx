@@ -46,5 +46,6 @@ function handleClick() {
   document.getElementById('burgerMenuID')!.classList.toggle('burger-menu_active');
   document.getElementById('c-hamburgerID')!.classList.toggle('is-active');
   document.getElementById('logoImgID')!.classList.toggle('is-active');
+  
 }
 export default burgerMenu;

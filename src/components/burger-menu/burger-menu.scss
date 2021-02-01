@@ -205,3 +205,23 @@
     }
   }
 }
+@media(max-width: $size-md) {
+  .burger-menu__nav ul li img{
+    filter: none;
+  }}
+@media(max-width: $size-sm) {
+  .burger-menu {
+    &__nav {
+      width: 32rem;
+   }}
+    .burger-menu__nav {
+      & ul {
+        & a {
+          font-size: 2.4rem;
+          padding-left: 4rem;
+        }}}
+        .burger-menu__nav ul li:last-child a {
+          padding-left: 3.8rem;
+      }
+    }
+
