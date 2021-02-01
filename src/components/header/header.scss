@@ -304,6 +304,7 @@
         align-items: center;
         justify-content: left;
 
+
         &:last-child {
           margin-top: 0.7rem;
         }
@@ -320,13 +321,19 @@
 
           background-color: $bg-primary;
           transition: $bg-color-transition;
-
+          
+          .dark-theme & {
+           background-color: $d-main-card-bg-hover;
+           
+            
+          }
           & div,
           i {
             
             color: $color-primary;
             .dark-theme & {
               color: $color-success-hover;
+             
              
               
             }
@@ -346,7 +353,7 @@
   }
 
   & i {
-    transition: $bg-color-transition;
+    transition:transform 0.3s ease; ;
   }
   &-theme {
     margin-left: auto;
@@ -434,7 +441,7 @@
     height: 2.2rem;
     display: none;
     position: relative;
-    z-index: 19;
+    z-index: 9;
   }
 
   &>i {
