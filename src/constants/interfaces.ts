@@ -209,6 +209,7 @@ export interface trainingCardProps extends IlocalProps {
   wordNumber: number,
   totalWords: number,
   settings: userSettings,
+  // eslint-disable-next-line no-unused-vars
   getAnswer: (res: cardAnswer) => void,
 }
 
@@ -237,8 +238,9 @@ export interface magicButtonProps extends defaultLoginedProps, loginStatusProps 
 
 export interface settingsPageProps extends defaultLoginedProps { }
 
-export interface logOutProps extends IlocalProps {
+export interface IlogOutProps extends IlocalProps {
   logoutUser: () => void,
+  setIsModalWindow: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface trainingProps extends defaultLoginedProps { }
@@ -250,6 +252,7 @@ export interface shadowTrainingProps extends defaultLoginedProps {
 
 export interface ICreateSettingsProps {
   apiService: ApiService,
+  // eslint-disable-next-line no-unused-vars
   getSettingsCallback: (isReady: IgetSettingsPageResponce) => void,
 }
 

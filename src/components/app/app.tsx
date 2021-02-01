@@ -36,6 +36,7 @@ import {
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
   DARK_THEME_CLASSNAME,
+  MODAL_WINDOW_CLASSNAME,
   USER_HAS_ENTITY,
   USER_NO_ENTITY,
   userWordsFilter,
@@ -82,6 +83,7 @@ const App: React.FC = () => {
   const [isMute, setIsMute] = useState<boolean>(storage(MBStorageIsMute) === true);
   const [isLanguageRU, setIsLanguageRU] = useState<boolean>(storage(MBStorageIsLanguageRU) === true);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(storage(MBStorageIsDarkTheme) === true);
+  const [isModalWindow, setIsModalWindow] = useState<boolean>(false);
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings>(DEFAULT_USER_SETTINGS);
@@ -90,7 +92,7 @@ const App: React.FC = () => {
   const [readyToJoin, setReadyToJoin] = useState<TreadyToJoin>('LOADING');
   const [hasUserSettings, setHasUserSettings] = useState<ThasUserSettings>('NO');
   // const [hasUserStatistic, setHasUserStatistic] = useState<ThasUserSettings>('NO');
-  const appClassNames: string = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}`;
+  const appClassNames: string = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}${isModalWindow ? ` ${MODAL_WINDOW_CLASSNAME}` : ''}`;
 
   const logoutUser = () => {
     api.clearUserLog();
@@ -298,8 +300,8 @@ const App: React.FC = () => {
         <Route
           path="/logout" render={() => (
             <LogoutPage
-              isDarkTheme={isDarkTheme} logoutUser={logoutUser}
-              isMute={isMute} isLanguageRU={isLanguageRU}
+              isDarkTheme={isDarkTheme} logoutUser={logoutUser} isMute={isMute}
+              isLanguageRU={isLanguageRU} setIsModalWindow={setIsModalWindow}
             />
           )}
         />
