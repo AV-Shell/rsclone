@@ -148,7 +148,7 @@ function Header(props: headerProps) {
             <i className="bi bi-person"></i>
             {userName}
           </div>
-          <Link to="/">
+          <Link to="/settings">
             <i className="bi bi-file-earmark-person"></i>
             <div>{currentLang.profileSetting}</div>
           </Link>
