@@ -34,7 +34,7 @@ export interface IforInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  isAutoPlayOn: boolean,  
+  isAutoPlayOn: boolean,
   playExample: boolean,
   playMeaning: boolean,
   counter: number,
@@ -56,7 +56,6 @@ export interface dayProgress {
   left: number,
   right: number
 }
-
 
 export interface forFooter {
   hasShowAnswerButton: boolean,
@@ -111,9 +110,9 @@ export interface ForCardExamples {
 export interface LineWrapperProps{
   isShown: boolean,
   hasAnswer: boolean,
-  line:string, 
-  classCSS:string, 
-  openTag:'<b>'|'<i>', 
+  line:string,
+  classCSS:string,
+  openTag:'<b>'|'<i>',
   closingTag:'</b>'|'</i>',
 }
 
@@ -148,7 +147,7 @@ export interface WordProgressProps {
 }
 
 export type Tlanguages = {
-  [variable: string]: string 
+  [variable: string]: string
 }
 
 export type TsoundsObject = {
