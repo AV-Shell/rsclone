@@ -11,10 +11,10 @@ $size-z: 500px;
 
 .dark-theme {
   >.training-page {
-    background-color: $dark-color;
+    background-color: $d-bg-primary;
 
     .training-card {
-      background-color: $bg-card-dark;
+      background-color: $d-bg-card-primary;
 
       .upper-btns {
         background-color: $color-primary;
