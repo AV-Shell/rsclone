@@ -152,7 +152,7 @@ function Header(props: headerProps) {
             <i className="bi bi-file-earmark-person"></i>
             <div>{currentLang.profileSetting}</div>
           </Link>
-          <hr />
+          <hr className='separator'/>
           <Link to="/logout">
             <i className="bi bi-box-arrow-left"></i>
             <div>{currentLang.logOut}</div>

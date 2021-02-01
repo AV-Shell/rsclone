@@ -13,7 +13,9 @@
     top: 0;
     left: -100%;
     transition: $bg-color-transition;
-
+    .dark-theme & {
+      background-color:$d-bg-card-primary;
+     }
     & ul {
       margin-top: 21rem;
       display: flex;
@@ -49,6 +51,9 @@
         &:hover{
           background-color: $dark-color-secondary;
           color: #ffffff;
+          .dark-theme & {
+           color: $bg-primary;
+          }
           & img {
             filter: none;
           }
