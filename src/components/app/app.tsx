@@ -363,6 +363,7 @@ const App: React.FC = () => {
           isMute={isMute} isDarkTheme={isDarkTheme} isLanguageRU={isLanguageRU}
           settings={userSettings} setIsMute={setIsMute} setIsLanguageRU={setIsLanguageRU}
           toggleTheme={toggleCurrentTheme} isAuthorizated={readyToJoin === 'READY'}
+          setIsModalWindow={setIsModalWindow}
         />
         {routeComponent}
         <Footer />

@@ -218,6 +218,7 @@ export interface headerProps extends loginStatusProps, IlocalProps {
   setIsMute: React.Dispatch<React.SetStateAction<boolean>>,
   setIsLanguageRU: React.Dispatch<React.SetStateAction<boolean>>,
   settings: userSettings,
+  setIsModalWindow: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 interface defaultLoginedProps extends IlocalProps {
