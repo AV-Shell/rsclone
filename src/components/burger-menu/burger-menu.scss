@@ -27,6 +27,7 @@
 
         & img {
           filter: grayscale(100%);
+          transition: $bg-color-transition;
         }
         &:last-child a {
           padding-left: 7.8rem;
@@ -45,6 +46,7 @@
         display: flex;
         align-items: center;
         height: 7.2rem;
+        transition: $bg-color-transition;
         & span{
           margin-left: 3rem;
         }
@@ -53,9 +55,14 @@
           color: #ffffff;
           .dark-theme & {
            color: $bg-primary;
+          
+            background-color: $d-main-card-bg-hover;
+           
+            
+          
           }
           & img {
-            filter: none;
+            filter: grayscale(0%);;
           }
         }
       }
@@ -86,17 +93,7 @@
     display: block;
   }
 
-  // &_logout {
-  //   padding: 5px;
-  //   display: flex;
-  //   margin: 10rem auto;
-  //   color: #e2c195;
-  //   text-decoration: none;
-  //   width: 4,2rem;
-  //   border: 1px solid black;
-  //   border-radius: 2rem;
-  //   background-color: black;
-  // }
+ 
 
   &-c-hamburger {
     display: block;
@@ -113,17 +110,14 @@
     border-radius: none;
     border: none;
     cursor: pointer;
-    // transition: $bg-color-transition;
     &:hover{
       & span {background:$color-primary-hover;
       &::before{
         background:$color-primary-hover;
-    transition:  $bg-color-transition;
 
       }
       &::after{
         background:$color-primary-hover;
-    transition:  $bg-color-transition;
 
       }
     }}
@@ -138,7 +132,7 @@
       width: 42px;
       border-radius: 3px;
       background: #7E8299;
-      // transition:  $bg-color-transition;
+      transition:  $bg-color-transition;
 
       
     }
@@ -168,26 +162,7 @@
      
     }
 
-    &--htx {
-      & span {
-        transition: $bg-color-transition;
-      }
-
-      & span::before,
-      & span::after {
-        
-      transition:  $bg-color-transition;
-
-      }
-
-      & span::before {
-        transition-property: top, transform;
-      }
-
-      & span::after {
-        transition-property: bottom, transform;
-      }
-    }
+   
 
     &.is-active span {
       background: none;
@@ -213,7 +188,13 @@
 @media(max-width: $size-md) {
   .burger-menu__nav ul li img{
     filter: none;
-  }}
+  }
+
+ 
+  .burger-menu__nav ul {
+  margin-top: 7.4rem;
+  }
+}
 @media(max-width: $size-sm) {
   .burger-menu {
     &__nav {

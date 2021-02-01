@@ -353,7 +353,7 @@
   }
 
   & i {
-    transition:transform 0.3s ease; ;
+    transition:transform $bg-color-transition;
   }
   &-theme {
     margin-left: auto;
@@ -613,7 +613,6 @@
   .header-logoimg {
     margin-left: 3rem;
     width: 15rem;
-    background-image: url(./assets/Logo.svg);
     background-size: contain;
   }
 
