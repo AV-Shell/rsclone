@@ -36,6 +36,7 @@ import {
   DEFAULT_USER_SETTINGS,
   DEFAULT_USER_STATISTIC,
   DARK_THEME_CLASSNAME,
+  MODAL_WINDOW_CLASSNAME,
   USER_HAS_ENTITY,
   USER_NO_ENTITY,
   userWordsFilter,
@@ -43,6 +44,7 @@ import {
 import {
   loadSettings,
   loadStatistic,
+  storage,
 } from '../../helpers/utils';
 
 const currentTrainingDefault: currentTraining = {
@@ -52,6 +54,9 @@ const currentTrainingDefault: currentTraining = {
   trainingCountPerDay: 0,
   trueAnswerCount: 0,
 };
+const MBStorageIsMute = 'MagicButtonIsMute';
+const MBStorageIsLanguageRU = 'MagicButtonIsLanguageRU';
+const MBStorageIsDarkTheme = 'MagicButtonIsDarkTheme';
 
 type TreadyToJoin = 'READY' | 'NOTLOGGED' | 'NEEDSETTINGS' | 'LOADING';
 type ThasUserSettings = 'NO' | 'YES' | 'NOTONSERVER';
@@ -75,9 +80,10 @@ const App: React.FC = () => {
     isAuthorizated: api.checkTokenValidity(),
     tokenRefreshInterval: undefined,
   }));
-  const [isMute, setIsMute] = useState<boolean>(false);
-  const [isLanguageRU, setIsLanguageRU] = useState<boolean>(true);
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const [isMute, setIsMute] = useState<boolean>(storage(MBStorageIsMute) === true);
+  const [isLanguageRU, setIsLanguageRU] = useState<boolean>(storage(MBStorageIsLanguageRU) === true);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(storage(MBStorageIsDarkTheme) === true);
+  const [isModalWindow, setIsModalWindow] = useState<boolean>(false);
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings>(DEFAULT_USER_SETTINGS);
@@ -86,7 +92,7 @@ const App: React.FC = () => {
   const [readyToJoin, setReadyToJoin] = useState<TreadyToJoin>('LOADING');
   const [hasUserSettings, setHasUserSettings] = useState<ThasUserSettings>('NO');
   // const [hasUserStatistic, setHasUserStatistic] = useState<ThasUserSettings>('NO');
-  const appClassNames: string = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}`;
+  const appClassNames: string = `app${isDarkTheme ? ` ${DARK_THEME_CLASSNAME}` : ''}${isModalWindow ? ` ${MODAL_WINDOW_CLASSNAME}` : ''}`;
 
   const logoutUser = () => {
     api.clearUserLog();
@@ -103,7 +109,12 @@ const App: React.FC = () => {
   };
 
   // TODO: save to LocalStorage isMute  Language // useEffect
-
+  useEffect(() => {
+    console.log('isMute, isLanguageRU');
+    storage(MBStorageIsMute, isMute);
+    storage(MBStorageIsLanguageRU, isLanguageRU);
+    storage(MBStorageIsDarkTheme, isDarkTheme);
+  }, [isMute, isLanguageRU, isDarkTheme]);
   // TODO: save to LocalStorage
 
   const isLoginCallback = (isLogin: boolean) => {
@@ -289,8 +300,8 @@ const App: React.FC = () => {
         <Route
           path="/logout" render={() => (
             <LogoutPage
-              isDarkTheme={isDarkTheme} logoutUser={logoutUser}
-              isMute={isMute} isLanguageRU={isLanguageRU}
+              isDarkTheme={isDarkTheme} logoutUser={logoutUser} isMute={isMute}
+              isLanguageRU={isLanguageRU} setIsModalWindow={setIsModalWindow}
             />
           )}
         />
@@ -352,6 +363,7 @@ const App: React.FC = () => {
           isMute={isMute} isDarkTheme={isDarkTheme} isLanguageRU={isLanguageRU}
           settings={userSettings} setIsMute={setIsMute} setIsLanguageRU={setIsLanguageRU}
           toggleTheme={toggleCurrentTheme} isAuthorizated={readyToJoin === 'READY'}
+          setIsModalWindow={setIsModalWindow}
         />
         {routeComponent}
         <Footer />
