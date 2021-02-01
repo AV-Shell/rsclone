@@ -3,6 +3,11 @@
 @import "./../../sass/typography.scss";
 @import "./../../components/slave-components/word-progress-bar/word-progress-bar.scss";
 @import "./../../components/slave-components/word-stars-level/word-stars-level.scss";
+@import "./../../sass/breakpoints.scss";
+
+$size-um: 830px;
+$size-bt: 699px;
+$size-z: 500px;
 
 .dark-theme {
   >.training-page {
@@ -116,10 +121,16 @@
     color: $text-dark;
     box-shadow: 0 0 30px 0 rgba(82,63,105,.05);
     
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: $size-lg) {
       width: 90%;
-      padding: 10px;
-    }
+      padding: 15px;
+      @media screen and (max-width: $size-md) {
+        padding: 10px;
+      }
+      @media screen and (max-width: $size-xs) {
+        padding: 5px;
+      }
+    }    
 
     &-upper {
       display: grid;
@@ -131,11 +142,6 @@
         margin-top: 0.5rem;
         margin-bottom: 0.5em;
         font-size: 3.2rem;
-        display:flex;
-
-        >.bi {
-          align-self: center;
-        }
       }      
 
       > .button-next {
@@ -161,8 +167,34 @@
           font-size: 1.7rem;
         }
 
-        @media screen and (max-width: 767px) {
-          max-width: 130px;
+        @media screen and (max-width: $size-md) {
+          width: 130px;
+          justify-self: flex-end;
+
+          @media screen and (max-width: $size-z) {
+            align-self: flex-end;
+            justify-self: baseline;
+            width: 100px;
+            height: 32px;
+
+            @media screen and (max-width: $size-xs) {
+              width: 60px;
+              > span {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+      @media screen and (max-width: $size-z) {
+        grid-template-columns: 1fr 100px;
+        min-height: 50px;
+
+        .training-page-title {
+          font-size: 2.5rem;
+        }
+        @media screen and (max-width: $size-xs) {
+          grid-template-columns: 1fr 60px;
         }
       }
     }
@@ -303,9 +335,12 @@
       &-btn-delete {
         grid-column: 5 / 6;
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: $size-sm) {
         grid-template-columns: 1fr 1fr 1fr;
 
+        .status-btn {
+          max-width: 150px;
+        }
         &-btn-active {
           grid-column: 1;
         }
@@ -320,6 +355,18 @@
 
         &-btn-keyboard {
           display: none
+        }
+        @media screen and (max-width: $size-xs) {
+          padding: 0.5em 0.3em;
+          grid-template-rows: minmax(32px, auto);
+          min-height: 48px;
+
+          .status-btn {
+            height: 32px;
+            >span {
+              display: none;
+            }
+          }
         }
       }
     }
@@ -346,7 +393,7 @@
             grid-template-columns: 1fr 270px;
             gap: 10px;
 
-            @media screen and (max-width: 500px) {
+            @media screen and (max-width: $size-um) {
               grid-template-rows: 1fr;
               grid-template-columns: 1fr;
   
@@ -360,7 +407,7 @@
             justify-self: flex-end;
         }
 
-          @media screen and (max-width: 500px) {
+          @media screen and (max-width: $size-sm) {
             grid-template-rows: 1fr;
             grid-template-columns: 1fr;
 
@@ -389,11 +436,15 @@
         display: flex;
         justify-content: space-between;
         background-color: $my-card-bg;
+        min-height: 110px;
+        height: 200px;
 
-        @media screen and (max-width: 500px) {
+        @media screen and (max-width: $size-um) {
           flex-direction: column-reverse;
           align-items: center;
-          width: auto;
+          width: 272px;
+          height: auto;
+
         }
         &-details {
           width: 100%;
@@ -402,6 +453,10 @@
           justify-content: space-evenly;
           align-items: center;
           padding: 5px;
+
+          @media screen and (max-width: $size-um) {
+            min-height: 150px;
+          }
 
           &-field {
             display: flex;
@@ -442,20 +497,29 @@
 
         &-img {
           box-sizing: border-box;
-          height: 200px;
-          border-radius: $block-border-radius;
+          width: 100%;
+          max-width: 300px;
+          height: 100%;
+          border-radius: $block-border-radius;        
+          display: flex;  
+
+          @media screen and (max-width: $size-sm) {
+            width: 270px;
+          }
 
           >img {
-            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+            width: 100%;
             border-radius: $block-border-radius;
-            @media screen and (max-width: 500px) {
-              max-width: 270px;
-            }
           }
-          @media screen and (max-width: 500px) {
+          @media screen and (max-width: $size-sm) {
             height: auto;
             max-width: 270px;
           }
+        }
+        @media screen and (max-width: $size-sm) {
+          max-width: 270px;
         }
       }
 
@@ -471,7 +535,7 @@
 
         .sentence-eng {
           grid-column: 2;
-          grid-row: 1;
+          grid-row: 3;
 
           >strong {
             color: $color-primary;
@@ -479,11 +543,11 @@
         }
         .sentence-ru {
           grid-column: 2;
-          grid-row: 2;
+          grid-row: 4;
         }
         .meaning-eng {
           grid-column: 2;
-          grid-row: 3;
+          grid-row: 1;
 
           >em {
             color: $color-primary;
@@ -491,7 +555,7 @@
         }
         .meaning-ru {
           grid-column: 2;
-          grid-row: 4;
+          grid-row: 2;
         }
         > .bi {
           font-size: 1.2em;
@@ -503,11 +567,11 @@
 
         .example-sound {
           grid-column: 1;
-          grid-row: 1/ 3;
+          grid-row: 3/ 5;
         }
         .meaning-sound {
           grid-column: 1;
-          grid-row: 3/ 5;
+          grid-row: 1/ 3;
         }
         >p {
           margin: 0;
@@ -543,8 +607,8 @@
           color: $text-dark-25;
         }
 
-        @media screen and (max-width: 500px) {
-          margin-top: 0.5em;
+        @media screen and (max-width: $size-sm) {
+          margin-top: 0.5em;         
         }
       }
 
@@ -600,9 +664,49 @@
         color: $text-dark-75;
         cursor: auto;
       }
-      @media screen and (max-width: 500px) {
-        flex-wrap: wrap;
+      @media screen and (max-width: $size-bt) {        
+        padding: 10px;
+        display: grid;
+        grid-auto-columns: 1fr 1fr;
+        gap: 15px;
+        justify-items: center;
+
+        .btn-footer {
+          width: 150px;
+        }
+
+        &-btn-answer {
+          grid-row: 1;
+          grid-column: 1/3;
+        }
+
+        &-btn-again {
+          grid-row: 1;
+          grid-column: 1;
+        }
+        &-btn-hard {
+          grid-row: 1;
+          grid-column: 2;
+        }
+        &-btn-good {
+          grid-row: 2;
+          grid-column: 1;
+        }
+        &-btn-easy {
+          grid-row: 2;
+          grid-column: 2;
+        }
       } 
+      @media screen and (max-width: $size-xs) {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 5px;
+
+        .btn-footer {
+          align-self: center;
+        }
+      }
     }
   }
 }
