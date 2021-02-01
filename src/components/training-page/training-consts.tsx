@@ -2,7 +2,7 @@ import React from 'react';
 // import {ONE_DAY} from '../../constants/constants';
 
 type IntervalTime = {
-  [days: number]: number 
+  [days: number]: number
 };
 
 const DAY_IN_SECONDS : number = 24 * 60 * 60 * 1000;
