@@ -5,8 +5,15 @@ import {
   userSettings,
 } from '../../constants/interfaces';
 
+import {
+  MIN_AVATAR_NUM,
+  MAX_AVATAR_NUM,
+  AVA_URL,
+} from '../../constants/constants';
 
-
+import {
+  limitMinMax,
+} from '../../helpers/utils';
 
 interface IndependentCardSettings {
   cardTranscription: boolean,
@@ -36,9 +43,10 @@ const getSet1 = ({ optional }: userSettings) => {
     answerButton: optional.answerButton,
     statusButtons: optional.statusButtons,
     feedbackButtons: optional.feedbackButtons,
-  }
+  };
   return result;
-}
+};
+
 const getSet2 = ({ optional }: userSettings) => {
   const result: CardSettings = {
     cardWordPronunciation: optional.cardWordPronunciation,
@@ -50,34 +58,28 @@ const getSet2 = ({ optional }: userSettings) => {
     cardExampleTranslation: optional.cardExampleTranslation,
     cardExplanationTranslationAfter: optional.cardExplanationTranslationAfter,
     cardExampleTranslationAfter: optional.cardExampleTranslationAfter,
-  }
+  };
   return result;
-}
+};
 
-
-function SettingsPage(props: settingsPageProps) {
+const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => {
   let basicSettingsAtention: string = '';
   let acceptButtonState: boolean = true;
-  const { settings, apiService } = props;
+  const { settings, apiService, isLanguageRU } = props;
   const [set1, setSet1] = useState<IndependentCardSettings>(getSet1(settings));
   const [set2, setSet2] = useState<CardSettings>(getSet2(settings));
-
+  const [avatarNumber, setAvatarNumber] = useState<number>(settings.optional.avatarID);
   const onChangeSet1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const target = event.target;
+    const { target } = event;
     const value = target.checked;
-    const name = target.name;
-    setSet1((previousState: IndependentCardSettings) => {
-      return {
-        ...previousState,
-        [name]: value,
-      }
-    });
-  }
+    const { name } = target;
+    setSet1((previousState: IndependentCardSettings) => ({ ...previousState, [name]: value }));
+  };
 
   const onChangeSet2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const target = event.target;
+    const { target } = event;
     const value = target.checked;
-    const name = target.name;
+    const { name } = target;
     let iscardTranslationAfterSuccess = set2.cardTranslationAfterSuccess;
     let isCardExplanationTranslation = set2.cardExplanationTranslation;
     let isCardExplanationTranslationAfter = set2.cardExplanationTranslationAfter;
@@ -114,197 +116,177 @@ function SettingsPage(props: settingsPageProps) {
       isCardExampleTranslation = false;
     }
 
-    setSet2((previousState: CardSettings) => {
-      return {
-        ...previousState,
-        cardTranslationAfterSuccess: iscardTranslationAfterSuccess,
-        cardExplanationTranslation: isCardExplanationTranslation,
-        cardExplanationTranslationAfter: isCardExplanationTranslationAfter,
-        cardExampleTranslation: isCardExampleTranslation,
-        cardExampleTranslationAfter: isCardExampleTranslationAfter,
-        [name]: value,
-      }
-    });
-  }
+    setSet2((previousState: CardSettings) => ({
+      ...previousState,
+      cardTranslationAfterSuccess: iscardTranslationAfterSuccess,
+      cardExplanationTranslation: isCardExplanationTranslation,
+      cardExplanationTranslationAfter: isCardExplanationTranslationAfter,
+      cardExampleTranslation: isCardExampleTranslation,
+      cardExampleTranslationAfter: isCardExampleTranslationAfter,
+      [name]: value,
+    }));
+  };
 
-  const onSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     settings.optional = {
       ...settings.optional,
       ...set1,
       ...set2,
-    }
+      avatarID: avatarNumber,
+    };
     apiService.updateSettings(settings)
       .then(() => {
-        console.log ('все хорошо')
+        console.log('все хорошо');
       })
       .catch(() => {
-        console.log ('все плохо')
-      })
-  }
+        console.log('все плохо');
+      });
+  };
+
+  const onChangeAvatarNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = limitMinMax(+event.target.value, MIN_AVATAR_NUM, MAX_AVATAR_NUM);
+    setAvatarNumber(value);
+  };
 
   if (!(set2.cardWordPronunciation || set2.cardExample || set2.cardExplanation || set2.cardTranslation)) {
     acceptButtonState = false;
-    basicSettingsAtention = 'выберите минимум 1 пункт'
+    basicSettingsAtention = 'выберите минимум 1 пункт';
   }
 
-  const acceptButton = acceptButtonState ? <input type="submit" value="Принять" /> : null;
+  const acceptButton = acceptButtonState ? <button type="submit">Принять</button> : null;
 
   return (
     <div className="settings-page">
       <h2>Settings page</h2>
+      <h3>Аватарка</h3>
+      <label htmlFor="avatarNumber">
+          {`Выберите Аватарку '${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}:`}
+          <input
+            onChange={onChangeAvatarNumber}
+            type="number" id="avatarNumber" name="avatarNumber"
+            min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}
+          />
+      </label>
+        <div className="image-container">
+          <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+        </div>
       <h3>Карточка</h3>
 
-      <form
-        onSubmit={onSubmit} >
+      <form onSubmit={onSubmit}>
         <p>Выберите минимум 1 из 4</p>
         <div className="attention-message">{basicSettingsAtention}</div>
-        <label>
+        <label htmlFor="cardTranslation">
           <input
-            type="checkbox"
-            name='cardTranslation'
-            checked={set2.cardTranslation}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardTranslation" id="cardTranslation"
+            checked={set2.cardTranslation} onChange={onChangeSet2}
           />
           показывать перевод
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardExample">
           <input
-            type="checkbox"
-            name='cardExample'
-            checked={set2.cardExample}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardExample" id="cardExample"
+            checked={set2.cardExample} onChange={onChangeSet2}
           />
-         показывать пример
-          </label>
-        <label>
+          показывать пример
+        </label>
+        <label htmlFor="cardExplanation">
           <input
-            type="checkbox"
-            name='cardExplanation'
-            checked={set2.cardExplanation}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardExplanation" id="cardExplanation"
+            checked={set2.cardExplanation} onChange={onChangeSet2}
           />
-         показывать объяснение
-          </label>
-        <label>
+          показывать объяснение
+        </label>
+        <label htmlFor="cardWordPronunciation">
           <input
-            type="checkbox"
-            name='cardWordPronunciation'
-            checked={set2.cardWordPronunciation}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardWordPronunciation" id="cardWordPronunciation"
+            checked={set2.cardWordPronunciation} onChange={onChangeSet2}
           />
           воспроизводить слово
-          </label>
+        </label>
         <hr />
-
-        <label>
+        <label htmlFor="cardTranscription">
           <input
-            type="checkbox"
-            name='cardTranscription'
-            checked={set1.cardTranscription}
-            onChange={onChangeSet1}
+            type="checkbox" name="cardTranscription" id="cardTranscription"
+            checked={set1.cardTranscription} onChange={onChangeSet1}
           />
           транскрипция
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardImage">
           <input
-            type="checkbox"
-            name='cardImage'
-            checked={set1.cardImage}
-            onChange={onChangeSet1}
+            type="checkbox" name="cardImage" id="cardImage"
+            checked={set1.cardImage} onChange={onChangeSet1}
           />
           картинка
-          </label>
-        <label>
+        </label>
+        <label htmlFor="autoSound">
           <input
-            type="checkbox"
-            name='autoSound'
-            checked={set1.autoSound}
-            onChange={onChangeSet1}
+            type="checkbox" name="autoSound" id="autoSound"
+            checked={set1.autoSound} onChange={onChangeSet1}
           />
           воспроизводить после ответа
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardTranslationAfterSuccess">
           <input
-            type="checkbox"
-            name='cardTranslationAfterSuccess'
-            checked={set2.cardTranslationAfterSuccess}
-            disabled={set2.cardTranslation}
+            type="checkbox" name="cardTranslationAfterSuccess" id="cardTranslationAfterSuccess"
+            checked={set2.cardTranslationAfterSuccess} disabled={set2.cardTranslation}
             onChange={onChangeSet2}
           />
           показывать перевод слова после ответа
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardExampleTranslation">
           <input
-            type="checkbox"
-            name='cardExampleTranslation'
-            checked={set2.cardExampleTranslation}
-            disabled={!set2.cardExample}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardExampleTranslation" id="cardExampleTranslation"
+            checked={set2.cardExampleTranslation} disabled={!set2.cardExample} onChange={onChangeSet2}
           />
           перевод примера
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardExplanationTranslation">
           <input
-            type="checkbox"
-            name='cardExplanationTranslation'
-            checked={set2.cardExplanationTranslation}
-            disabled={!set2.cardExplanation}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardExplanationTranslation" id="cardExplanationTranslation"
+            checked={set2.cardExplanationTranslation} disabled={!set2.cardExplanation} onChange={onChangeSet2}
           />
           перевод объяснения
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardExplanationTranslationAfter">
           <input
-            type="checkbox"
-            name='cardExplanationTranslationAfter'
-            checked={set2.cardExplanationTranslationAfter}
-            disabled={!set2.cardExplanation}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardExplanationTranslationAfter" id="cardExplanationTranslationAfter"
+            checked={set2.cardExplanationTranslationAfter} disabled={!set2.cardExplanation} onChange={onChangeSet2}
           />
           перевод объяснения после ответа
-          </label>
-        <label>
+        </label>
+        <label htmlFor="cardExampleTranslationAfter">
           <input
-            type="checkbox"
-            name='cardExampleTranslationAfter'
-            checked={set2.cardExampleTranslationAfter}
-            disabled={!set2.cardExample}
-            onChange={onChangeSet2}
+            type="checkbox" name="cardExampleTranslationAfter" id="cardExampleTranslationAfter"
+            checked={set2.cardExampleTranslationAfter} disabled={!set2.cardExample} onChange={onChangeSet2}
           />
           перевод примера после ответа
-          </label>
-        <label>
+        </label>
+        <label htmlFor="answerButton">
           <input
-            type="checkbox"
-            name='answerButton'
-            checked={set1.answerButton}
-            onChange={onChangeSet1}
+            type="checkbox" name="answerButton" id="answerButton"
+            checked={set1.answerButton} onChange={onChangeSet1}
           />
-          кнопка "Показать ответ"
-          </label>
-        <label>
+          кнопка &quot;Показать ответ&quot;
+        </label>
+        <label htmlFor="statusButtons">
           <input
-            type="checkbox"
-            name='statusButtons'
-            checked={set1.statusButtons}
-            onChange={onChangeSet1}
+            type="checkbox" name="statusButtons" id="statusButtons"
+            checked={set1.statusButtons} onChange={onChangeSet1}
           />
           кнопки статуса слова
-          </label>
-        <label>
+        </label>
+        <label htmlFor="feedbackButtons">
           <input
-            type="checkbox"
-            name='feedbackButtons'
-            checked={set1.feedbackButtons}
-            onChange={onChangeSet1}
+            type="checkbox" name="feedbackButtons" id="feedbackButtons"
+            checked={set1.feedbackButtons} onChange={onChangeSet1}
           />
           кнопки интервального повторения
-          </label>
+        </label>
         {acceptButton}
       </form>
     </div>
   );
-}
+};
 
 export default SettingsPage;
