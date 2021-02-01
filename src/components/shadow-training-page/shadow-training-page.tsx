@@ -274,8 +274,8 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
           .catch((error) => { console.log('create'); userWordServerLog(error); });
       }
       let newWordsForTraining: paginatedWord[];
-      if (res.isRepeat) {
-        newWordsForTraining = [word, ...currentTrainingState.wordsForTraining.slice(0, -1)];
+      if (res.isRepeat || (res.points === 0)) {
+        newWordsForTraining = [{ ...word }, ...currentTrainingState.wordsForTraining.slice(0, -1)];
       } else {
         newWordsForTraining = currentTrainingState.wordsForTraining.slice(0, -1);
       }
