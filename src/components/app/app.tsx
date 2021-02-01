@@ -43,6 +43,7 @@ import {
 import {
   loadSettings,
   loadStatistic,
+  storage,
 } from '../../helpers/utils';
 
 const currentTrainingDefault: currentTraining = {
@@ -52,6 +53,9 @@ const currentTrainingDefault: currentTraining = {
   trainingCountPerDay: 0,
   trueAnswerCount: 0,
 };
+const MBStorageIsMute = 'MagicButtonIsMute';
+const MBStorageIsLanguageRU = 'MagicButtonIsLanguageRU';
+const MBStorageIsDarkTheme = 'MagicButtonIsDarkTheme';
 
 type TreadyToJoin = 'READY' | 'NOTLOGGED' | 'NEEDSETTINGS' | 'LOADING';
 type ThasUserSettings = 'NO' | 'YES' | 'NOTONSERVER';
@@ -75,9 +79,9 @@ const App: React.FC = () => {
     isAuthorizated: api.checkTokenValidity(),
     tokenRefreshInterval: undefined,
   }));
-  const [isMute, setIsMute] = useState<boolean>(false);
-  const [isLanguageRU, setIsLanguageRU] = useState<boolean>(true);
-  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const [isMute, setIsMute] = useState<boolean>(storage(MBStorageIsMute) === true);
+  const [isLanguageRU, setIsLanguageRU] = useState<boolean>(storage(MBStorageIsLanguageRU) === true);
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(storage(MBStorageIsDarkTheme) === true);
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<userSettings>(DEFAULT_USER_SETTINGS);
@@ -103,7 +107,12 @@ const App: React.FC = () => {
   };
 
   // TODO: save to LocalStorage isMute  Language // useEffect
-
+  useEffect(() => {
+    console.log('isMute, isLanguageRU');
+    storage(MBStorageIsMute, isMute);
+    storage(MBStorageIsLanguageRU, isLanguageRU);
+    storage(MBStorageIsDarkTheme, isDarkTheme);
+  }, [isMute, isLanguageRU, isDarkTheme]);
   // TODO: save to LocalStorage
 
   const isLoginCallback = (isLogin: boolean) => {
