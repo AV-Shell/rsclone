@@ -1,165 +1,305 @@
+@import "./../../sass/breakpoints.scss";
+@import "./../../sass/colors.scss";
+
 .dashboard-page {
   background-color: #F3F6F9;
-  
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 50px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 27.9rem 34.3rem;
+  grid-row-gap: 4rem;
+  grid-column-gap: 4rem;
+  grid-template-columns: repeat(3, 30%);
+  padding: 5rem;
+  justify-content: center;
+  font-size: 1.6rem;
+
+  &-first {
 
 
+    &_column-user_info {
+      background-color: #ffffff;
+      height: auto;
 
-  &-first_column {
-  // background-color: blanchedalmond;
-    height: 697px;
-    width: 600px;
-
-&-user_info{
-  background-color: #ffffff;
-      height: 279px;
-      margin-bottom: 45px;
       display: flex;
-      // justify-content: center;
-      padding-left: 41px;
+      padding: 2rem;
       align-items: center;
       border-radius: 5px;
 
-      &-img{
-        // margin-left: 41px;
-        width: 185px;
+      &-img {
         background-color: white;
         display: flex;
         align-items: center;
         justify-content: center;
-        // border-radius: 50%;
+
         border-radius: 5px;
-    box-sizing: border-box;
-    overflow: hidden;
-    background-color: #C4C4C4;
-    margin: 2rem 0;
-   & img{
-     width: 100%;
-      filter: drop-shadow(10px 0px 6px white) drop-shadow(-10px 0px 6px white) drop-shadow(0px 10px 6px white) drop-shadow(0px -10px 6px white);
-    }
-      }
-      &-data{
-        margin-left: 60px;
-      }
-}
+        box-sizing: border-box;
+        // overflow: hidden;
+        background-color: #C4C4C4;
+        margin: 2rem 0;
 
-
-
-    &-chart_progress{
-      padding: 20px;
-      background-color:#ffffff;
-      height: 343px;
-      border-radius: 5px;
-      text-align: center;
-      & div {
-        margin-top: 5px;
-      }
-    }
-  }
-  &-second_column {
-    // background-color: blanchedalmond;
-      height: 697px;
-      width: 600px;
-      
-      &-info{
-        // background-color: rgb(228, 217, 201);
-      
-        height: 278px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-row-gap: 18px;
-        grid-column-gap: 18px;
-        // justify-content: space-between;
-        // flex-wrap: wrap;
-        border-radius: 5px;
-
-
-
-        & div{
-          padding-top: 10px;
-          // background-color: #7E8299;
-          width: 290px;
-          height: 120px;
-          border-radius: 5px;
-          text-align: center;
-        }
-        & p {
-          font-size: 70px;
-          margin: 0;
-        }
-        &-all_words{
-          background-color: #F64E60;
-        }
-        &-best_series{
-          background-color: #7E8299 ;
-        }
-        &-all_cards{
-          background-color: #ffffff;
-        }
-        &-card_point{
-          background-color: #8950FC;
+        & img {
+          width: 100%;
+          filter: drop-shadow(10px 0px 6px white) drop-shadow(-10px 0px 6px white) drop-shadow(0px 10px 6px white) drop-shadow(0px -10px 6px white);
         }
       }
-      
-      &-chart_diagram{
-        padding: 20px;
-        height: 343px;
-        border-radius: 5px;
-        margin-top: 44px;
-        text-align: center;
-        background-color:  #ffffff;
+
+      &-data {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-    &-third_column {
-      // background-color: blanchedalmond;
-        height: 697px;
-        width: 530px;
-        &-daily{
-          color: white;
-          padding: 20px;
-          height: 239px;
-          border-radius: 5px;
-          background-color: #1B283F
-        }
-        &-chart_card_progress{
-        padding: 20px;
-          margin-top: 44px;
-          background-color: #ffffff;
-          height: 333px;
-          border-radius: 5px;
-          text-align: center;
-          & div{
-            margin-top: 5px;
+        justify-content: space-around;
+        height: 100%;
+        margin-left: 10%;
+
+        &-rangImg {
+          display: flex;
+          justify-content: center;
+          width: 50%;
+          margin: 0 auto;
+          height: 30%;
+
+          & img {
+            border-radius: 30%;
+            box-shadow: 1rem 1rem 1.7rem $bg-card-dark;
           }
         }
       }
+    }
+
+
+
+    &-chart_progress {
+      padding: 2rem;
+      background-color: #ffffff;
+      height: auto;
+      border-radius: 5px;
+      text-align: center;
+
+      & div {
+        margin-bottom: 5px;
+
+        font-size: 2rem;
+        font-weight: bold;
+
+      }
+    }
+  }
+
+  &-second {
+
+
+    &_column-info {
+
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-row-gap: 18px;
+      grid-column-gap: 18px;
+      border-radius: 5px;
+
+
+      & div {
+        padding-top: 10px;
+        height: auto;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      & p {
+        font-size: 70px;
+        margin: 0;
+      }
+
+      &-all_words {
+        background-color: #F64E60;
+      }
+
+      &-best_series {
+        background-color: #7E8299;
+      }
+
+      &-all_cards {
+        background-color: #ffffff;
+      }
+
+      &-card_point {
+        background-color: #8950FC;
+      }
+    }
+
+    &-chart_diagram {
+      padding: 2rem;
+      height: auto;
+      border-radius: 5px;
+
+      text-align: center;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      font-size: 2rem;
+      font-weight: bold;
+
+    }
+  }
+
+  &-third {
+
+
+    &_column-daily {
+      color: white;
+      padding: 2rem;
+      height: auto;
+      border-radius: 5px;
+      background-color: $bg-card-dark;
+      line-height: 4rem;
+
+      & span {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
+
+    &-chart_card_progress {
+      padding: 2rem;
+
+      background-color: #ffffff;
+      height: auto;
+      border-radius: 5px;
+      text-align: center;
+
+      & div {
+        margin-bottom: 5px;
+
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
+  }
 }
-.piechart{
+
+.chart-wrapper {
+  height: 90%;
+}
+
+.piechart {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
-  &-legend{
+
+  &-legend {
     display: flex;
     align-items: center;
-    &-correct{
-      margin: 0 10px;
-      width: 20px;
-    height: 10px;
-    background-color:#95b524}
-    &-incorrect{
-      margin: 0 10px;
-      width: 20px;
-    height: 10px;
-    background-color:red
-    }
-    
 
-}}
+    & span {
+      font-weight: normal;
+      font-size: 1.4rem;
+    }
+
+    &-correct {
+      margin: 0 10px;
+      width: 20px;
+      height: 10px;
+      background-color: $color-success;
+
+
+    }
+
+    &-incorrect {
+      margin: 0 10px;
+      width: 20px;
+      height: 10px;
+      background-color: $color-danger;
+
+    }
+
+
+  }
+}
+
+.dashboard canvas {
+  height: auto;
+}
+
+#piechart {
+
+  height: 65%;
+}
+
+@media(max-width: $size-xl) {
+
+  .dashboard-page {
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  .dashboard-page-third_column-daily {
+    order: 2;
+  }
+
+  .dashboard-page-second_column-info {
+    order: 3;
+  }
+
+  .dashboard-page-first-chart_progress {
+    order: 4;
+  }
+
+  .dashboard-page-second-chart_diagram {
+    order: 5;
+  }
+
+  .dashboard-page-third-chart_card_progress {
+    order: 6;
+  }
+}
+
+@media(max-width: $size-md) {
+  .dashboard-page {
+    grid-template-columns: 90%;
+    padding: 2.5rem;
+
+  }
+}
+
+@media(max-width: $size-xs) {
+  .dashboard-page-first_column-user_info {
+    flex-direction: column;
+  }
+
+  .dashboard-page {
+    grid-template-rows: 1fr;
+    padding: 1.5rem;
+    grid-template-columns: 90%;
+  }
+
+  #piechart {
+    height: 40%;
+  }
+
+  .chart-wrapper {
+    height: 90%;
+    width: 95%;
+  }
+
+  .dashboard-page-first_column-user_info-data {
+    margin: 0;
+  }
+
+
+  .dashboard-page-first_column-user_info-data-rangImg {
+    height: 50%;
+  }
+
+  .dashboard-page-first_column-user_info-data p {
+    padding-bottom: 1rem;
+  }
+
+  .dashboard-page-first_column-user_info-data h3 {
+    padding-bottom: 1rem;
+  }
+
+  .dashboard-page-first_column-user_info-img {
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+}

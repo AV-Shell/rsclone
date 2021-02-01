@@ -15,6 +15,7 @@
   justify-content: space-between;
   background-color: #fff;
   padding: 0 50px;
+  margin-bottom: 3rem;
 
   &-left-side {
     display: flex;
@@ -109,7 +110,6 @@
       background-color: $color-primary-blend;
       color: $color-primary-hover;
     }
-
   }
 
   .bi-chevron-down {
@@ -186,5 +186,139 @@
 
   > i {
     font-size: 26px;
+  }
+}
+
+.container {
+  max-width: 1390px;
+  
+  margin: 0 auto;
+}
+
+.table {
+  width: 100%;
+  font-size: 1.2rem;
+  border-collapse: collapse;
+
+  &-h {
+    padding: 1.2rem;
+    vertical-align: middle;
+    text-transform: uppercase;
+    text-align: left;
+    color: $text-muted;
+    letter-spacing: 0.13rem;
+    white-space: pre-wrap;
+  }
+
+  &-row {
+    width: 100%;
+    border-bottom: 1px solid $color-separator-line;
+  }
+
+  &-data {
+    padding: 1.2rem;
+    vertical-align: middle;
+  }
+
+  & .cell-wrapper {
+    display: flex;
+    align-items: center;
+
+    &-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  }
+  & .cell-img {
+    height: 50px;
+    width: auto;
+    border-radius: $block-border-radius;
+    overflow: hidden;
+    margin-right: 1.5rem;
+    > img {
+      height: 100%;
+    }
+  }
+
+  .icon {
+    transition: all $bg-color-transition;
+    cursor: pointer;
+    &:hover {
+      fill: $color-primary-hover;
+    }
+
+    &-left {
+      margin-right: 1.5rem;
+    }
+  }
+
+  .svg-color-primary {
+    fill: $color-primary;
+  }
+
+  .svg-color-info {
+    fill: $color-info;
+  }
+
+  &-text {
+    color: $text-dark-50;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 140%;
+    &-primary {
+      color: $text-dark-75;
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 140%;
+    }
+  }
+
+  &-change-status {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: $block-border-radius;
+    color: $color-primary;
+    background-color: $color-primary-blend;
+    transition: all $bg-color-transition;
+
+    &:not(:last-child){
+      margin-right: 10px;
+    }
+
+    &:hover {
+      color: #ffffff;
+    }
+
+    &_difficult {
+      color: $color-danger;
+      background-color: $color-primary-blend;
+
+      &:hover {
+        background-color: $color-danger-hover;
+      }
+    }
+
+    &_delete {
+      color: $text-dark;
+      background-color: $color-primary-blend;
+
+      &:hover {
+        background-color: $color-dark-hover;
+      }
+    }
+  }
+}
+
+.card {
+  padding: 25px;
+  background-color: #fff;
+  border-radius: $block-border-radius;
+  & .left-column{
+    display: flex;
   }
 }
