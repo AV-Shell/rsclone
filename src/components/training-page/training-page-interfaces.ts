@@ -3,26 +3,26 @@ import { cardAnswer } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: 'active' | 'deleted' | 'difficult',
-  isShown:boolean,
+  isShown: boolean,
   isAnswerRight: boolean,
   isWordNew: boolean,
   status: 'active' | 'deleted' | 'difficult';
-  line:string,
+  line: string,
   classCss: string,
   iClass: string
   setStatusForObj: React.Dispatch<React.SetStateAction<'active' | 'deleted' | 'difficult'>>
 }
 export interface lineProps {
-  isTrue:boolean,
-  line:string,
+  isTrue: boolean,
+  line: string,
   classCss: string,
 }
 
 export interface IlinePropsTranslation {
-  isTrue:boolean,
+  isTrue: boolean,
   isShownAfter: boolean,
   isAnswered: boolean,
-  line:string,
+  line: string,
   classCss: string,
 }
 export interface IforInput {
@@ -72,7 +72,7 @@ export interface forFooter {
 
 export interface footerBtns {
   id: string,
-  line:string,
+  line: string,
   classCss: string,
   intervalLvl: string,
   updateIntervalLvl: React.Dispatch<React.SetStateAction<string>>,
@@ -107,13 +107,13 @@ export interface ForCardExamples {
   meaningTranslationString: string,
 }
 
-export interface LineWrapperProps{
+export interface LineWrapperProps {
   isShown: boolean,
   hasAnswer: boolean,
-  line:string,
-  classCSS:string,
-  openTag:'<b>'|'<i>',
-  closingTag:'</b>'|'</i>',
+  line: string,
+  classCSS: string,
+  openTag: '<b>' | '<i>',
+  closingTag: '</b>' | '</i>',
 }
 
 export interface TranslationProps {

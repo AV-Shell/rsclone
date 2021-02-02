@@ -228,6 +228,7 @@ const LoginPage: React.FC<ILoginPageProps> = (props: ILoginPageProps) => {
       <input
         className="input-text" type="text" name="usernick"
         autoComplete="off" id="inputNickname" required
+        maxLength={21}
         placeholder={lang.enterNick}
         onChange={onChangeNickname}
         value={nickname}
