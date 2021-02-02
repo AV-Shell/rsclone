@@ -11,10 +11,10 @@ $size-z: 500px;
 
 .dark-theme {
   >.training-page {
-    background-color: $dark-color;
+    background-color: $d-bg-primary;
 
     .training-card {
-      background-color: $bg-card-dark;
+      background-color: $d-bg-card-primary;
 
       .upper-btns {
         background-color: $color-primary;
@@ -26,7 +26,6 @@ $size-z: 500px;
       }
       .upper-btns.active {
         background-color: $color-dark-hover;
-        // color: $text-dark;
         &:hover {
           color: $text-dark-25;
         }
@@ -142,10 +141,10 @@ $size-z: 500px;
         margin-top: 0.5rem;
         margin-bottom: 0.5em;
         font-size: 3.2rem;
+        display: flex;
       }      
 
       > .button-next {
-        background-color: $color-success;
         font-family: 'Montserrat', sans-serif;
         cursor: pointer;
         border-radius: $block-border-radius;
@@ -158,9 +157,24 @@ $size-z: 500px;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: linear-gradient(45deg, #1bc5bd, #0bb7af, #3445E5, #f64e60, #ffa800);
+        background-size: 500% 500%;
+        animation: ButtonAnimate 10s ease infinite;
+
+        @keyframes ButtonAnimate {
+          0% {
+            background-position:0% 50%
+          }
+          50% {
+            background-position:100% 50%
+          }
+          100% {
+            background-position:0% 50%
+          }
+        }
 
         &:hover {
-          background-color: $color-success-hover;
+          background: linear-gradient(270deg, #0bb7af, #ffa800);
         }
 
         > .bi {
@@ -210,10 +224,17 @@ $size-z: 500px;
       text-align: center;
       font-weight: bold;
     }
+    @media screen and (max-width: $size-xs) {
+      grid-template-rows: minmax(18px, auto);
+
+      &-left, &-right {
+        font-size: 1.4rem;
+      }
+    }
 
     &-center {
       width: 100%;
-
+      
       .progress {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -261,7 +282,22 @@ $size-z: 500px;
               background-position: 0 0;
             }
           }
-        }     
+        }
+        @media screen and (max-width: $size-xs) {
+          height: 1.6rem;
+          .progress-bar-striped {
+            background-size: 1.6rem 1.6rem;
+          }
+          @keyframes progress-bar-stripes {
+            0% {
+              background-position: 1.6rem 0;
+            }
+            100% {
+              background-position: 0 0;
+            }
+          }
+
+        }  
       }
     }
   }
@@ -396,9 +432,22 @@ $size-z: 500px;
             @media screen and (max-width: $size-um) {
               grid-template-rows: 1fr;
               grid-template-columns: 1fr;
+              gap: 5px;
   
               .progress {
                 grid-row: 2;
+              }
+              @media screen and (max-width: $size-xs) {
+                grid-template-rows: minmax(18px, auto);
+                gap: 3px;
+
+                .progress {
+                  height: 1.6rem;
+                }
+                
+                .progress-bar-striped {
+                  background-size: 1.6rem 1.6rem;
+                }
               }
             }
           }
@@ -410,6 +459,7 @@ $size-z: 500px;
           @media screen and (max-width: $size-sm) {
             grid-template-rows: 1fr;
             grid-template-columns: 1fr;
+            gap: 5px;
 
             .word-progress-stars {
               grid-row: 1;
@@ -463,6 +513,9 @@ $size-z: 500px;
             >.bi {
               font-size: 1.5em;
               color: $text-dark;
+              @media screen and (max-width: $size-xs) {
+                font-size: 1.3em;
+              }
             }
             &-input {
               margin-left: 0.5em;
@@ -472,8 +525,11 @@ $size-z: 500px;
               color: $color-info;
               border-radius: $block-border-radius;
               border: none;
-              
-  
+
+              @media screen and (max-width: $size-xs) {
+                font-size: 20px;
+              }
+
               &.green{
                 color: $color-success;
                 &[disabled] {
@@ -532,6 +588,10 @@ $size-z: 500px;
         width: 100%;
         box-sizing: border-box;
         min-height: 115px;
+
+        @media screen and (max-width: $size-xs) {
+          font-size: 1.4rem;
+        } 
 
         .sentence-eng {
           grid-column: 2;

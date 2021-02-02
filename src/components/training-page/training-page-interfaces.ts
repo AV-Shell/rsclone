@@ -45,7 +45,9 @@ export interface IforInput {
   intervalLevel: number,
   updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>,
   isIntervalUsed: boolean,
-  soundsObject: TsoundsObject
+  soundsObject: TsoundsObject,
+  isAutoFocus: boolean,
+  updateAutoFocus: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface forStars {
@@ -85,7 +87,6 @@ export interface IconForSound {
   isShown: boolean,
   soundSelector: string,
   soundToPlay: HTMLAudioElement,
-  keyObj: string,
   soundObject: TsoundsObject
 }
 

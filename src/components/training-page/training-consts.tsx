@@ -1,5 +1,4 @@
 import React from 'react';
-// import {ONE_DAY} from '../../constants/constants';
 
 type IntervalTime = {
   [days: number]: number

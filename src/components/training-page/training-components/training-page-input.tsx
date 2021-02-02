@@ -6,7 +6,7 @@ import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from '../training-consts';
 export default function InputControl(props: IforInput) {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn,
-    isAutoPlayOn, counter, success, playExample, playMeaning, soundsObject,
+    isAutoPlayOn, counter, success, playExample, playMeaning, soundsObject, isAutoFocus, updateAutoFocus,
     updateCounter, updateSuccess, isSoundBtnShown, intervalLevel, updateIntervalLevel, isIntervalUsed,
   } = props;
 
@@ -21,6 +21,7 @@ export default function InputControl(props: IforInput) {
     if (event.key === 'Enter') {
       updateCounter(counter + 1);
       updateAnswerSet(true);
+      updateAutoFocus(false);
       console.log('enter pressed in input');
       if (value.toLocaleLowerCase() === theWord.toLocaleLowerCase()) {
         console.log('that is right');
@@ -45,10 +46,6 @@ export default function InputControl(props: IforInput) {
       if (isAutoPlayOn && isSoundOn) {
         soundControl(soundsObject);
         if (playExample && playMeaning) {
-          // воспроизводится одновременно, но не сбивает жмяканье на инпут
-          // playSingleSound({ wordSound: soundsObject.wordSound });
-          // playSingleSound({ exampleSound: soundsObject.exampleSound });
-          // playSingleSound({ meaningSound: soundsObject.meaningSound });
           playSounds(soundsObject);
         } else if (playMeaning) {
           const newSoundsObject: TsoundsObject = {
@@ -85,6 +82,7 @@ export default function InputControl(props: IforInput) {
           className={cssStyle}
           type="text"
           size={theWord.length}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={false}
           spellCheck={false}
           value={value}
@@ -108,7 +106,8 @@ export default function InputControl(props: IforInput) {
         className="training-card-body-word-details-field-input"
         type="text"
         size={theWord.length}
-        autoFocus
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={isAutoFocus}
         maxLength={theWord.length}
         spellCheck={false}
         onKeyPress={KeyPressHandler}
@@ -131,10 +130,6 @@ function SoundButton(props: SoundProps) {
     isShown, isSoundOn, classCss, soundObject,
   } = props;
 
-  const wordSound: TsoundsObject = {
-    wordSound: soundObject.wordSound,
-  };
-
   if (!isShown) {
     return null;
   }
@@ -142,7 +137,7 @@ function SoundButton(props: SoundProps) {
   const SoundHandler = () => {
     soundControl(soundObject);
     if (isSoundOn) {
-      playSingleSound(wordSound);
+      playSingleSound(soundObject.wordSound);
     }
   };
 

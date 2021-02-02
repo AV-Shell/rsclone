@@ -110,14 +110,14 @@ export function soundControl(soundsObject: TsoundsObject) {
     sound.onended = null;
   });
 }
-export async function playSingleSound(soundsObject: TsoundsObject) {
-  Object.values(soundsObject).forEach((sound) => {
-    sound.load();
-    sound.play();
-  });
+export async function playSingleSound(sound: HTMLAudioElement) {
+  console.log('sound playing', sound);
+  sound.load();
+  sound.play();
 }
 
 export function playSounds(soundsObject: TsoundsObject) {
+  console.log('sounds playing', soundsObject);
   const word: HTMLAudioElement = soundsObject.wordSound;
   const example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
   const meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
@@ -126,22 +126,26 @@ export function playSounds(soundsObject: TsoundsObject) {
   word.load();
   word.play();
   if (('exampleSound' in soundsObject) && ('meaningSound' in soundsObject)) {
-    example.load();
-    meaning.load();
     word.onended = () => {
+      soundControl(soundsObject);
+      meaning.load();
       meaning.play();
       meaning.onended = () => {
+        soundControl(soundsObject);
+        example.load();
         example.play();
       };
     };
   } else if ('exampleSound' in soundsObject) {
-    example.load();
     word.onended = () => {
+      soundControl(soundsObject);
+      example.load();
       example.play();
     };
   } else if ('meaningSound' in soundsObject) {
-    meaning.load();
     word.onended = () => {
+      soundControl(soundsObject);
+      meaning.load();
       meaning.play();
     };
   }
