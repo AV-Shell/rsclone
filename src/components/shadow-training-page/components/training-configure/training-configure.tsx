@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './training-configure.scss';
 import {
   shadowTrainingProps,
-  startTrainingParams,
-  trainingType,
+  IStartTrainingParams,
+  TTrainingType,
 } from '../../../../constants/interfaces';
 
 import {
@@ -34,14 +34,16 @@ interface IWordsSetting {
 
 interface Iprops extends shadowTrainingProps {
   dailyTrainingCount: number,
-  startTraining: (typeOfTraining: startTrainingParams) => void
+  // eslint-disable-next-line no-unused-vars
+  startTraining: (typeOfTraining: IStartTrainingParams) => void
 }
 
 const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
   console.log(props);
 
   const {
-    userWords, statistic, settings, startTraining, dailyTrainingCount,
+    userWords, statistic, settings, startTraining,
+    dailyTrainingCount, isLanguageRU,
   } = props;
   const [wordsSetting, setWordsSetting] = useState<IWordsSetting>({
     new: settings.optional.newWordsPerDay,
@@ -49,7 +51,7 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
   });
 
   // заменить с приходом языка в пропсы
-  const language: ITrainingSettings = EN;
+  const language: ITrainingSettings = isLanguageRU ? RU : EN;
 
   const changeTrainingWordsSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = event.target;
@@ -76,8 +78,8 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
 
   console.log('wordsSetting', wordsSetting);
 
-  const startTrainingWithWords = (trainingType: trainingType) => {
-    const startTrainingParams: startTrainingParams = {
+  const startTrainingWithWords = (trainingType: TTrainingType) => {
+    const startTrainingParams: IStartTrainingParams = {
       trainingType,
       newWords: wordsSetting.new,
       repeatWords: wordsSetting.repeat,

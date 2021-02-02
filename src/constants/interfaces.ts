@@ -154,7 +154,7 @@ export interface userSettings {
   optional: userSettingsOptional,
 }
 
-export interface saveTrainingPart {
+export interface ISaveTrainingPart {
   startTrainingTimestamp: number,
   totalWordsCount: number,
   trainingCountPerDay: number,
@@ -167,11 +167,11 @@ export interface userCardAnswer extends userWordReq {
   points: number,
 }
 
-export interface currentTraining extends saveTrainingPart {
+export interface currentTraining extends ISaveTrainingPart {
   wordsForTraining: paginatedWord[]
 }
 
-export interface saveTraining extends saveTrainingPart {
+export interface ISaveTraining extends ISaveTrainingPart {
   wordsForTraining: string[]
 }
 
@@ -259,9 +259,9 @@ export interface ICreateSettingsProps {
 
 export interface vocabularyProps extends defaultLoginedProps { }
 
-export type trainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
-export interface startTrainingParams {
-  trainingType: trainingType,
+export type TTrainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
+export interface IStartTrainingParams {
+  trainingType: TTrainingType,
   newWords: number,
   repeatWords: number,
 }

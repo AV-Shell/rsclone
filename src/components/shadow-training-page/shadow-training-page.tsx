@@ -4,13 +4,13 @@ import './shadow-training-page.scss';
 import {
   shadowTrainingProps,
   paginatedWord,
-  saveTraining,
+  ISaveTraining,
   areThereStillWordsOnGroups,
-  saveTrainingPart,
+  ISaveTrainingPart,
   cardAnswer,
   currentTraining,
   userWordReq,
-  startTrainingParams,
+  IStartTrainingParams,
   IstatisticMainLong,
 } from '../../constants/interfaces';
 
@@ -113,7 +113,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
         const trainingWords: paginatedWord[] = [...constWordArray, ...userWordsForTraining];
         shuffleArrayInPlace(trainingWords);
         let dailyTrainingCount: number = 0;
-        const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
+        const a: ISaveTraining | null = JSON.parse(settings.optional.mainGameShort);
         if (a !== null) {
           const dayNow: string = new Date(Date.now()).toISOString().split('T')[0];
           const savedDay: string = new Date(a.startTrainingTimestamp).toISOString().split('T')[0];
@@ -121,7 +121,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
             dailyTrainingCount = a.trainingCountPerDay;
           }
         }
-        const trainingParams: saveTrainingPart = {
+        const trainingParams: ISaveTrainingPart = {
           startTrainingTimestamp: Date.now(),
           totalWordsCount: trainingWords.length,
           trainingCountPerDay: dailyTrainingCount,
@@ -133,7 +133,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
           wordsForTraining: trainingWords,
         });
         const idArray: string[] = trainingWords.map((word) => word._id);
-        const saveTraining: saveTraining = {
+        const saveTraining: ISaveTraining = {
           ...trainingParams,
           wordsForTraining: idArray,
         };
@@ -196,7 +196,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
     const trainingWords: paginatedWord[] = userWordsForTraining;
     shuffleArrayInPlace(trainingWords);
     let dailyTrainingCount: number = 0;
-    const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
+    const a: ISaveTraining | null = JSON.parse(settings.optional.mainGameShort);
     if (a !== null) {
       const dayNow: string = new Date(Date.now()).toISOString().split('T')[0];
       const savedDay: string = new Date(a.startTrainingTimestamp).toISOString().split('T')[0];
@@ -204,7 +204,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
         dailyTrainingCount = a.trainingCountPerDay;
       }
     }
-    const trainingParams: saveTrainingPart = {
+    const trainingParams: ISaveTrainingPart = {
       startTrainingTimestamp: Date.now(),
       totalWordsCount: trainingWords.length,
       trainingCountPerDay: dailyTrainingCount,
@@ -216,7 +216,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       wordsForTraining: trainingWords,
     });
     const idArray: string[] = trainingWords.map((word) => word._id);
-    const saveTraining: saveTraining = {
+    const saveTraining: ISaveTraining = {
       ...trainingParams,
       wordsForTraining: idArray,
     };
@@ -226,7 +226,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
     apiService.updateSettings(settings).catch(serverErrorLog);
   };
 
-  const startTraining = (params: startTrainingParams) => {
+  const startTraining = (params: IStartTrainingParams) => {
     if ((params.trainingType === 'mixed') || (params.trainingType === 'new')) {
       createMixedTraining(params.newWords, params.repeatWords, (params.trainingType === 'mixed'));
     } else if ((params.trainingType === 'repeat') || (params.trainingType === 'difficult')) {
@@ -294,7 +294,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
           currentTrainingState.trueAnswerCount = 0;
         }
       }
-      const saveTrainingPart: saveTrainingPart = {
+      const saveTrainingPart: ISaveTrainingPart = {
         startTrainingTimestamp: currentTrainingState.startTrainingTimestamp,
         totalWordsCount: currentTrainingState.totalWordsCount,
         trainingCountPerDay: currentTrainingState.trainingCountPerDay,
@@ -302,7 +302,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       };
 
       const idArray: string[] = newWordsForTraining.map((myWord) => myWord._id);
-      const saveTraining: saveTraining = {
+      const saveTraining: ISaveTraining = {
         ...saveTrainingPart,
         wordsForTraining: idArray,
       };
@@ -384,7 +384,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       dailyTrainingCount = currentTrainingState.trainingCountPerDay;
     }
     console.log('settings.optional.mainGameShort', settings.optional.mainGameShort);
-    const a: saveTraining | null = JSON.parse(settings.optional.mainGameShort);
+    const a: ISaveTraining | null = JSON.parse(settings.optional.mainGameShort);
     if (a !== null) {
       console.log('a.startTrainingTimestamp', a.startTrainingTimestamp);
       const dayNow: string = new Date(Date.now()).toISOString().split('T')[0];
