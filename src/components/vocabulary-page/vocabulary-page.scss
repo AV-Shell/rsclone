@@ -5,6 +5,33 @@
 .vocabulary {
   background-color: $bg-primary;
   color: $text-dark-75;
+
+  & .card {
+    padding: $card-padding-margin;
+    background-color: #fff;
+    border-radius: $block-border-radius;
+  }
+
+  .icon {
+    transition: all $bg-color-transition;
+    cursor: pointer;
+    flex: 0 0 auto;
+    &:hover {
+      fill: $color-primary-hover;
+    }
+
+    &-left {
+      margin-right: 1.5rem;
+    }
+  }
+
+  .svg-color-primary {
+    fill: $color-primary;
+  }
+
+  .svg-color-info {
+    fill: $color-info;
+  }
 }
 
 .subheader {
@@ -191,7 +218,6 @@
 
 .container {
   max-width: 1390px;
-  
   margin: 0 auto;
 }
 
@@ -208,16 +234,53 @@
     color: $text-muted;
     letter-spacing: 0.13rem;
     white-space: pre-wrap;
+    user-select: none;
+
+    &:first-child {
+      padding-left: 4.8rem;
+    }
+  }
+
+  & > tbody .table-row {
+    cursor: pointer;
+    counter-increment: tr;
+
+    & .table-data:first-child {
+      padding-left: 4.8rem;
+
+      &:before {
+        content: counter(tr);
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        line-height: 1.5em;
+        font-family: inherit;
+        font-weight: 500;
+        color: $text-muted;
+        text-align: center;
+      }
+    }
+
+    &:hover {
+      background-color: $bg-primary;
+    }
   }
 
   &-row {
     width: 100%;
     border-bottom: 1px solid $color-separator-line;
+    background-color: transparent;
+    transition: $bg-color-transition;
   }
 
   &-data {
     padding: 1.2rem;
     vertical-align: middle;
+    position: relative;
   }
 
   & .cell-wrapper {
@@ -232,33 +295,16 @@
   }
   & .cell-img {
     height: 50px;
-    width: auto;
+    width: 75px;
+    display: flex;
     border-radius: $block-border-radius;
     overflow: hidden;
     margin-right: 1.5rem;
+
     > img {
-      height: 100%;
+      object-fit: cover;
+      width: 100%;
     }
-  }
-
-  .icon {
-    transition: all $bg-color-transition;
-    cursor: pointer;
-    &:hover {
-      fill: $color-primary-hover;
-    }
-
-    &-left {
-      margin-right: 1.5rem;
-    }
-  }
-
-  .svg-color-primary {
-    fill: $color-primary;
-  }
-
-  .svg-color-info {
-    fill: $color-info;
   }
 
   &-text {
@@ -266,12 +312,23 @@
     font-size: 1.2rem;
     font-weight: 500;
     line-height: 140%;
+
     &-primary {
       color: $text-dark-75;
       font-size: 1.4rem;
       font-weight: 600;
       line-height: 140%;
     }
+
+    &-transcription {
+      color: $text-dark-75;
+      font-size: 1.4rem;
+      line-height: 140%;
+      font-weight: 500;
+      font-style: italic;
+      
+    }
+
   }
 
   &-change-status {
@@ -286,7 +343,7 @@
     background-color: $color-primary-blend;
     transition: all $bg-color-transition;
 
-    &:not(:last-child){
+    &:not(:last-child) {
       margin-right: 10px;
     }
 
@@ -311,14 +368,5 @@
         background-color: $color-dark-hover;
       }
     }
-  }
-}
-
-.card {
-  padding: 25px;
-  background-color: #fff;
-  border-radius: $block-border-radius;
-  & .left-column{
-    display: flex;
   }
 }
