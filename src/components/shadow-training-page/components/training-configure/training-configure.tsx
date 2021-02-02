@@ -12,6 +12,11 @@ import {
   MIN_REPEAT_WORDS_PER_DAY,
   MAX_REPEAT_WORDS_PER_DAY,
 } from '../../../../constants/constants';
+
+import {
+  CountDifficult,
+  CountForToday,
+} from '../../../../helpers/utils';
 import { RU, EN } from './languages';
 
 interface ITrainingSettings {
@@ -32,6 +37,11 @@ interface IWordsSetting {
   repeat: number,
 }
 
+interface IUserWordsFilteredData {
+  difficult: number,
+  forToday: number,
+}
+
 interface Iprops extends shadowTrainingProps {
   dailyTrainingCount: number,
   // eslint-disable-next-line no-unused-vars
@@ -49,8 +59,11 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
     new: settings.optional.newWordsPerDay,
     repeat: settings.optional.repeatWordsPerDay,
   });
+  const [wordsCount, setWordsCount] = useState<IUserWordsFilteredData>({
+    difficult: CountDifficult(userWords),
+    forToday: CountForToday(userWords),
+  });
 
-  // заменить с приходом языка в пропсы
   const language: ITrainingSettings = isLanguageRU ? RU : EN;
 
   const changeTrainingWordsSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,16 +80,13 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
       value = MIN_REPEAT_WORDS_PER_DAY;
     }
 
-    setWordsSetting((old) => {
-      console.log('');
-      return {
+    setWordsSetting((old) => (
+      {
         ...old,
         [name]: value,
-      };
-    });
+      }
+    ));
   };
-
-  console.log('wordsSetting', wordsSetting);
 
   const startTrainingWithWords = (trainingType: TTrainingType) => {
     const startTrainingParams: IStartTrainingParams = {
@@ -90,7 +100,7 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
   if ((settings === null) || (statistic === null) || (userWords === null)) {
     return <div className="No props Shadow Traning Page" />;
   }
-  console.log('wordsSetting', wordsSetting);
+
   return (
     <div className="training-configure">
       <div className="wrapper">
@@ -128,9 +138,13 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
             </div>
             <div className="training-template-header-hard-words">
               {language.wordsHard}
+              &nbsp;
+              {wordsCount.difficult}
             </div>
             <div className="training-template-header-left-words">
               {language.wordsLeft}
+              &nbsp;
+              {wordsCount.forToday}
             </div>
           </div>
           <div className="training-template-body">

@@ -311,6 +311,26 @@ function isSameDays(date1: number, date2: number): boolean {
     (date1Date.getUTCDate() === date2Date.getUTCDate()));
 }
 
+function CountDifficult(arr: paginatedWord[]): number {
+  const result: number = arr.filter((uWord) => {
+    if (uWord.userWord) {
+      return uWord.userWord.optional.status === 'difficult';
+    }
+    return false;
+  }).length;
+  return result;
+}
+
+function CountForToday(arr: paginatedWord[]): number {
+  const result: number = arr.filter((uWord) => {
+    if (uWord.userWord) {
+      return uWord.userWord.optional.nextRepeat < nextUTCDayTimeStamp();
+    }
+    return false;
+  }).length;
+  return result;
+}
+
 export {
   storage,
   loadNewWords,
@@ -323,4 +343,6 @@ export {
   limitMinMax,
   isCurrentUTCDay,
   isSameDays,
+  CountDifficult,
+  CountForToday,
 };

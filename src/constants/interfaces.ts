@@ -231,9 +231,9 @@ interface defaultLoginedProps extends IlocalProps {
   apiService: ApiService,
 }
 
-export interface dailyGoalProps extends defaultLoginedProps { }
+export interface IDailyGoalProps extends defaultLoginedProps { }
 
-export interface dashboardProps extends defaultLoginedProps { }
+export interface IDashboardProps extends defaultLoginedProps { }
 
 export interface magicButtonProps extends defaultLoginedProps, loginStatusProps { }
 

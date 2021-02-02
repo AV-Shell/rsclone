@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   userSettings,
   userStatistics,
@@ -20,7 +19,7 @@ const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/av
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
 const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/';
-const FLAG_URL_4x3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/';
+const FLAG_URL_4X3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/';
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/us.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
@@ -167,7 +166,7 @@ export {
   FILE_URL,
   AVA_URL,
   FLAG_URL,
-  FLAG_URL_4x3,
+  FLAG_URL_4X3,
   ONE_MINUTE,
   TEN_MINUTES,
   ONE_DAY,
