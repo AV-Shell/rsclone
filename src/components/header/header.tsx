@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useState } from "react";
-import "./header.scss";
-import BurgerMenu from "../burger-menu";
-import { Link } from "react-router-dom";
-import { headerProps } from "../../constants/interfaces";
-import { AVA_URL } from "../../constants/constants";
-import { FLAG_URL_4x3 } from "../../constants/constants";
-import { RU, EN } from "./langs";
+import React, { useRef, useEffect, useState } from 'react';
+import './header.scss';
+import { Link } from 'react-router-dom';
+import BurgerMenu from '../burger-menu';
+import { headerProps } from '../../constants/interfaces';
+import { AVA_URL, FLAG_URL_4x3 } from '../../constants/constants';
+
+import { RU, EN } from './langs';
 
 function Header(props: headerProps) {
   const {
@@ -16,6 +16,7 @@ function Header(props: headerProps) {
     isLanguageRU,
     setIsLanguageRU,
     settings,
+    setIsModalWindow,
   } = props;
   const [isLangVisible, setisLangVisible] = useState<boolean>(true);
   const [isUserSetUp, setisUserSetUp] = useState<boolean>(false);
@@ -24,7 +25,7 @@ function Header(props: headerProps) {
   const [isToggleMenu, setisToggleMenu] = useState<boolean>(true);
   const refLang: any = useRef(null);
   const refUser: any = useRef(null);
-  const userName: any = localStorage.getItem("userName")?.slice(1, -1);
+  const userName: any = localStorage.getItem('userName')?.slice(1, -1);
   let currentLang = isLanguageRU ? RU : EN;
   useEffect(() => {
     currentLang = isLanguageRU ? RU : EN;
@@ -43,16 +44,16 @@ function Header(props: headerProps) {
   }
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutsideLang, true);
+    document.addEventListener('click', handleClickOutsideLang, true);
     return () => {
-      document.removeEventListener("click", handleClickOutsideLang, true);
+      document.removeEventListener('click', handleClickOutsideLang, true);
     };
   });
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutsideUser, true);
+    document.addEventListener('click', handleClickOutsideUser, true);
     return () => {
-      document.removeEventListener("click", handleClickOutsideUser, true);
+      document.removeEventListener('click', handleClickOutsideUser, true);
     };
   });
   const toggleCurrentLang = () => {
@@ -90,21 +91,25 @@ function Header(props: headerProps) {
     ? currentLang.darkTheme
     : currentLang.lightTheme;
   const styleLangDownMenu =
-    isLangUp && isLangVisible ? "header-lang isActive" : "header-lang";
+    isLangUp && isLangVisible ? 'header-lang isActive' : 'header-lang';
   const styleLangIcon =
     isLangUp && isLangVisible
-      ? "bi bi-chevron-down rotate"
-      : "bi bi-chevron-down";
+      ? 'bi bi-chevron-down rotate'
+      : 'bi bi-chevron-down';
   const styleUserDownMenu =
     isUserSetUp && isUserVisible
-      ? "header-userInfo isActive"
-      : "header-userInfo";
+      ? 'header-userInfo isActive'
+      : 'header-userInfo';
   const styleUserIcon =
     isUserSetUp && isUserVisible
-      ? "bi bi-chevron-down rotate"
-      : "bi bi-chevron-down";
+      ? 'bi bi-chevron-down rotate'
+      : 'bi bi-chevron-down';
   const setLang = isLanguageRU ? <div> English</div> : <div>Русский</div>;
-  const avatarUrl = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
+  let avatarUrl:string = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
+  useEffect(() => {
+    avatarUrl = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
+  },[settings.optional.avatarID]);
+
   const flagUrl = isLanguageRU
     ? `${FLAG_URL_4x3}ru.svg`
     : `${FLAG_URL_4x3}us.svg`;
@@ -118,7 +123,7 @@ function Header(props: headerProps) {
       {!isLanguageRU && <span>English</span>}
       {isLanguageRU && <span>Русский</span>}
 
-      <i className={styleLangIcon}></i>
+      <i className={styleLangIcon} />
       <div
         className="header-lang-dropdown"
         ref={refLang}
@@ -142,19 +147,19 @@ function Header(props: headerProps) {
         <div className="header-userInfo-userImg">
           <img src={avatarUrl} alt="avatar" />
         </div>
-        <i className={styleUserIcon}></i>
+        <i className={styleUserIcon} />
         <div className="header-userInfo-dropdown" ref={refUser}>
           <div>
-            <i className="bi bi-person"></i>
+            <i className="bi bi-person" />
             {userName}
           </div>
           <Link to="/settings">
-            <i className="bi bi-file-earmark-person"></i>
+            <i className="bi bi-file-earmark-person" />
             <div>{currentLang.profileSetting}</div>
           </Link>
-          <hr className='separator'/>
+          <hr className="separator" />
           <Link to="/logout">
-            <i className="bi bi-box-arrow-left"></i>
+            <i className="bi bi-box-arrow-left" />
             <div>{currentLang.logOut}</div>
           </Link>
         </div>
@@ -163,32 +168,32 @@ function Header(props: headerProps) {
       <div className="header-theme">
         <div className="header-theme-label">{styleTheme}</div>
         <div className="header-toggle click" onClick={props.toggleTheme}>
-          <span></span>
+          <span />
         </div>
       </div>
     </div>
   );
 
-  const muteImgSet = isMute ? "bi bi-volume-mute" : "bi bi-volume-up";
-  const headerSwitchMenu = isAuthorizated ? <BurgerMenu /> : null;
+  const muteImgSet = isMute ? 'bi bi-volume-mute' : 'bi bi-volume-up';
+  const headerSwitchMenu = isAuthorizated ? <BurgerMenu setIsModalWindow={setIsModalWindow} isLanguageRU={isLanguageRU} /> : null;
   const headerSwitch = isAuthorizated ? authorizationHeader : loginMenu;
-  const headerToggleMenu = isToggleMenu ? "header" : "header isToggle";
+  const headerToggleMenu = isToggleMenu ? 'header' : 'header isToggle';
 
   return (
     <header className={headerToggleMenu}>
       {headerSwitchMenu}
-      <div className="header-logoimg" id="logoImgID"></div>
+      <div className="header-logoimg" id="logoImgID" />
       <div className="header-switch-menu">
         <div className="header-mute" onClick={toggleCurrentMute}>
-          <i className={muteImgSet}></i>
+          <i className={muteImgSet} />
         </div>
         {switchLangMenu}
         {headerSwitch}
-        <span className="close" onClick={toggleHeaderMobile}></span>
+        <span className="close" onClick={toggleHeaderMobile} />
       </div>
 
       <div className="header-toggle-menu " onClick={toggleHeaderMobile}>
-        <div className="dot"></div>
+        <div className="dot" />
       </div>
     </header>
   );
