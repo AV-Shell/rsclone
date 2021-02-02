@@ -279,9 +279,12 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       } else {
         newWordsForTraining = currentTrainingState.wordsForTraining.slice(0, -1);
       }
+      if (res.points > 0) {
+        currentTrainingState.trueAnswerCount += res.points;
+      }
 
       if (newWordsForTraining.length === 0) {
-        // currentTrainingState.trainingCountPerDay += 1;
+        currentTrainingState.trainingCountPerDay += 1;
         bonusPoints = Math.floor((currentTrainingState.trueAnswerCount * 2) / (currentTrainingState.trainingCountPerDay ** 2));
         isTrainingEnd = true;
         if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStampConst) < 0) {
@@ -294,10 +297,8 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       const saveTrainingPart: saveTrainingPart = {
         startTrainingTimestamp: currentTrainingState.startTrainingTimestamp,
         totalWordsCount: currentTrainingState.totalWordsCount,
-        trainingCountPerDay: (newWordsForTraining.length > 0) ?
-          currentTrainingState.trainingCountPerDay :
-          currentTrainingState.trainingCountPerDay + 1,
-        trueAnswerCount: currentTrainingState.trueAnswerCount + res.points,
+        trainingCountPerDay: currentTrainingState.trainingCountPerDay,
+        trueAnswerCount: currentTrainingState.trueAnswerCount,
       };
 
       const idArray: string[] = newWordsForTraining.map((myWord) => myWord._id);
