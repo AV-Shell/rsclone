@@ -28,6 +28,7 @@ function TrainingPage(props:trainingCardProps) {
   const [counter, setCounter] = useState<number>(0);
   const [success, setSuccess] = useState<number>(0);
   const [isIntervalUsed, setIntervalUsed] = useState<boolean>(true);
+  const [isAutoFocus, setIsAutoFocus] = useState<boolean>(true);
 
   const trainingDay: number = Date.now();
   let nextTrainingDay: number = 0;
@@ -52,6 +53,7 @@ function TrainingPage(props:trainingCardProps) {
     setCounter(0);
     setSuccess(0);
     setIntervalUsed(true);
+    setIsAutoFocus(true);
   }, [word]);
 
   useEffect(() => {
@@ -81,14 +83,11 @@ function TrainingPage(props:trainingCardProps) {
     setIntervalLevel(userWord.optional.level);
     setCounter(userWord.optional.counter);
     setSuccess(userWord.optional.success);
-    console.log(`counter: ${counter}, success: ${success}`);
 
     nextTrainingDay = userWord.optional.nextRepeat;
     const nextDate = new Date(nextTrainingDay).setHours(0, 0, 0, 0);
-    console.log(nextDate);
+
     const thisDay = new Date(trainingDay).setHours(0, 0, 0, 0);
-    console.log(thisDay);
-    console.log(nextDate > thisDay);
     if (nextDate > thisDay) {
       setIntervalUsed(false);
     }
@@ -161,6 +160,8 @@ function TrainingPage(props:trainingCardProps) {
     updateIntervalLevel: setIntervalLevel,
     isIntervalUsed,
     soundsObject: allSounds,
+    isAutoFocus,
+    updateAutoFocus: setIsAutoFocus,
   };
 
   const objForExamplesPart: ForCardExamples = {
@@ -172,8 +173,8 @@ function TrainingPage(props:trainingCardProps) {
     isMeaningTranslationAfter: cardExplanationTranslationAfter,
     isSoundOn,
     isAnswered,
-    exampleSound,
-    meaningSound,
+    exampleSound: allSounds.exampleSound,
+    meaningSound: allSounds.meaningSound,
     soundsObject: allSounds,
     exampleString: thisWord.textExample,
     meaningString: thisWord.textMeaning,
@@ -221,7 +222,9 @@ function TrainingPage(props:trainingCardProps) {
                 31.8738L23.0775 32.5809L23.7846 31.8738L26.1091 29.5493L27.4279 30.868L28.135 31.5751L28.8421
                 30.868L30.8679 28.8421L31.575 28.135L30.8679 27.4279L29.5492 26.1092L31.8738 23.7847L32.5809
                 23.0775L31.8738 22.3704L30.555 21.0517L31.8738 19.733L32.5809 19.0259L31.8738 18.3188L29.8479
-                16.2929L29.1408 15.5858L28.4337 16.2929Z" stroke="none" strokeWidth="0"
+                16.2929L29.1408 15.5858L28.4337 16.2929Z"
+                stroke="none"
+                strokeWidth="0"
               />
             </svg>
             &nbsp;

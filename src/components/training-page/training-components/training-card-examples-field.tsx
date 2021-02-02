@@ -1,15 +1,18 @@
 import React from 'react';
 import {
-  IconForSound, ForCardExamples, TranslationProps, LineWrapperProps, TsoundsObject,
+  IconForSound, ForCardExamples, TranslationProps, LineWrapperProps,
 } from '../training-page-interfaces';
 import { soundControl, playSingleSound } from './training-simple-functions';
 
 export default function TrainingCardExamples(props: ForCardExamples) {
   const {
     isExampleShown, isExampleTranslationShown, isMeaningShown, isMeaningTranslationShown,
-    isSoundOn, isAnswered, exampleString, meaningString, exampleSound, meaningSound, soundsObject,
+    isSoundOn, isAnswered, exampleString, meaningString, soundsObject,
     exampleTranslationString, meaningTranslationString, isExampleTranslationAfter, isMeaningTranslationAfter,
   } = props;
+
+  const meaningPlaying: HTMLAudioElement = soundsObject.meaningSound;
+  const examplePlaying: HTMLAudioElement = soundsObject.exampleSound;
 
   const objForExample: LineWrapperProps = {
     isShown: isExampleShown,
@@ -50,8 +53,7 @@ export default function TrainingCardExamples(props: ForCardExamples) {
         forCSS="example-sound"
         isShown={isExampleShown}
         soundSelector=".audio-example"
-        soundToPlay={exampleSound}
-        keyObj="exampleSound"
+        soundToPlay={examplePlaying}
         soundObject={soundsObject}
       />
       <SoundOnSentences
@@ -59,8 +61,7 @@ export default function TrainingCardExamples(props: ForCardExamples) {
         forCSS="meaning-sound"
         isShown={isMeaningShown}
         soundSelector=".audio-meaning"
-        soundToPlay={meaningSound}
-        keyObj="meaningSound"
+        soundToPlay={meaningPlaying}
         soundObject={soundsObject}
       />
       <SentenceWithBlancs {...objForMeaning} />
@@ -73,21 +74,18 @@ export default function TrainingCardExamples(props: ForCardExamples) {
 
 function SoundOnSentences(props: IconForSound) {
   const {
-    isSoundOn, forCSS, isShown, soundToPlay, keyObj, soundObject,
+    isSoundOn, forCSS, isShown, soundToPlay, soundObject,
   } = props;
   if (!isShown) {
     return null;
   }
 
-  const sound: TsoundsObject = {
-    keyObj: soundToPlay,
-  };
   const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
 
   const SoundHandler = () => {
     soundControl(soundObject);
     if (isSoundOn) {
-      playSingleSound(sound);
+      playSingleSound(soundToPlay);
     }
   };
   return (
