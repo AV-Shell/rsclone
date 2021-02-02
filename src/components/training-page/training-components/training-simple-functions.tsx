@@ -11,7 +11,6 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
   const classWhole: string = (id === status) ? `${classCss} active` : classCss;
 
   const ClickHandler = () => {
-    console.log(`${id} is clicked`);
     setStatusForObj(id);
   };
 
@@ -24,7 +23,9 @@ export function TrainingCardUpperBtn(props:upperButtonProps) {
       >
         <i className={iClass} />
         &nbsp;
-        {line}
+        <span>
+          {line}
+        </span>
       </button>
     );
   }
@@ -105,18 +106,18 @@ export function soundControl(soundsObject: TsoundsObject) {
     sound.pause();
     // eslint-disable-next-line no-param-reassign
     sound.currentTime = 0.0;
+    // eslint-disable-next-line no-param-reassign
+    sound.onended = null;
   });
 }
-export async function playSingleSound(soundsObject: TsoundsObject) {
-  console.log(soundsObject);
-  Object.values(soundsObject).forEach((sound) => {
-    console.log(sound);
-    sound.load();
-    sound.play();
-  });
+export async function playSingleSound(sound: HTMLAudioElement) {
+  console.log('sound playing', sound);
+  sound.load();
+  sound.play();
 }
 
 export function playSounds(soundsObject: TsoundsObject) {
+  console.log('sounds playing', soundsObject);
   const word: HTMLAudioElement = soundsObject.wordSound;
   const example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
   const meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
@@ -125,22 +126,26 @@ export function playSounds(soundsObject: TsoundsObject) {
   word.load();
   word.play();
   if (('exampleSound' in soundsObject) && ('meaningSound' in soundsObject)) {
-    example.load();
-    meaning.load();
     word.onended = () => {
-      example.play();
-      example.onended = () => {
-        meaning.play();
+      soundControl(soundsObject);
+      meaning.load();
+      meaning.play();
+      meaning.onended = () => {
+        soundControl(soundsObject);
+        example.load();
+        example.play();
       };
     };
   } else if ('exampleSound' in soundsObject) {
-    example.load();
     word.onended = () => {
+      soundControl(soundsObject);
+      example.load();
       example.play();
     };
   } else if ('meaningSound' in soundsObject) {
-    meaning.load();
     word.onended = () => {
+      soundControl(soundsObject);
+      meaning.load();
       meaning.play();
     };
   }

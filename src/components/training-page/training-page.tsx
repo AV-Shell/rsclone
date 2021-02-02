@@ -21,13 +21,14 @@ function TrainingPage(props:trainingCardProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
-  const [wordPosition, setWordPosition] = useState<'active' | 'deleted' | 'difficult'>('active'); // для создания объекта
-  const [intervalStatus, setIntervalStatus] = useState<string>(''); // для подсчета интервала
-  const [intervalLevel, setIntervalLevel] = useState<number>(MIN_REPEAT_LEVEL); // прокидывать в футер карточки
-  const [isNew, setIsNew] = useState<boolean>(true); // чтобы брать настройки, если слово не новое
+  const [wordPosition, setWordPosition] = useState<'active' | 'deleted' | 'difficult'>('active');
+  const [intervalStatus, setIntervalStatus] = useState<string>('');
+  const [intervalLevel, setIntervalLevel] = useState<number>(MIN_REPEAT_LEVEL);
+  const [isNew, setIsNew] = useState<boolean>(true);
   const [counter, setCounter] = useState<number>(0);
   const [success, setSuccess] = useState<number>(0);
   const [isIntervalUsed, setIntervalUsed] = useState<boolean>(true);
+  const [isAutoFocus, setIsAutoFocus] = useState<boolean>(true);
 
   const trainingDay: number = Date.now();
   let nextTrainingDay: number = 0;
@@ -52,6 +53,7 @@ function TrainingPage(props:trainingCardProps) {
     setCounter(0);
     setSuccess(0);
     setIntervalUsed(true);
+    setIsAutoFocus(true);
   }, [word]);
 
   useEffect(() => {
@@ -81,14 +83,11 @@ function TrainingPage(props:trainingCardProps) {
     setIntervalLevel(userWord.optional.level);
     setCounter(userWord.optional.counter);
     setSuccess(userWord.optional.success);
-    console.log(`counter: ${counter}, success: ${success}`);
 
     nextTrainingDay = userWord.optional.nextRepeat;
     const nextDate = new Date(nextTrainingDay).setHours(0, 0, 0, 0);
-    console.log(nextDate);
+
     const thisDay = new Date(trainingDay).setHours(0, 0, 0, 0);
-    console.log(thisDay);
-    console.log(nextDate > thisDay);
     if (nextDate > thisDay) {
       setIntervalUsed(false);
     }
@@ -98,15 +97,15 @@ function TrainingPage(props:trainingCardProps) {
   const audioWordURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audio}`), [thisWord.audio]);
   const audioExampleURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audioExample}`), [thisWord.audioExample]);
   const audioMeaningURL: string = useMemo(() => (`${FILE_URL}/${thisWord.audioMeaning}`), [thisWord.audioMeaning]);
-  // как-то надо нижележащее тоже в юзМемо
-  // упс, теперь снова на значок рядом с инпутом воспроизводится всё
+
   const wordSound: HTMLAudioElement = useMemo(() => (new Audio(audioWordURL)), [audioWordURL]);
   const exampleSound: HTMLAudioElement = useMemo(() => (new Audio(audioExampleURL)), [audioExampleURL]);
   const meaningSound: HTMLAudioElement = useMemo(() => (new Audio(audioMeaningURL)), [audioMeaningURL]);
+
   const allSounds: TsoundsObject = useMemo(() => ({
     wordSound,
-    exampleSound,
     meaningSound,
+    exampleSound,
   }), [wordSound, exampleSound, meaningSound]);
 
   useEffect(() => {
@@ -114,6 +113,14 @@ function TrainingPage(props:trainingCardProps) {
 
     soundControl(allSounds);
   }, [isMute, allSounds]);
+
+  useEffect(() => {
+    console.log('smth');
+    return () => {
+      console.log('sounds should be silenced', allSounds);
+      soundControl(allSounds);
+    };
+  }, []);
 
   const objForTranslation: IlinePropsTranslation = {
     isTrue: cardTranslation,
@@ -156,6 +163,8 @@ function TrainingPage(props:trainingCardProps) {
     updateIntervalLevel: setIntervalLevel,
     isIntervalUsed,
     soundsObject: allSounds,
+    isAutoFocus,
+    updateAutoFocus: setIsAutoFocus,
   };
 
   const objForExamplesPart: ForCardExamples = {
@@ -167,8 +176,8 @@ function TrainingPage(props:trainingCardProps) {
     isMeaningTranslationAfter: cardExplanationTranslationAfter,
     isSoundOn,
     isAnswered,
-    exampleSound,
-    meaningSound,
+    exampleSound: allSounds.exampleSound,
+    meaningSound: allSounds.meaningSound,
     soundsObject: allSounds,
     exampleString: thisWord.textExample,
     meaningString: thisWord.textMeaning,
@@ -198,7 +207,29 @@ function TrainingPage(props:trainingCardProps) {
       <div className="wrapper">
         <div className="wrapper-upper">
           <h1 className="training-page-title">
-            <i className="bi bi-stack" />
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 34 34"
+              fill="#181C32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M28.4337 16.2929L24.0833 20.6433L13.3567 9.91671L17.7071 5.56631L18.4142
+                4.85921L17.7071 4.1521L15.6813 2.12627L14.9741 1.41916L14.267 2.12627L12.9483 3.44499L11.6296
+                2.12627L10.9225 1.41916L10.2154 2.12627L7.89081 4.45083L6.57209 3.1321L5.86498 2.42499L5.15787
+                3.1321L3.13204 5.15793L2.42493 5.86504L3.13204 6.57215L4.45077 7.89087L2.12621 10.2154L1.4191
+                10.9225L2.12621 11.6296L3.44493 12.9484L2.12621 14.2671L1.4191 14.9742L2.12621 15.6813L4.15204
+                17.7071L4.85915 18.4143L5.56625 17.7071L9.91665 13.3568L20.6433 24.0834L16.2929 28.4338L15.5858
+                29.1409L16.2929 29.848L18.3187 31.8738L19.0258 32.5809L19.7329 31.8738L21.0516 30.5551L22.3704
+                31.8738L23.0775 32.5809L23.7846 31.8738L26.1091 29.5493L27.4279 30.868L28.135 31.5751L28.8421
+                30.868L30.8679 28.8421L31.575 28.135L30.8679 27.4279L29.5492 26.1092L31.8738 23.7847L32.5809
+                23.0775L31.8738 22.3704L30.555 21.0517L31.8738 19.733L32.5809 19.0259L31.8738 18.3188L29.8479
+                16.2929L29.1408 15.5858L28.4337 16.2929Z"
+                stroke="none"
+                strokeWidth="0"
+              />
+            </svg>
             &nbsp;
             {currentLang.trainingHeader}
           </h1>
@@ -223,8 +254,29 @@ function TrainingPage(props:trainingCardProps) {
                 className="bi bi-keyboard"
                 viewBox="0 0 16 16"
               >
-                <path d="M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z" />
-                <path d="M13 10.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm0-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5 0A.25.25 0 0 1 8.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 8 8.75v-.5zm2 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.5zm1 2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-5-2A.25.25 0 0 1 6.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 6 8.75v-.5zm-2 0A.25.25 0 0 1 4.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 4 8.75v-.5zm-2 0A.25.25 0 0 1 2.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2 8.75v-.5zm11-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm-2 0A.25.25 0 0 1 9.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 9 6.75v-.5zm-2 0A.25.25 0 0 1 7.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 7 6.75v-.5zm-2 0A.25.25 0 0 1 5.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 5 6.75v-.5zm-3 0A.25.25 0 0 1 2.25 6h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5A.25.25 0 0 1 2 6.75v-.5zm0 4a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-.5zm2 0a.25.25 0 0 1 .25-.25h5.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-5.5a.25.25 0 0 1-.25-.25v-.5z" />
+                <path
+                  d="M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2
+                  2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z"
+                />
+                <path
+                  d="M13 10.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0
+                  1-.25-.25v-.5zm0-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25
+                  0 0 1-.25-.25v-.5zm-5 0A.25.25 0 0 1 8.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25
+                  0 0 1 8 8.75v-.5zm2 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5a.25.25
+                  0 0 1-.25-.25v-.5zm1 2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0
+                  0 1-.25-.25v-.5zm-5-2A.25.25 0 0 1 6.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1
+                  6 8.75v-.5zm-2 0A.25.25 0 0 1 4.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 4
+                  8.75v-.5zm-2 0A.25.25 0 0 1 2.25 8h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 2
+                  8.75v-.5zm11-2a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0
+                  1-.25-.25v-.5zm-2 0a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0
+                  1-.25-.25v-.5zm-2 0A.25.25 0 0 1 9.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 9
+                  6.75v-.5zm-2 0A.25.25 0 0 1 7.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 7
+                  6.75v-.5zm-2 0A.25.25 0 0 1 5.25 6h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5A.25.25 0 0 1 5
+                  6.75v-.5zm-3 0A.25.25 0 0 1 2.25 6h1.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-1.5A.25.25 0 0 1 2
+                  6.75v-.5zm0 4a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0
+                  1-.25-.25v-.5zm2 0a.25.25 0 0 1 .25-.25h5.5a.25.25 0 0 1 .25.25v.5a.25.25 0 0 1-.25.25h-5.5a.25.25 0 0
+                  1-.25-.25v-.5z"
+                />
               </svg>
             </button>
             <TrainingCardUpperBtn

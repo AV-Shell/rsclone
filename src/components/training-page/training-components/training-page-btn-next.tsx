@@ -25,41 +25,31 @@ export default function ButtonNext(props: NextButtonProps) {
     let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
 
     let levelNow: number = levelForRepeat;
-    console.log(levelNow, 'levelNow');
+
     if (isAnswerTrue && isIntervalUsed) {
       switch (levelStatus) {
         case 'again':
-          console.log('in again switch');
-          levelNow -= 2; // сбросить до исходного
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
+          levelNow -= 2;
           break;
         case 'hard':
-          console.log('in hard switch');
           if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow -= 1;
           }
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
           break;
         case 'easy':
-          console.log('in easy switch');
           if (levelNow < MAX_REPEAT_LEVEL - 2) {
             levelNow += 1;
           }
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
           break;
         default:
-          console.log('in normal switch');
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
           break;
       }
     } else if (isIntervalUsed) {
-      console.log('when answer wrong');
       levelNow = 1;
       nextTime += levelsOfRepeat[levelNow];
-      console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
     }
 
     const wordSettings: userWordOptional = {
@@ -68,7 +58,7 @@ export default function ButtonNext(props: NextButtonProps) {
       nextRepeat: nextTime, // подсчет по методике в кнопке или из настроек, если без ИП
       counter: currentCount, // сколько раз выпадала, плюсовать по клику на дальше
       success: currentSuccess, // сколько всего правильных ответов, плюсовать по клику на дальше
-      progress: currentProgress, // отношение успешных ответов ко всемпше ыефегы
+      progress: currentProgress, // отношение успешных ответов ко всем
       status: wordStatus, // string,   'active', 'deleted', 'difficult'
       level: levelNow,
       userWord: true,
@@ -82,14 +72,6 @@ export default function ButtonNext(props: NextButtonProps) {
       _id: wordID,
     };
 
-    console.log('повторять или нет: ', resultOfTheCard.isRepeat);
-    console.log(`доинтервальный уровень повторения: ${levelForRepeat},
-    уровень повторения: ${levelNow}, 
-    повторить через: ${levelsOfRepeat[levelNow]} 
-    следущий повтор: ${nextTime}`);
-    console.log(resultOfTheCard);
-
-    // возвращение нужного объекта
     const res: cardAnswer = resultOfTheCard;
     getAnswer(res);
   };
@@ -100,7 +82,9 @@ export default function ButtonNext(props: NextButtonProps) {
       className="button-next"
       onClick={ButtonNextHandler}
     >
-      {language.nextButton}
+      <span>
+        {language.nextButton}
+      </span>
       &nbsp;
       <i className="bi bi-box-arrow-in-right" />
     </button>

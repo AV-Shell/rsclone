@@ -2,7 +2,7 @@
 @import "./../../sass/constants.scss";
 
 .logout-page {
-  background-color: white;
+  background-color: $bg-primary;
   color: black;
   display: flex;
   justify-content: center;
@@ -11,7 +11,7 @@
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
   .dark-theme & {
-    background-color: $dark-color-secondary;
+    background-color: $d-bg-primary;
     color: white;
   }
   .logout-form {
@@ -21,10 +21,10 @@
     @media (max-width: 499px) {
       width: 320px;
     }
-    background-color: white;
+    background-color: $bg-primary;
     border: 1px solid black;
     .dark-theme & {
-      background-color: $bg-card-dark;
+      background-color: $d-bg-card-primary;
       color: white;
       border-color: $color-secondary;
     }
@@ -61,7 +61,7 @@
         padding: 13px;
         font-size: 16px;
         font-weight: 600;
-        color: #ffffff;
+        color: white;
         background-color: $color-primary;
         border-color: $color-primary;
         width: 140px;
@@ -107,14 +107,14 @@
       margin: 1rem 0;
       box-sizing: border-box;
       width: 320px;
-      background-color: white;
+      background-color: $bg-primary;
       border: 1px solid black;
       border-radius: $block-border-radius;
       text-align: left;
       padding: 1rem;
 
       .dark-theme & {
-        background-color: $bg-card-dark;
+        background-color: $d-bg-card-primary;
         color: white;
         border-color: $color-secondary;
       }
@@ -146,7 +146,7 @@
           padding: 13px;
           font-size: 16px;
           font-weight: 600;
-          color: #ffffff;
+          color: white;
           background-color: $color-primary;
           border-color: $color-primary;
           width: 140px;

@@ -3,26 +3,26 @@ import { cardAnswer } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: 'active' | 'deleted' | 'difficult',
-  isShown:boolean,
+  isShown: boolean,
   isAnswerRight: boolean,
   isWordNew: boolean,
   status: 'active' | 'deleted' | 'difficult';
-  line:string,
+  line: string,
   classCss: string,
   iClass: string
   setStatusForObj: React.Dispatch<React.SetStateAction<'active' | 'deleted' | 'difficult'>>
 }
 export interface lineProps {
-  isTrue:boolean,
-  line:string,
+  isTrue: boolean,
+  line: string,
   classCss: string,
 }
 
 export interface IlinePropsTranslation {
-  isTrue:boolean,
+  isTrue: boolean,
   isShownAfter: boolean,
   isAnswered: boolean,
-  line:string,
+  line: string,
   classCss: string,
 }
 export interface IforInput {
@@ -34,7 +34,7 @@ export interface IforInput {
   isTrue: boolean,
   updateAnswer: React.Dispatch<React.SetStateAction<boolean>>,
   isSoundOn: boolean,
-  isAutoPlayOn: boolean,  
+  isAutoPlayOn: boolean,
   playExample: boolean,
   playMeaning: boolean,
   counter: number,
@@ -45,7 +45,9 @@ export interface IforInput {
   intervalLevel: number,
   updateIntervalLevel: React.Dispatch<React.SetStateAction<number>>,
   isIntervalUsed: boolean,
-  soundsObject: TsoundsObject
+  soundsObject: TsoundsObject,
+  isAutoFocus: boolean,
+  updateAutoFocus: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface forStars {
@@ -56,7 +58,6 @@ export interface dayProgress {
   left: number,
   right: number
 }
-
 
 export interface forFooter {
   hasShowAnswerButton: boolean,
@@ -73,7 +74,7 @@ export interface forFooter {
 
 export interface footerBtns {
   id: string,
-  line:string,
+  line: string,
   classCss: string,
   intervalLvl: string,
   updateIntervalLvl: React.Dispatch<React.SetStateAction<string>>,
@@ -86,7 +87,6 @@ export interface IconForSound {
   isShown: boolean,
   soundSelector: string,
   soundToPlay: HTMLAudioElement,
-  keyObj: string,
   soundObject: TsoundsObject
 }
 
@@ -108,13 +108,13 @@ export interface ForCardExamples {
   meaningTranslationString: string,
 }
 
-export interface LineWrapperProps{
+export interface LineWrapperProps {
   isShown: boolean,
   hasAnswer: boolean,
-  line:string, 
-  classCSS:string, 
-  openTag:'<b>'|'<i>', 
-  closingTag:'</b>'|'</i>',
+  line: string,
+  classCSS: string,
+  openTag: '<b>' | '<i>',
+  closingTag: '</b>' | '</i>',
 }
 
 export interface TranslationProps {
@@ -148,7 +148,7 @@ export interface WordProgressProps {
 }
 
 export type Tlanguages = {
-  [variable: string]: string 
+  [variable: string]: string
 }
 
 export type TsoundsObject = {

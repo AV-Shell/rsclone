@@ -274,14 +274,14 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
           .catch((error) => { console.log('create'); userWordServerLog(error); });
       }
       let newWordsForTraining: paginatedWord[];
-      if (res.isRepeat) {
-        newWordsForTraining = [word, ...currentTrainingState.wordsForTraining.slice(0, -1)];
+      if (res.isRepeat || (res.points === 0)) {
+        newWordsForTraining = [{ ...word }, ...currentTrainingState.wordsForTraining.slice(0, -1)];
       } else {
         newWordsForTraining = currentTrainingState.wordsForTraining.slice(0, -1);
       }
 
       if (newWordsForTraining.length === 0) {
-        currentTrainingState.trainingCountPerDay += 1;
+        // currentTrainingState.trainingCountPerDay += 1;
         bonusPoints = Math.floor((currentTrainingState.trueAnswerCount * 2) / (currentTrainingState.trainingCountPerDay ** 2));
         isTrainingEnd = true;
         if ((currentTrainingState.startTrainingTimestamp - currentUTCDayTimeStampConst) < 0) {

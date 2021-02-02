@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './logout-page.scss';
-import { logOutProps } from '../../constants/interfaces';
+import { IlogOutProps } from '../../constants/interfaces';
 
 interface Ilanguages {
   title: string,
@@ -32,20 +32,40 @@ const RU: Ilanguages = {
   no: 'Нет',
 };
 
-const LogoutPage: React.FC<logOutProps> = (props: logOutProps) => {
-  const { isLanguageRU, isDarkTheme, logoutUser } = props;
+const modalWindowShadowId = 'modalShadow';
+
+const LogoutPage: React.FC<IlogOutProps> = (props: IlogOutProps) => {
+  const {
+    isLanguageRU, logoutUser, setIsModalWindow,
+  } = props;
   // Component code start
   const [isModal, setIsModal] = useState(false);
   const showModal = () => {
     setIsModal(true);
+    setIsModalWindow(true);
   };
   const closeModal = () => {
     setIsModal(false);
+    setIsModalWindow(false);
+  };
+  const closeModalOut = (event: React.MouseEvent) => {
+    const myTarget = event.target as HTMLDivElement;
+    if (myTarget.id === modalWindowShadowId) {
+      setIsModal(false);
+      setIsModalWindow(false);
+    }
+  };
+  const logout = () => {
+    closeModal();
+    logoutUser();
   };
   const lang = isLanguageRU ? RU : EN;
   const modal = isModal ?
     (
-      <div className="modal-window">
+      <div
+        className="modal-window" onClick={closeModalOut}
+        role="presentation" id={modalWindowShadowId}
+      >
         <div className="modal-form" id="modal_form">
           <div className="title-container">
             <h3 className="title heading">
@@ -53,7 +73,7 @@ const LogoutPage: React.FC<logOutProps> = (props: logOutProps) => {
             </h3>
           </div>
           <div className="buttons-container">
-            <div className="button" onClick={logoutUser} role="presentation">{lang.yes}</div>
+            <div className="button" onClick={logout} role="presentation">{lang.yes}</div>
             <div className="button button-quit" onClick={closeModal} role="presentation">{lang.no}</div>
           </div>
         </div>

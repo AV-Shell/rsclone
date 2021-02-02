@@ -157,7 +157,7 @@ const newWordsFilter = '{"userWord":null}';
 const userWordsFilter = '{"userWord":{"$ne":null}}';
 
 const DARK_THEME_CLASSNAME = 'dark-theme';
-
+const MODAL_WINDOW_CLASSNAME = 'modal-window-isopen';
 const MAX_REPEAT_LEVEL: number = 28;
 
 export {
@@ -186,6 +186,7 @@ export {
   newWordsFilter,
   userWordsFilter,
   DARK_THEME_CLASSNAME,
+  MODAL_WINDOW_CLASSNAME,
   MIN_NEW_WORDS_PER_DAY,
   MAX_NEW_WORDS_PER_DAY,
   MIN_REPEAT_WORDS_PER_DAY,

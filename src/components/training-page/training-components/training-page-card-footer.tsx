@@ -94,7 +94,6 @@ function FooterButton(props: footerBtns) {
     }
   };
 
-  console.log('интервальное повторение:', intervalLvl);
   return (
     <button
       type="button"
