@@ -25,41 +25,31 @@ export default function ButtonNext(props: NextButtonProps) {
     let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
 
     let levelNow: number = levelForRepeat;
-    console.log(levelNow, 'levelNow');
+
     if (isAnswerTrue && isIntervalUsed) {
       switch (levelStatus) {
         case 'again':
-          console.log('in again switch');
-          levelNow -= 2; // сбросить до исходного
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
+          levelNow -= 2;
           break;
         case 'hard':
-          console.log('in hard switch');
           if (levelNow < MAX_REPEAT_LEVEL) {
             levelNow -= 1;
           }
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
           break;
         case 'easy':
-          console.log('in easy switch');
           if (levelNow < MAX_REPEAT_LEVEL - 2) {
             levelNow += 1;
           }
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
           break;
         default:
-          console.log('in normal switch');
           nextTime += levelsOfRepeat[levelNow];
-          console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
           break;
       }
     } else if (isIntervalUsed) {
-      console.log('when answer wrong');
       levelNow = 1;
       nextTime += levelsOfRepeat[levelNow];
-      console.log(`levelNow: ${levelNow}, nextRepeat: ${nextTime}`);
     }
 
     const wordSettings: userWordOptional = {
@@ -82,14 +72,6 @@ export default function ButtonNext(props: NextButtonProps) {
       _id: wordID,
     };
 
-    console.log('повторять или нет: ', resultOfTheCard.isRepeat);
-    console.log(`доинтервальный уровень повторения: ${levelForRepeat},
-    уровень повторения: ${levelNow}, 
-    повторить через: ${levelsOfRepeat[levelNow]} 
-    следущий повтор: ${nextTime}`);
-    console.log(resultOfTheCard);
-
-    // возвращение нужного объекта
     const res: cardAnswer = resultOfTheCard;
     getAnswer(res);
   };
