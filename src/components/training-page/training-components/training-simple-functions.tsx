@@ -111,11 +111,13 @@ export function soundControl(soundsObject: TsoundsObject) {
   });
 }
 export async function playSingleSound(sound: HTMLAudioElement) {
+  console.log('sound playing', sound);
   sound.load();
   sound.play();
 }
 
 export function playSounds(soundsObject: TsoundsObject) {
+  console.log('sounds playing', soundsObject);
   const word: HTMLAudioElement = soundsObject.wordSound;
   const example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
   const meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
