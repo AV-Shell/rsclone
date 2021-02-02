@@ -3,6 +3,7 @@ import React from 'react';
 import './vocabulary-page.scss';
 import { vocabularyProps } from '../../constants/interfaces';
 import TableRow from './table-row';
+import WordCard from './word-card';
 
 const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   console.log(props);
@@ -95,6 +96,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
           </div>
         </div>
       </header>
+      <WordCard obj={userWords[0]} />
       <div className="container">
         {content}
       </div>
