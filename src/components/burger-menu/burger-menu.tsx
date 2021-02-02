@@ -11,10 +11,10 @@ import { RU, EN } from "./langs";
 // import { IBurgerHeaderProps } from '../../constants/interfaces';
 interface IBurgerHeaderProps {
   setIsModalWindow: React.Dispatch<React.SetStateAction<boolean>>, isLanguageRU: boolean,
-  
+
 }
 function BurgerMenu(props: IBurgerHeaderProps) {
-  const { setIsModalWindow,isLanguageRU, } = props;
+  const { setIsModalWindow, isLanguageRU, } = props;
   const [isBurgerUp, setisBurgerUp] = useState<boolean>(false);
 
   console.log(props);
