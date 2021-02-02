@@ -26,7 +26,6 @@ $size-z: 500px;
       }
       .upper-btns.active {
         background-color: $color-dark-hover;
-        // color: $text-dark;
         &:hover {
           color: $text-dark-25;
         }
@@ -146,7 +145,6 @@ $size-z: 500px;
       }      
 
       > .button-next {
-        // background-color: $color-success;
         font-family: 'Montserrat', sans-serif;
         cursor: pointer;
         border-radius: $block-border-radius;
@@ -177,7 +175,6 @@ $size-z: 500px;
 
         &:hover {
           background: linear-gradient(270deg, #0bb7af, #ffa800);
-          // background-color: $color-success-hover;
         }
 
         > .bi {
