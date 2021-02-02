@@ -6,7 +6,7 @@ import fitness from './assets/fitness.svg';
 import gear from './assets/gear.svg';
 import magicButton from './assets/magicButton.svg';
 import speedometer from './assets/speedometer.svg';
-import { RU, EN } from "./langs";
+import { RU, EN } from './langs';
 
 // import { IBurgerHeaderProps } from '../../constants/interfaces';
 interface IBurgerHeaderProps {
@@ -14,7 +14,7 @@ interface IBurgerHeaderProps {
 
 }
 function BurgerMenu(props: IBurgerHeaderProps) {
-  const { setIsModalWindow, isLanguageRU, } = props;
+  const { setIsModalWindow, isLanguageRU } = props;
   const [isBurgerUp, setisBurgerUp] = useState<boolean>(false);
 
   console.log(props);
