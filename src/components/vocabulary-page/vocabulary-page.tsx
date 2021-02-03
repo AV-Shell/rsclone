@@ -14,36 +14,55 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   const { userWords, isLanguageRU } = props;
   const [sortingState, setSortingState] = useState<number>(1);
   const [filterState, setFilterState] = useState<string>('active');
+  const [isOpened, setIsOpened] = useState<number>(-1);
   // eslint-disable-next-line no-undef
   let wordList: JSX.Element[];
-
   const navigate = (status: string) => {
     // filteredWords = userWords.filter((el) => el.userWord.optional.status === status);
     setFilterState(status);
     console.log(status);
   };
+
+  const RowShell: React.FC<paginatedWord> = (el: paginatedWord) => (
+    <TableRow
+      obj={el} isLanguageRU={isLanguageRU} key={el._id}
+      choise={fullWord}
+    />
+  );
+
   const filteredWords: paginatedWord[] = userWords.filter((el) => el.userWord.optional.status === filterState);
   if (sortingState === 1) {
-    wordList = sortByWords(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByWords(filteredWords).map(RowShell);
   } else if (sortingState === -1) {
-    wordList = sortByWords(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByWords(filteredWords, true).map(RowShell);
   } if (sortingState === 2) {
-    wordList = sortByTranslation(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByTranslation(filteredWords).map(RowShell);
   } else if (sortingState === -2) {
-    wordList = sortByTranslation(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByTranslation(filteredWords, true).map(RowShell);
   } if (sortingState === 3) {
-    wordList = sortByGroup(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByGroup(filteredWords).map(RowShell);
   } else if (sortingState === -3) {
-    wordList = sortByGroup(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByGroup(filteredWords, true).map(RowShell);
   } if (sortingState === 4) {
-    wordList = sortByNextTraining(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords).map(RowShell);
   } else if (sortingState === -4) {
-    wordList = sortByNextTraining(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
-  }
-  if (sortingState === 5) {
-    wordList = sortByNextTraining(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords, true).map(RowShell);
+  } else if (sortingState === 5) {
+    wordList = sortByNextTraining(filteredWords).map(RowShell);
   } else if (sortingState === -5) {
-    wordList = sortByNextTraining(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords, true).map(RowShell);
+  }
+
+  function fullWord(str: string) {
+    console.log('fullWord', str);
+    const index: number = userWords.findIndex((el) => el._id === str);
+    if (index > -1) {
+      setIsOpened(index);
+    }
+  }
+
+  function closeFullWord() {
+    setIsOpened(-1);
   }
 
   if (userWords === null) {
@@ -58,6 +77,9 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
       setSortingState(num);
     }
   };
+
+
+  const okno = (isOpened > -1) ? <WordCard obj={userWords[isOpened]} isLanguageRU={isLanguageRU} close={closeFullWord} /> : null;
 
   const Vocabulary = () => (
     <div className="card">
@@ -220,10 +242,10 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
           </div>
         </div> */}
       </header>
-      <WordCard obj={userWords[0]} isLanguageRU={isLanguageRU} />
       <div className="container">
         {content}
       </div>
+      {okno}
     </div>
 
   );

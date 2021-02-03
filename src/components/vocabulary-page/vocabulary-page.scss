@@ -6,10 +6,41 @@
   background-color: $bg-primary;
   color: $text-dark-75;
 
+  .overlay {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $bg-overlay;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
   & .card {
     padding: $card-padding-margin;
     background-color: #fff;
     border-radius: $block-border-radius;
+  }
+
+  .card-container {
+    position: relative;
+  }
+
+  .btn-close {
+    position: absolute;
+    left: 100%;
+    bottom: 100%;
+    color: white;
+    align-items: center;
+    background-color: transparent;
+    transition: $bg-color-transition;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $dark-color;
+    }
   }
 
   .icon {

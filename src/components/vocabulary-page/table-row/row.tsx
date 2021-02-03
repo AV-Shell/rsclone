@@ -9,7 +9,7 @@ import { EN, RU } from '../localization';
 const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
   const {
     obj: {
-      image, word, wordTranslate, transcription, group,
+      image, word, wordTranslate, transcription, group, _id,
       userWord: {
         optional: {
           level, nextRepeat,
@@ -17,6 +17,7 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
       },
     },
     isLanguageRU,
+    choise,
   } = props;
   const lang = isLanguageRU ? RU : EN;
   const langConfig = isLanguageRU ? 'ru-Ru' : 'en-US';
@@ -41,7 +42,10 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
 
   return (
 
-    <tr className="table-row">
+    <tr
+      className="table-row"
+      onClick={() => choise(_id)}
+    >
       <td className="table-data table-text-primary">
         <div className="cell-wrapper">
           <div className="cell-img">

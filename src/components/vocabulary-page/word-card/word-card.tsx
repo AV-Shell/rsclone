@@ -1,13 +1,19 @@
 import React from 'react';
 import './word-card.scss';
-import IwordProps from '../word-props-interface';
+import { paginatedWord } from '../../../constants/interfaces';
 import { FILE_URL, MAX_REPEAT_LEVEL } from '../../../constants/constants';
 import WordStarsLevel from '../../slave-components/word-stars-level';
 import { displayDate, nextTraining } from '../helper';
 import { EN, RU } from '../localization';
 import SentenceWrapper from '../../slave-components/sentence-wrapper';
 
-const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
+interface IWordCardProps {
+  obj: paginatedWord,
+  isLanguageRU: boolean,
+  close: () => void,
+}
+
+const WordCard: React.FC<IWordCardProps> = (props: IWordCardProps) => {
   const {
     obj: {
       image, word, wordTranslate, transcription, textMeaning, textMeaningTranslate, textExample, textExampleTranslate, group,
@@ -18,6 +24,7 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
       },
     },
     isLanguageRU,
+    close,
   } = props;
   const lang = isLanguageRU ? RU : EN;
   const langConfig = isLanguageRU ? 'ru-Ru' : 'en-US';
@@ -41,90 +48,97 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
   );
 
   return (
-    <li className="card">
-      <div className="card-header">
-        <div className="star-container">
-          <WordStarsLevel level={group} />
-        </div>
-        <div className="buttons-container">
-          <button className="table-change-status table-change-status_difficult  btn-icon-small" type="button">
-            <i className="bi bi-exclamation-diamond" />
-          </button>
-          <button className="table-change-status table-change-status_delete btn-icon-small" type="button">
-            <i className="bi bi-dash-square-dotted" />
-          </button>
-        </div>
-      </div>
-      <div className="separator" />
-      <div className="card-content">
-        <div className="column">
-          <img className="card-img" src={`${FILE_URL}/${image}`} alt="" />
-        </div>
-        <div className="column">
-          <div className="card-text-primary text-primary">{word}</div>
-          <div className="card-text-primary text-secondary">{wordTranslate}</div>
-          <div className="card-transcription">
-            {volumeIcon}
-            <span className="card-text">{transcription}</span>
-          </div>
-          <div>
-            <div className="card-example">
-              {volumeIcon}
-              <div>
-                <SentenceWrapper
-                  sentence={textMeaning}
-                  classCss="card-text card-text-eng"
-                  openTag="<i>"
-                  closeTag="</i>"
-                />
-                <p className="card-text">{textMeaningTranslate}</p>
-              </div>
+    <div className="overlay">
+      <div className="card-container">
+        <button className="btn-icon-small btn-close" type="button" onClick={close}>
+          <i className="bi bi-x-square" />
+        </button>
+        <div className="card">
+          <div className="card-header">
+            <div className="star-container">
+              <WordStarsLevel level={group} />
             </div>
-            <div className="flex">
-              {volumeIcon}
-              <div>
-                <SentenceWrapper
-                  sentence={textExample}
-                  classCss="card-text card-text-eng"
-                  openTag="<b>"
-                  closeTag="</b>"
-                />
-                <p className="card-text">{textExampleTranslate}</p>
-              </div>
+            <div className="buttons-container">
+              <button className="table-change-status table-change-status_difficult  btn-icon-small" type="button">
+                <i className="bi bi-exclamation-diamond" />
+              </button>
+              <button className="table-change-status table-change-status_delete btn-icon-small" type="button">
+                <i className="bi bi-dash-square-dotted" />
+              </button>
             </div>
           </div>
+          <div className="separator" />
+          <div className="card-content">
+            <div className="column">
+              <img className="card-img" src={`${FILE_URL}/${image}`} alt="" />
+            </div>
+            <div className="column">
+              <div className="card-text-primary text-primary">{word}</div>
+              <div className="card-text-primary text-secondary">{wordTranslate}</div>
+              <div className="card-transcription">
+                {volumeIcon}
+                <span className="card-text">{transcription}</span>
+              </div>
+              <div>
+                <div className="card-example">
+                  {volumeIcon}
+                  <div>
+                    <SentenceWrapper
+                      sentence={textMeaning}
+                      classCss="card-text card-text-eng"
+                      openTag="<i>"
+                      closeTag="</i>"
+                    />
+                    <p className="card-text">{textMeaningTranslate}</p>
+                  </div>
+                </div>
+                <div className="flex">
+                  {volumeIcon}
+                  <div>
+                    <SentenceWrapper
+                      sentence={textExample}
+                      classCss="card-text card-text-eng"
+                      openTag="<b>"
+                      closeTag="</b>"
+                    />
+                    <p className="card-text">{textExampleTranslate}</p>
+                  </div>
+                </div>
+              </div>
 
+            </div>
+          </div>
+          <div className="separator" />
+          <div className="card-footer">
+            <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.repeated}</div>
+              <div className="card-footer-text">{counter}</div>
+            </div>
+            <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.answered}</div>
+              <div className="card-footer-text">{success}</div>
+            </div>
+            <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.first}</div>
+              <div className="card-footer-text">{displayDate(firstAppearance, langConfig, lang.today)}</div>
+            </div>
+            <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.last}</div>
+              <div className="card-footer-text">{displayDate(lastRepeat, langConfig, lang.today)}</div>
+            </div>
+            <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.next}</div>
+              <div className="card-footer-text">{nextTraining(nextRepeat, langConfig, lang.today)}</div>
+            </div>
+            <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.progress}</div>
+              <div className="card-footer-text">{progressString}</div>
+            </div>
+
+          </div>
         </div>
       </div>
-      <div className="separator" />
-      <div className="card-footer">
-        <div className="card-footer-column">
-          <div className="card-footer-heading">{lang.repeated}</div>
-          <div className="card-footer-text">{counter}</div>
-        </div>
-        <div className="card-footer-column">
-          <div className="card-footer-heading">{lang.answered}</div>
-          <div className="card-footer-text">{success}</div>
-        </div>
-        <div className="card-footer-column">
-          <div className="card-footer-heading">{lang.first}</div>
-          <div className="card-footer-text">{displayDate(firstAppearance, langConfig, lang.today)}</div>
-        </div>
-        <div className="card-footer-column">
-          <div className="card-footer-heading">{lang.last}</div>
-          <div className="card-footer-text">{displayDate(lastRepeat, langConfig, lang.today)}</div>
-        </div>
-        <div className="card-footer-column">
-          <div className="card-footer-heading">{lang.next}</div>
-          <div className="card-footer-text">{nextTraining(nextRepeat, langConfig, lang.today)}</div>
-        </div>
-        <div className="card-footer-column">
-          <div className="card-footer-heading">{lang.progress}</div>
-          <div className="card-footer-text">{progressString}</div>
-        </div>
-
-      </div>
-    </li>
+    </div>
   );
 };
 
