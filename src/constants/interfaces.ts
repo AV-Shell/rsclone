@@ -251,7 +251,7 @@ export interface shadowTrainingProps extends defaultLoginedProps {
   setCurrentTrainingState: React.Dispatch<React.SetStateAction<currentTraining>>,
 }
 
-export interface ICreateSettingsProps {
+export interface ICreateSettingsProps extends IlanguageThemeProps{
   apiService: ApiService,
   // eslint-disable-next-line no-unused-vars
   getSettingsCallback: (isReady: IgetSettingsPageResponce) => void,

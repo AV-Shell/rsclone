@@ -344,7 +344,7 @@ const App: React.FC = () => {
       <Switch>
         <Route
           path="/createsettings" render={() => (
-            <CreateSettings apiService={api} getSettingsCallback={getSettingsCallback} />
+            <CreateSettings apiService={api} getSettingsCallback={getSettingsCallback} isLanguageRU={isLanguageRU} />
           )}
         />
         <Redirect to="/createsettings" />
