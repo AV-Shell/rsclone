@@ -4,6 +4,7 @@ import IwordProps from '../word-props-interface';
 import WordStarsLevel from '../../slave-components/word-stars-level';
 import WordProgressBar from '../../slave-components/word-progress-bar';
 import { nextTraining } from '../helper';
+import { EN, RU } from '../localization';
 
 const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
   const {
@@ -15,8 +16,10 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
         },
       },
     },
+    isLanguageRU,
   } = props;
-
+  const lang = isLanguageRU ? RU : EN;
+  const langConfig = isLanguageRU ? 'ru-Ru' : 'en-US';
   const progressString = `${Math.round((level / MAX_REPEAT_LEVEL) * 100)}%`;
   const volumeIcon = (
     <svg
@@ -59,7 +62,7 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
       <td className="table-data">
         <WordStarsLevel level={group} />
       </td>
-      <td className="table-data table-text-primary">{nextTraining(nextRepeat)}</td>
+      <td className="table-data table-text-primary">{nextTraining(nextRepeat, langConfig, lang.today)}</td>
       <td className="table-data table-text">
         <div>{progressString}</div>
         <WordProgressBar level={level} />

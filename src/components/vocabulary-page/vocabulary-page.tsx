@@ -4,30 +4,39 @@ import './vocabulary-page.scss';
 import { vocabularyProps } from '../../constants/interfaces';
 import TableRow from './table-row';
 import WordCard from './word-card';
+import { EN, RU } from './localization';
 
 const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   console.log('vocabulary', props);
-  const { userWords } = props;
+  const { userWords, isLanguageRU } = props;
   if (userWords === null) {
     return <div />;
   }
-
-  const wordList = userWords.map((el) => <TableRow obj={el} key={el._id} />);
+  const lang = isLanguageRU ? RU : EN;
+  const wordList = userWords.map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
 
   const Vocabulary = () => (
     <div className="card">
       <table className="table">
         <thead>
           <tr className="table-row">
-            <th className="table-h"><span>слово-перевод</span></th>
-            <th className="table-h"><span>транскрипция</span></th>
-            <th className="table-h"><span>группа</span></th>
             <th className="table-h">
-              <div>следующая</div>
-              <div>тренировка</div>
+              <span>
+                {lang.word}
+                {' '}
+                  -
+                {' '}
+                {lang.translation}
+              </span>
             </th>
-            <th className="table-h"><span>прогресс</span></th>
-            <th className="table-h"><span>действие</span></th>
+            <th className="table-h"><span>{lang.transcription}</span></th>
+            <th className="table-h"><span>{lang.group}</span></th>
+            <th className="table-h">
+              <div>{lang.next}</div>
+              <div>{lang.training}</div>
+            </th>
+            <th className="table-h"><span>{lang.progress}</span></th>
+            <th className="table-h"><span>{lang.action}</span></th>
           </tr>
         </thead>
         <tbody>
@@ -45,19 +54,19 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
     <div className="vocabulary">
       <header className="subheader">
         <div className="subheader-left-side">
-          <h2 className="subheader-title heading2">Vocabulary</h2>
+          <h2 className="subheader-title heading2">{lang.pageName}</h2>
           <nav>
             <ul className="subheader-menu">
-              <li className="subheader-menu_link active">Изучаемые</li>
-              <li className="subheader-menu_link">Сложные</li>
-              <li className="subheader-menu_link">Удаленные</li>
+              <li className="subheader-menu_link active">{lang.linkActive}</li>
+              <li className="subheader-menu_link">{lang.linkDifficult}</li>
+              <li className="subheader-menu_link">{lang.linkDeleted}</li>
             </ul>
           </nav>
         </div>
         <div className="subheader-search search__form">
 
           <div className="search__group">
-            <input className="search__box" type="text" placeholder="Search..." />
+            <input className="search__box" type="text" placeholder={lang.search} />
             <svg
               className="search__icon bi bi-search" xmlns="http://www.w3.org/2000/svg" width="20"
               height="38" fill="currentColor" viewBox="0 0 16 16"
@@ -89,8 +98,8 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
         <div className="subheader-right-side">
           <div className="subheader-dropdown filter">
             <span className="btn-icon"><i className="bi bi-filter" /></span>
-                FILTERS
-                <i className="bi bi-chevron-down" />
+            {lang.filters}
+            <i className="bi bi-chevron-down" />
           </div>
           <div className="subheader-dropdown sort">
             <div className="btn-icon"><i className="bi bi-sort-down-alt" /></div>
@@ -99,7 +108,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
           </div>
         </div>
       </header>
-      <WordCard obj={userWords[0]} />
+      <WordCard obj={userWords[0]} isLanguageRU={isLanguageRU} />
       <div className="container">
         {content}
       </div>

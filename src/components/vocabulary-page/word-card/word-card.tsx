@@ -4,6 +4,7 @@ import IwordProps from '../word-props-interface';
 import { FILE_URL, MAX_REPEAT_LEVEL } from '../../../constants/constants';
 import WordStarsLevel from '../../slave-components/word-stars-level';
 import { displayDate, nextTraining } from '../helper';
+import { EN, RU } from '../localization';
 
 const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
   const {
@@ -15,7 +16,10 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
         },
       },
     },
+    isLanguageRU,
   } = props;
+  const lang = isLanguageRU ? RU : EN;
+  const langConfig = isLanguageRU ? 'ru-Ru' : 'en-US';
   const progressString = `${Math.round((level / MAX_REPEAT_LEVEL) * 100)}%`;
   const volumeIcon = (
     <svg
@@ -84,27 +88,27 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
       <div className="separator" />
       <div className="card-footer">
         <div className="card-footer-column">
-          <div className="card-footer-heading">repeated</div>
+          <div className="card-footer-heading">{lang.repeated}</div>
           <div className="card-footer-text">{counter}</div>
         </div>
         <div className="card-footer-column">
-          <div className="card-footer-heading">answered correct</div>
+          <div className="card-footer-heading">{lang.answered}</div>
           <div className="card-footer-text">{success}</div>
         </div>
         <div className="card-footer-column">
-          <div className="card-footer-heading">first appearance</div>
-          <div className="card-footer-text">{displayDate(firstAppearance)}</div>
+          <div className="card-footer-heading">{lang.first}</div>
+          <div className="card-footer-text">{displayDate(firstAppearance, langConfig, lang.today)}</div>
         </div>
         <div className="card-footer-column">
-          <div className="card-footer-heading">last appearance</div>
-          <div className="card-footer-text">{displayDate(lastRepeat)}</div>
+          <div className="card-footer-heading">{lang.last}</div>
+          <div className="card-footer-text">{displayDate(lastRepeat, langConfig, lang.today)}</div>
         </div>
         <div className="card-footer-column">
-          <div className="card-footer-heading">next appearance</div>
-          <div className="card-footer-text">{nextTraining(nextRepeat)}</div>
+          <div className="card-footer-heading">{lang.next}</div>
+          <div className="card-footer-text">{nextTraining(nextRepeat, langConfig, lang.today)}</div>
         </div>
         <div className="card-footer-column">
-          <div className="card-footer-heading">progress</div>
+          <div className="card-footer-heading">{lang.progress}</div>
           <div className="card-footer-text">{progressString}</div>
         </div>
 
