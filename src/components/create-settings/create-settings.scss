@@ -1,10 +1,14 @@
+@import "./../../sass/colors.scss";
+
 .create-settings {
-  background-color: #F3F6F9;
+  background-color: $bg-primary;
   color: #181C32;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-size: 1.6rem;
+
 
   .image-container {
     border-radius: 5px;
@@ -30,6 +34,7 @@
     text-decoration: none;
     cursor: pointer;
     text-align: center;
+    margin-left: auto;
     .text-container{
       pointer-events: none;
       user-select: none;
@@ -39,5 +44,37 @@
       background-color: #1b2ccf;
       border-color: #1b2ccf;
     }
+  }
+  &-wrapper{
+    border-radius: 5px;
+    
+    background-color: #ffffff;
+  width: 60rem;
+  height: 40rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem;
+  }
+  .content-container{
+    display: flex;
+    justify-content: space-around;
+  }
+  .settings-container{
+    width: 50%;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  & label {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  & input{
+    background-color:$bg-primary;
+    width: 30%;
+    height: 2rem;
   }
 }

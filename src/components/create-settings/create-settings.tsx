@@ -126,8 +126,14 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsPr
   }
   return (
     <div className="create-settings">
-      <h2>Вы больше не сможете поменять эти настройки</h2>
-      <label htmlFor="englishWordsLevel">
+      <div className='create-settings-wrapper'>
+      <h2>Вы больше не сможете поменять уровень языка</h2>
+      <div className='content-container'>
+      <div className="image-container">
+        <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+      </div>
+    <div className='settings-container'>
+    <label htmlFor="englishWordsLevel">
         {'Введите ваш уровень знания слов(0-5): '}
         <input
           onChange={onChangeEnglishWordsLevel}
@@ -143,13 +149,12 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsPr
           min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}
         />
       </label>
-      <div className="image-container">
-        <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
-      </div>
-
       <span role="presentation" className="save-settings-button" onClick={onClick}>
         <span className="text-container">Принять</span>
       </span>
+    </div>
+    </div>
+      </div>
     </div>
   );
 };
