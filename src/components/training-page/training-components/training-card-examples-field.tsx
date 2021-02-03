@@ -4,7 +4,7 @@ import {
 } from '../training-page-interfaces';
 import { soundControl, playSingleSound } from './training-simple-functions';
 
-export default function TrainingCardExamples(props: ForCardExamples) {
+const TrainingCardExamples: React.FC<ForCardExamples> = (props: ForCardExamples) => {
   const {
     isExampleShown, isExampleTranslationShown, isMeaningShown, isMeaningTranslationShown,
     isSoundOn, isAnswered, exampleString, meaningString, soundsObject,
@@ -70,7 +70,7 @@ export default function TrainingCardExamples(props: ForCardExamples) {
       <TranslationSentence {...objForExampleTranslation} />
     </div>
   );
-}
+};
 
 function SoundOnSentences(props: IconForSound) {
   const {
@@ -159,3 +159,5 @@ function TranslationSentence(props: TranslationProps) {
   }
   return null;
 }
+
+export default TrainingCardExamples;
