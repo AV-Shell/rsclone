@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './create-settings.scss';
 import Spinner from '../slave-components/spinner';
+import { switchUserLvl } from '../dashboard-page/utils';
+import { RU, EN } from './langs';
 
-import {
-  loadSettings,
-  loadStatistic,
-  limitMinMax,
-} from '../../helpers/utils';
+import { loadSettings, loadStatistic, limitMinMax } from '../../helpers/utils';
 
 import {
   IgetSettingsPageResponce,
@@ -26,19 +24,31 @@ import {
   AVA_URL,
 } from '../../constants/constants';
 
-const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsProps) => {
-  const { apiService, getSettingsCallback } = props;
+const CreateSettings: React.FC<ICreateSettingsProps> = (
+  props: ICreateSettingsProps,
+) => {
+  const { apiService, getSettingsCallback, isLanguageRU } = props;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // const [isNeedToCreateSettings, setIsNeedToCreateSettings] = useState<boolean>(false);
   const [englishWordsLevel, setEnglishWordsLevel] = useState<number>(0);
   const [avatarNumber, setAvatarNumber] = useState<number>(1); // TODO: create a random num from 1 to maxAvas
 
-  const onChangeEnglishWordsLevel = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = limitMinMax(+event.target.value, 0, TOTAL_DIFFICULTY_GROUPS - 1);
+  const onChangeEnglishWordsLevel = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = limitMinMax(
+      +event.target.value,
+      0,
+      TOTAL_DIFFICULTY_GROUPS - 1,
+    );
     setEnglishWordsLevel(value);
   };
   const onChangeAvatarNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = limitMinMax(+event.target.value, MIN_AVATAR_NUM, MAX_AVATAR_NUM);
+    const value = limitMinMax(
+      +event.target.value,
+      MIN_AVATAR_NUM,
+      MAX_AVATAR_NUM,
+    );
     setAvatarNumber(value);
   };
   const onClick = () => {
@@ -56,7 +66,8 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsPr
       learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
       optional: { ...DEFAULT_USER_STATISTIC.optional },
     };
-    apiService.updateSettings(defaultSettings)
+    apiService
+      .updateSettings(defaultSettings)
       .then(() => apiService.updateStatistics(defaultStatistic))
       .then(() => {
         getSettingsCallback({
@@ -119,37 +130,60 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsPr
         console.log('Create Settings: something went wrong', err.message);
       });
   }, []);
-
+  let currentLang = isLanguageRU ? RU : EN;
+  useEffect(() => {
+    currentLang = isLanguageRU ? RU : EN;
+  }, [isLanguageRU]);
+  const userLvl = switchUserLvl(englishWordsLevel);
   // Component code start
   if (isLoading) {
     return <Spinner />;
   }
   return (
     <div className="create-settings">
-      <h2>Вы больше не сможете поменять эти настройки</h2>
-      <label htmlFor="englishWordsLevel">
-        {'Введите ваш уровень знания слов(0-5): '}
-        <input
-          onChange={onChangeEnglishWordsLevel}
-          type="number" id="englishWordsLevel" name="englishWordsLevel"
-          min="0" max={TOTAL_DIFFICULTY_GROUPS - 1} value={englishWordsLevel}
-        />
-      </label>
-      <label htmlFor="avatarNumber">
-        {`Выберите Аватарку '${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}:`}
-        <input
-          onChange={onChangeAvatarNumber}
-          type="number" id="avatarNumber" name="avatarNumber"
-          min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}
-        />
-      </label>
-      <div className="image-container">
-        <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+      <div className="create-settings-wrapper">
+        <h2>{currentLang.choseSetting}</h2>
+        <div className="content-container">
+          <div className="image-container">
+            <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+          </div>
+          <div className="settings-container">
+            <label htmlFor="englishWordsLevel">
+              {currentLang.choseWords}
+              <input
+                onChange={onChangeEnglishWordsLevel}
+                type="number"
+                id="englishWordsLevel"
+                name="englishWordsLevel"
+                min="0"
+                max={TOTAL_DIFFICULTY_GROUPS - 1}
+                value={englishWordsLevel}
+              />
+            </label>
+            <span>{userLvl}</span>
+            <label htmlFor="avatarNumber">
+              {`${currentLang.choseAvatar}${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}:`}
+              <input
+                onChange={onChangeAvatarNumber}
+                type="number"
+                id="avatarNumber"
+                name="avatarNumber"
+                min={MIN_AVATAR_NUM}
+                max={MAX_AVATAR_NUM}
+                value={avatarNumber}
+              />
+            </label>
+            <span
+              role="presentation"
+              className="save-settings-button"
+              onClick={onClick}
+            >
+              <span className="text-container">{currentLang.submit}</span>
+            </span>
+          </div>
+        </div>
+        <span className="attention">{currentLang.attention}</span>
       </div>
-
-      <span role="presentation" className="save-settings-button" onClick={onClick}>
-        <span className="text-container">Принять</span>
-      </span>
     </div>
   );
 };
