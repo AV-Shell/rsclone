@@ -6,12 +6,15 @@ import { soundControl } from './training-simple-functions';
 
 export default function ButtonNext(props: NextButtonProps) {
   const {
-    isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus,
+    isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus, updateInterval,
     firstAppearance, counter, success, language, nextTrainingDay, isIntervalUsed, stopSoundsObj,
   } = props;
   const trainingDay: number = Date.now();
   if (!isShown) {
     return null;
+  }
+  if (nextTrainingDay === 0) {
+    updateInterval(true);
   }
 
   const currentCount: number = counter;
@@ -23,7 +26,7 @@ export default function ButtonNext(props: NextButtonProps) {
     const isToRepeat: boolean = (levelStatus === 'again');
     const point: number = isAnswerTrue ? 1 : 0;
     let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
-
+    console.log(isIntervalUsed, nextTime);
     let levelNow: number = levelForRepeat;
 
     if (isAnswerTrue && isIntervalUsed) {

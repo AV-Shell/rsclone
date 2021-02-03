@@ -54,6 +54,7 @@ function TrainingPage(props:trainingCardProps) {
     setSuccess(0);
     setIntervalUsed(true);
     setIsAutoFocus(true);
+    console.log(isIntervalUsed);
   }, [word]);
 
   useEffect(() => {
@@ -77,7 +78,7 @@ function TrainingPage(props:trainingCardProps) {
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
     const { userWord } = thisWord;
-    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord.optional.status; // active, difficult, deleted
+    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord.optional.status;
     setWordPosition(wordStatus);
     firstAppearance = userWord.optional.firstAppearance;
     setIntervalLevel(userWord.optional.level);
@@ -91,6 +92,7 @@ function TrainingPage(props:trainingCardProps) {
     if (nextDate > thisDay) {
       setIntervalUsed(false);
     }
+    console.log(isIntervalUsed);
   }
 
   const imgURL: string = `${FILE_URL}/${thisWord.image}`;
@@ -200,6 +202,7 @@ function TrainingPage(props:trainingCardProps) {
     nextTrainingDay,
     isIntervalUsed,
     stopSoundsObj: allSounds,
+    updateInterval: setIntervalUsed,
   };
 
   return (
