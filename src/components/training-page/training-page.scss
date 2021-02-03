@@ -174,6 +174,8 @@ $size-z: 500px;
         }
 
         &:hover {
+          animation-play-state: paused;
+          box-shadow: 0 0 12px 1px #d919ff;
           background: linear-gradient(270deg, #0bb7af, #ffa800);
         }
 
@@ -247,6 +249,9 @@ $size-z: 500px;
         border-radius: $block-border-radius;
         -webkit-box-shadow: none;
         box-shadow: none;
+        .dark-theme & {
+          background-color: #1C1E2F;
+        }
 
         > .progress-bar {
           display: -webkit-box;

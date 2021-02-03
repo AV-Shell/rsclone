@@ -33,6 +33,8 @@ import {
 
 import {
   TOTAL_DIFFICULTY_GROUPS,
+  DEFAULT_USER_SETTINGS,
+  DEFAULT_USER_STATISTIC,
 } from '../../constants/constants';
 
 const serverErrorLog = (err: Error) => {
@@ -52,7 +54,8 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
     currentTrainingState, setCurrentTrainingState, userWords, statistic,
     settings, apiService, isDarkTheme, isMute, isLanguageRU,
   } = props;
-
+  console.log('DEFAULT_USER_SETTINGS', DEFAULT_USER_SETTINGS)
+  console.log('DEFAULT_USER_STATISTIC', DEFAULT_USER_STATISTIC);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // TODO: remove before end of development

@@ -2,6 +2,9 @@
 
 .login-page {
   background-color: $bg-primary;
+  .dark-theme & {
+    background-color: $d-bg-primary;
+  }
   color: black;
   display: flex;
   justify-content: center;
@@ -22,12 +25,17 @@
     border-radius: 5px;
     text-align: left;
     padding: 1rem;
-
+    .dark-theme & {
+      background-color: $d-bg-card-primary;
+    }
     .title-container {
       padding: 0 0 2em;
 
       .title {
         color: black;
+        .dark-theme & {
+          color: white;
+        }
         font-size: 26px;
         margin-bottom: 10px;
         font-weight: 600;
@@ -47,6 +55,12 @@
 
         &:hover {
           color: #1726b5;
+        }
+        .dark-theme & {
+          color: #6c7af5;
+          &:hover {
+            color: #a6b0ff;
+          }
         }
       }
     }
@@ -75,6 +89,9 @@
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 6px;
+        .dark-theme & {
+          color: white;
+        }
       }
 
       .input-email,
@@ -86,6 +103,13 @@
         outline: none;
         border: none;
         background-color: #f3f6f9;
+        .dark-theme & {
+          color: white;
+          background-color: $d-bg-primary;
+          &:focus {
+            background-color: #1b1c27;;;
+          }
+        }
         border-radius: 5px;
         padding: 20px;
         border-radius: 10px;

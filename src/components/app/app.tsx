@@ -70,6 +70,15 @@ interface IrefContainer {
   // tokenRefreshInterval: ReturnType<typeof setInterval> | undefined,
   tokenRefreshInterval: number | undefined;
 }
+
+const createDefaultTrainingState = (): currentTraining => ({
+  wordsForTraining: [],
+  startTrainingTimestamp: 0,
+  totalWordsCount: 0,
+  trainingCountPerDay: 0,
+  trueAnswerCount: 0,
+});
+
 const shell = (a: IrefContainer) => a;
 
 const App: React.FC = () => {
@@ -88,7 +97,7 @@ const App: React.FC = () => {
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
   const [userSettings, setUserSettings] = useState<IUserSettings>(getNewSettingsDefaultObject());
   const [userStatistic, setUserStatistic] = useState<userStatistics>(getNewStatisticDefaultObject());
-  const [currentTrainingState, setCurrentTrainingState] = useState<currentTraining>(currentTrainingDefault);
+  const [currentTrainingState, setCurrentTrainingState] = useState<currentTraining>(createDefaultTrainingState());
   const [readyToJoin, setReadyToJoin] = useState<TreadyToJoin>('LOADING');
   const [hasUserSettings, setHasUserSettings] = useState<ThasUserSettings>('NO');
   // const [hasUserStatistic, setHasUserStatistic] = useState<ThasUserSettings>('NO');
@@ -101,6 +110,7 @@ const App: React.FC = () => {
     // setHasUserStatistic('NO');
     setUserSettings(getNewSettingsDefaultObject());
     setUserStatistic(getNewStatisticDefaultObject());
+    setCurrentTrainingState(createDefaultTrainingState());
     setUserWordsArray(null);
   };
 

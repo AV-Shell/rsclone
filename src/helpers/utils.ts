@@ -344,7 +344,8 @@ function CountDifficult(arr: paginatedWord[]): number {
 function CountForToday(arr: paginatedWord[]): number {
   const result: number = arr.filter((uWord) => {
     if (uWord.userWord) {
-      return uWord.userWord.optional.nextRepeat < nextUTCDayTimeStamp();
+      const isNotDeleted = uWord.userWord.optional.status !== 'deleted';
+      return isNotDeleted && uWord.userWord.optional.nextRepeat < nextUTCDayTimeStamp();
     }
     return false;
   }).length;

@@ -50,20 +50,14 @@ const WordCard: React.FC<IWordCardProps> = (props: IWordCardProps) => {
   return (
     <div className="overlay">
       <div className="card-container">
-        <button className="btn-icon-small btn-close" type="button" onClick={close}>
-          <i className="bi bi-x-square" />
-        </button>
         <div className="card">
           <div className="card-header">
             <div className="star-container">
               <WordStarsLevel level={group} />
             </div>
             <div className="buttons-container">
-              <button className="table-change-status table-change-status_difficult  btn-icon-small" type="button">
-                <i className="bi bi-exclamation-diamond" />
-              </button>
-              <button className="table-change-status table-change-status_delete btn-icon-small" type="button">
-                <i className="bi bi-dash-square-dotted" />
+              <button className="btn-icon-small btn-close" type="button" onClick={close}>
+                <i className="bi bi-x-square" />
               </button>
             </div>
           </div>
@@ -119,6 +113,10 @@ const WordCard: React.FC<IWordCardProps> = (props: IWordCardProps) => {
               <div className="card-footer-text">{success}</div>
             </div>
             <div className="card-footer-column">
+              <div className="card-footer-heading">{lang.progress}</div>
+              <div className="card-footer-text">{progressString}</div>
+            </div>
+            <div className="card-footer-column">
               <div className="card-footer-heading">{lang.first}</div>
               <div className="card-footer-text">{displayDate(firstAppearance, langConfig, lang.today)}</div>
             </div>
@@ -127,14 +125,13 @@ const WordCard: React.FC<IWordCardProps> = (props: IWordCardProps) => {
               <div className="card-footer-text">{displayDate(lastRepeat, langConfig, lang.today)}</div>
             </div>
             <div className="card-footer-column">
-              <div className="card-footer-heading">{lang.next}</div>
+              <div className="card-footer-heading">
+                {lang.next}
+                {' '}
+                {lang.training}
+              </div>
               <div className="card-footer-text">{nextTraining(nextRepeat, langConfig, lang.today)}</div>
             </div>
-            <div className="card-footer-column">
-              <div className="card-footer-heading">{lang.progress}</div>
-              <div className="card-footer-text">{progressString}</div>
-            </div>
-
           </div>
         </div>
       </div>

@@ -105,13 +105,15 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
                 </span>
               </span>
             </th>
-            <th className="table-h">
+            <th className="table-h table-transcription">
               <span>
                 {lang.transcription}
               </span>
-
+              <span className="hidden">
+                1
+              </span>
             </th>
-            <th className="table-h">
+            <th className="table-h group">
 
               <span
                 className={sortingState === 3 || sortingState === -3 ? 'text-primary table-h-clickable' : 'table-h-clickable'}
@@ -139,7 +141,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
                 </div>
               </div>
             </th>
-            <th className="table-h">
+            <th className="table-h table-progress">
               <span
                 className={sortingState === 5 || sortingState === -5 ? 'text-primary table-h-clickable' : 'table-h-clickable'}
                 onClick={() => sortClick(5)} role="presentation"
@@ -150,7 +152,12 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
                 </span>
               </span>
             </th>
-            <th className="table-h"><span>{lang.action}</span></th>
+            <th className="table-h">
+              <span>{lang.action}</span>
+              <span className="hidden">
+                1
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -195,7 +202,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
             </ul>
           </nav>
         </div>
-        <div className="subheader-search search__form">
+        {/* <div className="subheader-search search__form">
 
           <div className="search__group">
             <input className="search__box" type="text" placeholder={lang.search} />
@@ -226,7 +233,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
               </svg>
             </span>
           </div>
-        </div>
+        </div> */}
         {/* <div className="subheader-right-side">
           <div className="subheader-dropdown filter">
             <span className="btn-icon"><i className="bi bi-filter" /></span>

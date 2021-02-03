@@ -17,7 +17,7 @@ import ButtonNext from './training-components/training-page-btn-next';
 import { RU, EN } from './langs';
 import WordStarsLevel from '../slave-components/word-stars-level';
 
-const TrainingPage: React.FC<trainingCardProps> = (props:trainingCardProps) => {
+const TrainingPage: React.FC<trainingCardProps> = (props: trainingCardProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -186,7 +186,8 @@ const TrainingPage: React.FC<trainingCardProps> = (props:trainingCardProps) => {
   const objForNextButton: NextButtonProps = {
     isShown: isAnswered,
     isAnswerTrue,
-    levelForRepeat: intervalLevel,
+    // levelForRepeat: intervalLevel,
+    levelForRepeat: word.userWord ? word.userWord.optional.level : MIN_REPEAT_LEVEL,
     levelStatus: intervalStatus,
     wordID: word._id,
     getAnswer,
@@ -195,7 +196,8 @@ const TrainingPage: React.FC<trainingCardProps> = (props:trainingCardProps) => {
     counter,
     success,
     language: currentLang,
-    nextTrainingDay,
+    // nextTrainingDay,
+    nextTrainingDay: word.userWord ? word.userWord.optional.nextRepeat : 0,
     isIntervalUsed,
     stopSoundsObj: allSounds,
     updateInterval: setIntervalUsed,

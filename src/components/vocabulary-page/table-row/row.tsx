@@ -57,17 +57,17 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
           </div>
         </div>
       </td>
-      <td className="table-data">
+      <td className="table-data table-transcription">
         <div className="cell-wrapper">
           {volumeIcon}
           <span className="table-text-transcription">{transcription}</span>
         </div>
       </td>
-      <td className="table-data">
+      <td className="table-data group">
         <WordStarsLevel level={group} />
       </td>
       <td className="table-data table-text-primary">{nextTraining(nextRepeat, langConfig, lang.today)}</td>
-      <td className="table-data table-text">
+      <td className="table-data table-text table-progress">
         <div>{progressString}</div>
         <WordProgressBar level={level} />
       </td>

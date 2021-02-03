@@ -13,7 +13,7 @@ const MagicButton: React.FC<IMBProps> = (props: IMBProps) => {
       <div className="magic-button-container">
         <img className="magic-button-img" src={logo} alt="Magic Button" />
       </div>
-      {/* <div className="magic-buttons-container">
+      <div className="magic-buttons-container">
         <div className="magic-button btn1">
           MAGIC
           <span />
@@ -28,7 +28,7 @@ const MagicButton: React.FC<IMBProps> = (props: IMBProps) => {
           <span />
           <span />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
