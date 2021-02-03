@@ -29,9 +29,8 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (
 ) => {
   const { apiService, getSettingsCallback, isLanguageRU } = props;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const [isNeedToCreateSettings, setIsNeedToCreateSettings] = useState<boolean>(false);
   const [englishWordsLevel, setEnglishWordsLevel] = useState<number>(0);
-  const [avatarNumber, setAvatarNumber] = useState<number>(1); // TODO: create a random num from 1 to maxAvas
+  const [avatarNumber, setAvatarNumber] = useState<number>(1);
 
   const onChangeEnglishWordsLevel = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -120,10 +119,8 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (
               console.log('Create Settings: something went wrong', err.message);
             });
         } else if (settingsReso.result === USER_NO_ENTITY) {
-          // setIsNeedToCreateSettings(true);
           setIsLoading(false);
         }
-        console.log(settingsReso);
       })
       .catch((err) => {
         getSettingsCallback(falseResponse);

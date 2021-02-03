@@ -21,7 +21,7 @@
     @media (max-width: 499px) {
       width: 320px;
     }
-    background-color: $bg-primary;
+    background-color: white;
     border: 1px solid black;
     .dark-theme & {
       background-color: $d-bg-card-primary;
@@ -107,7 +107,7 @@
       margin: 1rem 0;
       box-sizing: border-box;
       width: 320px;
-      background-color: $bg-primary;
+      background-color: white;
       border: 1px solid black;
       border-radius: $block-border-radius;
       text-align: left;
