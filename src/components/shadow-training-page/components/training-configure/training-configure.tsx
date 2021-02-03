@@ -59,6 +59,7 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
     new: settings.optional.newWordsPerDay,
     repeat: settings.optional.repeatWordsPerDay,
   });
+
   const [wordsCount, setWordsCount] = useState<IUserWordsFilteredData>({
     difficult: CountDifficult(userWords),
     forToday: CountForToday(userWords),

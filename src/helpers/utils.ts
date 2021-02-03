@@ -2,7 +2,7 @@
 import {
   paginatedWord,
   areThereStillWordsOnGroups,
-  userSettings,
+  IUserSettings,
   userStatistics,
 } from '../constants/interfaces';
 import {
@@ -120,7 +120,7 @@ interface getSettings {
   apiService: ApiService,
 }
 interface getSettingsResponce {
-  settings: userSettings,
+  settings: IUserSettings,
   result: number,
 }
 interface getStatisticResponce {
@@ -183,12 +183,12 @@ async function loadStatistic({ apiService }: getSettings): Promise<getStatisticR
     },
   };
   try {
-    const userStatistic = await apiService.getStatistics();
-    console.log(userStatistic);
-    if (userStatistic.optional) {
+    const userStatisticResp = await apiService.getStatistics();
+    console.log(userStatisticResp);
+    if (userStatisticResp.optional) {
       isHasStatistic = USER_HAS_ENTITY;
       const res: getStatisticResponce = {
-        statistic: userStatistic,
+        statistic: userStatisticResp,
         result: isHasStatistic,
       };
       return res;

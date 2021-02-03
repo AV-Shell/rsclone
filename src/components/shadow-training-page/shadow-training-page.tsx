@@ -9,7 +9,7 @@ import {
   ISaveTrainingPart,
   cardAnswer,
   currentTraining,
-  userWordReq,
+  IUserWordReq,
   IStartTrainingParams,
   IstatisticMainLong,
 } from '../../constants/interfaces';
@@ -249,7 +249,7 @@ const ShadowTrainingPage: React.FC<shadowTrainingProps> = (props: shadowTraining
       const word: paginatedWord = currentTrainingState.wordsForTraining[len - 1];
       console.log('setCurrentTrainingState');
       const index = userWords.findIndex((element) => element._id === word._id);
-      const userWordReq: userWordReq = {
+      const userWordReq: IUserWordReq = {
         difficulty: res.difficulty,
         optional: {
           ...res.optional,

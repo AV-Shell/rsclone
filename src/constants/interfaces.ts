@@ -65,19 +65,19 @@ export interface userWordOptional {
   userWord: true,
 }
 
-export interface userWordReq {
+export interface IUserWordReq {
   difficulty: string,
   optional: userWordOptional,
 }
 
-export interface userWordRes extends userWordReq {
+export interface userWordRes extends IUserWordReq {
   id: string,
   wordId: string,
 }
 
 export interface paginatedWord extends wordDataWithoutId {
   _id: string,
-  userWord?: userWordReq,
+  userWord?: IUserWordReq,
 }
 
 interface aggregatedCount {
@@ -148,7 +148,7 @@ export interface userSettingsOptional {
   createSettingsTimestamp : number,
 }
 
-export interface userSettings {
+export interface IUserSettings {
   id?: string,
   wordsPerDay: number,
   optional: userSettingsOptional,
@@ -162,7 +162,7 @@ export interface ISaveTrainingPart {
   // isTrainingFinish: boolean,
 }
 
-export interface userCardAnswer extends userWordReq {
+export interface userCardAnswer extends IUserWordReq {
   isRepeat: boolean,
   points: number,
 }
@@ -208,7 +208,7 @@ export interface trainingCardProps extends IlocalProps {
   word: paginatedWord,
   wordNumber: number,
   totalWords: number,
-  settings: userSettings,
+  settings: IUserSettings,
   // eslint-disable-next-line no-unused-vars
   getAnswer: (res: cardAnswer) => void,
 }
@@ -217,13 +217,13 @@ export interface headerProps extends loginStatusProps, IlocalProps {
   toggleTheme: () => void,
   setIsMute: React.Dispatch<React.SetStateAction<boolean>>,
   setIsLanguageRU: React.Dispatch<React.SetStateAction<boolean>>,
-  settings: userSettings,
+  settings: IUserSettings,
   setIsModalWindow: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 interface defaultLoginedProps extends IlocalProps {
-  settings: userSettings,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings>>,
+  settings: IUserSettings,
+  updateSettings: React.Dispatch<React.SetStateAction<IUserSettings>>,
   statistic: userStatistics | null,
   updateStatistic: React.Dispatch<React.SetStateAction<userStatistics>>,
   userWords: paginatedWord[] | null,
@@ -280,7 +280,7 @@ export interface IcreateUserError422Field {
 
 export interface IgetSettingsPageResponce{
   isSuccess:boolean,
-  userSettings: userSettings,
+  userSettings: IUserSettings,
   userStatistics: userStatistics,
 }
 

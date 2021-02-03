@@ -11,7 +11,7 @@ import {
 import {
   IgetSettingsPageResponce,
   userStatistics,
-  userSettings,
+  IUserSettings,
   ICreateSettingsProps,
 } from '../../constants/interfaces';
 
@@ -43,7 +43,7 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsPr
   };
   const onClick = () => {
     setIsLoading(true);
-    const defaultSettings: userSettings = {
+    const defaultSettings: IUserSettings = {
       wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
       optional: {
         ...DEFAULT_USER_SETTINGS.optional,
@@ -75,7 +75,7 @@ const CreateSettings: React.FC<ICreateSettingsProps> = (props: ICreateSettingsPr
   };
 
   useEffect(() => {
-    const defaultSettings: userSettings = {
+    const defaultSettings: IUserSettings = {
       wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
       optional: { ...DEFAULT_USER_SETTINGS.optional },
     };

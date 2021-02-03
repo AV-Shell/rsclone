@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './settings-page.scss';
 import {
   settingsPageProps,
-  userSettings,
+  IUserSettings,
 } from '../../constants/interfaces';
 
 import {
@@ -35,7 +35,7 @@ interface CardSettings {
   cardExampleTranslationAfter: boolean,
 }
 
-const getSet1 = ({ optional }: userSettings) => {
+const getSet1 = ({ optional }: IUserSettings) => {
   const result: IndependentCardSettings = {
     cardTranscription: optional.cardTranscription,
     cardImage: optional.cardImage,
@@ -47,7 +47,7 @@ const getSet1 = ({ optional }: userSettings) => {
   return result;
 };
 
-const getSet2 = ({ optional }: userSettings) => {
+const getSet2 = ({ optional }: IUserSettings) => {
   const result: CardSettings = {
     cardWordPronunciation: optional.cardWordPronunciation,
     cardTranslation: optional.cardTranslation,

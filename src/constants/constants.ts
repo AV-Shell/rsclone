@@ -1,7 +1,7 @@
 import {
-  userSettings,
+  IUserSettings,
   userStatistics,
-  userWordReq,
+  IUserWordReq,
   IstatisticMainLong,
   IStatGraphItem,
 } from './interfaces';
@@ -60,7 +60,7 @@ const WORD_PARAM = {
   difficult: 'difficult',
 };
 
-const DEFAULT_USER_SETTINGS: userSettings = {
+const DEFAULT_USER_SETTINGS: IUserSettings = {
   wordsPerDay: 10,
   optional: {
     newWordsPerDay: 5,
@@ -138,7 +138,7 @@ const DEFAULT_MAIN_GAME_LONG_STATISTIC: IstatisticMainLong = {
   currentUserWordPerDay: DEFAULT_STAT_ITEM,
 };
 
-const DEFAULT_USER_WORD: userWordReq = {
+const DEFAULT_USER_WORD: IUserWordReq = {
   difficulty: 'new',
   optional: {
     firstAppearance: 0,

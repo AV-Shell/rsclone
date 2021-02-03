@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-classes-per-file */
 import { BASE_URL } from '../constants/constants';
@@ -9,12 +10,12 @@ import {
   userData,
   userResponce,
   tokenResponce,
-  userWordReq,
+  IUserWordReq,
   userWordRes,
   paginatedWord,
   aggregatedWordsResult,
   userStatistics,
-  userSettings,
+  IUserSettings,
   IcreateUserError422Field,
 } from '../constants/interfaces';
 import { storage } from '../helpers/utils';
@@ -300,7 +301,7 @@ export default class ApiService {
     return content;
   }
 
-  async createUserWord(wordId: string, word: userWordReq) {
+  async createUserWord(wordId: string, word: IUserWordReq) {
     const rawResponse = await fetch(`${BASE_URL}/users/${this.userId}/words/${wordId}`, {
       method: 'POST',
       // withCredentials: true,
@@ -338,7 +339,7 @@ export default class ApiService {
     return content;
   }
 
-  async updateUserWord(wordId: string, word: userWordReq) {
+  async updateUserWord(wordId: string, word: IUserWordReq) {
     const rawResponse = await fetch(`${BASE_URL}/users/${this.userId}/words/${wordId}`, {
       method: 'PUT',
       // withCredentials: true,
@@ -484,13 +485,13 @@ export default class ApiService {
       throw new Error(`${rawResponse.status}`);
     }
 
-    const content: userSettings = await rawResponse.json();
+    const content: IUserSettings = await rawResponse.json();
     delete content.id;
 
     return content;
   }
 
-  async updateSettings(settings: userSettings) {
+  async updateSettings(settings: IUserSettings) {
     const rawResponse = await fetch(`${BASE_URL}/users/${this.userId}/settings`, {
       method: 'PUT',
       // withCredentials: true,
@@ -506,7 +507,7 @@ export default class ApiService {
       throw new Error(`${rawResponse.status}`);
     }
 
-    const content: userSettings = await rawResponse.json();
+    const content: IUserSettings = await rawResponse.json();
     delete content.id;
 
     return content;
