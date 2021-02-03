@@ -1,11 +1,12 @@
 import React from 'react';
 import { FILE_URL } from '../../../constants/constants';
 import IwordProps from '../word-props-interface';
+import WordStarsLevel from '../../slave-components/word-stars-level';
 
 const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
   const {
     obj: {
-      image, word, wordTranslate, transcription, _id,
+      image, word, wordTranslate, transcription, _id, group,
     },
   } = props;
 
@@ -49,11 +50,7 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
       </td>
       <td className="table-data table-text-primary">2/3/2021</td>
       <td className="table-data">
-        <i className="bi bi-exclamation-diamond" />
-        <i className="bi bi-exclamation-diamond" />
-        <i className="bi bi-exclamation-diamond" />
-        <i className="bi bi-exclamation-diamond" />
-        <i className="bi bi-exclamation-diamond" />
+        <WordStarsLevel level={group} />
       </td>
       <td className="table-data">прогресс</td>
       <td className="table-data">
