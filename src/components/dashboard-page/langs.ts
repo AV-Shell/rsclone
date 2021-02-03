@@ -1,6 +1,7 @@
 type Tlanguages = {
-    [variable: string]: string
-  }
+  [variable: string]: string
+}
+
 const EN: Tlanguages = {
   learningFrom: 'Learning from ',
   newWords: 'New words:',
@@ -19,7 +20,7 @@ const EN: Tlanguages = {
   correctAnswer: 'correct answer',
   incorrectAnswer: 'incorrect answer',
   dailyGoalDone: 'Daily goal is done!',
-  engkishLvl: 'Your English lvl: '
+  engkishLvl: 'Your English level: ',
 };
 
 const RU: Tlanguages = {
@@ -40,7 +41,7 @@ const RU: Tlanguages = {
   correctAnswer: 'верные ответы',
   incorrectAnswer: 'неверные ответы',
   dailyGoalDone: 'Цель достигнута!',
-  engkishLvl: 'Ваш уровень английского языка: '
+  engkishLvl: 'Ваш уровень английского языка: ',
 };
 
 export { EN, RU };
