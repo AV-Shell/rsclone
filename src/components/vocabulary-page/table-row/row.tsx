@@ -37,7 +37,7 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
 
   return (
 
-    <tr className="table-row" key={_id}>
+    <tr className="table-row">
       <td className="table-data table-text-primary">
         <div className="cell-wrapper">
           <div className="cell-img">

@@ -6,13 +6,13 @@ import TableRow from './table-row';
 import WordCard from './word-card';
 
 const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
-  console.log(props);
+  console.log('vocabulary', props);
   const { userWords } = props;
   if (userWords === null) {
     return <div />;
   }
 
-  const wordList = userWords.map((el) => <TableRow obj={el} />);
+  const wordList = userWords.map((el) => <TableRow obj={el} key={el._id} />);
 
   const Vocabulary = () => (
     <div className="card">
