@@ -128,6 +128,26 @@ interface getStatisticResponce {
   result: number,
 }
 
+function getNewSettingsDefaultObject(): IUserSettings {
+  const neObj: IUserSettings = {
+    wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
+    optional: {
+      ...DEFAULT_USER_SETTINGS.optional,
+    },
+  };
+  return neObj;
+}
+
+function getNewStatisticDefaultObject(): userStatistics {
+  const newObj: userStatistics = {
+    learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
+    optional: {
+      ...DEFAULT_USER_STATISTIC.optional,
+    },
+  };
+  return newObj;
+}
+
 async function loadSettings({ apiService }: getSettings): Promise<getSettingsResponce> {
   let isHasSettings: number = USER_NO_ENTITY;
   // settings
@@ -345,4 +365,6 @@ export {
   isSameDays,
   CountDifficult,
   CountForToday,
+  getNewSettingsDefaultObject,
+  getNewStatisticDefaultObject,
 };
