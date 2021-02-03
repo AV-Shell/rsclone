@@ -41,9 +41,8 @@ const DashboardPage: React.FC<IDashboardProps> = (props: IDashboardProps) => {
     totalCorrectCards,
   } = stats;
   const { currentRightPerDay } = stats;
-  const userNewWords = userWordsPerDay[0].value
-    ? userWordsPerDay[userWordsPerDay.length - 1].value
-    : 0;
+  const userNewWords = userWordsPerDay.length > 0 ?
+    userWordsPerDay[userWordsPerDay.length - 1].value : 0;
   const {
     cardsPerDay,
     userLanguageLevel,

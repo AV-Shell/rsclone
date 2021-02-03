@@ -14,7 +14,7 @@ function checkCase(num: any): number {
 function transformDate(dateArr: any) {
   const arr: any = [];
 
-  if (dateArr[0].date) {
+  if (dateArr.length > 0) {
     dateArr.forEach((e: any) => {
       const date = new Date(e.date);
       let day: any = date.getDate();
@@ -34,7 +34,7 @@ function transformDate(dateArr: any) {
 }
 function transformValue(dateArr: any) {
   const arr: any = [];
-  if (dateArr[0].value) {
+  if (dateArr.length > 0) {
     dateArr.forEach((e: any) => {
       arr.push(e.value);
     });
@@ -45,7 +45,7 @@ function transformValue(dateArr: any) {
 function transformValueAll(dateArr: any) {
   const arr: any = [];
   let startValue: number = 0;
-  if (dateArr[0].value) {
+  if (dateArr.length > 0) {
     dateArr.forEach((e: any) => {
       const difValue: number =
         e.value - startValue < 0 ? 0 : e.value - startValue;
