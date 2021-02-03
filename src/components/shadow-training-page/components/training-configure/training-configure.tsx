@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './training-configure.scss';
 import {
   shadowTrainingProps,
-  startTrainingParams,
-  trainingType,
+  IStartTrainingParams,
+  TTrainingType,
 } from '../../../../constants/interfaces';
 
 import {
@@ -12,6 +12,11 @@ import {
   MIN_REPEAT_WORDS_PER_DAY,
   MAX_REPEAT_WORDS_PER_DAY,
 } from '../../../../constants/constants';
+
+import {
+  CountDifficult,
+  CountForToday,
+} from '../../../../helpers/utils';
 import { RU, EN } from './languages';
 
 interface ITrainingSettings {
@@ -32,24 +37,35 @@ interface IWordsSetting {
   repeat: number,
 }
 
+interface IUserWordsFilteredData {
+  difficult: number,
+  forToday: number,
+}
+
 interface Iprops extends shadowTrainingProps {
   dailyTrainingCount: number,
-  startTraining: (typeOfTraining: startTrainingParams) => void
+  // eslint-disable-next-line no-unused-vars
+  startTraining: (typeOfTraining: IStartTrainingParams) => void
 }
 
 const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
   console.log(props);
 
   const {
-    userWords, statistic, settings, startTraining, dailyTrainingCount,
+    userWords, statistic, settings, startTraining,
+    dailyTrainingCount, isLanguageRU,
   } = props;
   const [wordsSetting, setWordsSetting] = useState<IWordsSetting>({
     new: settings.optional.newWordsPerDay,
     repeat: settings.optional.repeatWordsPerDay,
   });
 
-  // заменить с приходом языка в пропсы
-  const language: ITrainingSettings = EN;
+  const [wordsCount, setWordsCount] = useState<IUserWordsFilteredData>({
+    difficult: CountDifficult(userWords),
+    forToday: CountForToday(userWords),
+  });
+
+  const language: ITrainingSettings = isLanguageRU ? RU : EN;
 
   const changeTrainingWordsSettings = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = event.target;
@@ -65,19 +81,16 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
       value = MIN_REPEAT_WORDS_PER_DAY;
     }
 
-    setWordsSetting((old) => {
-      console.log('');
-      return {
+    setWordsSetting((old) => (
+      {
         ...old,
         [name]: value,
-      };
-    });
+      }
+    ));
   };
 
-  console.log('wordsSetting', wordsSetting);
-
-  const startTrainingWithWords = (trainingType: trainingType) => {
-    const startTrainingParams: startTrainingParams = {
+  const startTrainingWithWords = (trainingType: TTrainingType) => {
+    const startTrainingParams: IStartTrainingParams = {
       trainingType,
       newWords: wordsSetting.new,
       repeatWords: wordsSetting.repeat,
@@ -88,7 +101,7 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
   if ((settings === null) || (statistic === null) || (userWords === null)) {
     return <div className="No props Shadow Traning Page" />;
   }
-  console.log('wordsSetting', wordsSetting);
+
   return (
     <div className="training-configure">
       <div className="wrapper">
@@ -126,9 +139,13 @@ const TrainingConfigure: React.FC<Iprops> = (props: Iprops) => {
             </div>
             <div className="training-template-header-hard-words">
               {language.wordsHard}
+              &nbsp;
+              {wordsCount.difficult}
             </div>
             <div className="training-template-header-left-words">
               {language.wordsLeft}
+              &nbsp;
+              {wordsCount.forToday}
             </div>
           </div>
           <div className="training-template-body">

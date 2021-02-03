@@ -1,4 +1,4 @@
-function checkCase(num: any) {
+function checkCase(num: any): number {
   if (num.toString().slice(-1) === '1' && num.toString().slice(-2) !== '11') {
     return 0;
   }
@@ -14,7 +14,7 @@ function checkCase(num: any) {
 function transformDate(dateArr: any) {
   const arr: any = [];
 
-  if (dateArr[0].date) {
+  if (dateArr.length > 0) {
     dateArr.forEach((e: any) => {
       const date = new Date(e.date);
       let day: any = date.getDate();
@@ -34,7 +34,7 @@ function transformDate(dateArr: any) {
 }
 function transformValue(dateArr: any) {
   const arr: any = [];
-  if (dateArr[0].value) {
+  if (dateArr.length > 0) {
     dateArr.forEach((e: any) => {
       arr.push(e.value);
     });
@@ -45,7 +45,7 @@ function transformValue(dateArr: any) {
 function transformValueAll(dateArr: any) {
   const arr: any = [];
   let startValue: number = 0;
-  if (dateArr[0].value) {
+  if (dateArr.length > 0) {
     dateArr.forEach((e: any) => {
       const difValue: number =
         e.value - startValue < 0 ? 0 : e.value - startValue;
@@ -57,7 +57,7 @@ function transformValueAll(dateArr: any) {
   return arr;
 }
 
-function CreatePieChart(ctx:any, canvas:any, dataPieCart:any, labelsPieCart:any) {
+function CreatePieChart(ctx: any, canvas: any, dataPieCart: any, labelsPieCart: any) {
   let lastend = 0;
   let myTotal = 0;
   const myColor = ['#F64E60', '#1BC5BD'];

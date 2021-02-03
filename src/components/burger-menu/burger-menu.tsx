@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './burger-menu.scss';
 import { Link } from 'react-router-dom';
 import book from './assets/book.svg';
@@ -13,16 +13,14 @@ interface IBurgerHeaderProps {
   setIsModalWindow: React.Dispatch<React.SetStateAction<boolean>>, isLanguageRU: boolean,
 
 }
-function BurgerMenu(props: IBurgerHeaderProps) {
+const BurgerMenu: React.FC<IBurgerHeaderProps> = (props: IBurgerHeaderProps) => {
   const { setIsModalWindow, isLanguageRU } = props;
   const [isBurgerUp, setisBurgerUp] = useState<boolean>(false);
 
   console.log(props);
   function handleClick() {
     setisBurgerUp((value: boolean) => !value);
-    document
-      .getElementById('burgerMenuID')!
-      .classList.toggle('burger-menu_active');
+    document.getElementById('burgerMenuID')!.classList.toggle('burger-menu_active');
     document.getElementById('c-hamburgerID')!.classList.toggle('is-active');
     document.getElementById('logoImgID')!.classList.toggle('is-active');
     if (!isBurgerUp) {
@@ -39,6 +37,7 @@ function BurgerMenu(props: IBurgerHeaderProps) {
         className="burger-menu-c-hamburger burger-menu-c-hamburger--htx"
         id="c-hamburgerID"
         onClick={handleClick}
+        type="button"
       >
         <span>toggle menu</span>
       </button>
@@ -96,9 +95,9 @@ function BurgerMenu(props: IBurgerHeaderProps) {
           </li>
         </ul>
       </nav>
-      <div className="burger-menu__overlay" onClick={handleClick} />
+      <div className="burger-menu__overlay" onClick={handleClick} role="presentation" />
     </div>
   );
-}
+};
 
 export default BurgerMenu;

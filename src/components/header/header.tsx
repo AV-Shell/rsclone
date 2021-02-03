@@ -3,7 +3,7 @@ import './header.scss';
 import { Link } from 'react-router-dom';
 import BurgerMenu from '../burger-menu';
 import { headerProps } from '../../constants/interfaces';
-import { AVA_URL, FLAG_URL_4x3 } from '../../constants/constants';
+import { AVA_URL, FLAG_URL_4X3 } from '../../constants/constants';
 
 import { RU, EN } from './langs';
 
@@ -17,6 +17,7 @@ function Header(props: headerProps) {
     setIsLanguageRU,
     settings,
     setIsModalWindow,
+    toggleTheme,
   } = props;
   const [isLangVisible, setisLangVisible] = useState<boolean>(true);
   const [isUserSetUp, setisUserSetUp] = useState<boolean>(false);
@@ -57,10 +58,10 @@ function Header(props: headerProps) {
     };
   });
   const toggleCurrentLang = () => {
-    setIsLanguageRU((value:boolean) => !value);
+    setIsLanguageRU((value: boolean) => !value);
   };
   const toggleCurrentMute = () => {
-    setIsMute((value:boolean) => !value);
+    setIsMute((value: boolean) => !value);
   };
   const toggleHeaderMobile = () => {
     console.log(123);
@@ -105,20 +106,23 @@ function Header(props: headerProps) {
       ? 'bi bi-chevron-down rotate'
       : 'bi bi-chevron-down';
   const setLang = isLanguageRU ? <div> English</div> : <div>Русский</div>;
-  let avatarUrl:string = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
+  let avatarUrl: string = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
   useEffect(() => {
     avatarUrl = `${AVA_URL}ava_${settings.optional.avatarID}.png`;
-  },[settings.optional.avatarID]);
+  }, [settings.optional.avatarID]);
 
   const flagUrl = isLanguageRU
-    ? `${FLAG_URL_4x3}ru.svg`
-    : `${FLAG_URL_4x3}us.svg`;
+    ? `${FLAG_URL_4X3}ru.svg`
+    : `${FLAG_URL_4X3}us.svg`;
   const flagDropUrl = !isLanguageRU
-    ? `${FLAG_URL_4x3}ru.svg`
-    : `${FLAG_URL_4x3}us.svg`;
+    ? `${FLAG_URL_4X3}ru.svg`
+    : `${FLAG_URL_4X3}us.svg`;
 
   const switchLangMenu = (
-    <div className={styleLangDownMenu} onClick={toggleLangUp} ref={refLang}>
+    <div
+      className={styleLangDownMenu} onClick={toggleLangUp} ref={refLang}
+      role="presentation"
+    >
       <img src={flagUrl} alt="flag" />
       {!isLanguageRU && <span>English</span>}
       {isLanguageRU && <span>Русский</span>}
@@ -128,6 +132,7 @@ function Header(props: headerProps) {
         className="header-lang-dropdown"
         ref={refLang}
         onClick={toggleCurrentLang}
+        role="presentation"
       >
         <div className="header-lang-dropdown-content">
           <img src={flagDropUrl} alt="flag" />
@@ -143,6 +148,7 @@ function Header(props: headerProps) {
         className={styleUserDownMenu}
         onClick={toggleUserSetUp}
         ref={refUser}
+        role="presentation"
       >
         <div className="header-userInfo-userImg">
           <img src={avatarUrl} alt="avatar" />
@@ -167,7 +173,10 @@ function Header(props: headerProps) {
 
       <div className="header-theme">
         <div className="header-theme-label">{styleTheme}</div>
-        <div className="header-toggle click" onClick={props.toggleTheme}>
+        <div
+          className="header-toggle click" onClick={toggleTheme}
+          role="presentation"
+        >
           <span />
         </div>
       </div>
@@ -184,15 +193,15 @@ function Header(props: headerProps) {
       {headerSwitchMenu}
       <div className="header-logoimg" id="logoImgID" />
       <div className="header-switch-menu">
-        <div className="header-mute" onClick={toggleCurrentMute}>
+        <div className="header-mute" onClick={toggleCurrentMute} role="presentation">
           <i className={muteImgSet} />
         </div>
         {switchLangMenu}
         {headerSwitch}
-        <span className="close" onClick={toggleHeaderMobile} />
+        <span className="close" onClick={toggleHeaderMobile} role="presentation" />
       </div>
 
-      <div className="header-toggle-menu " onClick={toggleHeaderMobile}>
+      <div className="header-toggle-menu " onClick={toggleHeaderMobile} role="presentation">
         <div className="dot" />
       </div>
     </header>

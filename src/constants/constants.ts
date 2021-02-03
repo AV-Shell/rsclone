@@ -1,8 +1,7 @@
-/* eslint-disable camelcase */
 import {
-  userSettings,
+  IUserSettings,
   userStatistics,
-  userWordReq,
+  IUserWordReq,
   IstatisticMainLong,
   IStatGraphItem,
 } from './interfaces';
@@ -20,7 +19,7 @@ const AVA_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/av
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_45.png
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/avatars/ava_1.png
 const FLAG_URL = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/';
-const FLAG_URL_4x3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/';
+const FLAG_URL_4X3 = 'https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/';
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/us.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/4x3/ru.svg
 // example https://raw.githubusercontent.com/av-shell/rslang-ava/master/flags/flag_ru.svg
@@ -61,7 +60,7 @@ const WORD_PARAM = {
   difficult: 'difficult',
 };
 
-const DEFAULT_USER_SETTINGS: userSettings = {
+const DEFAULT_USER_SETTINGS: IUserSettings = {
   wordsPerDay: 10,
   optional: {
     newWordsPerDay: 5,
@@ -139,7 +138,7 @@ const DEFAULT_MAIN_GAME_LONG_STATISTIC: IstatisticMainLong = {
   currentUserWordPerDay: DEFAULT_STAT_ITEM,
 };
 
-const DEFAULT_USER_WORD: userWordReq = {
+const DEFAULT_USER_WORD: IUserWordReq = {
   difficulty: 'new',
   optional: {
     firstAppearance: 0,
@@ -167,7 +166,7 @@ export {
   FILE_URL,
   AVA_URL,
   FLAG_URL,
-  FLAG_URL_4x3,
+  FLAG_URL_4X3,
   ONE_MINUTE,
   TEN_MINUTES,
   ONE_DAY,
