@@ -10,7 +10,7 @@ import {
 } from './helper';
 
 const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
-  console.log('vocabulary', props);
+  // console.log('vocabulary', props);
   const { userWords, isLanguageRU } = props;
   const [sortingState, setSortingState] = useState<number>(1);
   const [filterState, setFilterState] = useState<string>('active');
@@ -20,7 +20,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   const navigate = (status: string) => {
     // filteredWords = userWords.filter((el) => el.userWord.optional.status === status);
     setFilterState(status);
-    console.log(status);
+    // console.log(status);
   };
 
   const RowShell: React.FC<paginatedWord> = (el: paginatedWord) => (

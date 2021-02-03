@@ -1,6 +1,6 @@
-@import './../../../sass/colors.scss';
-@import './../../../sass/constants.scss';
-@import './../../../sass/typography.scss';
+@import "./../../../sass/colors.scss";
+@import "./../../../sass/constants.scss";
+@import "./../../../sass/typography.scss";
 
 .card {
   &-header {
@@ -21,12 +21,14 @@
     border-radius: $block-border-radius;
   }
 
-  
-
   &-text {
     color: $text-dark-75;
     font-size: 1.4rem;
     line-height: 140%;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
 
     &-primary {
       font-size: 2rem;
@@ -37,8 +39,14 @@
     &-eng {
       font-weight: 600;
       b,
-      i{
+      i {
         color: $color-primary;
+      }
+      .dark-theme & {
+        b,
+        i {
+          color: $color-success;
+        }
       }
     }
   }
@@ -101,13 +109,15 @@
       color: $text-dark-75;
       line-height: 140%;
       font-weight: 600;
+      .dark-theme & {
+        color: #ffffff;
+      }
     }
   }
-  
+
   .star-container {
     .word-progress-stars {
       font-size: 2.2rem;
     }
   }
-  
 }

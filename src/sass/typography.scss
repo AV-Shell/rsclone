@@ -2,10 +2,16 @@
   font-size: 24px;
   letter-spacing: 0.05em;
   color: $text-dark;
+  .dark-theme & {
+    color: $text-dark-25;
+  }
 }
 
 .text-primary {
   color: $color-primary !important;
+  .dark-theme & {
+    color: $color-success !important;
+  }
 }
 
 .text-secondary {

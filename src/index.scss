@@ -32,6 +32,10 @@ li {
 .separator {
   height: 0;
   border-bottom: 1px solid #ebedf3;
+  
+  .dark-theme & {
+    border-bottom: 1px solid #445de22b;
+  }
 }
 
 .rotate {
