@@ -1,40 +1,49 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
 import './vocabulary-page.scss';
-import { vocabularyProps } from '../../constants/interfaces';
+import { paginatedWord, vocabularyProps } from '../../constants/interfaces';
 import TableRow from './table-row';
 import WordCard from './word-card';
 import { EN, RU } from './localization';
-import { sortByGroup, sortByNextTraining, sortByTranslation, sortByWords } from './helper';
+import {
+  sortByGroup, sortByNextTraining, sortByTranslation, sortByWords,
+} from './helper';
 
 const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   console.log('vocabulary', props);
   const { userWords, isLanguageRU } = props;
   const [sortingState, setSortingState] = useState<number>(1);
+  const [filterState, setFilterState] = useState<string>('active');
   // eslint-disable-next-line no-undef
   let wordList: JSX.Element[];
 
+  const navigate = (status: string) => {
+    // filteredWords = userWords.filter((el) => el.userWord.optional.status === status);
+    setFilterState(status);
+    console.log(status);
+  };
+  const filteredWords: paginatedWord[] = userWords.filter((el) => el.userWord.optional.status === filterState);
   if (sortingState === 1) {
-    wordList = sortByWords(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByWords(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } else if (sortingState === -1) {
-    wordList = sortByWords(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByWords(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } if (sortingState === 2) {
-    wordList = sortByTranslation(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByTranslation(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } else if (sortingState === -2) {
-    wordList = sortByTranslation(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByTranslation(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } if (sortingState === 3) {
-    wordList = sortByGroup(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByGroup(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } else if (sortingState === -3) {
-    wordList = sortByGroup(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByGroup(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } if (sortingState === 4) {
-    wordList = sortByNextTraining(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } else if (sortingState === -4) {
-    wordList = sortByNextTraining(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   }
   if (sortingState === 5) {
-    wordList = sortByNextTraining(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   } else if (sortingState === -5) {
-    wordList = sortByNextTraining(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+    wordList = sortByNextTraining(filteredWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
   }
 
   if (userWords === null) {
@@ -142,9 +151,27 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
           <h2 className="subheader-title heading2">{lang.pageName}</h2>
           <nav>
             <ul className="subheader-menu">
-              <li className="subheader-menu_link active">{lang.linkActive}</li>
-              <li className="subheader-menu_link">{lang.linkDifficult}</li>
-              <li className="subheader-menu_link">{lang.linkDeleted}</li>
+              <li
+                className={filterState === 'active' ? 'subheader-menu_link active' : 'subheader-menu_link'}
+                onClick={() => navigate('active')}
+                role="presentation"
+              >
+                {lang.linkActive}
+              </li>
+              <li
+                className={filterState === 'difficult' ? 'subheader-menu_link active' : 'subheader-menu_link'}
+                onClick={() => navigate('difficult')}
+                role="presentation"
+              >
+                {lang.linkDifficult}
+              </li>
+              <li
+                className={filterState === 'deleted' ? 'subheader-menu_link active' : 'subheader-menu_link'}
+                onClick={() => navigate('deleted')}
+                role="presentation"
+              >
+                {lang.linkDeleted}
+              </li>
             </ul>
           </nav>
         </div>
@@ -180,7 +207,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
             </span>
           </div>
         </div>
-        <div className="subheader-right-side">
+        {/* <div className="subheader-right-side">
           <div className="subheader-dropdown filter">
             <span className="btn-icon"><i className="bi bi-filter" /></span>
             {lang.filters}
@@ -191,7 +218,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
             A-Z
             <i className="bi bi-chevron-down" />
           </div>
-        </div>
+        </div> */}
       </header>
       <WordCard obj={userWords[0]} isLanguageRU={isLanguageRU} />
       <div className="container">
