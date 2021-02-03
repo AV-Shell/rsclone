@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './settings-page.scss';
 import {
   settingsPageProps,
-  userSettings,
+  IUserSettings,
 } from '../../constants/interfaces';
 
 import {
@@ -35,7 +35,7 @@ interface CardSettings {
   cardExampleTranslationAfter: boolean,
 }
 
-const getSet1 = ({ optional }: userSettings) => {
+const getSet1 = ({ optional }: IUserSettings) => {
   const result: IndependentCardSettings = {
     cardTranscription: optional.cardTranscription,
     cardImage: optional.cardImage,
@@ -47,7 +47,7 @@ const getSet1 = ({ optional }: userSettings) => {
   return result;
 };
 
-const getSet2 = ({ optional }: userSettings) => {
+const getSet2 = ({ optional }: IUserSettings) => {
   const result: CardSettings = {
     cardWordPronunciation: optional.cardWordPronunciation,
     cardTranslation: optional.cardTranslation,
@@ -65,7 +65,9 @@ const getSet2 = ({ optional }: userSettings) => {
 const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => {
   let basicSettingsAtention: string = '';
   let acceptButtonState: boolean = true;
-  const { settings, apiService, isLanguageRU } = props;
+  const {
+    settings, apiService, isLanguageRU, updateSettings,
+  } = props;
   const [set1, setSet1] = useState<IndependentCardSettings>(getSet1(settings));
   const [set2, setSet2] = useState<CardSettings>(getSet2(settings));
   const [avatarNumber, setAvatarNumber] = useState<number>(settings.optional.avatarID);
@@ -135,6 +137,7 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
       ...set2,
       avatarID: avatarNumber,
     };
+
     apiService.updateSettings(settings)
       .then(() => {
         console.log('все хорошо');
@@ -142,6 +145,10 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
       .catch(() => {
         console.log('все плохо');
       });
+    updateSettings({
+      wordsPerDay: settings.wordsPerDay,
+      optional: settings.optional,
+    });
   };
 
   const onChangeAvatarNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,16 +168,16 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
       <h2>Settings page</h2>
       <h3>Аватарка</h3>
       <label htmlFor="avatarNumber">
-          {`Выберите Аватарку '${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}:`}
-          <input
-            onChange={onChangeAvatarNumber}
-            type="number" id="avatarNumber" name="avatarNumber"
-            min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}
-          />
+        {`Выберите Аватарку '${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}:`}
+        <input
+          onChange={onChangeAvatarNumber}
+          type="number" id="avatarNumber" name="avatarNumber"
+          min={MIN_AVATAR_NUM} max={MAX_AVATAR_NUM} value={avatarNumber}
+        />
       </label>
-        <div className="image-container">
-          <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
-        </div>
+      <div className="image-container">
+        <img src={`${AVA_URL}ava_${avatarNumber}.png`} alt="Avatar" />
+      </div>
       <h3>Карточка</h3>
 
       <form onSubmit={onSubmit}>

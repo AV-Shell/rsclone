@@ -26,7 +26,7 @@ import ApiService from '../../services/api-service';
 import {
   paginatedWord,
   userStatistics,
-  userSettings,
+  IUserSettings,
   trainingProps,
   currentTraining,
   IgetSettingsPageResponce,
@@ -86,7 +86,7 @@ const App: React.FC = () => {
   const [isModalWindow, setIsModalWindow] = useState<boolean>(false);
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
-  const [userSettings, setUserSettings] = useState<userSettings>(DEFAULT_USER_SETTINGS);
+  const [userSettings, setUserSettings] = useState<IUserSettings>(DEFAULT_USER_SETTINGS);
   const [userStatistic, setUserStatistic] = useState<userStatistics>(DEFAULT_USER_STATISTIC);
   const [currentTrainingState, setCurrentTrainingState] = useState<currentTraining>(currentTrainingDefault);
   const [readyToJoin, setReadyToJoin] = useState<TreadyToJoin>('LOADING');

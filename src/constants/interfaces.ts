@@ -65,19 +65,19 @@ export interface userWordOptional {
   userWord: true,
 }
 
-export interface userWordReq {
+export interface IUserWordReq {
   difficulty: string,
   optional: userWordOptional,
 }
 
-export interface userWordRes extends userWordReq {
+export interface userWordRes extends IUserWordReq {
   id: string,
   wordId: string,
 }
 
 export interface paginatedWord extends wordDataWithoutId {
   _id: string,
-  userWord?: userWordReq,
+  userWord?: IUserWordReq,
 }
 
 interface aggregatedCount {
@@ -148,13 +148,13 @@ export interface userSettingsOptional {
   createSettingsTimestamp : number,
 }
 
-export interface userSettings {
+export interface IUserSettings {
   id?: string,
   wordsPerDay: number,
   optional: userSettingsOptional,
 }
 
-export interface saveTrainingPart {
+export interface ISaveTrainingPart {
   startTrainingTimestamp: number,
   totalWordsCount: number,
   trainingCountPerDay: number,
@@ -162,16 +162,16 @@ export interface saveTrainingPart {
   // isTrainingFinish: boolean,
 }
 
-export interface userCardAnswer extends userWordReq {
+export interface userCardAnswer extends IUserWordReq {
   isRepeat: boolean,
   points: number,
 }
 
-export interface currentTraining extends saveTrainingPart {
+export interface currentTraining extends ISaveTrainingPart {
   wordsForTraining: paginatedWord[]
 }
 
-export interface saveTraining extends saveTrainingPart {
+export interface ISaveTraining extends ISaveTrainingPart {
   wordsForTraining: string[]
 }
 
@@ -208,7 +208,7 @@ export interface trainingCardProps extends IlocalProps {
   word: paginatedWord,
   wordNumber: number,
   totalWords: number,
-  settings: userSettings,
+  settings: IUserSettings,
   // eslint-disable-next-line no-unused-vars
   getAnswer: (res: cardAnswer) => void,
 }
@@ -217,13 +217,13 @@ export interface headerProps extends loginStatusProps, IlocalProps {
   toggleTheme: () => void,
   setIsMute: React.Dispatch<React.SetStateAction<boolean>>,
   setIsLanguageRU: React.Dispatch<React.SetStateAction<boolean>>,
-  settings: userSettings,
+  settings: IUserSettings,
   setIsModalWindow: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 interface defaultLoginedProps extends IlocalProps {
-  settings: userSettings,
-  updateSettings: React.Dispatch<React.SetStateAction<userSettings>>,
+  settings: IUserSettings,
+  updateSettings: React.Dispatch<React.SetStateAction<IUserSettings>>,
   statistic: userStatistics | null,
   updateStatistic: React.Dispatch<React.SetStateAction<userStatistics>>,
   userWords: paginatedWord[] | null,
@@ -231,9 +231,9 @@ interface defaultLoginedProps extends IlocalProps {
   apiService: ApiService,
 }
 
-export interface dailyGoalProps extends defaultLoginedProps { }
+export interface IDailyGoalProps extends defaultLoginedProps { }
 
-export interface dashboardProps extends defaultLoginedProps { }
+export interface IDashboardProps extends defaultLoginedProps { }
 
 export interface magicButtonProps extends defaultLoginedProps, loginStatusProps { }
 
@@ -259,9 +259,9 @@ export interface ICreateSettingsProps {
 
 export interface vocabularyProps extends defaultLoginedProps { }
 
-export type trainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
-export interface startTrainingParams {
-  trainingType: trainingType,
+export type TTrainingType = 'mixed' | 'new' | 'repeat' | 'difficult';
+export interface IStartTrainingParams {
+  trainingType: TTrainingType,
   newWords: number,
   repeatWords: number,
 }
@@ -280,7 +280,7 @@ export interface IcreateUserError422Field {
 
 export interface IgetSettingsPageResponce{
   isSuccess:boolean,
-  userSettings: userSettings,
+  userSettings: IUserSettings,
   userStatistics: userStatistics,
 }
 
