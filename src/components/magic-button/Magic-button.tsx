@@ -10,7 +10,25 @@ const MagicButton: React.FC<IMBProps> = (props: IMBProps) => {
   // Component code start
   return (
     <div className="magic-button">
-      <img src={logo} alt="Magic Button" />
+      <div className="magic-button-container">
+        <img className="magic-button-img" src={logo} alt="Magic Button" />
+      </div>
+      {/* <div className="magic-buttons-container">
+        <div className="magic-button btn1">
+          MAGIC
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="magic-button btn2">
+          BUTTONS
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div> */}
     </div>
   );
 };

@@ -1,3 +1,9 @@
+$border-size-btn1: 1px;
+$border-size-btn2: 2px;
+$accent-color-btn1: #07e8ff;;
+$base-color-btn1: #3a0634;;
+$btn2Color1: #2196f3;
+
 .magic-button {
   background-color: #e0d20d;
   text-align: center;
@@ -5,4 +11,184 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  .magic-button-container {
+    margin: 2rem;
+    .magic-button-img {
+      width: 100%;
+    }
+  }
+  .magic-buttons-container {
+    margin: 2rem;
+    .magic-button {
+      margin: 2rem;
+      width: 200px;
+      height: 50px;
+
+      &.btn1 {
+        background-color: $base-color-btn1;
+        color: $accent-color-btn1;
+        text-transform: uppercase;
+        text-shadow: 0 0 15px #000;
+        letter-spacing: 4px;
+        font-size: 20px;
+        font-weight: 700;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+        // &::before{
+        //   content: '';
+        //   position: absolute;
+        //   top: $border-size-btn1;
+        //   left: $border-size-btn1;
+        //   bottom: $border-size-btn1;
+        //   width: 50%;
+        //   background-color: rgba(255,255,255,0.05) ;
+        // }
+        span {
+          position: absolute;
+          &:nth-child(1){
+            top:0;
+            left: 0;
+            width: 100%;
+            height: $border-size-btn1;
+            background: linear-gradient(90deg, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageTop 2s linear infinite;
+          }
+          &:nth-child(2){
+            top:0;
+            right: 0;
+            height: 100%;
+            width: $border-size-btn1;
+            background: linear-gradient(0, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageRight 2s linear infinite ;
+          }
+
+          &:nth-child(3){
+            bottom:0;
+            right: 0;
+            width: 100%;
+            height: $border-size-btn1;
+            background: linear-gradient(90deg, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageBottom 2s linear infinite ;
+          }
+
+          &:nth-child(4){
+            top:0;
+            left: 0;
+            height: 100%;
+            width: $border-size-btn1;
+            background: linear-gradient(0, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageLeft 2s linear infinite ;
+          }
+        }
+        &:hover {
+          span {
+            animation-play-state: running;
+            animation-duration: 1.5s;
+          }
+        }
+      }
+
+      
+      &.btn2 {
+        background-color: black;
+        color:$btn2Color1;
+        text-transform: uppercase;
+        text-shadow: 0 0 15px #000;
+        text-decoration: none;
+        letter-spacing: 4px;
+        font-size: 20px;
+        font-weight: 700;
+        transition: 0.2s;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+        span {
+          position: absolute;
+          display: block;
+          animation: 2s linear infinite;
+          &:nth-child(1){
+            top:0;
+            left: -100%;
+            width: 100%;
+            height: $border-size-btn1;
+            background: linear-gradient(90deg, transparent, $btn2Color1);
+            animation-name: bnt2AnimageTop;
+
+          }
+          &:nth-child(2){
+            top:0;
+            right: 0;
+            height: 100%;
+            width: $border-size-btn2;
+            background: linear-gradient(90deg, transparent, $btn2Color1);
+            animation-name: bnt2AnimageRight;
+          }
+
+          &:nth-child(3){
+            bottom:0;
+            right: 0;
+            width: 100%;
+            height: $border-size-btn1;
+            background: linear-gradient(90deg, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation-name: bnt2AnimageBottom;
+          }
+
+          &:nth-child(4){
+            top:0;
+            left: 0;
+            height: 100%;
+            width: $border-size-btn1;
+            background: linear-gradient(0, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation-name: bnt2AnimageLeft;
+          }
+        }
+        &:hover {
+          color: #255784;
+          background: #2196f3;
+          box-shadow: 0 0 10px #2196f3,  0 0 40px #2196f3,  0 0 80px #2196f3;
+          // transition-delay: 0.7s;
+          
+        }
+      }
+    }
+  }
+}
+
+
+@keyframes bnt1AnimageTop {
+  0% {
+    transform: translateX((-100%));
+  } 
+  100% {
+    transform: translateX((100%));
+  }
+}
+
+@keyframes bnt1AnimageRight {
+  0% {
+    transform: translateY((-100%));
+  } 
+  100% {
+    transform: translateY((100%));
+  }
+}
+
+@keyframes bnt1AnimageBottom {
+  0% {
+    transform: translateX((100%));
+  } 
+  100% {
+    transform: translateX((-100%));
+  }
+}
+
+@keyframes bnt1AnimageLeft {
+  0% {
+    transform: translateY((100%));
+  } 
+  100% {
+    transform: translateY((-100%));
+  }
 }
