@@ -1,19 +1,54 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useState } from 'react';
 import './vocabulary-page.scss';
 import { vocabularyProps } from '../../constants/interfaces';
 import TableRow from './table-row';
 import WordCard from './word-card';
 import { EN, RU } from './localization';
+import { sortByGroup, sortByNextTraining, sortByTranslation, sortByWords } from './helper';
 
 const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   console.log('vocabulary', props);
   const { userWords, isLanguageRU } = props;
+  const [sortingState, setSortingState] = useState<number>(1);
+  // eslint-disable-next-line no-undef
+  let wordList: JSX.Element[];
+
+  if (sortingState === 1) {
+    wordList = sortByWords(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } else if (sortingState === -1) {
+    wordList = sortByWords(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } if (sortingState === 2) {
+    wordList = sortByTranslation(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } else if (sortingState === -2) {
+    wordList = sortByTranslation(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } if (sortingState === 3) {
+    wordList = sortByGroup(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } else if (sortingState === -3) {
+    wordList = sortByGroup(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } if (sortingState === 4) {
+    wordList = sortByNextTraining(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } else if (sortingState === -4) {
+    wordList = sortByNextTraining(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  }
+  if (sortingState === 5) {
+    wordList = sortByNextTraining(userWords).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  } else if (sortingState === -5) {
+    wordList = sortByNextTraining(userWords, true).map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  }
+
   if (userWords === null) {
     return <div />;
   }
+
   const lang = isLanguageRU ? RU : EN;
-  const wordList = userWords.map((el) => <TableRow obj={el} isLanguageRU={isLanguageRU} key={el._id} />);
+  const sortClick = (num: number) => {
+    if (sortingState === num) {
+      setSortingState(-num);
+    } else {
+      setSortingState(num);
+    }
+  };
 
   const Vocabulary = () => (
     <div className="card">
@@ -21,21 +56,71 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
         <thead>
           <tr className="table-row">
             <th className="table-h">
-              <span>
-                {lang.word}
-                {' '}
-                  -
-                {' '}
-                {lang.translation}
+              <span
+                className={sortingState === 1 || sortingState === -1 ? 'text-primary table-h-clickable' : 'table-h-clickable'}
+                onClick={() => sortClick(1)} role="presentation"
+              >
+                <span>{lang.word}</span>
+                <span className={sortingState === 1 || sortingState === -1 ? 'font-inherit' : 'hidden'}>
+                  <i className={sortingState === 1 ? 'bi bi-sort-alpha-down' : 'bi bi-sort-alpha-down-alt'} />
+                </span>
+              </span>
+              <span className="dash">&mdash;</span>
+              <span
+                className={sortingState === 2 || sortingState === -2 ? 'text-primary table-h-clickable' : 'table-h-clickable'}
+                onClick={() => sortClick(2)} role="presentation"
+              >
+                <span>{lang.translation}</span>
+                <span className={sortingState === 2 || sortingState === -2 ? 'font-inherit' : 'hidden'}>
+                  <i className={sortingState === 2 ? 'bi bi-sort-alpha-down' : 'bi bi-sort-alpha-down-alt'} />
+                </span>
               </span>
             </th>
-            <th className="table-h"><span>{lang.transcription}</span></th>
-            <th className="table-h"><span>{lang.group}</span></th>
             <th className="table-h">
-              <div>{lang.next}</div>
-              <div>{lang.training}</div>
+              <span>
+                {lang.transcription}
+              </span>
+
             </th>
-            <th className="table-h"><span>{lang.progress}</span></th>
+            <th className="table-h">
+
+              <span
+                className={sortingState === 3 || sortingState === -3 ? 'text-primary table-h-clickable' : 'table-h-clickable'}
+                onClick={() => sortClick(3)} role="presentation"
+              >
+                <span>{lang.group}</span>
+
+                <span className={sortingState === 3 || sortingState === -3 ? 'font-inherit' : 'hidden'}>
+                  <i className={sortingState === 3 ? 'bi bi-sort-numeric-down' : 'bi bi-sort-numeric-down-alt'} />
+                </span>
+
+              </span>
+            </th>
+            <th className="table-h">
+              <div
+                className={sortingState === 4 || sortingState === -4 ? 'flex text-primary table-h-clickable' : 'flex table-h-clickable'}
+                onClick={() => sortClick(4)} role="presentation"
+              >
+                <div>
+                  <div>{lang.next}</div>
+                  <div>{lang.training}</div>
+                </div>
+                <div className={sortingState === 4 || sortingState === -4 ? 'font-inherit' : 'hidden'}>
+                  <i className={sortingState === 4 ? 'bi bi-sort-numeric-down' : 'bi bi-sort-numeric-down-alt'} />
+                </div>
+              </div>
+            </th>
+            <th className="table-h">
+              <span
+                className={sortingState === 5 || sortingState === -5 ? 'text-primary table-h-clickable' : 'table-h-clickable'}
+                onClick={() => sortClick(5)} role="presentation"
+              >
+                <span>{lang.progress}</span>
+                <span className={sortingState === 5 || sortingState === -5 ? 'font-inherit' : 'hidden'}>
+                  <i className={sortingState === 5 ? 'bi bi-sort-numeric-down' : 'bi bi-sort-numeric-down-alt'} />
+                </span>
+              </span>
+            </th>
             <th className="table-h"><span>{lang.action}</span></th>
           </tr>
         </thead>

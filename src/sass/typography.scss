@@ -11,3 +11,14 @@
 .text-secondary {
   color: $text-dark-50 !important;
 }
+
+.hidden {
+  visibility: hidden;
+  font-size: 2em;
+  margin-left: 1rem;
+}
+
+.font-inherit {
+  font-size: 2em;
+  margin-left: 1rem;
+}

@@ -227,6 +227,18 @@
     &:first-child {
       padding-left: 4.8rem;
     }
+
+    &-clickable {
+      cursor: pointer;
+      transition: $bg-color-transition;
+
+      &:hover {
+        color: $color-primary-hover;
+      }
+    }
+    .dash {
+      margin: 0 1rem;
+    }
   }
 
   & > tbody .table-row {
