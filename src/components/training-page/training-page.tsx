@@ -17,7 +17,7 @@ import ButtonNext from './training-components/training-page-btn-next';
 import { RU, EN } from './langs';
 import WordStarsLevel from '../slave-components/word-stars-level';
 
-function TrainingPage(props:trainingCardProps) {
+const TrainingPage: React.FC<trainingCardProps> = (props:trainingCardProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -33,7 +33,6 @@ function TrainingPage(props:trainingCardProps) {
   const trainingDay: number = Date.now();
   let nextTrainingDay: number = 0;
 
-  console.log(props);
   const {
     word, settings, wordNumber, totalWords, getAnswer, isLanguageRU, isMute,
   } = props;
@@ -77,7 +76,7 @@ function TrainingPage(props:trainingCardProps) {
   if (('userWord' in thisWord) && (isNew)) {
     setIsNew(false);
     const { userWord } = thisWord;
-    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord.optional.status; // active, difficult, deleted
+    const wordStatus: 'active' | 'deleted' | 'difficult' = userWord.optional.status;
     setWordPosition(wordStatus);
     firstAppearance = userWord.optional.firstAppearance;
     setIntervalLevel(userWord.optional.level);
@@ -117,7 +116,6 @@ function TrainingPage(props:trainingCardProps) {
   useEffect(() => {
     console.log('smth');
     return () => {
-      console.log('sounds should be silenced', allSounds);
       soundControl(allSounds);
     };
   }, []);
@@ -200,6 +198,7 @@ function TrainingPage(props:trainingCardProps) {
     nextTrainingDay,
     isIntervalUsed,
     stopSoundsObj: allSounds,
+    updateInterval: setIntervalUsed,
   };
 
   return (
@@ -242,7 +241,7 @@ function TrainingPage(props:trainingCardProps) {
         </div>
         <div className="training-card">
           <div className="training-card-header">
-            <button
+            {/* <button
               type="button"
               className="training-card-header-btn-keyboard upper-btns"
             >
@@ -278,7 +277,7 @@ function TrainingPage(props:trainingCardProps) {
                   1-.25-.25v-.5z"
                 />
               </svg>
-            </button>
+            </button> */}
             <TrainingCardUpperBtn
               id="active"
               isShown={statusButtons}
@@ -351,6 +350,6 @@ function TrainingPage(props:trainingCardProps) {
       </div>
     </div>
   );
-}
+};
 
 export default TrainingPage;

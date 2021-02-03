@@ -1,7 +1,7 @@
 import React from 'react';
 import { forFooter, footerBtns } from '../training-page-interfaces';
 
-export default function CardFooter(props: forFooter) {
+const CardFooter: React.FC<forFooter> = (props: forFooter) => {
   const {
     hasShowAnswerButton, hasIntervalButtons, currentWord, updateInput,
     hasAnswer, updateHasAnswer, intervalLevel, updateIntervalLevel, isAnswerTrue, language,
@@ -75,7 +75,7 @@ export default function CardFooter(props: forFooter) {
   return (
     <div className="training-card-footer" />
   );
-}
+};
 
 function FooterButton(props: footerBtns) {
   const {
@@ -83,7 +83,6 @@ function FooterButton(props: footerBtns) {
   } = props;
 
   const wholeClass: string = (intervalLvl === id) ? `${classCss} active` : classCss;
-  // если ответил неправильно, не может их нажать
   const disabled: boolean = (!isAnswerTrue && ((id === 'easy') || (id === 'good') || (id === 'hard')));
 
   const IntervalButtonsHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -106,3 +105,5 @@ function FooterButton(props: footerBtns) {
     </button>
   );
 }
+
+export default CardFooter;

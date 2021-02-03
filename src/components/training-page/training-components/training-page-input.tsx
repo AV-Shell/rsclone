@@ -3,7 +3,7 @@ import { IforInput, TsoundsObject } from '../training-page-interfaces';
 import { soundControl, playSounds, playSingleSound } from './training-simple-functions';
 import { MAX_REPEAT_LEVEL, MIN_REPEAT_LEVEL } from '../training-consts';
 
-export default function InputControl(props: IforInput) {
+const InputControl: React.FC<IforInput> = (props: IforInput) => {
   const {
     value, updateValue, theWord, isAnswerSet, updateAnswerSet, isTrue, updateAnswer, isSoundOn,
     isAutoPlayOn, counter, success, playExample, playMeaning, soundsObject, isAutoFocus, updateAutoFocus,
@@ -22,9 +22,7 @@ export default function InputControl(props: IforInput) {
       updateCounter(counter + 1);
       updateAnswerSet(true);
       updateAutoFocus(false);
-      console.log('enter pressed in input');
       if (value.toLocaleLowerCase() === theWord.toLocaleLowerCase()) {
-        console.log('that is right');
         updateAnswer(true);
         updateAnswerSet(true);
         updateSuccess(success + 1);
@@ -39,7 +37,7 @@ export default function InputControl(props: IforInput) {
         updateValue(theWord);
         updateAnswer(false);
         updateAnswerSet(true);
-        if ((intervalLevel !== MIN_REPEAT_LEVEL) && isIntervalUsed) {
+        if (intervalLevel !== MIN_REPEAT_LEVEL) {
           updateIntervalLevel(1);
         }
       }
@@ -65,7 +63,6 @@ export default function InputControl(props: IforInput) {
   };
 
   if (isAnswerSet) {
-    console.log('isAnswerSet true');
     const cssStyle: string = isTrue ? 'training-card-body-word-details-field-input green'
       : 'training-card-body-word-details-field-input red';
     return (
@@ -91,7 +88,6 @@ export default function InputControl(props: IforInput) {
       </div>
     );
   }
-  console.log('isAnswerSet false');
   return (
     <div
       className="training-card-body-word-details-field"
@@ -116,7 +112,7 @@ export default function InputControl(props: IforInput) {
       />
     </div>
   );
-}
+};
 
 interface SoundProps {
   isShown: boolean,
@@ -143,3 +139,5 @@ function SoundButton(props: SoundProps) {
 
   return (<i role="presentation" className={classCss} onClick={SoundHandler} />);
 }
+
+export default InputControl;

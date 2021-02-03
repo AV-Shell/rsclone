@@ -19,7 +19,6 @@
   }
 
   &-first {
-
     &_column-user_info {
       background-color: #ffffff;
       height: auto;
@@ -101,7 +100,6 @@
   }
 
   &-second {
-
     &_column-info {
       height: auto;
       display: grid;
@@ -163,7 +161,6 @@
   }
 
   &-third {
-    
     &_column-daily {
       color: white;
       padding: 2rem;
@@ -283,7 +280,8 @@
 @media (max-width: $size-xs) {
   .dashboard-page-first_column-user_info {
     flex-direction: column;
-    &-data{
+
+    &-data {
       width: 100%;
       height: 50%;
     }
@@ -320,8 +318,8 @@
     margin: 0;
     margin-bottom: 1rem;
   }
+
   .dashboard-page-second_column-info p {
     font-size: 50px;
-    
-}
+  }
 }

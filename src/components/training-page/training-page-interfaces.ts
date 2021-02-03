@@ -1,5 +1,5 @@
 import React from 'react';
-import { cardAnswer } from '../../constants/interfaces';
+import { cardAnswer, paginatedWord } from '../../constants/interfaces';
 
 export interface upperButtonProps {
   id: 'active' | 'deleted' | 'difficult',
@@ -139,7 +139,8 @@ export interface NextButtonProps {
   language: Tlanguages,
   nextTrainingDay: number,
   isIntervalUsed: boolean,
-  stopSoundsObj: TsoundsObject
+  stopSoundsObj: TsoundsObject,
+  updateInterval: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface WordProgressProps {
