@@ -5,7 +5,7 @@ interface IWordProgressProps {
   level: number
 }
 
-function WordProgressBar(props: IWordProgressProps) {
+const WordProgressBar: React.FC<IWordProgressProps> = (props: IWordProgressProps) => {
   const { level } = props;
 
   const rightNum: number = MAX_REPEAT_LEVEL;
@@ -19,6 +19,6 @@ function WordProgressBar(props: IWordProgressProps) {
       />
     </div>
   );
-}
+};
 
 export default WordProgressBar;

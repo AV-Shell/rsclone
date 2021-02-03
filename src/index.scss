@@ -1,4 +1,4 @@
-@import './sass/constants.scss';
+@import "./sass/constants.scss";
 
 html {
   font-size: 10px;
@@ -6,6 +6,7 @@ html {
 
 body {
   margin: 0;
+  position: relative;
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -19,18 +20,22 @@ body {
   border: none;
 }
 
-button{
+button {
   outline: none;
+  background-color: transparent;
 }
 
-li{
+li {
   list-style: none;
 }
 
 .separator {
   height: 0;
-  border-bottom: 1px solid #EBEDF3;
-  margin-top: 1.5rem;
+  border-bottom: 1px solid #ebedf3;
+  
+  .dark-theme & {
+    border-bottom: 1px solid #445de22b;
+  }
 }
 
 .rotate {
@@ -40,4 +45,38 @@ li{
 
 .d-none {
   display: none !important;
+}
+
+.flex {
+  display: flex;
+}
+
+.btn-icon {
+  height: calc(1.5em + 1.3rem + 2px);
+  width: calc(1.5em + 1.3rem + 2px);
+  text-align: center;
+  font-size: 15px;
+  display: inline-flex;
+  justify-content: center;
+  border-radius: $block-border-radius;
+
+  > i {
+    pointer-events: none;
+    font-size: 26px;
+  }
+
+  &-small {
+    height: calc(1.5em + 1.3rem + 2px);
+    width: calc(1.5em + 1.3rem + 2px);
+    text-align: center;
+    font-size: 15px;
+    display: inline-flex;
+    justify-content: center;
+    border-radius: $block-border-radius;
+
+    > i {
+      pointer-events: none;
+      font-size: 16px;
+    }
+  }
 }

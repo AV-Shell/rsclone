@@ -2,8 +2,29 @@
   font-size: 24px;
   letter-spacing: 0.05em;
   color: $text-dark;
+  .dark-theme & {
+    color: $text-dark-25;
+  }
 }
 
 .text-primary {
   color: $color-primary !important;
+  .dark-theme & {
+    color: $color-success !important;
+  }
+}
+
+.text-secondary {
+  color: $text-dark-50 !important;
+}
+
+.hidden {
+  visibility: hidden;
+  font-size: 2em;
+  margin-left: 1rem;
+}
+
+.font-inherit {
+  font-size: 2em;
+  margin-left: 1rem;
 }
