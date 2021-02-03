@@ -1,15 +1,22 @@
 import React from 'react';
-import { FILE_URL } from '../../../constants/constants';
+import { FILE_URL, MAX_REPEAT_LEVEL } from '../../../constants/constants';
 import IwordProps from '../word-props-interface';
 import WordStarsLevel from '../../slave-components/word-stars-level';
+import WordProgressBar from '../../slave-components/word-progress-bar';
 
 const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
   const {
     obj: {
       image, word, wordTranslate, transcription, _id, group,
+      userWord: {
+        optional: {
+          level,
+        },
+      },
     },
   } = props;
 
+  const progressString = `${Math.round((level / MAX_REPEAT_LEVEL) * 100)}%`;
   const volumeIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg" width="30" height="30"
@@ -48,11 +55,14 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
           <span className="table-text-transcription">{transcription}</span>
         </div>
       </td>
-      <td className="table-data table-text-primary">2/3/2021</td>
       <td className="table-data">
         <WordStarsLevel level={group} />
       </td>
-      <td className="table-data">прогресс</td>
+      <td className="table-data table-text-primary">2/3/2021</td>
+      <td className="table-data table-text">
+        <div>{progressString}</div>
+        <WordProgressBar level={level} />
+      </td>
       <td className="table-data">
         <div className="cell-wrapper">
           <button className="table-change-status table-change-status_difficult  btn-icon-small" type="button">

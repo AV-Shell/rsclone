@@ -1,15 +1,21 @@
 import React from 'react';
 import './word-card.scss';
 import IwordProps from '../word-props-interface';
-import { FILE_URL } from '../../../constants/constants';
+import { FILE_URL, MAX_REPEAT_LEVEL } from '../../../constants/constants';
 import WordStarsLevel from '../../slave-components/word-stars-level';
 
 const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
   const {
     obj: {
       image, word, wordTranslate, transcription, textMeaning, textMeaningTranslate, textExample, textExampleTranslate, group,
+      userWord: {
+        optional: {
+          level,
+        },
+      },
     },
   } = props;
+  const progressString = `${Math.round((level / MAX_REPEAT_LEVEL) * 100)}%`;
   const volumeIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg" width="30" height="30"
@@ -32,11 +38,11 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
     <li className="card">
       <div className="card-header">
         <div className="star-container">
-        <WordStarsLevel level={group} />
+          <WordStarsLevel level={group} />
         </div>
         <div className="buttons-container">
           <button className="table-change-status table-change-status_difficult  btn-icon-small" type="button">
-          <i className="bi bi-exclamation-diamond" />
+            <i className="bi bi-exclamation-diamond" />
           </button>
           <button className="table-change-status table-change-status_delete btn-icon-small" type="button">
             <i className="bi bi-dash-square-dotted" />
@@ -98,7 +104,7 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
         </div>
         <div className="card-footer-column">
           <div className="card-footer-heading">progress</div>
-          <div className="card-footer-text">1</div>
+          <div className="card-footer-text">{progressString}</div>
         </div>
 
       </div>

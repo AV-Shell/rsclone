@@ -21,8 +21,11 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
           <tr className="table-row">
             <th className="table-h"><span>слово-перевод</span></th>
             <th className="table-h"><span>транскрипция</span></th>
-            <th className="table-h"><span>следующая тренировка</span></th>
             <th className="table-h"><span>группа</span></th>
+            <th className="table-h">
+              <div>следующая</div>
+              <div>тренировка</div>
+            </th>
             <th className="table-h"><span>прогресс</span></th>
             <th className="table-h"><span>действие</span></th>
           </tr>
