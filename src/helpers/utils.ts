@@ -2,7 +2,7 @@
 import {
   paginatedWord,
   areThereStillWordsOnGroups,
-  userSettings,
+  IUserSettings,
   userStatistics,
 } from '../constants/interfaces';
 import {
@@ -120,12 +120,32 @@ interface getSettings {
   apiService: ApiService,
 }
 interface getSettingsResponce {
-  settings: userSettings,
+  settings: IUserSettings,
   result: number,
 }
 interface getStatisticResponce {
   statistic: userStatistics,
   result: number,
+}
+
+function getNewSettingsDefaultObject(): IUserSettings {
+  const neObj: IUserSettings = {
+    wordsPerDay: DEFAULT_USER_SETTINGS.wordsPerDay,
+    optional: {
+      ...DEFAULT_USER_SETTINGS.optional,
+    },
+  };
+  return neObj;
+}
+
+function getNewStatisticDefaultObject(): userStatistics {
+  const newObj: userStatistics = {
+    learnedWords: DEFAULT_USER_STATISTIC.learnedWords,
+    optional: {
+      ...DEFAULT_USER_STATISTIC.optional,
+    },
+  };
+  return newObj;
 }
 
 async function loadSettings({ apiService }: getSettings): Promise<getSettingsResponce> {
@@ -183,12 +203,12 @@ async function loadStatistic({ apiService }: getSettings): Promise<getStatisticR
     },
   };
   try {
-    const userStatistic = await apiService.getStatistics();
-    console.log(userStatistic);
-    if (userStatistic.optional) {
+    const userStatisticResp = await apiService.getStatistics();
+    console.log(userStatisticResp);
+    if (userStatisticResp.optional) {
       isHasStatistic = USER_HAS_ENTITY;
       const res: getStatisticResponce = {
-        statistic: userStatistic,
+        statistic: userStatisticResp,
         result: isHasStatistic,
       };
       return res;
@@ -311,6 +331,26 @@ function isSameDays(date1: number, date2: number): boolean {
     (date1Date.getUTCDate() === date2Date.getUTCDate()));
 }
 
+function CountDifficult(arr: paginatedWord[]): number {
+  const result: number = arr.filter((uWord) => {
+    if (uWord.userWord) {
+      return uWord.userWord.optional.status === 'difficult';
+    }
+    return false;
+  }).length;
+  return result;
+}
+
+function CountForToday(arr: paginatedWord[]): number {
+  const result: number = arr.filter((uWord) => {
+    if (uWord.userWord) {
+      return uWord.userWord.optional.nextRepeat < nextUTCDayTimeStamp();
+    }
+    return false;
+  }).length;
+  return result;
+}
+
 export {
   storage,
   loadNewWords,
@@ -323,4 +363,8 @@ export {
   limitMinMax,
   isCurrentUTCDay,
   isSameDays,
+  CountDifficult,
+  CountForToday,
+  getNewSettingsDefaultObject,
+  getNewStatisticDefaultObject,
 };

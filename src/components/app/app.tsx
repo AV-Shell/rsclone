@@ -26,15 +26,13 @@ import ApiService from '../../services/api-service';
 import {
   paginatedWord,
   userStatistics,
-  userSettings,
+  IUserSettings,
   trainingProps,
   currentTraining,
   IgetSettingsPageResponce,
 } from '../../constants/interfaces';
 
 import {
-  DEFAULT_USER_SETTINGS,
-  DEFAULT_USER_STATISTIC,
   DARK_THEME_CLASSNAME,
   MODAL_WINDOW_CLASSNAME,
   USER_HAS_ENTITY,
@@ -45,6 +43,8 @@ import {
   loadSettings,
   loadStatistic,
   storage,
+  getNewSettingsDefaultObject,
+  getNewStatisticDefaultObject,
 } from '../../helpers/utils';
 
 const currentTrainingDefault: currentTraining = {
@@ -86,8 +86,8 @@ const App: React.FC = () => {
   const [isModalWindow, setIsModalWindow] = useState<boolean>(false);
   const [isAuthorizated, setIsAuthorizated] = useState<boolean>(api.checkTokenValidity());
   const [userWordsArray, setUserWordsArray] = useState<Array<paginatedWord> | null>(null);
-  const [userSettings, setUserSettings] = useState<userSettings>(DEFAULT_USER_SETTINGS);
-  const [userStatistic, setUserStatistic] = useState<userStatistics>(DEFAULT_USER_STATISTIC);
+  const [userSettings, setUserSettings] = useState<IUserSettings>(getNewSettingsDefaultObject());
+  const [userStatistic, setUserStatistic] = useState<userStatistics>(getNewStatisticDefaultObject());
   const [currentTrainingState, setCurrentTrainingState] = useState<currentTraining>(currentTrainingDefault);
   const [readyToJoin, setReadyToJoin] = useState<TreadyToJoin>('LOADING');
   const [hasUserSettings, setHasUserSettings] = useState<ThasUserSettings>('NO');
@@ -99,8 +99,8 @@ const App: React.FC = () => {
     setIsAuthorizated(false);
     setHasUserSettings('NO');
     // setHasUserStatistic('NO');
-    setUserSettings(DEFAULT_USER_SETTINGS);
-    setUserStatistic(DEFAULT_USER_STATISTIC);
+    setUserSettings(getNewSettingsDefaultObject());
+    setUserStatistic(getNewStatisticDefaultObject());
     setUserWordsArray(null);
   };
 
@@ -108,14 +108,12 @@ const App: React.FC = () => {
     setIsDarkTheme((value) => !value);
   };
 
-  // TODO: save to LocalStorage isMute  Language // useEffect
   useEffect(() => {
     console.log('isMute, isLanguageRU');
     storage(MBStorageIsMute, isMute);
     storage(MBStorageIsLanguageRU, isLanguageRU);
     storage(MBStorageIsDarkTheme, isDarkTheme);
   }, [isMute, isLanguageRU, isDarkTheme]);
-  // TODO: save to LocalStorage
 
   const isLoginCallback = (isLogin: boolean) => {
     console.log('isLoginCallback', isLogin);

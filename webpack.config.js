@@ -43,6 +43,10 @@ module.exports = (env = {}) => {
             from: path.resolve(__dirname, 'public/favicon.ico'),
             to: path.resolve(__dirname, 'build/favicon.ico'),
           },
+          {
+            from: path.resolve(__dirname, 'public/netlify.toml'),
+            to: path.resolve(__dirname, 'build/netlify.toml'),
+          },
         ],
         options: {
           concurrency: 100,

@@ -2,7 +2,7 @@
 @import "./../../sass/colors.scss";
 
 .dashboard-page {
-  background-color: #F3F6F9;
+  background-color: #f3f6f9;
   width: 100%;
   display: grid;
   grid-template-rows: 27.9rem 34.3rem;
@@ -20,11 +20,9 @@
 
   &-first {
 
-
     &_column-user_info {
       background-color: #ffffff;
       height: auto;
-
       display: flex;
       padding: 2rem;
       align-items: center;
@@ -33,7 +31,6 @@
       .dark-theme & {
         color: $color-success-hover;
         background: $d-bg-card-primary;
-
       }
 
       &-img {
@@ -41,11 +38,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
         border-radius: 5px;
         box-sizing: border-box;
-        // overflow: hidden;
-        background-color: #C4C4C4;
+        overflow: hidden;
+        background-color: #c4c4c4;
         margin: 2rem 0;
 
         .dark-theme & {
@@ -54,9 +50,8 @@
 
         & img {
           width: 100%;
-          filter: drop-shadow(10px 0px 6px white) drop-shadow(-10px 0px 6px white) drop-shadow(0px 10px 6px white) drop-shadow(0px -10px 6px white);
-
-         
+          filter: drop-shadow(10px 0px 6px white) drop-shadow(-10px 0px 6px white) drop-shadow(0px 10px 6px white)
+            drop-shadow(0px -10px 6px white);
         }
       }
 
@@ -77,6 +72,7 @@
           & img {
             border-radius: 30%;
             box-shadow: 0rem 0rem 6px 4px $bg-card-dark;
+
             .dark-theme & {
               box-shadow: 0px 0px 6px 4px $bg-primary;
             }
@@ -106,9 +102,7 @@
 
   &-second {
 
-
     &_column-info {
-
       height: auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -129,11 +123,11 @@
       }
 
       &-all_words {
-        background-color: #F64E60;
+        background-color: #f64e60;
       }
 
       &-best_series {
-        background-color: #7E8299;
+        background-color: #7e8299;
       }
 
       &-all_cards {
@@ -145,7 +139,7 @@
       }
 
       &-card_point {
-        background-color: #8950FC;
+        background-color: #8950fc;
       }
     }
 
@@ -159,7 +153,6 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-
       font-size: 2rem;
       font-weight: bold;
 
@@ -170,7 +163,7 @@
   }
 
   &-third {
-
+    
     &_column-daily {
       color: white;
       padding: 2rem;
@@ -243,7 +236,6 @@
       height: 10px;
       background-color: $color-danger;
     }
-
   }
 }
 
@@ -252,12 +244,10 @@
 }
 
 #piechart {
-
   height: 65%;
 }
 
-@media(max-width: $size-xl) {
-
+@media (max-width: $size-xl) {
   .dashboard-page {
     grid-template-columns: repeat(2, 50%);
   }
@@ -283,15 +273,14 @@
   }
 }
 
-@media(max-width: $size-md) {
+@media (max-width: $size-md) {
   .dashboard-page {
     grid-template-columns: 90%;
     padding: 2.5rem;
-
   }
 }
 
-@media(max-width: $size-xs) {
+@media (max-width: $size-xs) {
   .dashboard-page-first_column-user_info {
     flex-direction: column;
     &-data{
@@ -331,8 +320,12 @@
     margin: 0;
     margin-bottom: 1rem;
   }
+<<<<<<< HEAD
   .dashboard-page-second_column-info p {
     font-size: 50px;
     
 }
 }
+=======
+}
+>>>>>>> develop
