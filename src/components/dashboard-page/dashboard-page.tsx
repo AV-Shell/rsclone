@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './dashboard-page.scss';
 import { Line, Bar } from 'react-chartjs-2';
-import { dashboardProps } from '../../constants/interfaces';
+import { IDashboardProps } from '../../constants/interfaces';
 import { AVA_URL } from '../../constants/constants';
 import { RU, EN } from './langs';
 import { getMainGameStatistic } from '../shadow-training-page/utils/statistic-utils';
@@ -22,7 +22,7 @@ import {
   switchRang,
 } from './utils';
 
-function DashboardPage(props: dashboardProps) {
+const DashboardPage: React.FC<IDashboardProps> = (props: IDashboardProps) => {
   const {
     isDarkTheme, isLanguageRU, settings, statistic,
   } = props;
@@ -127,17 +127,19 @@ function DashboardPage(props: dashboardProps) {
     : currentLang.cards;
 
   const dailyGoalDone =
-    difCurrentCards > 0 ? (
-      <p>
-        {currentLang.complete}
+    difCurrentCards > 0 ?
+      (
+        <p>
+          {currentLang.complete}
 
-        {difCurrentCards}
-        {choseCards1}
-        {currentLang.reach}
-      </p>
-    ) : (
-      <p>{currentLang.dailyGoalDone}</p>
-    );
+          {difCurrentCards}
+          {choseCards1}
+          {currentLang.reach}
+        </p>
+      ) :
+      (
+        <p>{currentLang.dailyGoalDone}</p>
+      );
   useEffect(() => {
     currentLang = isLanguageRU ? RU : EN;
   }, [isLanguageRU]);
@@ -234,14 +236,14 @@ function DashboardPage(props: dashboardProps) {
           <div className="piechart-legend">
             <div className="piechart-legend-correct" />
             <span>
--
+              -
 {currentLang.correctAnswer}
             </span>
           </div>
           <div className="piechart-legend">
             <div className="piechart-legend-incorrect"> </div>
             <span>
--
+              -
 {currentLang.incorrectAnswer}
             </span>
           </div>
@@ -255,6 +257,6 @@ function DashboardPage(props: dashboardProps) {
       </div>
     </div>
   );
-}
+};
 
 export default DashboardPage;

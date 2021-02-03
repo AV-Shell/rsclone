@@ -1,4 +1,4 @@
-function checkCase(num: any) {
+function checkCase(num: any): number {
   if (num.toString().slice(-1) === '1' && num.toString().slice(-2) !== '11') {
     return 0;
   }
@@ -57,7 +57,7 @@ function transformValueAll(dateArr: any) {
   return arr;
 }
 
-function CreatePieChart(ctx:any, canvas:any, dataPieCart:any, labelsPieCart:any) {
+function CreatePieChart(ctx: any, canvas: any, dataPieCart: any, labelsPieCart: any) {
   let lastend = 0;
   let myTotal = 0;
   const myColor = ['#F64E60', '#1BC5BD'];

@@ -8,6 +8,8 @@ import {
   signInRequestBody,
 } from '../../constants/interfaces';
 
+const secretHash: string = 'mb_MB_18_77_ReTTeR_77_81_BM_bm';
+
 interface Ilanguages {
   title: string,
   email: string,
@@ -140,7 +142,7 @@ const LoginPage: React.FC<ILoginPageProps> = (props: ILoginPageProps) => {
       setErrorMessage(lang.confirmError);
       return;
     }
-    registrationAndLogin(nickname, email, password, isLogin)
+    registrationAndLogin(nickname, `${secretHash}${email}`, password, isLogin)
       .then((isSuccess) => {
         if (isSuccess) {
           setPassword('');
