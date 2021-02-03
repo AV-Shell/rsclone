@@ -294,6 +294,10 @@
 @media(max-width: $size-xs) {
   .dashboard-page-first_column-user_info {
     flex-direction: column;
+    &-data{
+      width: 100%;
+      height: 50%;
+    }
   }
 
   .dashboard-page {
@@ -327,4 +331,8 @@
     margin: 0;
     margin-bottom: 1rem;
   }
+  .dashboard-page-second_column-info p {
+    font-size: 50px;
+    
+}
 }
