@@ -22,7 +22,7 @@ export default function ButtonNext(props: NextButtonProps) {
   const currentProgress: number = Math.floor((currentSuccess / currentCount) * 100) / 100;
 
   const ButtonNextHandler = () => {
-    soundControl(stopSoundsObj);
+    soundControl(stopSoundsObj).catch((e) => true);
     const isToRepeat: boolean = (levelStatus === 'again');
     const point: number = isAnswerTrue ? 1 : 0;
     let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
@@ -50,7 +50,7 @@ export default function ButtonNext(props: NextButtonProps) {
           nextTime += levelsOfRepeat[levelNow];
           break;
       }
-    } else if (isIntervalUsed) {
+    } else if (!isAnswerTrue) {
       levelNow = 1;
       nextTime += levelsOfRepeat[levelNow];
     }

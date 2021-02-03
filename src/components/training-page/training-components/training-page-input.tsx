@@ -39,26 +39,26 @@ export default function InputControl(props: IforInput) {
         updateValue(theWord);
         updateAnswer(false);
         updateAnswerSet(true);
-        if ((intervalLevel !== MIN_REPEAT_LEVEL) && isIntervalUsed) {
+        if (intervalLevel !== MIN_REPEAT_LEVEL) {
           updateIntervalLevel(1);
         }
       }
       if (isAutoPlayOn && isSoundOn) {
-        soundControl(soundsObject);
+        soundControl(soundsObject).catch((e) => true);
         if (playExample && playMeaning) {
-          playSounds(soundsObject);
+          playSounds(soundsObject).catch((e) => true);
         } else if (playMeaning) {
           const newSoundsObject: TsoundsObject = {
             wordSound: soundsObject.wordSound,
             meaningSound: soundsObject.meaningSound,
           };
-          playSounds(newSoundsObject);
+          playSounds(newSoundsObject).catch((e) => true);
         } else if (playExample) {
           const newSoundsObject: TsoundsObject = {
             wordSound: soundsObject.wordSound,
             exampleSound: soundsObject.exampleSound,
           };
-          playSounds(newSoundsObject);
+          playSounds(newSoundsObject).catch((e) => true);
         }
       }
     }
@@ -135,9 +135,9 @@ function SoundButton(props: SoundProps) {
   }
 
   const SoundHandler = () => {
-    soundControl(soundObject);
+    soundControl(soundObject).catch((e) => true);
     if (isSoundOn) {
-      playSingleSound(soundObject.wordSound);
+      playSingleSound(soundObject.wordSound).catch((e) => true);
     }
   };
 

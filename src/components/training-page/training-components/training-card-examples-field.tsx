@@ -83,9 +83,9 @@ function SoundOnSentences(props: IconForSound) {
   const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
 
   const SoundHandler = () => {
-    soundControl(soundObject);
+    soundControl(soundObject).catch((e) => true);
     if (isSoundOn) {
-      playSingleSound(soundToPlay);
+      playSingleSound(soundToPlay).catch((e) => true);
     }
   };
   return (

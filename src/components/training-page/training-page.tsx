@@ -113,14 +113,14 @@ function TrainingPage(props:trainingCardProps) {
   useEffect(() => {
     setIsSoundOn(!isMute);
 
-    soundControl(allSounds);
+    soundControl(allSounds).catch((e) => true);
   }, [isMute, allSounds]);
 
   useEffect(() => {
     console.log('smth');
     return () => {
       console.log('sounds should be silenced', allSounds);
-      soundControl(allSounds);
+      soundControl(allSounds).catch((e) => true);
     };
   }, []);
 
