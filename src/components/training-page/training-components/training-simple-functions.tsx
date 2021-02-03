@@ -99,10 +99,8 @@ export function WordProgress(props: WordProgressProps) {
   );
 }
 
-export function soundControl(soundsObject: TsoundsObject) {
-  console.log(soundsObject);
+export async function soundControl(soundsObject: TsoundsObject) {
   Object.values(soundsObject).forEach((sound) => {
-    console.log(sound);
     sound.pause();
     // eslint-disable-next-line no-param-reassign
     sound.currentTime = 0.0;
@@ -111,42 +109,60 @@ export function soundControl(soundsObject: TsoundsObject) {
   });
 }
 export async function playSingleSound(sound: HTMLAudioElement) {
-  console.log('sound playing', sound);
   sound.load();
-  sound.play();
+  const playing = sound.play();
+  if (playing !== undefined) {
+    playing.catch((error) => true);
+  }
 }
 
-export function playSounds(soundsObject: TsoundsObject) {
-  console.log('sounds playing', soundsObject);
+export async function playSounds(soundsObject: TsoundsObject) {
   const word: HTMLAudioElement = soundsObject.wordSound;
   const example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
   const meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;
 
   soundControl(soundsObject);
   word.load();
-  word.play();
+  const playing = word.play();
+  if (playing !== undefined) {
+    playing.catch((error) => true);
+  }
+
   if (('exampleSound' in soundsObject) && ('meaningSound' in soundsObject)) {
     word.onended = () => {
-      soundControl(soundsObject);
+      soundControl(soundsObject).catch((error) => true);
       meaning.load();
-      meaning.play();
+
+      const playingMeaning = meaning.play();
+      if (playingMeaning !== undefined) {
+        playingMeaning.catch((error) => true);
+      }
       meaning.onended = () => {
-        soundControl(soundsObject);
+        soundControl(soundsObject).catch((error) => true);
         example.load();
-        example.play();
+        const playingExample = example.play();
+        if (playingExample !== undefined) {
+          playingExample.catch((error) => true);
+        }
       };
     };
   } else if ('exampleSound' in soundsObject) {
     word.onended = () => {
-      soundControl(soundsObject);
+      soundControl(soundsObject).catch((error) => true);
       example.load();
-      example.play();
+      const playingExample = example.play();
+      if (playingExample !== undefined) {
+        playingExample.catch((error) => true);
+      }
     };
   } else if ('meaningSound' in soundsObject) {
     word.onended = () => {
-      soundControl(soundsObject);
+      soundControl(soundsObject).catch((error) => true);
       meaning.load();
-      meaning.play();
+      const playingMeaning = meaning.play();
+      if (playingMeaning !== undefined) {
+        playingMeaning.catch((error) => true);
+      }
     };
   }
 }
