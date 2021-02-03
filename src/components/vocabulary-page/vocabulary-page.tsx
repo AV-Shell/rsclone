@@ -54,7 +54,6 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
   }
 
   function fullWord(str: string) {
-    console.log('fullWord', str);
     const index: number = userWords.findIndex((el) => el._id === str);
     if (index > -1) {
       setIsOpened(index);
@@ -78,8 +77,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
     }
   };
 
-
-  const okno = (isOpened > -1) ? <WordCard obj={userWords[isOpened]} isLanguageRU={isLanguageRU} close={closeFullWord} /> : null;
+  const wordInfoWindow = (isOpened > -1) ? <WordCard obj={userWords[isOpened]} isLanguageRU={isLanguageRU} close={closeFullWord} /> : null;
 
   const Vocabulary = () => (
     <div className="card">
@@ -245,7 +243,7 @@ const VocabularyPage: React.FC<vocabularyProps> = (props: vocabularyProps) => {
       <div className="container">
         {content}
       </div>
-      {okno}
+      {wordInfoWindow}
     </div>
 
   );
