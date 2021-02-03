@@ -15,6 +15,36 @@ import {
   limitMinMax,
 } from '../../helpers/utils';
 
+import {
+  EN,
+  RU,
+} from './languages';
+
+interface ILanguagesForSettings {
+  title: string,
+  avatarTitle: string,
+  avatarText: string,
+  cardTitle: string,
+  cardText: string,
+  cardWarning: string,
+  showTranslation: string,
+  showExample: string,
+  showMeaning: string,
+  playWord: string,
+  showTranscription: string,
+  showImage: string,
+  playAllAfter: string,
+  showWordTranslationAfter: string,
+  exampleTranslation: string,
+  meaningTranslation: string,
+  exampleTranslationAfter: string,
+  meaningTranslationAfter: string,
+  buttonShowAnswer: string,
+  statusButtons: string,
+  intervalButtons: string,
+  buttonText: string,
+}
+
 interface IndependentCardSettings {
   cardTranscription: boolean,
   cardImage: boolean,
@@ -77,6 +107,8 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
     const { name } = target;
     setSet1((previousState: IndependentCardSettings) => ({ ...previousState, [name]: value }));
   };
+
+  const currentLang: ILanguagesForSettings = isLanguageRU ? RU : EN;
 
   const onChangeSet2 = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = event;
@@ -158,22 +190,24 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
 
   if (!(set2.cardWordPronunciation || set2.cardExample || set2.cardExplanation || set2.cardTranslation)) {
     acceptButtonState = false;
-    basicSettingsAtention = 'выберите минимум 1 пункт';
+    basicSettingsAtention = currentLang.cardWarning;
   }
 
-  const acceptButton = acceptButtonState ? <button type="submit" className="accept-button">Принять</button> : null;
+  const acceptButton = acceptButtonState ? <button type="submit" className="accept-button">{currentLang.buttonText}</button> : null;
 
   return (
     <div className="settings-page">
       <div className="subheader">
-        <h2 className="heading2">Settings</h2>
+        <h2 className="heading2">{currentLang.title}</h2>
       </div>
       <div className="container">
         <div className="avatar-settings">
-          <h3>Аватарка</h3>
+          <h3>{currentLang.avatarTitle}</h3>
           <div className="avatar-settings-field">
             <label htmlFor="avatarNumber">
-              {`Выберите Аватарку (${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}): `}
+              {currentLang.avatarText}
+              &nbsp;
+              {`(${MIN_AVATAR_NUM}-${MAX_AVATAR_NUM}): `}
               <input
                 className="avatar-input"
                 onChange={onChangeAvatarNumber}
@@ -187,39 +221,43 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
           </div>
         </div>
         <div className="training-settings">
-          <h3>Карточка</h3>
+          <h3>{currentLang.cardTitle}</h3>
           <form onSubmit={onSubmit}>
             <div className="both-settings">
               <div className="main-settings">
-                <p className="main-settings-info">Выберите минимум 1 из 4</p>
+                <p className="main-settings-info">{currentLang.cardText}</p>
                 <div className="attention-message">{basicSettingsAtention}</div>
                 <label htmlFor="cardTranslation">
                   <input
                     type="checkbox" name="cardTranslation" id="cardTranslation"
                     checked={set2.cardTranslation} onChange={onChangeSet2}
                   />
-                  показывать перевод
+                  &nbsp;
+                  {currentLang.showTranslation}
                 </label>
                 <label htmlFor="cardExample">
                   <input
                     type="checkbox" name="cardExample" id="cardExample"
                     checked={set2.cardExample} onChange={onChangeSet2}
                   />
-                  показывать пример
+                  &nbsp;
+                  {currentLang.showExample}
                 </label>
                 <label htmlFor="cardExplanation">
                   <input
                     type="checkbox" name="cardExplanation" id="cardExplanation"
                     checked={set2.cardExplanation} onChange={onChangeSet2}
                   />
-                  показывать объяснение
+                  &nbsp;
+                  {currentLang.showMeaning}
                 </label>
                 <label htmlFor="cardWordPronunciation">
                   <input
                     type="checkbox" name="cardWordPronunciation" id="cardWordPronunciation"
                     checked={set2.cardWordPronunciation} onChange={onChangeSet2}
                   />
-                  воспроизводить слово
+                  &nbsp;
+                  {currentLang.playWord}
                 </label>
               </div>
               <hr />
@@ -229,21 +267,24 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
                     type="checkbox" name="cardTranscription" id="cardTranscription"
                     checked={set1.cardTranscription} onChange={onChangeSet1}
                   />
-                  транскрипция
+                  &nbsp;
+                  {currentLang.showTranscription}
                 </label>
                 <label htmlFor="cardImage">
                   <input
                     type="checkbox" name="cardImage" id="cardImage"
                     checked={set1.cardImage} onChange={onChangeSet1}
                   />
-                  картинка
+                  &nbsp;
+                  {currentLang.showImage}
                 </label>
                 <label htmlFor="autoSound">
                   <input
                     type="checkbox" name="autoSound" id="autoSound"
                     checked={set1.autoSound} onChange={onChangeSet1}
                   />
-                  воспроизводить после ответа
+                  &nbsp;
+                  {currentLang.playAllAfter}
                 </label>
                 <label htmlFor="cardTranslationAfterSuccess">
                   <input
@@ -251,56 +292,64 @@ const SettingsPage: React.FC<settingsPageProps> = (props: settingsPageProps) => 
                     checked={set2.cardTranslationAfterSuccess} disabled={set2.cardTranslation}
                     onChange={onChangeSet2}
                   />
-                  показывать перевод слова после ответа
+                  &nbsp;
+                  {currentLang.showWordTranslationAfter}
                 </label>
                 <label htmlFor="cardExampleTranslation">
                   <input
                     type="checkbox" name="cardExampleTranslation" id="cardExampleTranslation"
                     checked={set2.cardExampleTranslation} disabled={!set2.cardExample} onChange={onChangeSet2}
                   />
-                  перевод примера
+                  &nbsp;
+                  {currentLang.exampleTranslation}
                 </label>
                 <label htmlFor="cardExplanationTranslation">
                   <input
                     type="checkbox" name="cardExplanationTranslation" id="cardExplanationTranslation"
                     checked={set2.cardExplanationTranslation} disabled={!set2.cardExplanation} onChange={onChangeSet2}
                   />
-                  перевод объяснения
+                  &nbsp;
+                  {currentLang.meaningTranslation}
                 </label>
                 <label htmlFor="cardExplanationTranslationAfter">
                   <input
                     type="checkbox" name="cardExplanationTranslationAfter" id="cardExplanationTranslationAfter"
                     checked={set2.cardExplanationTranslationAfter} disabled={!set2.cardExplanation} onChange={onChangeSet2}
                   />
-                  перевод объяснения после ответа
+                  &nbsp;
+                  {currentLang.meaningTranslationAfter}
                 </label>
                 <label htmlFor="cardExampleTranslationAfter">
                   <input
                     type="checkbox" name="cardExampleTranslationAfter" id="cardExampleTranslationAfter"
                     checked={set2.cardExampleTranslationAfter} disabled={!set2.cardExample} onChange={onChangeSet2}
                   />
-                  перевод примера после ответа
+                  &nbsp;
+                  {currentLang.exampleTranslationAfter}
                 </label>
                 <label htmlFor="answerButton">
                   <input
                     type="checkbox" name="answerButton" id="answerButton"
                     checked={set1.answerButton} onChange={onChangeSet1}
                   />
-                  кнопка &quot;Показать ответ&quot;
+                  &nbsp;
+                  {currentLang.buttonShowAnswer}
                 </label>
                 <label htmlFor="statusButtons">
                   <input
                     type="checkbox" name="statusButtons" id="statusButtons"
                     checked={set1.statusButtons} onChange={onChangeSet1}
                   />
-                  кнопки статуса слова
+                  &nbsp;
+                  {currentLang.statusButtons}
                 </label>
                 <label htmlFor="feedbackButtons">
                   <input
                     type="checkbox" name="feedbackButtons" id="feedbackButtons"
                     checked={set1.feedbackButtons} onChange={onChangeSet1}
                   />
-                  кнопки интервального повторения
+                  &nbsp;
+                  {currentLang.intervalButtons}
                 </label>
               </div>
             </div>
