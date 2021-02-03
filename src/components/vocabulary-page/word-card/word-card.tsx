@@ -5,6 +5,7 @@ import { FILE_URL, MAX_REPEAT_LEVEL } from '../../../constants/constants';
 import WordStarsLevel from '../../slave-components/word-stars-level';
 import { displayDate, nextTraining } from '../helper';
 import { EN, RU } from '../localization';
+import SentenceWrapper from '../../slave-components/sentence-wrapper';
 
 const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
   const {
@@ -70,14 +71,24 @@ const WordCard: React.FC<IwordProps> = (props: IwordProps) => {
             <div className="card-example">
               {volumeIcon}
               <div>
-                <p className="card-text card-text-eng">{textMeaning}</p>
+                <SentenceWrapper
+                  sentence={textMeaning}
+                  classCss="card-text card-text-eng"
+                  openTag="<i>"
+                  closeTag="</i>"
+                />
                 <p className="card-text">{textMeaningTranslate}</p>
               </div>
             </div>
             <div className="flex">
               {volumeIcon}
               <div>
-                <p className="card-text card-text-eng">{textExample}</p>
+                <SentenceWrapper
+                  sentence={textExample}
+                  classCss="card-text card-text-eng"
+                  openTag="<b>"
+                  closeTag="</b>"
+                />
                 <p className="card-text">{textExampleTranslate}</p>
               </div>
             </div>
