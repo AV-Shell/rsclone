@@ -3,14 +3,15 @@ import { FILE_URL, MAX_REPEAT_LEVEL } from '../../../constants/constants';
 import IwordProps from '../word-props-interface';
 import WordStarsLevel from '../../slave-components/word-stars-level';
 import WordProgressBar from '../../slave-components/word-progress-bar';
+import { nextTraining } from '../helper';
 
 const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
   const {
     obj: {
-      image, word, wordTranslate, transcription, _id, group,
+      image, word, wordTranslate, transcription, group,
       userWord: {
         optional: {
-          level,
+          level, nextRepeat,
         },
       },
     },
@@ -58,7 +59,7 @@ const TableRow: React.FC<IwordProps> = (props: IwordProps) => {
       <td className="table-data">
         <WordStarsLevel level={group} />
       </td>
-      <td className="table-data table-text-primary">2/3/2021</td>
+      <td className="table-data table-text-primary">{nextTraining(nextRepeat)}</td>
       <td className="table-data table-text">
         <div>{progressString}</div>
         <WordProgressBar level={level} />
