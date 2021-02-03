@@ -4,7 +4,7 @@ import {
 } from '../training-page-interfaces';
 import { soundControl, playSingleSound } from './training-simple-functions';
 
-export default function TrainingCardExamples(props: ForCardExamples) {
+const TrainingCardExamples: React.FC<ForCardExamples> = (props: ForCardExamples) => {
   const {
     isExampleShown, isExampleTranslationShown, isMeaningShown, isMeaningTranslationShown,
     isSoundOn, isAnswered, exampleString, meaningString, soundsObject,
@@ -70,7 +70,7 @@ export default function TrainingCardExamples(props: ForCardExamples) {
       <TranslationSentence {...objForExampleTranslation} />
     </div>
   );
-}
+};
 
 function SoundOnSentences(props: IconForSound) {
   const {
@@ -83,9 +83,9 @@ function SoundOnSentences(props: IconForSound) {
   const classCSS: string = isSoundOn ? `bi bi-volume-up-fill ${forCSS}` : `bi bi-volume-mute-fill ${forCSS}`;
 
   const SoundHandler = () => {
-    soundControl(soundObject).catch((e) => true);
+    soundControl(soundObject);
     if (isSoundOn) {
-      playSingleSound(soundToPlay).catch((e) => true);
+      playSingleSound(soundToPlay);
     }
   };
   return (
@@ -159,3 +159,5 @@ function TranslationSentence(props: TranslationProps) {
   }
   return null;
 }
+
+export default TrainingCardExamples;

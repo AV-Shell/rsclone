@@ -100,9 +100,7 @@ export function WordProgress(props: WordProgressProps) {
 }
 
 export async function soundControl(soundsObject: TsoundsObject) {
-  console.log(soundsObject);
   Object.values(soundsObject).forEach((sound) => {
-    console.log(sound);
     sound.pause();
     // eslint-disable-next-line no-param-reassign
     sound.currentTime = 0.0;
@@ -111,7 +109,6 @@ export async function soundControl(soundsObject: TsoundsObject) {
   });
 }
 export async function playSingleSound(sound: HTMLAudioElement) {
-  console.log('sound playing', sound);
   sound.load();
   const playing = sound.play();
   if (playing !== undefined) {
@@ -120,7 +117,6 @@ export async function playSingleSound(sound: HTMLAudioElement) {
 }
 
 export async function playSounds(soundsObject: TsoundsObject) {
-  console.log('sounds playing', soundsObject);
   const word: HTMLAudioElement = soundsObject.wordSound;
   const example: HTMLAudioElement | null = 'exampleSound' in soundsObject ? soundsObject.exampleSound : null;
   const meaning: HTMLAudioElement | null = 'meaningSound' in soundsObject ? soundsObject.meaningSound : null;

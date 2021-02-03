@@ -4,7 +4,7 @@ import { levelsOfRepeat, MAX_REPEAT_LEVEL } from '../training-consts';
 import { NextButtonProps } from '../training-page-interfaces';
 import { soundControl } from './training-simple-functions';
 
-export default function ButtonNext(props: NextButtonProps) {
+const ButtonNext: React.FC<NextButtonProps> = (props: NextButtonProps) => {
   const {
     isShown, isAnswerTrue, levelForRepeat, levelStatus, getAnswer, wordID, wordStatus, updateInterval,
     firstAppearance, counter, success, language, nextTrainingDay, isIntervalUsed, stopSoundsObj,
@@ -22,11 +22,10 @@ export default function ButtonNext(props: NextButtonProps) {
   const currentProgress: number = Math.floor((currentSuccess / currentCount) * 100) / 100;
 
   const ButtonNextHandler = () => {
-    soundControl(stopSoundsObj).catch((e) => true);
+    soundControl(stopSoundsObj);
     const isToRepeat: boolean = (levelStatus === 'again');
     const point: number = isAnswerTrue ? 1 : 0;
     let nextTime: number = isIntervalUsed ? trainingDay : nextTrainingDay;
-    console.log(isIntervalUsed, nextTime);
     let levelNow: number = levelForRepeat;
 
     if (isAnswerTrue && isIntervalUsed) {
@@ -92,4 +91,6 @@ export default function ButtonNext(props: NextButtonProps) {
       <i className="bi bi-box-arrow-in-right" />
     </button>
   );
-}
+};
+
+export default ButtonNext;

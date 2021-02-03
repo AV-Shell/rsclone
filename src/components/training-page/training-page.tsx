@@ -17,7 +17,7 @@ import ButtonNext from './training-components/training-page-btn-next';
 import { RU, EN } from './langs';
 import WordStarsLevel from '../slave-components/word-stars-level';
 
-function TrainingPage(props:trainingCardProps) {
+const TrainingPage: React.FC<trainingCardProps> = (props:trainingCardProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isAnswerTrue, setIsAnswerTrue] = useState<boolean>(false);
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -33,7 +33,6 @@ function TrainingPage(props:trainingCardProps) {
   const trainingDay: number = Date.now();
   let nextTrainingDay: number = 0;
 
-  console.log(props);
   const {
     word, settings, wordNumber, totalWords, getAnswer, isLanguageRU, isMute,
   } = props;
@@ -54,7 +53,6 @@ function TrainingPage(props:trainingCardProps) {
     setSuccess(0);
     setIntervalUsed(true);
     setIsAutoFocus(true);
-    console.log(isIntervalUsed);
   }, [word]);
 
   useEffect(() => {
@@ -92,7 +90,6 @@ function TrainingPage(props:trainingCardProps) {
     if (nextDate > thisDay) {
       setIntervalUsed(false);
     }
-    console.log(isIntervalUsed);
   }
 
   const imgURL: string = `${FILE_URL}/${thisWord.image}`;
@@ -113,14 +110,13 @@ function TrainingPage(props:trainingCardProps) {
   useEffect(() => {
     setIsSoundOn(!isMute);
 
-    soundControl(allSounds).catch((e) => true);
+    soundControl(allSounds);
   }, [isMute, allSounds]);
 
   useEffect(() => {
     console.log('smth');
     return () => {
-      console.log('sounds should be silenced', allSounds);
-      soundControl(allSounds).catch((e) => true);
+      soundControl(allSounds);
     };
   }, []);
 
@@ -245,7 +241,7 @@ function TrainingPage(props:trainingCardProps) {
         </div>
         <div className="training-card">
           <div className="training-card-header">
-            <button
+            {/* <button
               type="button"
               className="training-card-header-btn-keyboard upper-btns"
             >
@@ -281,7 +277,7 @@ function TrainingPage(props:trainingCardProps) {
                   1-.25-.25v-.5z"
                 />
               </svg>
-            </button>
+            </button> */}
             <TrainingCardUpperBtn
               id="active"
               isShown={statusButtons}
@@ -354,6 +350,6 @@ function TrainingPage(props:trainingCardProps) {
       </div>
     </div>
   );
-}
+};
 
 export default TrainingPage;
