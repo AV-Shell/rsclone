@@ -1,0 +1,777 @@
+@import "./../../sass/colors.scss";
+@import "./../../sass/constants.scss";
+@import "./../../sass/typography.scss";
+@import "./../../components/slave-components/word-progress-bar/word-progress-bar.scss";
+@import "./../../components/slave-components/word-stars-level/word-stars-level.scss";
+@import "./../../sass/breakpoints.scss";
+
+$size-um: 830px;
+$size-bt: 699px;
+$size-z: 500px;
+
+.dark-theme {
+  >.training-page {
+    background-color: $d-bg-primary;
+
+    .training-card {
+      background-color: $d-bg-card-primary;
+
+      .upper-btns {
+        background-color: $color-primary;
+        color: $text-dark-25;
+        &:hover {
+          background-color: $color-primary-hover;
+          color: $text-dark-25;
+        }
+      }
+      .upper-btns.active {
+        background-color: $color-dark-hover;
+        &:hover {
+          color: $text-dark-25;
+        }
+      }
+
+      &-body {
+        background-color: $background-color;
+        color: $text-dark-25;
+
+        &-word {
+          color: $text-dark;
+        }
+
+        &-examples {
+          >.bi {
+            color: $color-info;
+          }
+          .sentence-eng {
+            >strong {
+              color: $color-info;
+            }
+          }
+          .meaning-eng {
+            em {
+              color: $color-info;
+            }
+          }
+        }
+      }
+
+      &-footer-btn-answer {
+        background-color: $color-primary;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-primary-hover;
+        }
+      }
+      &-footer-btn-again {
+        background-color: $color-danger;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-danger-hover;
+        }
+      }
+      &-footer-btn-hard {
+        background-color: $color-warning;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-warning-hover;
+        }
+      }
+      &-footer-btn-good {
+        background-color: $color-info;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-info-hover;
+        }
+      }
+      &-footer-btn-easy {
+        background-color: $color-success;
+        color: $text-dark;
+    
+        &:hover {
+          background-color: $color-success-hover;
+        }
+      }
+    }  
+  }
+}
+
+.training-page {
+  background-color: $bg-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
+
+  .wrapper {
+    box-sizing: border-box;
+    width: 900px;
+    padding: 20px;
+    border-radius: $block-border-radius;
+    margin: 5px;
+    background-color: $color-info;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    color: $text-dark;
+    box-shadow: 0 0 30px 0 rgba(82,63,105,.05);
+    
+    @media screen and (max-width: $size-lg) {
+      width: 90%;
+      padding: 15px;
+      @media screen and (max-width: $size-md) {
+        padding: 10px;
+      }
+      @media screen and (max-width: $size-xs) {
+        padding: 5px;
+      }
+    }    
+
+    &-upper {
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 5px;
+      min-height: 55px; 
+      
+      >.training-page-title {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5em;
+        font-size: 3.2rem;
+        display: flex;
+      }      
+
+      > .button-next {
+        font-family: 'Montserrat', sans-serif;
+        cursor: pointer;
+        border-radius: $block-border-radius;
+        transition: 0.3s;
+        outline: none;
+        border: none;
+        height: 40px;
+        margin-bottom: 0.7em;
+        align-self: flex-end;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #1bc5bd, #0bb7af, #3445E5, #f64e60, #ffa800);
+        background-size: 500% 500%;
+        animation: ButtonAnimate 10s ease infinite;
+
+        @keyframes ButtonAnimate {
+          0% {
+            background-position:0% 50%
+          }
+          50% {
+            background-position:100% 50%
+          }
+          100% {
+            background-position:0% 50%
+          }
+        }
+
+        &:hover {
+          animation-play-state: paused;
+          box-shadow: 0 0 12px 1px #d919ff;
+          background: linear-gradient(270deg, #0bb7af, #ffa800);
+        }
+
+        > .bi {
+          font-size: 1.7rem;
+        }
+
+        @media screen and (max-width: $size-md) {
+          width: 130px;
+          justify-self: flex-end;
+
+          @media screen and (max-width: $size-z) {
+            align-self: flex-end;
+            justify-self: baseline;
+            width: 100px;
+            height: 32px;
+
+            @media screen and (max-width: $size-xs) {
+              width: 60px;
+              > span {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+      @media screen and (max-width: $size-z) {
+        grid-template-columns: 1fr 100px;
+        min-height: 50px;
+
+        .training-page-title {
+          font-size: 2.5rem;
+        }
+        @media screen and (max-width: $size-xs) {
+          grid-template-columns: 1fr 60px;
+        }
+      }
+    }
+  }
+
+  .training-progress {
+    display: grid;
+    grid-template-rows: minmax(25px, auto);
+    grid-template-columns: 30px 1fr 30px;
+    gap: 5px; 
+
+    &-left, &-right {
+      text-align: center;
+      font-weight: bold;
+    }
+    @media screen and (max-width: $size-xs) {
+      grid-template-rows: minmax(18px, auto);
+
+      &-left, &-right {
+        font-size: 1.4rem;
+      }
+    }
+
+    &-center {
+      width: 100%;
+      
+      .progress {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        height: 1.8rem;
+        overflow: hidden;
+        line-height: 0;
+        font-size: .75rem;
+        background-color: #ebedf3;
+        border-radius: $block-border-radius;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        .dark-theme & {
+          background-color: #1C1E2F;
+        }
+
+        > .progress-bar {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
+          overflow: hidden;
+          color: #fff;
+          text-align: center;
+          white-space: nowrap;
+          background-color: $color-success;
+          -webkit-transition: width .6s ease;
+          transition: width .6s ease;
+        }
+        > .progress-bar-striped {
+          background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+          background-size: 1.8rem 1.8rem;
+        }
+        .progress-bar-animated {
+          -webkit-animation: 2s linear infinite progress-bar-stripes;
+          animation: 2s linear infinite progress-bar-stripes;
+          @keyframes progress-bar-stripes {
+            0% {
+              background-position: 1.8rem 0;
+            }
+            100% {
+              background-position: 0 0;
+            }
+          }
+        }
+        @media screen and (max-width: $size-xs) {
+          height: 1.6rem;
+          .progress-bar-striped {
+            background-size: 1.6rem 1.6rem;
+          }
+          @keyframes progress-bar-stripes {
+            0% {
+              background-position: 1.6rem 0;
+            }
+            100% {
+              background-position: 0 0;
+            }
+          }
+
+        }  
+      }
+    }
+  }
+
+  .training-card {
+    box-sizing: border-box;
+    padding: 0.5em 0 0;
+    border-radius: $block-border-radius;
+    margin-top: 0.5em;
+    width: 100%;
+    height: 100%;
+    background-color: $my-card-bg;
+
+    .bi-volume-up-fill {
+      cursor: pointer;
+    }
+
+    &-header {
+      padding: 0.8em 0.8em;
+      display: grid;
+      grid-template-rows: minmax(40px, auto);
+      grid-template-columns: 40px 1fr 120px 120px 120px;
+      gap: 5px; 
+      min-height: 56px;
+
+      .upper-btns {
+        font-family: 'Montserrat', sans-serif;
+        background-color: $color-primary-blend;
+        color: $color-primary;
+        border-radius: $block-border-radius;
+        transition: 0.3s;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        height: 40px;
+      }
+      &-btn-keyboard{ 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        > .bi {
+          font-size: 3.2rem;
+        }
+      }
+
+      .status-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .upper-btns:hover {
+        background-color: $color-primary;
+        color: $text-dark-25;
+      }
+
+      .upper-btns.active {
+        background-color: $color-hover;
+        color: $bg-primary;
+      }
+
+      &-btn-active {
+        grid-column: 3 / 4;
+      }
+
+      &-btn-difficult {
+        grid-column: 4 / 5;
+      }
+
+      &-btn-delete {
+        grid-column: 5 / 6;
+      }
+      @media screen and (max-width: $size-sm) {
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .status-btn {
+          max-width: 150px;
+        }
+        &-btn-active {
+          grid-column: 1;
+        }
+    
+        &-btn-difficult {
+          grid-column: 2;
+        }
+    
+        &-btn-delete {
+          grid-column: 3;
+        }
+
+        &-btn-keyboard {
+          display: none
+        }
+        @media screen and (max-width: $size-xs) {
+          padding: 0.5em 0.3em;
+          grid-template-rows: minmax(32px, auto);
+          min-height: 48px;
+
+          .status-btn {
+            height: 32px;
+            >span {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      background-color: $bg-primary;
+
+      &-upper {
+        padding: 0 0.5em 0.5em;
+
+        &-progress {
+          display: grid;
+          grid-template-rows: minmax(25px, auto);
+          grid-template-columns: 1fr 100px;
+          column-gap: 100px;
+          margin-top: 0.5em; 
+
+          .word-progress {
+            width: 100%;
+            display: grid;
+            grid-template-rows: minmax(25px, auto);
+            grid-template-columns: 1fr 270px;
+            gap: 10px;
+
+            @media screen and (max-width: $size-um) {
+              grid-template-rows: 1fr;
+              grid-template-columns: 1fr;
+              gap: 5px;
+  
+              .progress {
+                grid-row: 2;
+              }
+              @media screen and (max-width: $size-xs) {
+                grid-template-rows: minmax(18px, auto);
+                gap: 3px;
+
+                .progress {
+                  height: 1.6rem;
+                }
+                
+                .progress-bar-striped {
+                  background-size: 1.6rem 1.6rem;
+                }
+              }
+            }
+          }
+
+          .word-progress-stars {
+            justify-self: flex-end;
+        }
+
+          @media screen and (max-width: $size-sm) {
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            gap: 5px;
+
+            .word-progress-stars {
+              grid-row: 1;
+            }
+          }
+        }
+
+        >hr {
+          margin-top: 0;
+          background-color: $color-info;
+          color: $color-info;
+          height: 1px;
+          border: none;
+
+        }
+      }
+
+      &-word {
+        box-sizing: border-box;
+        border-radius: $block-border-radius;
+        border: $color-info solid 1px;
+        width: 80%;
+        align-self: center;
+        display: flex;
+        justify-content: space-between;
+        background-color: $my-card-bg;
+        min-height: 110px;
+        height: 200px;
+
+        @media screen and (max-width: $size-um) {
+          flex-direction: column-reverse;
+          align-items: center;
+          width: 272px;
+          height: auto;
+
+        }
+        &-details {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          align-items: center;
+          padding: 5px;
+
+          @media screen and (max-width: $size-um) {
+            min-height: 150px;
+          }
+
+          &-field {
+            display: flex;
+            >.bi {
+              font-size: 1.5em;
+              color: $text-dark;
+              @media screen and (max-width: $size-xs) {
+                font-size: 1.3em;
+              }
+            }
+            &-input {
+              margin-left: 0.5em;
+              outline: none;
+              font-size: 24px;
+              font-family:'Courier New', Courier, monospace;
+              color: $color-info;
+              border-radius: $block-border-radius;
+              border: none;
+
+              @media screen and (max-width: $size-xs) {
+                font-size: 20px;
+              }
+
+              &.green{
+                color: $color-success;
+                &[disabled] {
+                  background-color: $color-success-blend;
+                }
+              }
+              &.red{
+                color: $color-danger;
+                &[disabled] {
+                  background-color: $color-danger-blend;
+                }
+              }
+            }
+          }
+
+          >p {
+            margin: 0;
+            padding-bottom: 5px;
+          }
+        }
+
+        &-img {
+          box-sizing: border-box;
+          width: 100%;
+          max-width: 300px;
+          height: 100%;
+          border-radius: $block-border-radius;        
+          display: flex;  
+
+          @media screen and (max-width: $size-sm) {
+            width: 270px;
+          }
+
+          >img {
+            height: auto;
+            object-fit: cover;
+            width: 100%;
+            border-radius: $block-border-radius;
+          }
+          @media screen and (max-width: $size-sm) {
+            height: auto;
+            max-width: 270px;
+          }
+        }
+        @media screen and (max-width: $size-sm) {
+          max-width: 270px;
+        }
+      }
+
+      &-examples {
+        display: grid;
+        grid-template-columns: 25px 1fr;
+        grid-auto-rows: minmax(25px, auto);
+        column-gap: 5px;
+        padding: 10px 10px 5px;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 115px;
+
+        @media screen and (max-width: $size-xs) {
+          font-size: 1.4rem;
+        } 
+
+        .sentence-eng {
+          grid-column: 2;
+          grid-row: 3;
+
+          >strong {
+            color: $color-primary;
+          }
+        }
+        .sentence-ru {
+          grid-column: 2;
+          grid-row: 4;
+        }
+        .meaning-eng {
+          grid-column: 2;
+          grid-row: 1;
+
+          >em {
+            color: $color-primary;
+          }
+        }
+        .meaning-ru {
+          grid-column: 2;
+          grid-row: 2;
+        }
+        > .bi {
+          font-size: 1.2em;
+          color: $color-primary;
+          &:before {
+            vertical-align: text-top;
+          }
+        }
+
+        .example-sound {
+          grid-column: 1;
+          grid-row: 3/ 5;
+        }
+        .meaning-sound {
+          grid-column: 1;
+          grid-row: 1/ 3;
+        }
+        >p {
+          margin: 0;
+          padding-bottom: 5px;
+        }
+      }
+    }
+
+    &-footer {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: stretch;
+      min-height: 56px;
+      padding: 0.5em;
+
+      >.btn-footer {
+        font-family: 'Montserrat', sans-serif;
+        border-radius: $block-border-radius;
+        border: none;
+        outline: none;
+        transition: 0.3s;
+        cursor: pointer;
+        min-width: 130px;
+        min-height: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.active {
+          background-color: $color-hover;
+          color: $text-dark-25;
+        }
+
+        @media screen and (max-width: $size-sm) {
+          margin-top: 0.5em;         
+        }
+      }
+
+      &-btn-answer {
+        background-color: $color-primary-blend;
+        align-self: center;
+        color: $color-primary;
+
+        &:hover {
+          background-color: $color-primary;
+          color: $text-dark-25;
+        }
+      }
+
+      &-btn-again {
+        background-color: $color-danger-blend;
+        color: $color-danger;
+
+        &:hover {
+          background-color: $color-danger;
+          color: $text-dark-25;
+        }
+      }
+      &-btn-hard {
+        background-color: $color-warning-blend;
+        color: $color-warning;
+
+        &:hover {
+          background-color: $color-warning;
+          color: $text-dark-25;
+        }
+      }
+      &-btn-good {
+        background-color: $color-info-blend;
+        color: $color-info;
+
+        &:hover {
+          background-color: $color-info;
+          color: $text-dark-25;
+        }
+      }
+      &-btn-easy {
+        background-color: $color-success-blend;
+        color: $color-success;
+
+        &:hover {
+          background-color: $color-success;
+          color: $text-dark-25;
+        }
+      }
+      .btn-footer[disabled] {
+        background-color: $color-secondary !important;
+        color: $text-dark-75;
+        cursor: auto;
+      }
+      @media screen and (max-width: $size-bt) {        
+        padding: 10px;
+        display: grid;
+        grid-auto-columns: 1fr 1fr;
+        gap: 15px;
+        justify-items: center;
+
+        .btn-footer {
+          width: 150px;
+        }
+
+        &-btn-answer {
+          grid-row: 1;
+          grid-column: 1/3;
+        }
+
+        &-btn-again {
+          grid-row: 1;
+          grid-column: 1;
+        }
+        &-btn-hard {
+          grid-row: 1;
+          grid-column: 2;
+        }
+        &-btn-good {
+          grid-row: 2;
+          grid-column: 1;
+        }
+        &-btn-easy {
+          grid-row: 2;
+          grid-column: 2;
+        }
+      } 
+      @media screen and (max-width: $size-xs) {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 5px;
+
+        .btn-footer {
+          align-self: center;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+@import "./breakpoints.scss";
+
+.heading2 {
+  font-size: 24px;
+  letter-spacing: 0.05em;
+  color: $text-dark;
+  .dark-theme & {
+    color: $text-dark-25;
+  }
+  @media (max-width: $size-xl) {
+    font-size: 18px;
+  }
+  @media (max-width: $size-md) {
+    font-size: 16px;
+  }
+  @media (max-width: $size-sm) {
+    font-size: 12px;
+    letter-spacing: -0.05em;
+  }
+}
+
+.text-primary {
+  color: $color-primary !important;
+  .dark-theme & {
+    color: $color-success !important;
+  }
+}
+
+.text-secondary {
+  color: $text-dark-50 !important;
+}
+
+.hidden {
+  visibility: hidden;
+  font-size: 2em;
+  margin-left: 1rem;
+  @media (max-width: $size-lg) {
+    margin-left: 0.7rem;
+  }
+  @media (max-width: $size-sm) {
+    margin-left: 0.3rem;
+  }
+}
+
+.font-inherit {
+  font-size: 2em;
+  margin-left: 1rem;
+  @media (max-width: $size-lg) {
+    margin-left: 0.7rem;
+  }
+  @media (max-width: $size-sm) {
+    margin-left: 0.3rem;
+  }
+}

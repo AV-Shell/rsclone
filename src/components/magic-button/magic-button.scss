@@ -1,0 +1,282 @@
+@import "./../../sass/colors.scss";
+$border-size-btn1: 1px;
+$border-size-btn2: 2px;
+$accent-color-btn1: #07e8ff;
+$base-color-btn1: #3a0634;
+$btn2Color1: #00ff14;
+
+.magic-button {
+  // background-color: #e0d20d;
+  background-color: $bg-primary;
+  .dark-theme & {
+    background-color: $d-bg-primary;
+  }
+  text-align: center;
+  color: darkred;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .magic-button-container {
+    margin: 2rem;
+    .magic-button-img {
+      filter: drop-shadow(10px 0px 6px white) drop-shadow(-10px 0px 6px white) drop-shadow(0px 10px 6px white) drop-shadow(0px -10px 6px white);
+      width: 100%;
+    }
+  }
+  .magic-buttons-container {
+    margin: 2rem;
+    .magic-button {
+      margin: 2rem;
+      width: 200px;
+      height: 50px;
+
+      &.btn1 {
+        background-color: $base-color-btn1;
+        color: $accent-color-btn1;
+        text-transform: uppercase;
+        text-shadow: 0 0 15px #000;
+        letter-spacing: 4px;
+        font-size: 20px;
+        font-weight: 700;
+        // box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8);
+        box-shadow: 0px 11px 11px 7px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+        user-select: none;
+        // &::before{
+        //   content: '';
+        //   position: absolute;
+        //   top: $border-size-btn1;
+        //   left: $border-size-btn1;
+        //   bottom: $border-size-btn1;
+        //   width: 50%;
+        //   background-color: rgba(255,255,255,0.05) ;
+        // }
+        transition: 0.1s ease-in-out;
+        &:active {
+          // box-shadow: 0 0 5px 10px $accent-color-btn1;
+          box-shadow: 0px 11px 11px 7px rgba(0, 0, 0, 0.8);
+          transform: scale(0.96);
+        }
+        span {
+          user-select: none;
+          position: absolute;
+          &:nth-child(1) {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: $border-size-btn1;
+            background: linear-gradient(90deg, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageTop 2s linear infinite;
+          }
+          &:nth-child(2) {
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: $border-size-btn1;
+            background: linear-gradient(0, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageRight 2s linear infinite;
+          }
+
+          &:nth-child(3) {
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: $border-size-btn1;
+            background: linear-gradient(90deg, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageBottom 2s linear infinite;
+          }
+
+          &:nth-child(4) {
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: $border-size-btn1;
+            background: linear-gradient(0, $base-color-btn1, $accent-color-btn1, $base-color-btn1);
+            animation: bnt1AnimageLeft 2s linear infinite;
+          }
+        }
+        &:hover {
+          span {
+            animation-play-state: paused;
+            // animation-duration: 1.5s;
+          }
+        }
+      }
+
+      &.btn2 {
+        background-color: black;
+        color: $btn2Color1;
+        text-transform: uppercase;
+        text-shadow: 0 0 15px #000;
+        user-select: none;
+        letter-spacing: 4px;
+        font-size: 20px;
+        font-weight: 700;
+        transition: 0.1s;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8);
+        position: relative;
+        overflow: hidden;
+        // transition: 0.1s ease-in-out;
+        &:active {
+          // box-shadow: 0 0 5px 10px $accent-color-btn1;
+          // box-shadow: 0px 11px 11px 7px rgba(0, 0, 0, 0.8);
+          transform: scale(0.96);
+        }
+        span {
+          text-decoration: none;
+          position: absolute;
+          display: block;
+          animation: 2s linear infinite;
+          &:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: $border-size-btn1;
+            // background: linear-gradient(90deg, transparent, $btn2Color1);
+            background: linear-gradient(90deg, #0000, $btn2Color1);
+            animation-name: bnt2AnimageTop;
+          }
+          &:nth-child(2) {
+            top: -100%;
+            right: 0;
+            height: 100%;
+            width: $border-size-btn2;
+            // background: linear-gradient(180deg, transparent, $btn2Color1);
+            background: linear-gradient(180deg, #0000, $btn2Color1);
+            animation-name: bnt2AnimageRight;
+          }
+
+          &:nth-child(3) {
+            bottom: 0;
+            left: +100%;
+            width: 100%;
+            height: $border-size-btn1;
+            // background: linear-gradient(270deg, transparent, $btn2Color1);
+            background: linear-gradient(270deg, #0000, $btn2Color1);
+            animation-name: bnt2AnimageBottom;
+          }
+
+          &:nth-child(4) {
+            top: 0%;
+            left: 0;
+            height: 100%;
+            width: $border-size-btn1;
+            // background: linear-gradient(360deg, transparent, $btn2Color1);
+            background: linear-gradient(360deg, #0000, $btn2Color1);
+            animation-name: bnt2AnimageLeft;
+          }
+        }
+        &:hover {
+          color: #bee0ff;
+          background: #499475;
+          box-shadow: 0 0 10px #00ff14, 0 0 40px #00ff14, 0 0 80px #00ff14;
+        }
+      }
+    }
+  }
+}
+
+@keyframes bnt1AnimageTop {
+  0% {
+    transform: translateX((-100%));
+  }
+  100% {
+    transform: translateX((100%));
+  }
+}
+
+@keyframes bnt1AnimageRight {
+  0% {
+    transform: translateY((-100%));
+  }
+  100% {
+    transform: translateY((100%));
+  }
+}
+
+@keyframes bnt1AnimageBottom {
+  0% {
+    transform: translateX((100%));
+  }
+  100% {
+    transform: translateX((-100%));
+  }
+}
+
+@keyframes bnt1AnimageLeft {
+  0% {
+    transform: translateY((100%));
+  }
+  100% {
+    transform: translateY((-100%));
+  }
+}
+
+@keyframes bnt2AnimageTop {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: +100%;
+  }
+  100% {
+    left: +100%;
+  }
+}
+
+@keyframes bnt2AnimageRight {
+  0% {
+    top: -100%;
+  }
+  25% {
+    top: -100%;
+  }
+  75% {
+    top: +100%;
+  }
+  100% {
+    top: +100%;
+  }
+}
+
+@keyframes bnt2AnimageBottom {
+  0% {
+    left: +100%;
+  }
+  50% {
+    left: +100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@keyframes bnt2AnimageLeft {
+  0% {
+    top: 0%;
+  }
+  24% {
+    top: -100%;
+    background: linear-gradient(360deg, #0000, $btn2Color1);
+  }
+  25% {
+    top: -100%;
+    background: #0000;
+  }
+  26% {
+    top: +100%;
+    background: #0000;
+  }
+  27% {
+    background: linear-gradient(360deg, #0000, $btn2Color1);
+  }
+  75% {
+    top: +100%;
+  }
+
+  100% {
+    top: 0%;
+  }
+}

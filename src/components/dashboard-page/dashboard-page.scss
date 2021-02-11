@@ -1,0 +1,325 @@
+@import "./../../sass/breakpoints.scss";
+@import "./../../sass/colors.scss";
+
+.dashboard-page {
+  background-color: #f3f6f9;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 27.9rem 34.3rem;
+  grid-row-gap: 4rem;
+  grid-column-gap: 4rem;
+  grid-template-columns: repeat(3, 30%);
+  padding: 5rem;
+  justify-content: center;
+  font-size: 1.6rem;
+
+  .dark-theme & {
+    background: $d-bg-primary;
+    color: $bg-primary;
+  }
+
+  &-first {
+    &_column-user_info {
+      background-color: #ffffff;
+      height: auto;
+      display: flex;
+      padding: 2rem;
+      align-items: center;
+      border-radius: 5px;
+
+      .dark-theme & {
+        color: $color-success-hover;
+        background: $d-bg-card-primary;
+      }
+
+      &-img {
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background-color: #c4c4c4;
+        margin: 2rem 0;
+
+        .dark-theme & {
+          background: $dark-color;
+        }
+
+        & img {
+          width: 100%;
+          filter: drop-shadow(10px 0px 6px white) drop-shadow(-10px 0px 6px white) drop-shadow(0px 10px 6px white)
+            drop-shadow(0px -10px 6px white);
+        }
+      }
+
+      &-data {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+        margin-left: 10%;
+
+        &-rangImg {
+          display: flex;
+          justify-content: center;
+          width: 50%;
+          margin-left: auto;
+          height: 30%;
+
+          & img {
+            border-radius: 30%;
+            box-shadow: 0rem 0rem 6px 4px $bg-card-dark;
+
+            .dark-theme & {
+              box-shadow: 0px 0px 6px 4px $bg-primary;
+            }
+          }
+        }
+      }
+    }
+
+    &-chart_progress {
+      padding: 2rem;
+      background-color: #ffffff;
+      height: auto;
+      border-radius: 5px;
+      text-align: center;
+
+      .dark-theme & {
+        background: $d-bg-card-primary;
+      }
+
+      & div {
+        margin-bottom: 5px;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &-second {
+    &_column-info {
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-row-gap: 18px;
+      grid-column-gap: 18px;
+      border-radius: 5px;
+
+      & div {
+        padding-top: 10px;
+        height: auto;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      & p {
+        font-size: 70px;
+        margin: 0;
+      }
+
+      &-all_words {
+        background-color: #f64e60;
+      }
+
+      &-best_series {
+        background-color: #7e8299;
+      }
+
+      &-all_cards {
+        background-color: #ffffff;
+
+        .dark-theme & {
+          background: $d-bg-card-primary;
+        }
+      }
+
+      &-card_point {
+        background-color: #8950fc;
+      }
+    }
+
+    &-chart_diagram {
+      padding: 2rem;
+      height: auto;
+      border-radius: 5px;
+      text-align: center;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: bold;
+
+      .dark-theme & {
+        background: $d-bg-card-primary;
+      }
+    }
+  }
+
+  &-third {
+    &_column-daily {
+      color: white;
+      padding: 2rem;
+      height: auto;
+      border-radius: 5px;
+      background-color: $bg-card-dark;
+      line-height: 4rem;
+
+      & span {
+        font-size: 2rem;
+        font-weight: bold;
+
+        .dark-theme & {
+          color: $color-warning;
+        }
+      }
+    }
+
+    &-chart_card_progress {
+      padding: 2rem;
+      background-color: #ffffff;
+      height: auto;
+      border-radius: 5px;
+      text-align: center;
+
+      .dark-theme & {
+        background: $d-bg-card-primary;
+      }
+
+      & div {
+        margin-bottom: 5px;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.chart-wrapper {
+  height: 90%;
+}
+
+.piechart {
+  display: flex;
+  justify-content: center;
+
+  &-legend {
+    display: flex;
+    align-items: center;
+
+    & span {
+      font-weight: normal;
+      font-size: 1.4rem;
+
+      .dark-theme & {
+        color: $color-secondary;
+      }
+    }
+
+    &-correct {
+      margin: 0 10px;
+      width: 20px;
+      height: 10px;
+      background-color: $color-success;
+    }
+
+    &-incorrect {
+      margin: 0 10px;
+      width: 20px;
+      height: 10px;
+      background-color: $color-danger;
+    }
+  }
+}
+
+.dashboard canvas {
+  height: auto;
+}
+
+#piechart {
+  height: 65%;
+}
+
+@media (max-width: $size-xl) {
+  .dashboard-page {
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  .dashboard-page-third_column-daily {
+    order: 2;
+  }
+
+  .dashboard-page-second_column-info {
+    order: 3;
+  }
+
+  .dashboard-page-first-chart_progress {
+    order: 4;
+  }
+
+  .dashboard-page-second-chart_diagram {
+    order: 5;
+  }
+
+  .dashboard-page-third-chart_card_progress {
+    order: 6;
+  }
+}
+
+@media (max-width: $size-md) {
+  .dashboard-page {
+    grid-template-columns: 90%;
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: $size-xs) {
+  .dashboard-page-first_column-user_info {
+    flex-direction: column;
+
+    &-data {
+      width: 100%;
+      height: 50%;
+    }
+  }
+
+  .dashboard-page {
+    grid-template-rows: 1fr;
+    padding: 1.5rem;
+    grid-template-columns: 90%;
+  }
+
+  #piechart {
+    height: 40%;
+  }
+
+  .chart-wrapper {
+    height: 90%;
+    width: 95%;
+  }
+
+  .dashboard-page-first_column-user_info-data {
+    margin: 0;
+  }
+
+  .dashboard-page-first_column-user_info-data p {
+    padding-bottom: 1rem;
+  }
+
+  .dashboard-page-first_column-user_info-data h3 {
+    padding-bottom: 1rem;
+  }
+
+  .dashboard-page-first_column-user_info-img {
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+
+  .dashboard-page-second_column-info p {
+    font-size: 50px;
+  }
+}
