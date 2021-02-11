@@ -21,3 +21,9 @@
 [если у вас не установлен node.js...](https://nodejs.org/en/download/)
 5) Запускаем дев сервер  
 `npm start`
+
+## Используемые технологии
+###  ![Тайпскрипт](https://raw.githubusercontent.com/av-shell/rslang-ava/master/technologies/technologis.png) 
+
+### Webpack ESLint ChartJS Figma React TypeScript RestApi Sass   
+
